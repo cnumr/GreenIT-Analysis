@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+
+<style type="text/css"> 
+.grade {
+    display:inline-block;
+    width:24px;
+    height:24px;
+    text-align:center;
+    border-radius:50%;
+    background-color:#f00;          
+    font-size: 18px;
+    line-height: 22px;
+}
+
+
+.grade.A {
+    background-color:#349A47;
+    color:#fff;
+}
+.grade.B {
+    background-color:#51B84B;
+    color:#fff;
+}
+.grade.C {
+    background-color:#CADB2A
+}
+.grade.D {
+    background-color:#F6EB15
+}
+.grade.E {
+    background-color:#FECD06
+}
+.grade.F {
+    background-color:#F99839;
+    color:#fff;
+}
+.grade.G {
+    background-color:#ED2124;
+    color:#fff;
+}
+
+
+
+th, td {
+  //  word-break: break-all;
+	 border: 1px solid white;
+	     overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;    
+}
+
+table {
+ border-collapse: collapse;
+ table-layout: fixed;
+ width: 450px;
+}
+
+</style>
+
+  </head>
+
+<body>
+<center>
+<div class="container-fluid">
+
+
+
+<input type="button" class="btn btn-primary btn-sm" style="width:100px" id="launchAnalyse" value="Launch analyse"></input>
+<input type="button" class="btn btn-primary btn-sm" style="width:100px" id="viewHistory" value="History"></input>
+
+</div>
+
+<script type="text/javascript" src="script/greenpanel.js"> </script> 
+<br>
+
+<div id="results" hidden>
+
+<table class="table table-condensed"> 
+  <tbody>
+    <tr>
+      <td>Request number </td><td id="requestNumber"></td>
+    </tr>
+    <tr>
+      <td>Size (Kb)   </td><td id="responsesSize"></td>
+    </tr>
+    <tr>
+      <td>DOM Size  </td> <td id="domSize"></td>
+    </tr>
+    <tr>
+      <td>Eco Index </td><td id="ecoIndex"></td>
+    </tr>
+    <tr>
+      <td>Grade </td><td id="grade"></td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+
+
+</center>
+</body>
+
+</html>
