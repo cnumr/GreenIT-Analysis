@@ -3,26 +3,26 @@
 describe("Analyse", function() {
   
 
-  describe("#function getPluginNumber", function() {
+  describe("#function getPluginsNumber", function() {
  
     beforeEach(function() {
 	
     });
 	
-    it("plugin number should return 0 ", function() {
-      expect(window.frames["testFrame"].contentWindow.getPluginNumber()).toEqual(0);
+    it("plugins number should return 0 ", function() {
+      expect(window.frames["testFrame"].contentWindow.getPluginsNumber()).toEqual(0);
     });
 
     it("if tag <object> plugin number should return 1 ", function() {
       var new_element = window.frames["testFrame"].contentWindow.document.createElement("object");
       window.frames["testFrame"].contentWindow.document.getElementById("node").appendChild(new_element);
-      expect(window.frames["testFrame"].contentWindow.getPluginNumber()).toEqual(1);
+      expect(window.frames["testFrame"].contentWindow.getPluginsNumber()).toEqual(1);
     });
 
     it("if tag <embed> plugin number should return 1 ", function() {
       var new_element = window.frames["testFrame"].contentWindow.document.createElement("embed");
       window.frames["testFrame"].contentWindow.document.getElementById("node").appendChild(new_element);
-      expect(window.frames["testFrame"].contentWindow.getPluginNumber()).toEqual(1);
+      expect(window.frames["testFrame"].contentWindow.getPluginsNumber()).toEqual(1);
     });
 
     it("if 2  tag embed and object number should return 2 ", function() {
@@ -30,7 +30,7 @@ describe("Analyse", function() {
       window.frames["testFrame"].contentWindow.document.getElementById("node").appendChild(new_element);
       new_element = window.frames["testFrame"].contentWindow.document.createElement("embed");
       window.frames["testFrame"].contentWindow.document.getElementById("node").appendChild(new_element);
-      expect(window.frames["testFrame"].contentWindow.getPluginNumber()).toEqual(2);
+      expect(window.frames["testFrame"].contentWindow.getPluginsNumber()).toEqual(2);
     });
 
 

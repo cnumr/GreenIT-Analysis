@@ -19,11 +19,14 @@ var responsesSize = 0;
 var aggregatedAnalysis;
 
 
-window.onload = function() {
+window.onload = function() { initPanel(); };
+
+
+function initPanel() {
 	document.getElementById('launchAnalyse').addEventListener('click',function (e) {launchAnalyse();});
 	//document.getElementById('viewHistory').addEventListener('click',function (e) {viewHistory();});	
 	openBackgroundPageConnection();
-} ;
+}
 
 
 
@@ -62,9 +65,9 @@ function initializeAggregatedAnalysis()
 aggregatedAnalysis  = {"domSize":0,
                        "ecoIndex":100,
 		       "grade":'A',
-                       "pluginNumber":0,
-                       "styleSheetsNumber":0,
-                       "emptySrcTagNumber":0
+                       "plugins":{"status":"OK","pluginsNumber":0},
+                       "styleSheets":{"status":"OK","styleSheetsNumber":0},
+                       "emptySrcTag":{"status":"OK","emptySrcTagNumber":0}
                       };
 }
 
@@ -82,29 +85,30 @@ function openBackgroundPageConnection() {
   });
 }
 
-
-
 function aggregatePageAnalysis(pageAnalysis) {
-aggregatedAnalysis.domSize += pageAnalysis.domSize;
-aggregatedAnalysis.ecoIndex = calculEcoIndex(aggregatedAnalysis.domSize,nbRequest,Math.round(responsesSize/1000));
-aggregatedAnalysis.grade = getGrade(aggregatedAnalysis.ecoIndex);
+  aggregatedAnalysis.domSize += pageAnalysis.domSize;
+  aggregatedAnalysis.ecoIndex = calculEcoIndex(aggregatedAnalysis.domSize,nbRequest,Math.round(responsesSize/1000));
+  aggregatedAnalysis.grade = getEcoIndexGrade(aggregatedAnalysis.ecoIndex);
+ 
+  aggregatedAnalysis.plugins.pluginsNumber += pageAnalysis.pluginsNumber;
+  if (aggregatedAnalysis.plugins.pluginsNumber>0) aggregatedAnalysis.plugins.status = "NOK";
+ 
+  if (aggregatedAnalysis.styleSheets.styleSheetsNumber < pageAnalysis.styleSheetsNumber) {
+    aggregatedAnalysis.styleSheets.styleSheetsNumber = pageAnalysis.styleSheetsNumber;
+    if (aggregatedAnalysis.styleSheets.styleSheetsNumber>2) aggregatedAnalysis.styleSheets.status = "NOK";
+  }
+ 
+ aggregatedAnalysis.emptySrcTag.emptySrcTagNumber += pageAnalysis.emptySrcTagNumber;
+  if (aggregatedAnalysis.emptySrcTag.emptySrcTagNumber>0) aggregatedAnalysis.emptySrcTag.status = "NOK";
 }
 
 function refreshUI() {
   document.getElementById("domSize").innerHTML = aggregatedAnalysis.domSize;
   document.getElementById("ecoIndex").innerHTML = aggregatedAnalysis.ecoIndex;
   document.getElementById("grade").innerHTML = '<span class="grade ' + aggregatedAnalysis.grade +'">' + aggregatedAnalysis.grade + '</span>';
-}
-
-
-
-function calculQuantile(quantiles,value)
-{
-for (var i=1;i<quantiles.length;i++)
-	{
-	if (value<quantiles[i]) return (i + (value-quantiles[i-1])/(quantiles[i] -quantiles[i-1]));
-	}
-return quantiles.length;
+  document.getElementById("plugins").innerHTML = aggregatedAnalysis.plugins.status +'(' + aggregatedAnalysis.plugins.pluginsNumber + ' plugin(s) found)';
+  document.getElementById("styleSheets").innerHTML = aggregatedAnalysis.styleSheets.status +'(' + aggregatedAnalysis.styleSheets.styleSheetsNumber + ' stylesheet(s) found for at least on frame found)';
+  document.getElementById("emptySrcTag").innerHTML = aggregatedAnalysis.emptySrcTag.status +'(' + aggregatedAnalysis.emptySrcTag.emptySrcTagNumber + ' empty src tag found)';
 }
 
 /**
@@ -119,16 +123,24 @@ var q_size= calculQuantile(quantiles_size,size);
 return Math.round(100 - 5 * (3*q_dom + 2*q_req + q_size)/6);
 }
 
-
-
-function getGrade(eco_index)
+function calculQuantile(quantiles,value)
 {
-if (eco_index > 75) return "A";
-if (eco_index > 65) return "B";
-if (eco_index > 50) return "C";
-if (eco_index > 35) return "D";
-if (eco_index > 20) return "E";
-if (eco_index > 5) return "F";
+for (var i=1;i<quantiles.length;i++)
+	{
+	if (value<quantiles[i]) return (i + (value-quantiles[i-1])/(quantiles[i] -quantiles[i-1]));
+	}
+return quantiles.length;
+}
+
+
+function getEcoIndexGrade(ecoIndex)
+{
+if (ecoIndex > 75) return "A";
+if (ecoIndex > 65) return "B";
+if (ecoIndex > 50) return "C";
+if (ecoIndex > 35) return "D";
+if (ecoIndex > 20) return "E";
+if (ecoIndex > 5) return "F";
 return "G";
 }
 

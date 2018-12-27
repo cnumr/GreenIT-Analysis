@@ -19,8 +19,8 @@ function start_analyse() {
   console.log("local dom size=" + dom_size);
 
 // test with http://www.wickham43.net/flashvideo.php
-  var pluginNumber= getPluginNumber();
-  console.log("Plugin number = " + pluginNumber);
+  var pluginsNumber= getPluginsNumber();
+  console.log("Plugins number = " + pluginsNumber);
   
   var styleSheetsNumber= getStyleSheetsNumber();
   console.log("StyleSheets Number = " + styleSheetsNumber);
@@ -28,19 +28,19 @@ function start_analyse() {
   var emptySrcTagNumber = getEmptySrcTagNumber();
   console.log("Empty Src Tag Number  = " + emptySrcTagNumber);
 
-  var pageAnalysis = {"url":document.URL,"domSize":dom_size,"pluginNumber":pluginNumber,"styleSheetsNumber":styleSheetsNumber,"emptySrcTagNumber":emptySrcTagNumber};
+  var pageAnalysis = {"url":document.URL,"domSize":dom_size,"pluginsNumber":pluginsNumber,"styleSheetsNumber":styleSheetsNumber,"emptySrcTagNumber":emptySrcTagNumber};
   
   //jsAnalyse();  
 
   console.log("Send result");
 
-//  chrome.runtime.sendMessage(JSON.stringify(message));
+
   chrome.runtime.sendMessage(pageAnalysis);
 }
 
 
 
-function getPluginNumber()
+function getPluginsNumber()
 {
   const plugins = document.querySelectorAll('object,embed');
   if (plugins===undefined) return 0;
