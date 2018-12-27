@@ -12,17 +12,8 @@
 
 var connections = {};
 
-var analysis = {
-  nbRequest:0,
-  byteTotal:0,
-  domSize:0,
-  url:"",
-  pluginNumber:0
-}
-
 
 chrome.runtime.onMessage.addListener(notify);
-
 
 console.log("start background process");
 
@@ -34,7 +25,6 @@ chrome.runtime.onConnect.addListener(function(devToolsConnection) {
         // Inject a content script into the identified tab
 	console.log("received script to execute form tabId " + message.tabId);
         if (!connections[message.tabId]) connections[message.tabId] = devToolsConnection;
-        analysis.domSize=0;
         chrome.tabs.executeScript(message.tabId,
             { file: message.scriptToInject , allFrames:true});
     }
@@ -56,72 +46,19 @@ chrome.runtime.onConnect.addListener(function(devToolsConnection) {
 });
 
 
-
-
-
-
-
-
-
 /*
-* Listen for message form ecoindex.js
-* if message is on : start the record 
-* if message is off : stop the record
-* if message is analysis.domSize, calcul eco_index and store results in localstorage
+* Listen for message form tab and send it to devtools 
 **/
-function notify(request, sender, sendResponse) {
-  
-  var json_message = JSON.parse(request); 
- 
- if (json_message.url) {
-    console.log("End analysis for url : "+ json_message.url);
-    console.log("Dom Size received: "+ json_message.pageAnalysis.domSize);
-    analysis.domSize+=json_message.pageAnalysis.domSize;
-    analysis.pluginNumber+=json_message.pageAnalysis.pluginNumber;
-    console.log("Dom Size total: "+ analysis.domSize);		
-  }
+function notify(message, sender, sendResponse) {
 
   if (sender.tab) {
     var tabId = sender.tab.id;
-    if (tabId in connections) connections[tabId].postMessage(analysis.domSize);
-    else console.log("Tab not found in connection list.");
+    if (tabId in connections) connections[tabId].postMessage(message);
+    else console.warn("Tab not found in connection list.");
   }
-  else console.log("sender.tab not defined.");
+  else console.warn("sender.tab not defined.");
 }
 
-
-
-
-
-function computePagesAnalysis() {
-  console.log("compute analysis");
-  var eco_index= calculEcoIndex(analysis.domSize,analysis.nbRequest,Math.round(analysis.byteTotal/1000));
-  console.log("ecoindex=" + eco_index);
-  localStorage.setItem("eco_index",eco_index);
-  localStorage.setItem("note",getNote(eco_index));
-  localStorage.setItem("dom_size",analysis.domSize);
-  storeInHistory(analysis.url,analysis.nbRequest,Math.round(analysis.byteTotal/1000),analysis.domSize,eco_index,getNote(eco_index));
-}
-
-/**
-Add to the history the result of an analyse
-**/
-function storeInHistory(url,req,kbyte,domsize,eco_index,note)
-{
-var analyse_history;
-var string_analyse_history = localStorage.getItem("analyse_history");
-
-if (string_analyse_history)
-	{
-	analyse_history =JSON.parse(string_analyse_history);
-	analyse_history.reverse();
-	analyse_history.push({result_date:new Date(),url:url,req:req,kbyte:kbyte,domsize:domsize,eco_index:eco_index,note:note});
-	analyse_history.reverse();
-	}
-else analyse_history = [{result_date:new Date(),url:url,req:req,kbyte:kbyte,domsize:domsize,eco_index:eco_index,note:note}];
-
-localStorage.setItem("analyse_history",JSON.stringify(analyse_history));
-}
 
 
 

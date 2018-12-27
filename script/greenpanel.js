@@ -5,11 +5,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
  *
  * @author didierfred@gmail.com
- * @version 0.1
  */
 
 
-var started = "off";
 var backgroundPageConnection;
 var quantiles_dom = [0, 47, 75, 159, 233, 298, 358, 417, 476, 537, 603, 674, 753, 843, 949, 1076, 1237, 1459, 1801, 2479, 594601];
 var quantiles_req = [0, 2, 15, 25, 34, 42, 49, 56, 63, 70, 78, 86, 95, 105, 117, 130, 147, 170, 205, 281, 3920];
@@ -18,38 +16,19 @@ var quantiles_size = [0, 1.37, 144.7, 319.53, 479.46, 631.97, 783.38, 937.91, 10
 
 var nbRequest = 0 ;
 var responsesSize = 0;
-
+var aggregatedAnalysis;
 
 
 window.onload = function() {
 	document.getElementById('launchAnalyse').addEventListener('click',function (e) {launchAnalyse();});
-	document.getElementById('viewHistory').addEventListener('click',function (e) {viewHistory();});
-	started = localStorage.getItem("started");
-	if (started=="on") document.getElementById("start_stop").value = "Stop";	
+	//document.getElementById('viewHistory').addEventListener('click',function (e) {viewHistory();});	
 	openBackgroundPageConnection();
 } ;
 
 
-function openBackgroundPageConnection() {
-  // Create a connection to the background page
-  backgroundPageConnection = chrome.runtime.connect({
-    name: "greenDevPanel-page"
-  });
-
-  backgroundPageConnection.onMessage.addListener(function (message) {
-    // Handle responses from the background page
-    const ecoIndex = calculEcoIndex(message,nbRequest,Math.round(responsesSize/1000));
-    const grade = getGrade(ecoIndex);
-    document.getElementById("domSize").innerHTML = message;
-    document.getElementById("ecoIndex").innerHTML = ecoIndex;
-    document.getElementById("grade").innerHTML = '<span class="grade ' + grade +'">' + grade + '</span>';
-  });
-}
-
-
 
 function launchAnalyse() {
-console.log("view result");
+
   // Relay the tab ID to the background page
   backgroundPageConnection.postMessage({
     tabId: chrome.devtools.inspectedWindow.tabId,
@@ -61,26 +40,61 @@ console.log("view result");
     var responsesSizeUncompress = 0 
     nbRequest = 0 ;
     responsesSize = 0;
+    initializeAggregatedAnalysis();
 
     if (entries.length)  for (var i = 0; i < entries.length; ++i) {
       nbRequest++;
-      //console.log("url = " + entries[i].request.url + ",body size=" + entries[i].response.bodySize , "headerSize=" + entries[i].response.headersSize );
-      //responsesSize += entries[i].response.bodySize + entries[i].response.headersSize ; 
-      console.log("url = " + entries[i].request.url + ",transfert size=" +entries[i].response._transferSize);
+      //console.log("url = " + entries[i].request.url + ",transfert size=" +entries[i].response._transferSize);
       responsesSize+= entries[i].response._transferSize;
       responsesSizeUncompress += entries[i].response.content.size;
     }
 
     document.getElementById("results").hidden= false;
     document.getElementById("requestNumber").innerHTML = nbRequest;
-    document.getElementById("responsesSize").innerHTML = responsesSize + "(" +responsesSizeUncompress + ")" ;
+    document.getElementById("responsesSize").innerHTML = responsesSize/1000 + "(" +responsesSizeUncompress/1000 + ")" ;
     
 
   });
 }
 
+function initializeAggregatedAnalysis()
+{
+aggregatedAnalysis  = {"domSize":0,
+                       "ecoIndex":100,
+		       "grade":'A',
+                       "pluginNumber":0,
+                       "styleSheetsNumber":0,
+                       "emptySrcTagNumber":0
+                      };
+}
+
+function openBackgroundPageConnection() {
+  // Create a connection to the background page
+  backgroundPageConnection = chrome.runtime.connect({
+    name: "greenDevPanel-page"
+  });
+
+  backgroundPageConnection.onMessage.addListener(function (pageAnalysis) {
+    // Handle responses from the background page
+    console.log("Analyse received = " + JSON.stringify(pageAnalysis));
+    aggregatePageAnalysis(pageAnalysis);
+    refreshUI();
+  });
+}
 
 
+
+function aggregatePageAnalysis(pageAnalysis) {
+aggregatedAnalysis.domSize += pageAnalysis.domSize;
+aggregatedAnalysis.ecoIndex = calculEcoIndex(aggregatedAnalysis.domSize,nbRequest,Math.round(responsesSize/1000));
+aggregatedAnalysis.grade = getGrade(aggregatedAnalysis.ecoIndex);
+}
+
+function refreshUI() {
+  document.getElementById("domSize").innerHTML = aggregatedAnalysis.domSize;
+  document.getElementById("ecoIndex").innerHTML = aggregatedAnalysis.ecoIndex;
+  document.getElementById("grade").innerHTML = '<span class="grade ' + aggregatedAnalysis.grade +'">' + aggregatedAnalysis.grade + '</span>';
+}
 
 
 
@@ -130,15 +144,6 @@ return "G";
 
 
 
-
-
-
-
-
-
-
-
-
 function viewHistory()
 	{
 	//var promise_tabs =  browser.tabs.query({currentWindow: true});
@@ -167,6 +172,29 @@ function loadHistoryTab(tabs)
 		}
 		
 
+}
+
+
+
+
+/**
+Add to the history the result of an analyse
+**/
+function storeInHistory(url,req,kbyte,domsize,eco_index,note)
+{
+var analyse_history;
+var string_analyse_history = localStorage.getItem("analyse_history");
+
+if (string_analyse_history)
+	{
+	analyse_history =JSON.parse(string_analyse_history);
+	analyse_history.reverse();
+	analyse_history.push({result_date:new Date(),url:url,req:req,kbyte:kbyte,domsize:domsize,eco_index:eco_index,note:note});
+	analyse_history.reverse();
+	}
+else analyse_history = [{result_date:new Date(),url:url,req:req,kbyte:kbyte,domsize:domsize,eco_index:eco_index,note:note}];
+
+localStorage.setItem("analyse_history",JSON.stringify(analyse_history));
 }
 
 

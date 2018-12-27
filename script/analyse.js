@@ -28,15 +28,14 @@ function start_analyse() {
   var emptySrcTagNumber = getEmptySrcTagNumber();
   console.log("Empty Src Tag Number  = " + emptySrcTagNumber);
 
-  var pageAnalysis = {"domSize":dom_size,"pluginNumber":pluginNumber,"styleSheetsNumber":styleSheetsNumber,"emptySrcTagNumber":emptySrcTagNumber};
-
-  var message = {"url":document.URL,"pageAnalysis":pageAnalysis};
+  var pageAnalysis = {"url":document.URL,"domSize":dom_size,"pluginNumber":pluginNumber,"styleSheetsNumber":styleSheetsNumber,"emptySrcTagNumber":emptySrcTagNumber};
   
   //jsAnalyse();  
 
   console.log("Send result");
 
-  chrome.runtime.sendMessage(JSON.stringify(message));
+//  chrome.runtime.sendMessage(JSON.stringify(message));
+  chrome.runtime.sendMessage(pageAnalysis);
 }
 
 
