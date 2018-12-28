@@ -26,59 +26,12 @@ function   (esprima) {
   initPanel(); 
 
   function initPanel() {
+        openBackgroundPageConnection();
 	document.getElementById('launchAnalyse').addEventListener('click',function (e) {launchAnalyse();});
 	//document.getElementById('viewHistory').addEventListener('click',function (e) {viewHistory();});	
-	openBackgroundPageConnection();
+	
   }
 
-  function launchAnalyse() {
-
-    initializeAggregatedAnalysis();
-    document.getElementById("results").hidden= false; 
-
-    // Launch analyse via injection of a script in each frame of the current tab
-    backgroundPageConnection.postMessage({
-      tabId: chrome.devtools.inspectedWindow.tabId,
-      scriptToInject: "script/analyse.js"
-    });
-    
-    getNetworkMesure(); 
-    getRessourcesMesure();
-  }
-
-  function getNetworkMesure() {
-  chrome.devtools.network.getHAR(function(result) {
-      var entries = result.entries;
-      responsesSizeUncompress = 0 
-      nbRequest = 0 ;
-      responsesSize = 0;
-
-      if (entries.length)  for (var i = 0; i < entries.length; ++i) {
-        nbRequest++;
-        //console.log("url = " + entries[i].request.url + ",transfert size=" +entries[i].response._transferSize);
-        responsesSize+= entries[i].response._transferSize;
-        responsesSizeUncompress += entries[i].response.content.size;
-      }
-    });
-  }
-
-  function getRessourcesMesure() {
-  chrome.devtools.inspectedWindow.getResources(function(ressources) {
-          var syntax = esprima.parse('var answer = 42');
-      console.log("esprima=" + JSON.stringify(syntax, null, 4));
-    });
-  }
-
-  function initializeAggregatedAnalysis()
-  {
-  aggregatedAnalysis  = {"domSize":0,
-                       "ecoIndex":100,
-		       "grade":'A',
-                       "plugins":{"status":"OK","pluginsNumber":0},
-                       "styleSheets":{"status":"OK","styleSheetsNumber":0},
-                       "emptySrcTag":{"status":"OK","emptySrcTagNumber":0}
-                      };
-  }
 
   function openBackgroundPageConnection() {
     // Create a connection to the background page
@@ -88,7 +41,7 @@ function   (esprima) {
 
     backgroundPageConnection.onMessage.addListener(function (pageAnalysis) {
       // Handle responses from the background page
-      console.log("Analyse received = " + JSON.stringify(pageAnalysis));
+      //console.log("Analyse received = " + JSON.stringify(pageAnalysis));
       aggregatePageAnalysis(pageAnalysis);
       refreshUI();
     });
@@ -112,6 +65,7 @@ function   (esprima) {
   }
 
   function refreshUI() {
+    document.getElementById("results").hidden= false; 
     document.getElementById("requestNumber").innerHTML = nbRequest;
     document.getElementById("responsesSize").innerHTML = responsesSize/1000 + "(" +responsesSizeUncompress/1000 + ")" ;
     document.getElementById("domSize").innerHTML = aggregatedAnalysis.domSize;
@@ -120,7 +74,76 @@ function   (esprima) {
     document.getElementById("plugins").innerHTML = aggregatedAnalysis.plugins.status +'(' + aggregatedAnalysis.plugins.pluginsNumber + ' plugin(s) found)';
     document.getElementById("styleSheets").innerHTML = aggregatedAnalysis.styleSheets.status +'(' + aggregatedAnalysis.styleSheets.styleSheetsNumber + ' stylesheet(s) found for at least on frame found)';
     document.getElementById("emptySrcTag").innerHTML = aggregatedAnalysis.emptySrcTag.status +'(' + aggregatedAnalysis.emptySrcTag.emptySrcTagNumber + ' empty src tag found)';
+    document.getElementById("jsValidate").innerHTML = aggregatedAnalysis.jsValidate.status +'(' + aggregatedAnalysis.jsValidate.errorsNumber + ' error(s) found)';
   }
+
+
+  function launchAnalyse() {
+
+    initializeAggregatedAnalysis();
+ 
+    // Launch analyse via injection of a script in each frame of the current tab
+    backgroundPageConnection.postMessage({
+      tabId: chrome.devtools.inspectedWindow.tabId,
+      scriptToInject: "script/analyse.js"
+    });
+    
+    getNetworkMesure(); 
+    getResourcesMesure();
+  }
+
+  function getNetworkMesure() {
+  chrome.devtools.network.getHAR(function(result) {
+      var entries = result.entries;
+      responsesSizeUncompress = 0 
+      nbRequest = 0 ;
+      responsesSize = 0;
+
+      if (entries.length)  for (var i = 0; i < entries.length; ++i) {
+        nbRequest++;
+        //console.log("url = " + entries[i].request.url + ",transfert size=" +entries[i].response._transferSize);
+        responsesSize+= entries[i].response._transferSize;
+        responsesSizeUncompress += entries[i].response.content.size;
+      }
+    });
+  }
+
+  function getResourcesMesure() {
+    chrome.devtools.inspectedWindow.getResources(function(resources) {
+      for (var i = 0; i < resources.length; ++i) {
+        console.log("url"+ i + " = " + resources[i].url + ",type=" + resources[i].type); 
+        if (resources[i].type==='script') resources[i].getContent(function show(code) {
+          try {
+            const syntax = esprima.parse(code, { tolerant: true, sourceType: 'script', loc: true });
+            if (syntax.errors) {
+              if (syntax.errors.length > 0) {
+                aggregatedAnalysis.jsValidate.status = "NOK";
+                aggregatedAnalysis.jsValidate.errorsNumber += syntax.errors.length;
+              }
+              console.log("Nombre d'erreur" + syntax.errors.length);
+            }
+          } catch (err) {
+          console.log(err);
+          }
+        });
+      }
+    });
+  }
+
+  function initializeAggregatedAnalysis()
+  {
+  aggregatedAnalysis  = {"domSize":0,
+                       "ecoIndex":100,
+		       "grade":'A',
+                       "plugins":{"status":"OK","pluginsNumber":0},
+                       "styleSheets":{"status":"OK","styleSheetsNumber":0},
+                       "emptySrcTag":{"status":"OK","emptySrcTagNumber":0},
+                       "jsValidate" : {"status":"OK","errorsNumber":0}
+                      };
+  }
+
+
+
 
 
   function viewHistory()
