@@ -19,19 +19,17 @@ requirejs(['esprima'],
 function   (esprima) {
   console.log("Start Green Module");
   var backgroundPageConnection;
-  var nbRequest = 0 ;
-  var responsesSize = 0;
-  var responsesSizeUncompress =0;
-  var aggregatedAnalysis;
+  var ecoRules;
+  var measures;
+
   initPanel(); 
 
   function initPanel() {
-        openBackgroundPageConnection();
-	document.getElementById('launchAnalyse').addEventListener('click',function (e) {launchAnalyse();});
-	//document.getElementById('viewHistory').addEventListener('click',function (e) {viewHistory();});	
+    openBackgroundPageConnection();
+    document.getElementById('launchAnalyse').addEventListener('click',function (e) {launchAnalyse();});
+    //document.getElementById('viewHistory').addEventListener('click',function (e) {viewHistory();});	
 	
   }
-
 
   function openBackgroundPageConnection() {
     // Create a connection to the background page
@@ -39,48 +37,61 @@ function   (esprima) {
       name: "greenDevPanel-page"
     });
 
-    backgroundPageConnection.onMessage.addListener(function (pageAnalysis) {
+    backgroundPageConnection.onMessage.addListener(function (frameMeasures) {
       // Handle responses from the background page
-      //console.log("Analyse received = " + JSON.stringify(pageAnalysis));
-      aggregatePageAnalysis(pageAnalysis);
+      //console.log("Analyse received = " + JSON.stringify(frameMeasures));
+      aggregateFrameMeasures(frameMeasures);
       refreshUI();
     });
   }
 
-  function aggregatePageAnalysis(pageAnalysis) {
-    aggregatedAnalysis.domSize += pageAnalysis.domSize;
-    aggregatedAnalysis.ecoIndex = calculEcoIndex(aggregatedAnalysis.domSize,nbRequest,Math.round(responsesSize/1000));
-    aggregatedAnalysis.grade = getEcoIndexGrade(aggregatedAnalysis.ecoIndex);
+  function aggregateFrameMeasures(frameMeasures) {
+    measures.domSize += frameMeasures.domSize;
+    measures.ecoIndex = calculEcoIndex(measures.domSize,measures.nbRequest,Math.round(measures.responsesSize/1000));
+    measures.grade = getEcoIndexGrade(measures.ecoIndex);
  
-    aggregatedAnalysis.plugins.pluginsNumber += pageAnalysis.pluginsNumber;
-    if (aggregatedAnalysis.plugins.pluginsNumber>0) aggregatedAnalysis.plugins.status = "NOK";
- 
-    if (aggregatedAnalysis.styleSheets.styleSheetsNumber < pageAnalysis.styleSheetsNumber) {
-      aggregatedAnalysis.styleSheets.styleSheetsNumber = pageAnalysis.styleSheetsNumber;
-      if (aggregatedAnalysis.styleSheets.styleSheetsNumber>2) aggregatedAnalysis.styleSheets.status = "NOK";
+    measures.pluginsNumber += frameMeasures.pluginsNumber;
+    if (measures.pluginsNumber>0) {
+      ecoRules.get("plugins").status = "NOK";
+      ecoRules.get("plugins").comment = measures.pluginsNumber + " plugin(s) found";
     }
  
-    aggregatedAnalysis.emptySrcTag.emptySrcTagNumber += pageAnalysis.emptySrcTagNumber;
-    if (aggregatedAnalysis.emptySrcTag.emptySrcTagNumber>0) aggregatedAnalysis.emptySrcTag.status = "NOK";
+    if (measures.styleSheetsNumber < frameMeasures.styleSheetsNumber) {
+      measures.styleSheetsNumber = frameMeasures.styleSheetsNumber;
+      if (measures.styleSheetsNumber>2) {
+        ecoRules.get("styleSheets").status = "NOK";
+        ecoRules.get("styleSheets").comment = measures.styleSheetsNumber + " stylesheets found for at least one frame";
+      }
+    }
+ 
+    measures.emptySrcTagNumber += frameMeasures.emptySrcTagNumber;
+    if (measures.emptySrcTagNumber>0) {
+      ecoRules.get("emptySrcTagNumber").status = "NOK";
+      ecoRules.get("emptySrcTagNumber").comment = measures.emptySrcTagNumber + " empty src tag(s) found";
+    }
   }
 
   function refreshUI() {
     document.getElementById("results").hidden= false; 
-    document.getElementById("requestNumber").innerHTML = nbRequest;
-    document.getElementById("responsesSize").innerHTML = responsesSize/1000 + "(" +responsesSizeUncompress/1000 + ")" ;
-    document.getElementById("domSize").innerHTML = aggregatedAnalysis.domSize;
-    document.getElementById("ecoIndex").innerHTML = aggregatedAnalysis.ecoIndex;
-    document.getElementById("grade").innerHTML = '<span class="grade ' + aggregatedAnalysis.grade +'">' + aggregatedAnalysis.grade + '</span>';
-    document.getElementById("plugins").innerHTML = aggregatedAnalysis.plugins.status +'(' + aggregatedAnalysis.plugins.pluginsNumber + ' plugin(s) found)';
-    document.getElementById("styleSheets").innerHTML = aggregatedAnalysis.styleSheets.status +'(' + aggregatedAnalysis.styleSheets.styleSheetsNumber + ' stylesheet(s) found for at least on frame found)';
-    document.getElementById("emptySrcTag").innerHTML = aggregatedAnalysis.emptySrcTag.status +'(' + aggregatedAnalysis.emptySrcTag.emptySrcTagNumber + ' empty src tag found)';
-    document.getElementById("jsValidate").innerHTML = aggregatedAnalysis.jsValidate.status +'(' + aggregatedAnalysis.jsValidate.errorsNumber + ' error(s) found)';
+    document.getElementById("requestNumber").innerHTML = measures.nbRequest;
+    document.getElementById("responsesSize").innerHTML = measures.responsesSize/1000 + "(" +measures.responsesSizeUncompress/1000 + ")" ;
+    document.getElementById("domSize").innerHTML = measures.domSize;
+    document.getElementById("ecoIndex").innerHTML = measures.ecoIndex;
+    document.getElementById("grade").innerHTML = '<span class="grade ' + measures.grade +'">' + measures.grade + '</span>';
+    ecoRules.forEach(showEcoRuleOnUI) ;
+  }
+
+  function showEcoRuleOnUI(ecoRule) {
+    if (ecoRule!== undefined) {
+      document.getElementById(ecoRule.ruleId).innerHTML = ecoRule.status + " (" + ecoRule.comment +")";
+    }
   }
 
 
   function launchAnalyse() {
 
-    initializeAggregatedAnalysis();
+    initializeMeasures();
+    initializeEcoRules() 
  
     // Launch analyse via injection of a script in each frame of the current tab
     backgroundPageConnection.postMessage({
@@ -88,27 +99,51 @@ function   (esprima) {
       scriptToInject: "script/analyse.js"
     });
     
-    getNetworkMesure(); 
-    getResourcesMesure();
+    getNetworkMeasure(); 
+    getResourcesMeasure();
   }
 
-  function getNetworkMesure() {
+
+  function initializeMeasures()
+  {
+  measures  = {"domSize":0,
+               "nbRequest":0,
+               "responsesSize":0,
+               "responsesSizeUncompress":0,
+               "ecoIndex":100,
+	       "grade":'A',
+               "pluginsNumber":0,
+               "styleSheetsNumber":0,
+               "emptySrcTagNumber":0,
+               "jsErrorsNumber":0
+              };
+  }
+
+
+  function initializeEcoRules() {
+    ecoRules = new Map();
+    ecoRules.set("plugins",{ruleId:"plugins",status:"OK",comment:"No plugin found"});
+    ecoRules.set("styleSheets",{ruleId:"styleSheets",status:"OK",comment:"Not more that 2 styleSheets per frame found"});
+    ecoRules.set("emptySrcTag",{ruleId:"emptySrcTag",status:"OK",comment:"No empty src tags found"});
+    ecoRules.set("jsValidate",{ruleId:"jsValidate",status:"OK",comment:"Javascript validate"});
+  }
+
+
+  function getNetworkMeasure() {
   chrome.devtools.network.getHAR(function(result) {
       var entries = result.entries;
-      responsesSizeUncompress = 0 
-      nbRequest = 0 ;
-      responsesSize = 0;
-
-      if (entries.length)  for (var i = 0; i < entries.length; ++i) {
-        nbRequest++;
-        //console.log("url = " + entries[i].request.url + ",transfert size=" +entries[i].response._transferSize);
-        responsesSize+= entries[i].response._transferSize;
-        responsesSizeUncompress += entries[i].response.content.size;
+      if (entries.length) {
+        measures.nbRequest = entries.length;
+        for (var i = 0; i < entries.length; ++i) {
+          measures.responsesSize+= entries[i].response._transferSize;
+          measures.responsesSizeUncompress += entries[i].response.content.size;
+        }
+        refreshUI();
       }
     });
   }
 
-  function getResourcesMesure() {
+  function getResourcesMeasure() {
     chrome.devtools.inspectedWindow.getResources(function(resources) {
       for (var i = 0; i < resources.length; ++i) {
         console.log("url"+ i + " = " + resources[i].url + ",type=" + resources[i].type); 
@@ -117,30 +152,25 @@ function   (esprima) {
             const syntax = esprima.parse(code, { tolerant: true, sourceType: 'script', loc: true });
             if (syntax.errors) {
               if (syntax.errors.length > 0) {
-                aggregatedAnalysis.jsValidate.status = "NOK";
-                aggregatedAnalysis.jsValidate.errorsNumber += syntax.errors.length;
+                measures.jsErrorsNumber += syntax.errors.length;
               }
               console.log("Nombre d'erreur" + syntax.errors.length);
             }
           } catch (err) {
+          measures.jsErrorsNumber++;
           console.log(err);
           }
         });
       }
+      if (measures.jsErrorsNumber>0) {
+        rules.get("jsValidate").status="NOK";
+        rules.get("jsValidate").comment = measures.jsErrorsNumber + " javascript error(s) found";
+        refreshUI();
+        }
     });
   }
 
-  function initializeAggregatedAnalysis()
-  {
-  aggregatedAnalysis  = {"domSize":0,
-                       "ecoIndex":100,
-		       "grade":'A',
-                       "plugins":{"status":"OK","pluginsNumber":0},
-                       "styleSheets":{"status":"OK","styleSheetsNumber":0},
-                       "emptySrcTag":{"status":"OK","emptySrcTagNumber":0},
-                       "jsValidate" : {"status":"OK","errorsNumber":0}
-                      };
-  }
+
 
 
 
