@@ -63,12 +63,22 @@ function   (esprima) {
         ecoRules.get("styleSheets").comment = measures.styleSheetsNumber + " stylesheets found for at least one frame";
       }
     }
- 
+
+    measures.printStyleSheetsNumber += frameMeasures.printStyleSheetsNumber;
+    if (measures.printStyleSheetsNumber > 0 ) {
+      ecoRules.get("printStyleSheets").status = "OK";
+      ecoRules.get("printStyleSheets").comment = measures.printStyleSheetsNumber + " print StyleSheet(s) found";
+    }
+
+
     measures.emptySrcTagNumber += frameMeasures.emptySrcTagNumber;
     if (measures.emptySrcTagNumber>0) {
-      ecoRules.get("emptySrcTagNumber").status = "NOK";
-      ecoRules.get("emptySrcTagNumber").comment = measures.emptySrcTagNumber + " empty src tag(s) found";
+      ecoRules.get("emptySrcTag").status = "NOK";
+      ecoRules.get("emptySrcTag").comment = measures.emptySrcTagNumber + " empty src tag(s) found";
     }
+    
+    if (frameMeasures.inlineJsScript.length>0 ) analyseJs(frameMeasures.inlineJsScript);
+   
   }
 
   function refreshUI() {
@@ -83,7 +93,8 @@ function   (esprima) {
 
   function showEcoRuleOnUI(ecoRule) {
     if (ecoRule!== undefined) {
-      document.getElementById(ecoRule.ruleId).innerHTML = ecoRule.status + " (" + ecoRule.comment +")";
+      document.getElementById(ecoRule.ruleId + "_status").src = "icons/" + ecoRule.status+ ".png";
+      document.getElementById(ecoRule.ruleId + "_comment").innerHTML = ecoRule.comment;
     }
   }
 
@@ -114,6 +125,7 @@ function   (esprima) {
 	       "grade":'A',
                "pluginsNumber":0,
                "styleSheetsNumber":0,
+               "printStyleSheetsNumber":0,
                "emptySrcTagNumber":0,
                "jsErrorsNumber":0
               };
@@ -123,9 +135,11 @@ function   (esprima) {
   function initializeEcoRules() {
     ecoRules = new Map();
     ecoRules.set("plugins",{ruleId:"plugins",status:"OK",comment:"No plugin found"});
-    ecoRules.set("styleSheets",{ruleId:"styleSheets",status:"OK",comment:"Not more that 2 styleSheets per frame found"});
+    ecoRules.set("styleSheets",{ruleId:"styleSheets",status:"OK",comment:"Not more that 2 stylesheets per frame found"});
+    ecoRules.set("printStyleSheets",{ruleId:"printStyleSheets",status:"NOK",comment:"Not print stylesheet found"});
     ecoRules.set("emptySrcTag",{ruleId:"emptySrcTag",status:"OK",comment:"No empty src tags found"});
     ecoRules.set("jsValidate",{ruleId:"jsValidate",status:"OK",comment:"Javascript validate"});
+    ecoRules.set("httpRequests",{ruleId:"httpRequests",status:"OK",comment:""});
   }
 
 
@@ -138,7 +152,10 @@ function   (esprima) {
           measures.responsesSize+= entries[i].response._transferSize;
           measures.responsesSizeUncompress += entries[i].response.content.size;
         }
+        ecoRules.get("httpRequests").comment = measures.nbRequest + " HTTP request(s) "
+        if (measures.nbRequest > 26) ecoRules.get("httpRequests").status = "NOK";
         refreshUI();
+          
       }
     });
   }
@@ -146,31 +163,35 @@ function   (esprima) {
   function getResourcesMeasure() {
     chrome.devtools.inspectedWindow.getResources(function(resources) {
       for (var i = 0; i < resources.length; ++i) {
-        console.log("url"+ i + " = " + resources[i].url + ",type=" + resources[i].type); 
-        if (resources[i].type==='script') resources[i].getContent(function show(code) {
-          try {
-            const syntax = esprima.parse(code, { tolerant: true, sourceType: 'script', loc: true });
-            if (syntax.errors) {
-              if (syntax.errors.length > 0) {
-                measures.jsErrorsNumber += syntax.errors.length;
-              }
-              console.log("Nombre d'erreur" + syntax.errors.length);
-            }
-          } catch (err) {
-          measures.jsErrorsNumber++;
-          console.log(err);
-          }
-        });
+        //console.log("url"+ i + " = " + resources[i].url + ",type=" + resources[i].type); 
+        console.log("resource=" + JSON.stringify(resources[i]));
+        if (resources[i].type==='script') resources[i].getContent(analyseJs);
       }
-      if (measures.jsErrorsNumber>0) {
-        rules.get("jsValidate").status="NOK";
-        rules.get("jsValidate").comment = measures.jsErrorsNumber + " javascript error(s) found";
-        refreshUI();
-        }
     });
   }
 
 
+function analyseJs(code,url) {
+  try {
+    const syntax = esprima.parse(code, { tolerant: true, sourceType: 'script', loc: true });
+    if (syntax.errors) {
+      if (syntax.errors.length > 0) {
+        measures.jsErrorsNumber += syntax.errors.length;
+        console.log(syntax.errors.length + " errors");
+      }
+    }
+  } catch (err) {
+    measures.jsErrorsNumber++;
+    console.log(err);
+    //console.log("code=" + code);
+  }
+  if (measures.jsErrorsNumber>0) {
+    ecoRules.get("jsValidate").status="NOK";
+    ecoRules.get("jsValidate").comment = measures.jsErrorsNumber + " javascript error(s) found";
+  }
+  console.log("Nombre d'erreur" + measures.jsErrorsNumber);
+  refreshUI();
+}
 
 
 

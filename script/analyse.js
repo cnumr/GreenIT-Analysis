@@ -25,12 +25,18 @@ function start_analyse() {
   var styleSheetsNumber= getStyleSheetsNumber();
   console.log("StyleSheets Number = " + styleSheetsNumber);
 
+  var printStyleSheetsNumber = getPrintStyleSheetsNumber();
+   console.log("Print StyleSheets Number = " + printStyleSheetsNumber);
+
   var emptySrcTagNumber = getEmptySrcTagNumber();
   console.log("Empty Src Tag Number  = " + emptySrcTagNumber);
 
-  var pageAnalysis = {"url":document.URL,"domSize":dom_size,"pluginsNumber":pluginsNumber,"styleSheetsNumber":styleSheetsNumber,"emptySrcTagNumber":emptySrcTagNumber};
+  var inlineJsScript = getInlineJsScripts();  
+  console.log("Inline Script  = " + inlineJsScript);
+
+  var pageAnalysis = {"url":document.URL,"domSize":dom_size,"pluginsNumber":pluginsNumber,"styleSheetsNumber":styleSheetsNumber,"printStyleSheetsNumber":printStyleSheetsNumber,"emptySrcTagNumber":emptySrcTagNumber,"inlineJsScript":inlineJsScript};
   
-  //jsAnalyse();  
+ 
 
   console.log("Send result");
 
@@ -62,6 +68,8 @@ function getStyleSheetsNumber() {
 
 }
 
+
+
 function getEmptySrcTagNumber() {
        return  document.querySelectorAll('img[src=""]').length
              + document.querySelectorAll('script[src=""]').length
@@ -69,19 +77,21 @@ function getEmptySrcTagNumber() {
 }
 
 
-function getPrintSheetsNumber() { 
+function getPrintStyleSheetsNumber() { 
       return document.querySelectorAll('link[rel=stylesheet][media~=print]').length
            + document.querySelectorAll('style[media~=print]').length;
 }
 
-function jsAnalyse()
+function getInlineJsScripts()
 {
 var scriptArray= Array.from(document.scripts);
+var scriptText ="";
 scriptArray.forEach(script => {
-  console.log("script:"+ script.src);
-console.log("text:"+ script.text);
+  if (script.text.length>0) scriptText += "\n" + script.text;
+  //console.log("script:"+ script.src);
+  //console.log("text:"+ script.text);
   });
-
+return scriptText;
 }
 
 start_analyse();

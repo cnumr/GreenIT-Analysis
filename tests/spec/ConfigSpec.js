@@ -48,13 +48,27 @@ describe("Analyse", function() {
   });
 
 
-  describe("#function getMaxStyleSheetsNumber", function() {
+  describe("#function getStyleSheetsNumber", function() {
  
     beforeEach(function() {	
     });
 	
     it(" should return 2", function() {
       expect(window.frames["testFrame"].contentWindow.getStyleSheetsNumber()).toEqual(2);
+    });
+
+    afterEach(function() {
+    });
+  });
+
+
+  describe("#function getPrintStyleSheetsNumber", function() {
+ 
+    beforeEach(function() {	
+    });
+	
+    it(" should return 2", function() {
+      expect(window.frames["testFrame"].contentWindow.getPrintStyleSheetsNumber()).toEqual(2);
     });
 
     afterEach(function() {
@@ -74,17 +88,4 @@ describe("Analyse", function() {
     });
   });
 
-
-  describe('#getPrintSheetsNumber', function() {
-
-    beforeEach(function() {	
-    });
-	
-    it(" should return 2", function() {
-      expect(window.frames["testFrame"].contentWindow.getPrintSheetsNumber()).toEqual(2);
-    });
-
-    afterEach(function() {
-    });
-  });
 });
