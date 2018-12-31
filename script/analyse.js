@@ -87,7 +87,8 @@ function getInlineJsScripts()
 var scriptArray= Array.from(document.scripts);
 var scriptText ="";
 scriptArray.forEach(script => {
-  if (script.text.length>0) scriptText += "\n" + script.text;
+  var isJSON = (String(script.type)==="application/ld+json"); // Exclude type="application/ld+json" from parsing js analyse
+  if ((script.text.length>0) && (!isJSON)) scriptText += "\n" + script.text;
   //console.log("script:"+ script.src);
   //console.log("text:"+ script.text);
   });

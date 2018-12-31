@@ -162,39 +162,68 @@ function   (esprima) {
 
   function getResourcesMeasure() {
     chrome.devtools.inspectedWindow.getResources(function(resources) {
-      for (var i = 0; i < resources.length; ++i) {
+      for (let i = 0; i < resources.length; ++i) {
         //console.log("url"+ i + " = " + resources[i].url + ",type=" + resources[i].type); 
         console.log("resource=" + JSON.stringify(resources[i]));
-        if (resources[i].type==='script') resources[i].getContent(analyseJs);
+        let resourceAnalyser = new ResourceAnalyser(resources[i]);
+        if (resources[i].type==='script') resourceAnalyser.analyse();
       }
     });
   }
 
 
-function analyseJs(code,url) {
+function analyseJs(code) {
   try {
     const syntax = esprima.parse(code, { tolerant: true, sourceType: 'script', loc: true });
     if (syntax.errors) {
       if (syntax.errors.length > 0) {
         measures.jsErrorsNumber += syntax.errors.length;
-        console.log(syntax.errors.length + " errors");
+        console.log("Inline JS: " + syntax.errors.length + " errors");
       }
     }
   } catch (err) {
     measures.jsErrorsNumber++;
-    console.log(err);
+    console.log("Inline JS: " + err);
     //console.log("code=" + code);
   }
   if (measures.jsErrorsNumber>0) {
     ecoRules.get("jsValidate").status="NOK";
     ecoRules.get("jsValidate").comment = measures.jsErrorsNumber + " javascript error(s) found";
   }
-  console.log("Nombre d'erreur" + measures.jsErrorsNumber);
   refreshUI();
 }
 
 
+function ResourceAnalyser(resource) {
+  var resourceToAnalyse = resource ;
 
+  this.analyse = function() {
+    resourceToAnalyse.getContent(this.analyseJs);
+    };
+
+  this.analyseJs = function(code) {
+    console.log("launch analyse for url = " + resourceToAnalyse.url);
+    try {
+      const syntax = esprima.parse(code, { tolerant: true, sourceType: 'script', loc: true });
+      if (syntax.errors) {
+        if (syntax.errors.length > 0) {
+          measures.jsErrorsNumber += syntax.errors.length;
+          console.log("url = " + resourceToAnalyse.url + " : " + syntax.errors.length + " errors");
+        } 
+      }
+    } 
+    catch (err) {
+      measures.jsErrorsNumber++;
+      console.log("url = " + resourceToAnalyse.url + " : " + err);
+    }
+    if (measures.jsErrorsNumber>0) {
+      ecoRules.get("jsValidate").status="NOK";
+      ecoRules.get("jsValidate").comment = measures.jsErrorsNumber + " javascript error(s) found";
+    }
+    console.log("url=" + resourceToAnalyse.url + " , Nombre d'erreur" + measures.jsErrorsNumber);
+    refreshUI();
+  }
+}
 
 
   function viewHistory()
