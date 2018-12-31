@@ -75,6 +75,19 @@ describe("Analyse", function() {
     });
   });
 
+  describe("#function getInlineStyleSheetsNumber", function() {
+ 
+    beforeEach(function() {	
+    });
+	
+    it(" should return 3", function() {
+      expect(window.frames["testFrame"].contentWindow.getInlineStyleSheetsNumber()).toEqual(3);
+    });
+
+    afterEach(function() {
+    });
+  });
+
   describe('#getEmptySrcTagNumber', function() {
 
     beforeEach(function() {	
@@ -87,5 +100,21 @@ describe("Analyse", function() {
     afterEach(function() {
     });
   });
+
+  describe("#function getInlineJsScriptsNumber()", function() {
+ 
+    beforeEach(function() {	
+    });
+	
+    it(" should return 2", function() {
+      expect(window.frames["testFrame"].contentWindow.getInlineJsScriptsNumber()).toEqual(2);
+    });
+
+    afterEach(function() {
+    });
+  });
+
+
+
 
 });

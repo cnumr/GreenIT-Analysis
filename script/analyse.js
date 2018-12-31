@@ -28,14 +28,30 @@ function start_analyse() {
   var printStyleSheetsNumber = getPrintStyleSheetsNumber();
    console.log("Print StyleSheets Number = " + printStyleSheetsNumber);
 
+  var inlineStyleSheetsNumber = getInlineStyleSheetsNumber();
+  console.log("Inline styleSheet Number  = " + inlineStyleSheetsNumber);
+
   var emptySrcTagNumber = getEmptySrcTagNumber();
   console.log("Empty Src Tag Number  = " + emptySrcTagNumber);
 
-  var inlineJsScript = getInlineJsScripts();  
+  var inlineJsScript = getInlineJsScript();  
   console.log("Inline Script  = " + inlineJsScript);
 
-  var pageAnalysis = {"url":document.URL,"domSize":dom_size,"pluginsNumber":pluginsNumber,"styleSheetsNumber":styleSheetsNumber,"printStyleSheetsNumber":printStyleSheetsNumber,"emptySrcTagNumber":emptySrcTagNumber,"inlineJsScript":inlineJsScript};
-  
+  var inlineJsScriptsNumber = getInlineJsScriptsNumber();
+  console.log("Inline Js Scripts Number  = " + inlineJsScriptsNumber);
+
+
+
+  var pageAnalysis = {
+                      "url":document.URL,
+                      "domSize":dom_size,
+                      "pluginsNumber":pluginsNumber,
+                      "styleSheetsNumber":styleSheetsNumber,
+                      "printStyleSheetsNumber":printStyleSheetsNumber,
+                      "inlineStyleSheetsNumber":inlineStyleSheetsNumber,
+                      "emptySrcTagNumber":emptySrcTagNumber,
+                      "inlineJsScript":inlineJsScript,
+                      "inlineJsScriptsNumber":inlineJsScriptsNumber};
  
 
   console.log("Send result");
@@ -82,7 +98,17 @@ function getPrintStyleSheetsNumber() {
            + document.querySelectorAll('style[media~=print]').length;
 }
 
-function getInlineJsScripts()
+function getInlineStyleSheetsNumber () { 
+  var styleSheetsArray = Array.from(document.styleSheets);
+  var inlineStyleSheetsNumber = 0;
+  styleSheetsArray.forEach(styleSheet => {
+    if (!styleSheet.href)  inlineStyleSheetsNumber++;
+  });
+  return inlineStyleSheetsNumber;
+}
+
+
+function getInlineJsScript()
 {
 var scriptArray= Array.from(document.scripts);
 var scriptText ="";
@@ -94,6 +120,20 @@ scriptArray.forEach(script => {
   });
 return scriptText;
 }
+
+function getInlineJsScriptsNumber()
+{
+var scriptArray= Array.from(document.scripts);
+var inlineScriptNumber = 0;
+scriptArray.forEach(script => {
+  var isJSON = (String(script.type)==="application/ld+json"); // Exclude type="application/ld+json" from count
+  if ((script.text.length>0) && (!isJSON)) inlineScriptNumber++;
+  });
+return inlineScriptNumber;
+}
+
+
+
 
 start_analyse();
 

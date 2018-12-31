@@ -70,6 +70,13 @@ function   (esprima) {
       ecoRules.get("printStyleSheets").comment = measures.printStyleSheetsNumber + " print StyleSheet(s) found";
     }
 
+    if (measures.inlineStyleSheetsNumber < frameMeasures.inlineStyleSheetsNumber) {
+      measures.inlineStyleSheetsNumber = frameMeasures.inlineStyleSheetsNumber;
+      if (measures.inlineStyleSheetsNumber>0) {
+        ecoRules.get("externalizeCss").status = "NOK";
+        ecoRules.get("externalizeCss").comment = measures.inlineStyleSheetsNumber + " inline stylesheets found ";
+      }
+    }
 
     measures.emptySrcTagNumber += frameMeasures.emptySrcTagNumber;
     if (measures.emptySrcTagNumber>0) {
@@ -79,6 +86,16 @@ function   (esprima) {
     
     if (frameMeasures.inlineJsScript.length>0 ) analyseJs(frameMeasures.inlineJsScript);
    
+    if (measures.inlineJsScriptsNumber < frameMeasures.inlineJsScriptsNumber) {
+      measures.inlineJsScriptsNumber = frameMeasures.inlineJsScriptsNumber;
+      if (measures.inlineJsScriptsNumber > 0) {
+        if (measures.inlineJsScriptsNumber>1) ecoRules.get("externalizeJs").status = "NOK";
+        ecoRules.get("externalizeJs").comment = measures.inlineJsScriptsNumber + " inline  javascripts found ";
+      }
+      
+    }
+
+
   }
 
   function refreshUI() {
@@ -126,8 +143,10 @@ function   (esprima) {
                "pluginsNumber":0,
                "styleSheetsNumber":0,
                "printStyleSheetsNumber":0,
+               "inlineStyleSheetsNumber":0,
                "emptySrcTagNumber":0,
-               "jsErrorsNumber":0
+               "jsErrorsNumber":0,
+               "inlineJsScriptsNumber":0
               };
   }
 
@@ -137,8 +156,10 @@ function   (esprima) {
     ecoRules.set("plugins",{ruleId:"plugins",status:"OK",comment:"No plugin found"});
     ecoRules.set("styleSheets",{ruleId:"styleSheets",status:"OK",comment:"Not more that 2 stylesheets per frame found"});
     ecoRules.set("printStyleSheets",{ruleId:"printStyleSheets",status:"NOK",comment:"Not print stylesheet found"});
+    ecoRules.set("externalizeCss",{ruleId:"externalizeCss",status:"OK",comment:"No inline stylesheet found"});
     ecoRules.set("emptySrcTag",{ruleId:"emptySrcTag",status:"OK",comment:"No empty src tags found"});
     ecoRules.set("jsValidate",{ruleId:"jsValidate",status:"OK",comment:"Javascript validate"});
+    ecoRules.set("externalizeJs",{ruleId:"externalizeJs",status:"OK",comment:"No inline JavaScript"});
     ecoRules.set("httpRequests",{ruleId:"httpRequests",status:"OK",comment:""});
   }
 
@@ -163,10 +184,11 @@ function   (esprima) {
   function getResourcesMeasure() {
     chrome.devtools.inspectedWindow.getResources(function(resources) {
       for (let i = 0; i < resources.length; ++i) {
-        //console.log("url"+ i + " = " + resources[i].url + ",type=" + resources[i].type); 
-        console.log("resource=" + JSON.stringify(resources[i]));
-        let resourceAnalyser = new ResourceAnalyser(resources[i]);
-        if (resources[i].type==='script') resourceAnalyser.analyse();
+        //console.log("resource=" + JSON.stringify(resources[i]));       
+        if (resources[i].type==='script')  {
+           let resourceAnalyser = new ResourceAnalyser(resources[i]);
+           resourceAnalyser.analyse();
+        }
       }
     });
   }
@@ -202,7 +224,7 @@ function ResourceAnalyser(resource) {
     };
 
   this.analyseJs = function(code) {
-    console.log("launch analyse for url = " + resourceToAnalyse.url);
+    //console.log("launch analyse for url = " + resourceToAnalyse.url);
     try {
       const syntax = esprima.parse(code, { tolerant: true, sourceType: 'script', loc: true });
       if (syntax.errors) {
@@ -220,7 +242,7 @@ function ResourceAnalyser(resource) {
       ecoRules.get("jsValidate").status="NOK";
       ecoRules.get("jsValidate").comment = measures.jsErrorsNumber + " javascript error(s) found";
     }
-    console.log("url=" + resourceToAnalyse.url + " , Nombre d'erreur" + measures.jsErrorsNumber);
+    //console.log("url=" + resourceToAnalyse.url + " , Nombre d'erreur" + measures.jsErrorsNumber);
     refreshUI();
   }
 }

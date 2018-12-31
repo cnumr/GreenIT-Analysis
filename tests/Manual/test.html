@@ -5,7 +5,26 @@
  <link rel="stylesheet" type="text/css"  href="test.css"> </link>
  <link rel="stylesheet" type="text/css"  media="print" href="test.css"> </link>
  <link rel="stylesheet" type="text/css"  href=""> </link>
- <script src=""> </script>
+ <script src=""></script>
+      <style type="text/css"> 
+.button {
+    background-color: #008CBA; /* Blue */
+    border: none;
+    color: white;
+    padding: 1px 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+	border-radius: 4px;
+	transition-duration: 0.4s;
+	width="100px";
+}
+
+.button:hover {
+    background-color: #0070A0; 
+}
+</style>
 </head>
 <body>
 TEST
@@ -15,6 +34,8 @@ Shoud find : <br>
 4 stylesheet <br>
 4 src empty tag (one in the iframe) <br>
 1 print StyleSheet <br>
+1 inline stylesheet <br>
+1 inline script <br>
 <img src =""> </img>
 <iframe src="frame.html"></iframe>
 <script>
