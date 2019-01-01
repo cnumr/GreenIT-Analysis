@@ -18,6 +18,7 @@ requirejs(['esprima'],
 
 function   (esprima) {
   console.log("Start Green Module");
+ 
   var backgroundPageConnection;
   var ecoRules;
   var measures;
@@ -146,7 +147,8 @@ function   (esprima) {
                "inlineStyleSheetsNumber":0,
                "emptySrcTagNumber":0,
                "jsErrorsNumber":0,
-               "inlineJsScriptsNumber":0
+               "inlineJsScriptsNumber":0,
+               "domainsNumber":0
               };
   }
 
@@ -161,20 +163,34 @@ function   (esprima) {
     ecoRules.set("jsValidate",{ruleId:"jsValidate",status:"OK",comment:"Javascript validate"});
     ecoRules.set("externalizeJs",{ruleId:"externalizeJs",status:"OK",comment:"No inline JavaScript"});
     ecoRules.set("httpRequests",{ruleId:"httpRequests",status:"OK",comment:""});
+    ecoRules.set("domainsNumber",{ruleId:"domainsNumber",status:"OK",comment:""});
   }
 
 
   function getNetworkMeasure() {
   chrome.devtools.network.getHAR(function(result) {
       var entries = result.entries;
+      var  domains = [];
       if (entries.length) {
         measures.nbRequest = entries.length;
         for (var i = 0; i < entries.length; ++i) {
+//console.log("entries = " + JSON.stringify(entries[i]));  
           measures.responsesSize+= entries[i].response._transferSize;
           measures.responsesSizeUncompress += entries[i].response.content.size;
+          let domain = getDomainFromUrl(entries[i].request.url);
+          if (domains.indexOf(domain)===-1) {
+            domains.push(domain);
+            console.log("found domain " + domain);
+          }
         }
         ecoRules.get("httpRequests").comment = measures.nbRequest + " HTTP request(s) "
         if (measures.nbRequest > 26) ecoRules.get("httpRequests").status = "NOK";
+
+        measures.domainsNumber=domains.length;
+        ecoRules.get("domainsNumber").comment = domains.length + " domain(s) found";
+        if (measures.domainsNumber > 2) ecoRules.get("domainsNumber").status = "NOK";
+
+
         refreshUI();
           
       }
@@ -247,6 +263,16 @@ function ResourceAnalyser(resource) {
   }
 }
 
+  function getDomainFromUrl(url) {
+    var elements = url.split("//");
+    if (elements[1]===undefined) return "";
+    else {
+      elements = elements[1].split('/'); // get domain with port
+      elements = elements[0].split(':'); // get domain without port 
+    }
+    return elements[0];
+  }
+
 
   function viewHistory()
 	{
@@ -274,7 +300,6 @@ function ResourceAnalyser(resource) {
 		chrome.tabs.create({url:"history.html"});
 		console.log("no history tab")
 		}
-		
 
   }
 
