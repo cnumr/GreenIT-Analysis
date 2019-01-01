@@ -18,10 +18,13 @@ requirejs(['esprima'],
 
 function   (esprima) {
   console.log("Start Green Module");
+
+  const DEBUG = true;
  
   var backgroundPageConnection;
   var ecoRules;
   var measures;
+
 
   initPanel(); 
 
@@ -47,6 +50,9 @@ function   (esprima) {
   }
 
   function aggregateFrameMeasures(frameMeasures) {
+  
+    debug(() => `receive from frameAnalyse.js ${JSON.stringify(frameMeasures)}`);
+
     measures.domSize += frameMeasures.domSize;
     measures.ecoIndex = calculEcoIndex(measures.domSize,measures.nbRequest,Math.round(measures.responsesSize/1000));
     measures.grade = getEcoIndexGrade(measures.ecoIndex);
@@ -153,7 +159,7 @@ function   (esprima) {
                "inlineJsScriptsNumber":0,
                "minifiedJsNumber":0,
                "totalJs":0,
-               "percentMinifiedCss":0,
+               "percentMinifiedJs":0,
                "domainsNumber":0
               };
   }
@@ -188,7 +194,7 @@ function   (esprima) {
           let domain = getDomainFromUrl(entries[i].request.url);
           if (domains.indexOf(domain)===-1) {
             domains.push(domain);
-            console.log("found domain " + domain);
+            debug(() => `found domain ${domain}`);
           }
         }
         ecoRules.get("httpRequests").comment = measures.nbRequest + " HTTP request(s) "
@@ -207,9 +213,9 @@ function   (esprima) {
 
   function getResourcesMeasure() {
     chrome.devtools.inspectedWindow.getResources(function(resources) {
-      for (let i = 0; i < resources.length; ++i) {
-        //console.log("resource=" + JSON.stringify(resources[i]));       
-        if (resources[i].type==='script')  {
+      for (let i = 0; i < resources.length; ++i) { 
+        debug(() => `resource =  ${JSON.stringify(resources[i])}`);     
+        if ((resources[i].type==='script')|| (resources[i].type==='stylesheet'))  {
            let resourceAnalyser = new ResourceAnalyser(resources[i]);
            resourceAnalyser.analyse();
         }
@@ -225,12 +231,12 @@ function analyseJsCode(code,url) {
     if (syntax.errors) {
       if (syntax.errors.length > 0) {
         measures.jsErrorsNumber += syntax.errors.length;
-        console.log("url = " + url + " : " + syntax.errors.length + " errors");
+        debug(() => `url ${url} : ${Syntax.errors.length} errors`);
       }
     }
   } catch (err) {
     measures.jsErrorsNumber++;
-    console.log("url = " + url + " : " + err);
+    debug(() => `url ${url} : ${err} `);
   }
   if (measures.jsErrorsNumber>0) {
     ecoRules.get("jsValidate").status="NOK";
@@ -249,10 +255,12 @@ function ResourceAnalyser(resource) {
 
   this.analyseJs = function(code) {
     // exclude from analyse the injected script 
-    if (!resourceToAnalyse.url.includes("script/analyseFrame.js")) {
-      analyseJsCode(code,resourceToAnalyse.url); 
-      analyseMinifiedJs(code,resourceToAnalyse.url);
-    }
+    if (resourceToAnalyse.type==='script') 
+      if (!resourceToAnalyse.url.includes("script/analyseFrame.js")) {
+        analyseJsCode(code,resourceToAnalyse.url); 
+        analyseMinifiedJs(code,resourceToAnalyse.url);
+      }
+    if (resourceToAnalyse.type==='stylesheet')  analyseMinifiedCss(code,resourceToAnalyse.url);
   }
 }
 
@@ -261,13 +269,28 @@ function ResourceAnalyser(resource) {
     measures.totalJs ++;
     if (isMinified(code)) {
       measures.minifiedJsNumber ++;
-      console.log(url + "is minified");
+      debug(() => `${url} is minified`);
     }
-    else console.log(url + "is not minified");
+    else debug(() => `${url} is not minified`);
     measures.percentMinifiedJs = measures.minifiedJsNumber / measures.totalJs  * 100;
     if (measures.percentMinifiedJs <95)  ecoRules.get("minifiedJs").status = "NOK";
     else ecoRules.get("minifiedJs").status = "OK";
-    ecoRules.get("minifiedJs").comment = measures.percentMinifiedJs + " % ("+ measures.minifiedJsNumber+"/"+measures.totalJs +")minimified javascript ";
+    ecoRules.get("minifiedJs").comment = measures.percentMinifiedJs + " % ("+ measures.minifiedJsNumber+"/"+measures.totalJs +")minified javascript ";
+    refreshUI();
+  }
+
+
+  function analyseMinifiedCss(code,url) {
+    measures.totalCss ++;
+    if (isMinified(code)) {
+      measures.minifiedCssNumber ++;
+      debug(() => `${url} is minified`);
+    }
+    else debug(() => `${url} is not minified`);
+    measures.percentMinifiedCss = measures.minifiedCssNumber / measures.totalCss  * 100;
+    if (measures.percentMinifiedCss <95)  ecoRules.get("minifiedCss").status = "NOK";
+    else ecoRules.get("minifiedCss").status = "OK";
+    ecoRules.get("minifiedCss").comment = measures.percentMinifiedCss + " % ("+ measures.minifiedCssNumber+"/"+measures.totalCss +") minified stylesheet ";
     refreshUI();
   }
 
@@ -315,6 +338,12 @@ function ResourceAnalyser(resource) {
 
   }
 
+
+  function debug(lazyString) {
+    if (!DEBUG) return;
+    const message = typeof lazyString === 'function' ? lazyString() : lazyString;
+    console.log(`GreenIT-Analysis [DEBUG] ${message}\n`);
+  }
 });
 
 
