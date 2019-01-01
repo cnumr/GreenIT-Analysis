@@ -85,7 +85,7 @@ function   (esprima) {
       ecoRules.get("emptySrcTag").comment = measures.emptySrcTagNumber + " empty src tag(s) found";
     }
     
-    if (frameMeasures.inlineJsScript.length>0 ) analyseJs(frameMeasures.inlineJsScript);
+    if (frameMeasures.inlineJsScript.length>0 ) analyseJsCode(frameMeasures.inlineJsScript,"inline");
    
     if (measures.inlineJsScriptsNumber < frameMeasures.inlineJsScriptsNumber) {
       measures.inlineJsScriptsNumber = frameMeasures.inlineJsScriptsNumber;
@@ -125,7 +125,7 @@ function   (esprima) {
     // Launch analyse via injection of a script in each frame of the current tab
     backgroundPageConnection.postMessage({
       tabId: chrome.devtools.inspectedWindow.tabId,
-      scriptToInject: "script/analyse.js"
+      scriptToInject: "script/analyseFrame.js"
     });
     
     getNetworkMeasure(); 
@@ -145,9 +145,15 @@ function   (esprima) {
                "styleSheetsNumber":0,
                "printStyleSheetsNumber":0,
                "inlineStyleSheetsNumber":0,
+               "minifiedCssNumber":0,
+               "totalCss":0,
+               "percentMinifiedCss":0,
                "emptySrcTagNumber":0,
                "jsErrorsNumber":0,
                "inlineJsScriptsNumber":0,
+               "minifiedJsNumber":0,
+               "totalJs":0,
+               "percentMinifiedCss":0,
                "domainsNumber":0
               };
   }
@@ -159,9 +165,11 @@ function   (esprima) {
     ecoRules.set("styleSheets",{ruleId:"styleSheets",status:"OK",comment:"Not more that 2 stylesheets per frame found"});
     ecoRules.set("printStyleSheets",{ruleId:"printStyleSheets",status:"NOK",comment:"Not print stylesheet found"});
     ecoRules.set("externalizeCss",{ruleId:"externalizeCss",status:"OK",comment:"No inline stylesheet found"});
+    ecoRules.set("minifiedCss",{ruleId:"minifiedCss",status:"OK",comment:"No css found"});
     ecoRules.set("emptySrcTag",{ruleId:"emptySrcTag",status:"OK",comment:"No empty src tags found"});
     ecoRules.set("jsValidate",{ruleId:"jsValidate",status:"OK",comment:"Javascript validate"});
     ecoRules.set("externalizeJs",{ruleId:"externalizeJs",status:"OK",comment:"No inline JavaScript"});
+    ecoRules.set("minifiedJs",{ruleId:"minifiedJs",status:"OK",comment:"No js found"});
     ecoRules.set("httpRequests",{ruleId:"httpRequests",status:"OK",comment:""});
     ecoRules.set("domainsNumber",{ruleId:"domainsNumber",status:"OK",comment:""});
   }
@@ -210,19 +218,19 @@ function   (esprima) {
   }
 
 
-function analyseJs(code) {
-  try {
+function analyseJsCode(code,url) {
+
+ try {
     const syntax = esprima.parse(code, { tolerant: true, sourceType: 'script', loc: true });
     if (syntax.errors) {
       if (syntax.errors.length > 0) {
         measures.jsErrorsNumber += syntax.errors.length;
-        console.log("Inline JS: " + syntax.errors.length + " errors");
+        console.log("url = " + url + " : " + syntax.errors.length + " errors");
       }
     }
   } catch (err) {
     measures.jsErrorsNumber++;
-    console.log("Inline JS: " + err);
-    //console.log("code=" + code);
+    console.log("url = " + url + " : " + err);
   }
   if (measures.jsErrorsNumber>0) {
     ecoRules.get("jsValidate").status="NOK";
@@ -240,28 +248,29 @@ function ResourceAnalyser(resource) {
     };
 
   this.analyseJs = function(code) {
-    //console.log("launch analyse for url = " + resourceToAnalyse.url);
-    try {
-      const syntax = esprima.parse(code, { tolerant: true, sourceType: 'script', loc: true });
-      if (syntax.errors) {
-        if (syntax.errors.length > 0) {
-          measures.jsErrorsNumber += syntax.errors.length;
-          console.log("url = " + resourceToAnalyse.url + " : " + syntax.errors.length + " errors");
-        } 
-      }
-    } 
-    catch (err) {
-      measures.jsErrorsNumber++;
-      console.log("url = " + resourceToAnalyse.url + " : " + err);
+    // exclude from analyse the injected script 
+    if (!resourceToAnalyse.url.includes("script/analyseFrame.js")) {
+      analyseJsCode(code,resourceToAnalyse.url); 
+      analyseMinifiedJs(code,resourceToAnalyse.url);
     }
-    if (measures.jsErrorsNumber>0) {
-      ecoRules.get("jsValidate").status="NOK";
-      ecoRules.get("jsValidate").comment = measures.jsErrorsNumber + " javascript error(s) found";
-    }
-    //console.log("url=" + resourceToAnalyse.url + " , Nombre d'erreur" + measures.jsErrorsNumber);
-    refreshUI();
   }
 }
+
+
+  function analyseMinifiedJs(code,url) {
+    measures.totalJs ++;
+    if (isMinified(code)) {
+      measures.minifiedJsNumber ++;
+      console.log(url + "is minified");
+    }
+    else console.log(url + "is not minified");
+    measures.percentMinifiedJs = measures.minifiedJsNumber / measures.totalJs  * 100;
+    if (measures.percentMinifiedJs <95)  ecoRules.get("minifiedJs").status = "NOK";
+    else ecoRules.get("minifiedJs").status = "OK";
+    ecoRules.get("minifiedJs").comment = measures.percentMinifiedJs + " % ("+ measures.minifiedJsNumber+"/"+measures.totalJs +")minimified javascript ";
+    refreshUI();
+  }
+
 
   function getDomainFromUrl(url) {
     var elements = url.split("//");
@@ -273,57 +282,37 @@ function ResourceAnalyser(resource) {
     return elements[0];
   }
 
-
-  function viewHistory()
-	{
-	//var promise_tabs =  browser.tabs.query({currentWindow: true});
-	//promise_tabs.then(loadHistoryTab);
-	}
-	
-	
-  function loadHistoryTab(tabs)
-  {
-	var history_tab;
-	for (let tab of tabs) 
-		{
-		console.log(tab.url);
-		if (tab.url.startsWith(browser.extension.getURL(""))) history_tab = tab;
-		}
-    if (history_tab) 
-		{
-		console.log("history tab exist")
-		chrome.tabs.reload(history_tab.id);
-		chrome.tabs.update(history_tab.id,{active:true})
-		}
-	else	
-		{
-		chrome.tabs.create({url:"history.html"});
-		console.log("no history tab")
-		}
-
+  /**
+  * Count character occurences in the given string
+  */
+  function countChar(char, str) {
+    let total = 0;
+    for (let curr, i = 0; (curr = str[i]); i++) {
+      if (curr === char) total++;
+    }
+    return total;
   }
 
-
-
-
   /**
-  Add to the history the result of an analyse
-  **/
-  function storeInHistory(url,req,kbyte,domsize,eco_index,note)
-  {
-  var analyse_history;
-  var string_analyse_history = localStorage.getItem("analyse_history");
+   * Detect minification for Javascript and CSS files
+   */
+  function isMinified(scriptContent) {
 
-  if (string_analyse_history)
-	{
-	analyse_history =JSON.parse(string_analyse_history);
-	analyse_history.reverse();
-	analyse_history.push({result_date:new Date(),url:url,req:req,kbyte:kbyte,domsize:domsize,eco_index:eco_index,note:note});
-	analyse_history.reverse();
-	}
-  else analyse_history = [{result_date:new Date(),url:url,req:req,kbyte:kbyte,domsize:domsize,eco_index:eco_index,note:note}];
+    if (!scriptContent) return true;
 
-  localStorage.setItem("analyse_history",JSON.stringify(analyse_history));
+    const total = scriptContent.length-1;
+    const semicolons = countChar(';', scriptContent);
+    const linebreaks = countChar('\n', scriptContent);
+
+    // Empiric method to detect minified files
+    //
+    // javascript code is minified if, on average:
+    //  - there is more than one semicolon by line
+    //  - and there are more than 100 characters by line
+    const isMinified = semicolons/linebreaks > 1 && linebreaks/total < 0.01;
+
+    return isMinified;
+
   }
 
 });
