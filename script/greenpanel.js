@@ -6,7 +6,7 @@
  *
  * @author didierfred@gmail.com
  */
-
+ const DEBUG = true;
 
 requirejs.config({
     //By default load any module IDs from script
@@ -19,7 +19,6 @@ requirejs(['esprima'],
 function   (esprima) {
   console.log("Start Green Module");
 
-  const DEBUG = true;
  
   var backgroundPageConnection;
   var ecoRules;
@@ -149,6 +148,7 @@ function   (esprima) {
     ecoRules.set("minifiedJs",{ruleId:"minifiedJs",status:"OK",comment:"No js found"});
     ecoRules.set("httpRequests",{ruleId:"httpRequests",status:"OK",comment:""});
     ecoRules.set("domainsNumber",{ruleId:"domainsNumber",status:"OK",comment:""});
+	ecoRules.set("addExpiresOrCacheControlHeaders",{ruleId:"addExpiresOrCacheControlHeaders",status:"OK",comment:""});
   }
 
 
@@ -159,7 +159,7 @@ function   (esprima) {
       if (entries.length) {
         measures.nbRequest = entries.length;
         for (var i = 0; i < entries.length; ++i) {
-//console.log("entries = " + JSON.stringify(entries[i]));  
+console.log("entries = " + JSON.stringify(entries[i]));  
           measures.responsesSize+= entries[i].response._transferSize;
           measures.responsesSizeUncompress += entries[i].response.content.size;
           let domain = getDomainFromUrl(entries[i].request.url);
@@ -172,11 +172,13 @@ function   (esprima) {
         measures.domainsNumber=domains.length;
 		setRuleValues("domainsNumber",(measures.domainsNumber < 3),domains.length + " domain(s) found"); 
         refreshUI();
-          
+        //if isResourceCacheable(resourceToAnalyse) analyseCacheableResource(resourceToAnalyse);
       }
     });
   }
 
+  
+  
   function getResourcesMeasure() {
     chrome.devtools.inspectedWindow.getResources(function(resources) {
       for (let i = 0; i < resources.length; ++i) { 
@@ -224,6 +226,7 @@ function ResourceAnalyser(resource) {
         analyseMinifiedJs(code,resourceToAnalyse.url);
       }
     if (resourceToAnalyse.type==='stylesheet')  analyseMinifiedCss(code,resourceToAnalyse.url);
+
   }
 }
 
@@ -253,56 +256,6 @@ function ResourceAnalyser(resource) {
     refreshUI();
   }
 
-
-  function getDomainFromUrl(url) {
-    var elements = url.split("//");
-    if (elements[1]===undefined) return "";
-    else {
-      elements = elements[1].split('/'); // get domain with port
-      elements = elements[0].split(':'); // get domain without port 
-    }
-    return elements[0];
-  }
-
-  /**
-  * Count character occurences in the given string
-  */
-  function countChar(char, str) {
-    let total = 0;
-    for (let curr, i = 0; (curr = str[i]); i++) {
-      if (curr === char) total++;
-    }
-    return total;
-  }
-
-  /**
-   * Detect minification for Javascript and CSS files
-   */
-  function isMinified(scriptContent) {
-
-    if (!scriptContent) return true;
-    if (scriptContent.length === 0) returntrue;
-    const total = scriptContent.length-1;
-    const semicolons = countChar(';', scriptContent);
-    const linebreaks = countChar('\n', scriptContent);
-    if (linebreaks < 2) return true; 
-    // Empiric method to detect minified files
-    //
-    // javascript code is minified if, on average:
-    //  - there is more than one semicolon by line
-    //  - and there are more than 100 characters by line
-    const isMinified = semicolons/linebreaks > 1 && linebreaks/total < 0.01;
-
-    return isMinified;
-
-  }
-
-
-  function debug(lazyString) {
-    if (!DEBUG) return;
-    const message = typeof lazyString === 'function' ? lazyString() : lazyString;
-    console.log(`GreenIT-Analysis [DEBUG] ${message}\n`);
-  }
 });
 
 

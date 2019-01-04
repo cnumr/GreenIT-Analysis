@@ -114,7 +114,27 @@ describe("Analyse", function() {
     });
   });
 
+});
+
+
+describe("utils.js", function() {
+  
+
+  describe("#function getContentTypeFromResource", function() {
+ 
+    beforeEach(function() {	
+    });
+	
+    it(" should return 2", function() {
+	  const resource = {response: {status:200,statusText:"",httpVersion:"http/2.0",headers:[{name:"content-encoding",value:"gzip"},{name:"content-type",value:"text/css"},{name:"toto",value:"test"}]}};
+      expect(window.frames["testFrame"].contentWindow.getContentTypeFromResource(resource)).toEqual('text/css');
+    });
+
+    afterEach(function() {
+    });
+  });
 
 
 
 });
+
