@@ -45,7 +45,8 @@ function openBackgroundPageConnection() {
 }
 
 function aggregateFrameMeasures(frameMeasures) {
-  // debug(() => `receive from frameAnalyse.js ${JSON.stringify(frameMeasures)}`);
+  //debug(() => `receive from frameAnalyse.js ${JSON.stringify(frameMeasures)}`);
+  logFrameMeasures(frameMeasures);
   measures.domSize += frameMeasures.domSize;
   measures.ecoIndex = calculEcoIndex(measures.domSize, measures.nbRequest, Math.round(measures.responsesSize / 1000));
   measures.grade = getEcoIndexGrade(measures.ecoIndex);
@@ -73,6 +74,11 @@ function aggregateFrameMeasures(frameMeasures) {
     if (measures.inlineJsScriptsNumber > 0) setRuleValues("externalizeJs", (measures.inlineJsScriptsNumber < 2), measures.inlineJsScriptsNumber + " inline  javascripts found ");
   }
 }
+
+function logFrameMeasures(frameMeasures) {
+ debug(() => `FrameUrl: ${frameMeasures.url},DomSize:${frameMeasures.domSize},Plugins:${frameMeasures.pluginsNumber},StyleSheets:${frameMeasures.styleSheetsNumber},Print StyleSheets:${frameMeasures.printStyleSheetsNumber},Inline StyleSheets:${frameMeasures.inlineStyleSheetsNumber},Empty Src Tag:${frameMeasures.emptySrcTagNumber},Inline Js Scripts:${frameMeasures.inlineJsScriptsNumber}`);
+}
+
 
 function setRuleValues(ruleId, isRespected, comment) {
   if (isRespected) ecoRules.get(ruleId).status = "OK";
@@ -133,7 +139,9 @@ function initializeMeasures() {
     "percentMinifiedJs": 0,
     "domainsNumber": 0,
     "staticResourcesNumber":0,
-    "staticResourcesNumberWithCacheHeaders":0
+    "staticResourcesNumberWithCacheHeaders":0,
+    "compressibleResourcesNumber":0,
+    "compressibleResourcesNumberCompressed":0
   };
 }
 
@@ -152,6 +160,7 @@ function initializeEcoRules() {
   ecoRules.set("httpRequests", { ruleId: "httpRequests", status: "OK", comment: "" });
   ecoRules.set("domainsNumber", { ruleId: "domainsNumber", status: "OK", comment: "" });
   ecoRules.set("addExpiresOrCacheControlHeaders", { ruleId: "addExpiresOrCacheControlHeaders", status: "OK", comment: "" });
+  ecoRules.set("compressHttp", { ruleId: "compressHttp", status: "OK", comment: "" });
 }
 
 
@@ -180,9 +189,16 @@ function getNetworkMeasure() {
       setRuleValues("domainsNumber", (measures.domainsNumber < 3), domains.length + " domain(s) found");
       if (measures.staticResourcesNumber>0) {
         const cacheHeaderRatio = measures.staticResourcesNumberWithCacheHeaders / measures.staticResourcesNumber * 100;
-        debug(() => `static ressource ${measures.staticResourcesNumber}`);
-        debug(() => `static ressource with cache header ${measures.staticResourcesNumberWithCacheHeaders}`);
+        debug(() => `static ressources ${measures.staticResourcesNumber}`);
+        debug(() => `static ressources with cache header ${measures.staticResourcesNumberWithCacheHeaders}`);
         setRuleValues("addExpiresOrCacheControlHeaders", (cacheHeaderRatio >= 95), cacheHeaderRatio + " % ressources cached");
+      }
+
+      if (measures.compressibleResourcesNumber>0) {
+        const compressRatio = measures.compressibleResourcesNumberCompressed / measures.compressibleResourcesNumber * 100;
+        debug(() => `compressible ressources ${measures.compressibleResourcesNumber}`);
+        debug(() => `compressible ressources compressed ${measures.compressibleResourcesNumberCompressed}`);
+        setRuleValues("compressHttp", (compressRatio >= 95), compressRatio + " % ressources compressed");
       }
       refreshUI();
     }
@@ -268,6 +284,5 @@ function analyseMinifiedCss(code, url) {
   refreshUI();
 }
 
-//});
 
 

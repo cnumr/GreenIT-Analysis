@@ -104,6 +104,16 @@ const others = [
 
 const staticResources = [].concat(image, javascript, font, css, audio, video, manifest, others);
 
+
+const httpCompressionTokens = [
+  'br',
+  'compress',
+  'deflate',
+  'gzip',
+  'pack200-gzip',
+];
+
+// utils for cache rule 
 function isStaticRessource(resource) {
   const contentType = getResponseHeaderFromResource(resource, "content-type");
   return staticResources.some(value => value.test(contentType));
@@ -117,7 +127,6 @@ function getResponseHeaderFromResource(resource, headerName) {
   });
   return headerValue;
 }
-
 
 function hasValidCacheHeaders(resource) {
 
@@ -156,9 +165,16 @@ function hasValidCacheHeaders(resource) {
 }
 
 
-
-function isResourceUsingCache(resource) {
+// utils for compress rule 
+function isCompressibleResource(resource) {
+  if (resource.response.content.size <= 150) return false;
   const contentType = getResponseHeaderFromResource(resource, "content-type");
+  return compressible.some(value => value.test(contentType));
+}
+
+function isResourceCompressed(resource) {
+  const contentEncoding = getResponseHeaderFromResource(resource, "content-encoding");
+  return ((contentEncoding.length>0) && (httpCompressionTokens.indexOf(contentEncoding.toLocaleLowerCase()) !== -1));
 }
 
 

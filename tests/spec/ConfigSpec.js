@@ -207,8 +207,57 @@ describe("utils.js", function() {
     });
   });
 
-  
+  describe("#function isCompressibleResource", function() {
+ 
+    beforeEach(function() {	
+    });
+	
+    it(" size is <= 150  should return false ", function() {
+	    const resource = {response: {content:{size:120},status:200,statusText:"",httpVersion:"http/2.0",headers:[{name:"content-encoding",value:"gzip"},{name:"content-type",value:"text/css"},{name:"toto",value:"test"}]}};
+      expect(window.frames["testFrame"].contentWindow.isCompressibleResource(resource)).toEqual(false);
+    });
 
+    it(" image/bmp is compressible , should return true", function() {
+	    const resource = {response: {content:{size:2000},status:200,statusText:"",httpVersion:"http/2.0",headers:[{name:"content-encoding",value:"gzip"},{name:"content-type",value:"image/bmp"},{name:"toto",value:"test"}]}};
+      expect(window.frames["testFrame"].contentWindow.isCompressibleResource(resource)).toEqual(true);
+    });
+
+    it(" type test/test is unknown , should return false", function() {
+	    const resource = {response: {content:{size:2000},status:200,statusText:"",httpVersion:"http/2.0",headers:[{name:"content-encoding",value:"gzip"},{name:"content-type",value:"test/test"},{name:"toto",value:"test"}]}};
+      expect(window.frames["testFrame"].contentWindow.isCompressibleResource(resource)).toEqual(false);
+    });
+    afterEach(function() {
+    });
+  });
+  
+  describe("#function isResourceCompressed", function() {
+ 
+    beforeEach(function() {	
+    });
+	
+    it(" content encoding is gzip  should return true", function() {
+	    const resource = {response: {content:{size:120},status:200,statusText:"",httpVersion:"http/2.0",headers:[{name:"content-encoding",value:"gzip"},{name:"content-type",value:"text/css"},{name:"toto",value:"test"}]}};
+      expect(window.frames["testFrame"].contentWindow.isResourceCompressed(resource)).toEqual(true);
+    });
+
+    it(" content encoding is GZIP  should return true", function() {
+	    const resource = {response: {content:{size:2000},status:200,statusText:"",httpVersion:"http/2.0",headers:[{name:"content-encoding",value:"GZIP"},{name:"content-type",value:"image/bmp"},{name:"toto",value:"test"}]}};
+      expect(window.frames["testFrame"].contentWindow.isResourceCompressed(resource)).toEqual(true);
+    });
+
+
+    it(" content encoding is TEST  should return false", function() {
+	    const resource = {response: {content:{size:2000},status:200,statusText:"",httpVersion:"http/2.0",headers:[{name:"content-encoding",value:"TEST"},{name:"content-type",value:"image/bmp"},{name:"toto",value:"test"}]}};
+      expect(window.frames["testFrame"].contentWindow.isResourceCompressed(resource)).toEqual(false);
+    });
+
+    it(" content encoding is not present , should return false", function() {
+	    const resource = {response: {content:{size:2000},status:200,statusText:"",httpVersion:"http/2.0",headers:[{name:"content-type",value:"test/test"},{name:"toto",value:"test"}]}};
+      expect(window.frames["testFrame"].contentWindow.isResourceCompressed(resource)).toEqual(false);
+    });
+    afterEach(function() {
+    });
+  });
 
 });
 
