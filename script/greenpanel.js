@@ -76,7 +76,7 @@ function aggregateFrameMeasures(frameMeasures) {
 }
 
 function logFrameMeasures(frameMeasures) {
- debug(() => `FrameUrl: ${frameMeasures.url},DomSize:${frameMeasures.domSize},Plugins:${frameMeasures.pluginsNumber},StyleSheets:${frameMeasures.styleSheetsNumber},Print StyleSheets:${frameMeasures.printStyleSheetsNumber},Inline StyleSheets:${frameMeasures.inlineStyleSheetsNumber},Empty Src Tag:${frameMeasures.emptySrcTagNumber},Inline Js Scripts:${frameMeasures.inlineJsScriptsNumber}`);
+ debug(() => `Analyse form frame : ${frameMeasures.url},DomSize:${frameMeasures.domSize},Plugins:${frameMeasures.pluginsNumber},StyleSheets:${frameMeasures.styleSheetsNumber},Print StyleSheets:${frameMeasures.printStyleSheetsNumber},Inline StyleSheets:${frameMeasures.inlineStyleSheetsNumber},Empty Src Tag:${frameMeasures.emptySrcTagNumber},Inline Js Scripts:${frameMeasures.inlineJsScriptsNumber}`);
 }
 
 
@@ -176,11 +176,21 @@ function getNetworkMeasure() {
         measures.responsesSizeUncompress += entries[i].response.content.size;
         if (isStaticRessource(entries[i])) {
           measures.staticResourcesNumber++;
-          if (hasValidCacheHeaders(entries[i])) measures.staticResourcesNumberWithCacheHeaders++;
+          debug(() => `resource ${entries[i].request.url} is cacheable `);
+          if (hasValidCacheHeaders(entries[i])) {
+            measures.staticResourcesNumberWithCacheHeaders++;
+            debug(() => `resource ${entries[i].request.url} is cached `);
+          }
+          else  debug(() => `resource ${entries[i].request.url} is not cached `);
         }
         if (isCompressibleResource(entries[i])) {
           measures.compressibleResourcesNumber++;
-          if (isResourceCompressed(entries[i])) measures.compressibleResourcesNumberCompressed++;
+          debug(() => `resource ${entries[i].request.url} is compressible `);
+          if (isResourceCompressed(entries[i])) {
+            measures.compressibleResourcesNumberCompressed++;
+            debug(() => `resource ${entries[i].request.url} is compressed `);
+          }
+          else  debug(() => `resource ${entries[i].request.url} is not compressed `);
         }
         let domain = getDomainFromUrl(entries[i].request.url);
         if (domains.indexOf(domain) === -1) {
@@ -214,7 +224,6 @@ function getNetworkMeasure() {
 function getResourcesMeasure() {
   chrome.devtools.inspectedWindow.getResources(function (resources) {
     for (let i = 0; i < resources.length; ++i) {
-      debug(() => `resource =  ${JSON.stringify(resources[i])}`);
       if ((resources[i].type === 'script') || (resources[i].type === 'stylesheet')) {
         let resourceAnalyser = new ResourceAnalyser(resources[i]);
         resourceAnalyser.analyse();
