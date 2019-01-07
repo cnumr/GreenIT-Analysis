@@ -171,12 +171,16 @@ function getNetworkMeasure() {
     if (entries.length) {
       measures.nbRequest = entries.length;
       for (var i = 0; i < entries.length; ++i) {
-        console.log("entries = " + JSON.stringify(entries[i]));
+        //console.log("entries = " + JSON.stringify(entries[i]));
         measures.responsesSize += entries[i].response._transferSize;
         measures.responsesSizeUncompress += entries[i].response.content.size;
         if (isStaticRessource(entries[i])) {
           measures.staticResourcesNumber++;
           if (hasValidCacheHeaders(entries[i])) measures.staticResourcesNumberWithCacheHeaders++;
+        }
+        if (isCompressibleResource(entries[i])) {
+          measures.compressibleResourcesNumber++;
+          if (isResourceCompressed(entries[i])) measures.compressibleResourcesNumberCompressed++;
         }
         let domain = getDomainFromUrl(entries[i].request.url);
         if (domains.indexOf(domain) === -1) {
@@ -189,15 +193,15 @@ function getNetworkMeasure() {
       setRuleValues("domainsNumber", (measures.domainsNumber < 3), domains.length + " domain(s) found");
       if (measures.staticResourcesNumber>0) {
         const cacheHeaderRatio = measures.staticResourcesNumberWithCacheHeaders / measures.staticResourcesNumber * 100;
-        debug(() => `static ressources ${measures.staticResourcesNumber}`);
-        debug(() => `static ressources with cache header ${measures.staticResourcesNumberWithCacheHeaders}`);
+        debug(() => `static resources ${measures.staticResourcesNumber}`);
+        debug(() => `static resources with cache header ${measures.staticResourcesNumberWithCacheHeaders}`);
         setRuleValues("addExpiresOrCacheControlHeaders", (cacheHeaderRatio >= 95), cacheHeaderRatio + " % ressources cached");
       }
 
       if (measures.compressibleResourcesNumber>0) {
         const compressRatio = measures.compressibleResourcesNumberCompressed / measures.compressibleResourcesNumber * 100;
-        debug(() => `compressible ressources ${measures.compressibleResourcesNumber}`);
-        debug(() => `compressible ressources compressed ${measures.compressibleResourcesNumberCompressed}`);
+        debug(() => `compressible resources ${measures.compressibleResourcesNumber}`);
+        debug(() => `compressible resources compressed ${measures.compressibleResourcesNumberCompressed}`);
         setRuleValues("compressHttp", (compressRatio >= 95), compressRatio + " % ressources compressed");
       }
       refreshUI();
