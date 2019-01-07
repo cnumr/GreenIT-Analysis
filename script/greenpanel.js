@@ -195,14 +195,14 @@ function getNetworkMeasure() {
         const cacheHeaderRatio = measures.staticResourcesNumberWithCacheHeaders / measures.staticResourcesNumber * 100;
         debug(() => `static resources ${measures.staticResourcesNumber}`);
         debug(() => `static resources with cache header ${measures.staticResourcesNumberWithCacheHeaders}`);
-        setRuleValues("addExpiresOrCacheControlHeaders", (cacheHeaderRatio >= 95), cacheHeaderRatio + " % ressources cached");
+        setRuleValues("addExpiresOrCacheControlHeaders", (cacheHeaderRatio >= 95), Math.round(cacheHeaderRatio) + " % (" + measures.staticResourcesNumberWithCacheHeaders + "/" + measures.staticResourcesNumber + ") resources cached");
       }
 
       if (measures.compressibleResourcesNumber>0) {
         const compressRatio = measures.compressibleResourcesNumberCompressed / measures.compressibleResourcesNumber * 100;
         debug(() => `compressible resources ${measures.compressibleResourcesNumber}`);
         debug(() => `compressible resources compressed ${measures.compressibleResourcesNumberCompressed}`);
-        setRuleValues("compressHttp", (compressRatio >= 95), compressRatio + " % ressources compressed");
+        setRuleValues("compressHttp", (compressRatio >= 95), Math.round(compressRatio) + " % (" + measures.compressibleResourcesNumberCompressed + "/" + measures.compressibleResourcesNumber + ") resources compressed");
       }
       refreshUI();
     }
@@ -271,7 +271,7 @@ function analyseMinifiedJs(code, url) {
   }
   else debug(() => `${url} is not minified`);
   measures.percentMinifiedJs = measures.minifiedJsNumber / measures.totalJs * 100;
-  setRuleValues("minifiedJs", (measures.percentMinifiedJs >= 95), measures.percentMinifiedJs + " % (" + measures.minifiedJsNumber + "/" + measures.totalJs + ") minified javascript ");
+  setRuleValues("minifiedJs", (measures.percentMinifiedJs >= 95), Math.round(measures.percentMinifiedJs) + " % (" + measures.minifiedJsNumber + "/" + measures.totalJs + ") minified javascript ");
   refreshUI();
 }
 
@@ -284,7 +284,7 @@ function analyseMinifiedCss(code, url) {
   }
   else debug(() => `${url} is not minified`);
   measures.percentMinifiedCss = measures.minifiedCssNumber / measures.totalCss * 100;
-  setRuleValues("minifiedCss", (measures.percentMinifiedCss >= 95), measures.percentMinifiedCss + " % (" + measures.minifiedCssNumber + "/" + measures.totalCss + ") minified stylesheet ");
+  setRuleValues("minifiedCss", (measures.percentMinifiedCss >= 95), Math.round(measures.percentMinifiedCss) + " % (" + measures.minifiedCssNumber + "/" + measures.totalCss + ") minified stylesheet ");
   refreshUI();
 }
 
