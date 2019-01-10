@@ -22,9 +22,8 @@ requirejs(['esprima'],
 
 
 var backgroundPageConnection;
-var ecoRules;
 var measures;
-
+var rules;
 
 initPanel();
 
@@ -51,40 +50,27 @@ function aggregateFrameMeasures(frameMeasures) {
   measures.ecoIndex = calculEcoIndex(measures.domSize, measures.nbRequest, Math.round(measures.responsesSize / 1000));
   measures.grade = getEcoIndexGrade(measures.ecoIndex);
   measures.pluginsNumber += frameMeasures.pluginsNumber;
-  if (measures.pluginsNumber > 0) setRuleValues("plugins", false, measures.pluginsNumber + " plugin(s) found");
 
-  if (measures.styleSheetsNumber < frameMeasures.styleSheetsNumber) {
-    measures.styleSheetsNumber = frameMeasures.styleSheetsNumber;
-    if (measures.styleSheetsNumber > 2) setRuleValues("styleSheets", false, measures.styleSheetsNumber + " stylesheets found for at least one frame");
-  }
+  if (measures.styleSheetsNumber < frameMeasures.styleSheetsNumber) measures.styleSheetsNumber = frameMeasures.styleSheetsNumber;
   measures.printStyleSheetsNumber += frameMeasures.printStyleSheetsNumber;
-  if (measures.printStyleSheetsNumber > 0) setRuleValues("printStyleSheets", true, measures.printStyleSheetsNumber + " print StyleSheet(s) found");
-
-  if (measures.inlineStyleSheetsNumber < frameMeasures.inlineStyleSheetsNumber) {
-    measures.inlineStyleSheetsNumber = frameMeasures.inlineStyleSheetsNumber;
-    if (measures.inlineStyleSheetsNumber > 0) setRuleValues("externalizeCss", false, measures.inlineStyleSheetsNumber + " inline stylesheets found ");
-  }
+  if (measures.inlineStyleSheetsNumber < frameMeasures.inlineStyleSheetsNumber) measures.inlineStyleSheetsNumber = frameMeasures.inlineStyleSheetsNumber;
   measures.emptySrcTagNumber += frameMeasures.emptySrcTagNumber;
-  if (measures.emptySrcTagNumber > 0) setRuleValues("emptySrcTag", false, measures.emptySrcTagNumber + " empty src tag(s) found");
-
   if (frameMeasures.inlineJsScript.length > 0) analyseJsCode(frameMeasures.inlineJsScript, "inline");
+  if (measures.inlineJsScriptsNumber < frameMeasures.inlineJsScriptsNumber) measures.inlineJsScriptsNumber = frameMeasures.inlineJsScriptsNumber;
+    
+  rules.checkRule('plugins',measures);
+  rules.checkRule('styleSheets',measures);
+  rules.checkRule('printStyleSheets',measures);
+  rules.checkRule('emptySrcTag',measures);
+  rules.checkRule('jsValidate',measures);
+  rules.checkRule('externalizeCss',measures);
 
-  if (measures.inlineJsScriptsNumber < frameMeasures.inlineJsScriptsNumber) {
-    measures.inlineJsScriptsNumber = frameMeasures.inlineJsScriptsNumber;
-    if (measures.inlineJsScriptsNumber > 0) setRuleValues("externalizeJs", (measures.inlineJsScriptsNumber < 2), measures.inlineJsScriptsNumber + " inline  javascripts found ");
-  }
 }
 
 function logFrameMeasures(frameMeasures) {
  debug(() => `Analyse form frame : ${frameMeasures.url},DomSize:${frameMeasures.domSize},Plugins:${frameMeasures.pluginsNumber},StyleSheets:${frameMeasures.styleSheetsNumber},Print StyleSheets:${frameMeasures.printStyleSheetsNumber},Inline StyleSheets:${frameMeasures.inlineStyleSheetsNumber},Empty Src Tag:${frameMeasures.emptySrcTagNumber},Inline Js Scripts:${frameMeasures.inlineJsScriptsNumber}`);
 }
 
-
-function setRuleValues(ruleId, isRespected, comment) {
-  if (isRespected) ecoRules.get(ruleId).status = "OK";
-  else ecoRules.get(ruleId).status = "NOK"
-  ecoRules.get(ruleId).comment = comment;
-}
 
 function refreshUI() {
   document.getElementById("results").hidden = false;
@@ -93,13 +79,16 @@ function refreshUI() {
   document.getElementById("domSize").innerHTML = measures.domSize;
   document.getElementById("ecoIndex").innerHTML = measures.ecoIndex;
   document.getElementById("grade").innerHTML = '<span class="grade ' + measures.grade + '">' + measures.grade + '</span>';
-  ecoRules.forEach(showEcoRuleOnUI);
+  rules.getAllRules().forEach(showEcoRuleOnUI);
 }
 
-function showEcoRuleOnUI(ecoRule) {
-  if (ecoRule !== undefined) {
-    document.getElementById(ecoRule.ruleId + "_status").src = "icons/" + ecoRule.status + ".png";
-    document.getElementById(ecoRule.ruleId + "_comment").innerHTML = ecoRule.comment;
+function showEcoRuleOnUI(rule) {
+  debug(() => "rule =" + JSON.stringify(rule)); 
+  if (rule !== undefined) {
+    var status = "NOK";
+    if (rule.isRespected) status = "OK";
+    document.getElementById(rule.id + "_status").src = "icons/" + status + ".png";
+    document.getElementById(rule.id + "_comment").innerHTML = rule.comment;
   }
 }
 
@@ -147,20 +136,7 @@ function initializeMeasures() {
 
 
 function initializeEcoRules() {
-  ecoRules = new Map();
-  ecoRules.set("plugins", { ruleId: "plugins", status: "OK", comment: "No plugin found" });
-  ecoRules.set("styleSheets", { ruleId: "styleSheets", status: "OK", comment: "Not more that 2 stylesheets per frame found" });
-  ecoRules.set("printStyleSheets", { ruleId: "printStyleSheets", status: "NOK", comment: "No print stylesheet found" });
-  ecoRules.set("externalizeCss", { ruleId: "externalizeCss", status: "OK", comment: "No inline stylesheet found" });
-  ecoRules.set("minifiedCss", { ruleId: "minifiedCss", status: "OK", comment: "No css found" });
-  ecoRules.set("emptySrcTag", { ruleId: "emptySrcTag", status: "OK", comment: "No empty src tags found" });
-  ecoRules.set("jsValidate", { ruleId: "jsValidate", status: "OK", comment: "Javascript validate" });
-  ecoRules.set("externalizeJs", { ruleId: "externalizeJs", status: "OK", comment: "No inline JavaScript" });
-  ecoRules.set("minifiedJs", { ruleId: "minifiedJs", status: "OK", comment: "No js found" });
-  ecoRules.set("httpRequests", { ruleId: "httpRequests", status: "OK", comment: "" });
-  ecoRules.set("domainsNumber", { ruleId: "domainsNumber", status: "OK", comment: "" });
-  ecoRules.set("addExpiresOrCacheControlHeaders", { ruleId: "addExpiresOrCacheControlHeaders", status: "OK", comment: "" });
-  ecoRules.set("compressHttp", { ruleId: "compressHttp", status: "OK", comment: "" });
+  rules = new Rules(measures);
 }
 
 
@@ -198,27 +174,15 @@ function getNetworkMeasure() {
           debug(() => `found domain ${domain}`);
         }
       }
-      setRuleValues("httpRequests", (measures.nbRequest < 27), measures.nbRequest + " HTTP request(s) ");
       measures.domainsNumber = domains.length;
-      setRuleValues("domainsNumber", (measures.domainsNumber < 3), domains.length + " domain(s) found");
-      if (measures.staticResourcesNumber>0) {
-        const cacheHeaderRatio = measures.staticResourcesNumberWithCacheHeaders / measures.staticResourcesNumber * 100;
-        debug(() => `static resources ${measures.staticResourcesNumber}`);
-        debug(() => `static resources with cache header ${measures.staticResourcesNumberWithCacheHeaders}`);
-        setRuleValues("addExpiresOrCacheControlHeaders", (cacheHeaderRatio >= 95), Math.round(cacheHeaderRatio) + " % (" + measures.staticResourcesNumberWithCacheHeaders + "/" + measures.staticResourcesNumber + ") resources cached");
-      }
-
-      if (measures.compressibleResourcesNumber>0) {
-        const compressRatio = measures.compressibleResourcesNumberCompressed / measures.compressibleResourcesNumber * 100;
-        debug(() => `compressible resources ${measures.compressibleResourcesNumber}`);
-        debug(() => `compressible resources compressed ${measures.compressibleResourcesNumberCompressed}`);
-        setRuleValues("compressHttp", (compressRatio >= 95), Math.round(compressRatio) + " % (" + measures.compressibleResourcesNumberCompressed + "/" + measures.compressibleResourcesNumber + ") resources compressed");
-      }
+      rules.checkRule("httpRequests",measures);
+      rules.checkRule("domainsNumber",measures);
+      rules.checkRule("addExpiresOrCacheControlHeaders",measures);
+      rules.checkRule("compressHttp",measures);
       refreshUI();
     }
   });
 }
-
 
 
 function getResourcesMeasure() {
@@ -247,7 +211,7 @@ function analyseJsCode(code, url) {
     measures.jsErrorsNumber++;
     debug(() => `url ${url} : ${err} `);
   }
-  if (measures.jsErrorsNumber > 0) setRuleValues("jsValidate", false, measures.jsErrorsNumber + " javascript error(s) found");
+  rules.checkRule("jsValidate",measures);
   refreshUI();
 }
 
@@ -280,7 +244,7 @@ function analyseMinifiedJs(code, url) {
   }
   else debug(() => `${url} is not minified`);
   measures.percentMinifiedJs = measures.minifiedJsNumber / measures.totalJs * 100;
-  setRuleValues("minifiedJs", (measures.percentMinifiedJs >= 95), Math.round(measures.percentMinifiedJs) + " % (" + measures.minifiedJsNumber + "/" + measures.totalJs + ") minified javascript ");
+  rules.checkRule("minifiedJs",measures);
   refreshUI();
 }
 
@@ -293,9 +257,10 @@ function analyseMinifiedCss(code, url) {
   }
   else debug(() => `${url} is not minified`);
   measures.percentMinifiedCss = measures.minifiedCssNumber / measures.totalCss * 100;
-  setRuleValues("minifiedCss", (measures.percentMinifiedCss >= 95), Math.round(measures.percentMinifiedCss) + " % (" + measures.minifiedCssNumber + "/" + measures.totalCss + ") minified stylesheet ");
+  rules.checkRule("minifiedCss",measures);
   refreshUI();
 }
+
 
 
 
