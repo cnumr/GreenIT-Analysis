@@ -23,7 +23,7 @@ requirejs(['esprima'],
 
 var backgroundPageConnection;
 var rules;
-var lastAnalyseStartingTime;
+var lastAnalyseStartingTime = 0;
 var measuresAcquisition;
 
 initPanel();
@@ -79,7 +79,7 @@ function logFrameMeasures(frameMeasures) {
 }
 
 function isOldAnalyse(startingTime) {
-  return (startingTime < analyseStartingTime);
+  return (startingTime < lastAnalyseStartingTime);
 }
 
 function refreshUI() {
@@ -104,8 +104,15 @@ function showEcoRuleOnUI(rule) {
 }
 
 function launchAnalyse() {
-  analyseStartingTime = Date.now();
-  debug(() => `Starting new analyse , time = ${analyseStartingTime}`);
+  var now = Date.now();
+
+  // To avoid parallel analyse , force 1 secondes between analysis 
+  if (now - lastAnalyseStartingTime < 1000) {
+    debug (()=> "Ignore click");
+    return;
+  }
+  lastAnalyseStartingTime = now;
+  debug(() => `Starting new analyse , time = ${lastAnalyseStartingTime}`);
   measuresAcquisition = new MeasuresAcquisition();
   measuresAcquisition.initializeMeasures();
   rules = new Rules(measuresAcquisition.getMeasures());
