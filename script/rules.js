@@ -9,7 +9,7 @@
 
 
 
-function Rules(measures) {
+function Rules() {
   let rules  = new Map();
   rules.set("plugins",new pluginsRule());
   rules.set("styleSheets",new styleSheetsRule());

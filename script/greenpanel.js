@@ -113,9 +113,10 @@ function launchAnalyse() {
   }
   lastAnalyseStartingTime = now;
   debug(() => `Starting new analyse , time = ${lastAnalyseStartingTime}`);
-  measuresAcquisition = new MeasuresAcquisition();
+  rules = new Rules();
+  measuresAcquisition = new MeasuresAcquisition(rules);
   measuresAcquisition.initializeMeasures();
-  rules = new Rules(measuresAcquisition.getMeasures());
+
   // Launch analyse via injection of a script in each frame of the current tab
   backgroundPageConnection.postMessage({
     tabId: chrome.devtools.inspectedWindow.tabId,
@@ -144,9 +145,10 @@ function analyseJsCode(code, url, measures) {
 }
 
 
-function MeasuresAcquisition() {
+function MeasuresAcquisition(rules) {
   
   let measures ; 
+  let localRules = rules;
 
   this.initializeMeasures = function() {
     measures = {       
@@ -221,10 +223,10 @@ function MeasuresAcquisition() {
           }
         }
         measures.domainsNumber = domains.length;
-        rules.checkRule("httpRequests", measures);
-        rules.checkRule("domainsNumber", measures);
-        rules.checkRule("addExpiresOrCacheControlHeaders", measures);
-        rules.checkRule("compressHttp", measures);
+        localRules.checkRule("httpRequests", measures);
+        localRules.checkRule("domainsNumber", measures);
+        localRules.checkRule("addExpiresOrCacheControlHeaders", measures);
+        localRules.checkRule("compressHttp", measures);
         refreshUI();
       }
     });
@@ -273,7 +275,7 @@ function MeasuresAcquisition() {
     }
     //else debug(() => `${url} is not minified`);
     measures.percentMinifiedJs = measures.minifiedJsNumber / measures.totalJs * 100;
-    rules.checkRule("minifiedJs", measures);
+    localRules.checkRule("minifiedJs", measures);
     refreshUI();
   }
 
@@ -286,7 +288,7 @@ function MeasuresAcquisition() {
     }
     //else debug(() => `${url} is not minified`);
     measures.percentMinifiedCss = measures.minifiedCssNumber / measures.totalCss * 100;
-    rules.checkRule("minifiedCss", measures);
+    localRules.checkRule("minifiedCss", measures);
     refreshUI();
   }
 }
