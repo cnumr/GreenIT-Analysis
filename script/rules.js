@@ -96,7 +96,7 @@ function Rules(measures) {
     
     this.check = function(measures) {  
       if (measures.totalCss > 0) {
-        if (percentMinifiedJs<95)  this.isRespected = false;
+        if (measures.percentMinifiedJs<95)  this.isRespected = false;
         else this.isRespected = true;
         this.comment = Math.round(measures.percentMinifiedCss) + " % (" + measures.minifiedCssNumber + "/" + measures.totalCss + ") minified stylesheet ";
       }
@@ -187,8 +187,8 @@ function Rules(measures) {
     this.check = function(measures) {  
       if (measures.staticResourcesNumber > 0) {
         const cacheHeaderRatio = measures.staticResourcesNumberWithCacheHeaders / measures.staticResourcesNumber * 100;
-        debug(() => `static resources ${measures.staticResourcesNumber}`);
-        debug(() => `static resources with cache header ${measures.staticResourcesNumberWithCacheHeaders}`);
+        //debug(() => `static resources ${measures.staticResourcesNumber}`);
+       //debug(() => `static resources with cache header ${measures.staticResourcesNumberWithCacheHeaders}`);
         if (cacheHeaderRatio < 95) this.isRespected = false;
         else this.isRespected=true;
         this.comment = Math.round(cacheHeaderRatio) + " % (" + measures.staticResourcesNumberWithCacheHeaders + "/" + measures.staticResourcesNumber + ") resources cached";
@@ -204,8 +204,8 @@ function Rules(measures) {
     this.check = function(measures) {  
       if (measures.compressibleResourcesNumber > 0) {
         const compressRatio = measures.compressibleResourcesNumberCompressed / measures.compressibleResourcesNumber * 100;
-        debug(() => `compressible resources ${measures.compressibleResourcesNumber}`);
-        debug(() => `compressible resources compressed ${measures.compressibleResourcesNumberCompressed}`);
+        //debug(() => `compressible resources ${measures.compressibleResourcesNumber}`);
+        //debug(() => `compressible resources compressed ${measures.compressibleResourcesNumberCompressed}`);
         if (compressRatio < 95) this.isRespected = false;
         else this.isRespected = true;
         this.comment = Math.round(compressRatio) + " % (" + measures.compressibleResourcesNumberCompressed + "/" + measures.compressibleResourcesNumber + ") resources compressed";

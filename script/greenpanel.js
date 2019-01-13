@@ -24,6 +24,7 @@ requirejs(['esprima'],
 var backgroundPageConnection;
 var measures;
 var rules;
+var lastAnalyseStartingTime;
 
 initPanel();
 
@@ -46,6 +47,11 @@ function openBackgroundPageConnection() {
 function aggregateFrameMeasures(frameMeasures) {
   //debug(() => `receive from frameAnalyse.js ${JSON.stringify(frameMeasures)}`);
   logFrameMeasures(frameMeasures);
+  if (isOldAnalyse(frameMeasures.analyseStartingTime)) {
+    debug(() => `Analyse is too old for url ${frameMeasures.url} , time = ${frameMeasures.analyseStartingTime}`);
+    return;
+  }
+
   measures.domSize += frameMeasures.domSize;
   measures.ecoIndex = calculEcoIndex(measures.domSize, measures.nbRequest, Math.round(measures.responsesSize / 1000));
   measures.grade = getEcoIndexGrade(measures.ecoIndex);
@@ -64,13 +70,16 @@ function aggregateFrameMeasures(frameMeasures) {
   rules.checkRule('emptySrcTag',measures);
   rules.checkRule('jsValidate',measures);
   rules.checkRule('externalizeCss',measures);
-
 }
 
 function logFrameMeasures(frameMeasures) {
- debug(() => `Analyse form frame : ${frameMeasures.url},DomSize:${frameMeasures.domSize},Plugins:${frameMeasures.pluginsNumber},StyleSheets:${frameMeasures.styleSheetsNumber},Print StyleSheets:${frameMeasures.printStyleSheetsNumber},Inline StyleSheets:${frameMeasures.inlineStyleSheetsNumber},Empty Src Tag:${frameMeasures.emptySrcTagNumber},Inline Js Scripts:${frameMeasures.inlineJsScriptsNumber}`);
+ debug(() => `Analyse form frame : ${frameMeasures.url}, analyseStartingTime : ${frameMeasures.analyseStartingTime}DomSize:${frameMeasures.domSize},Plugins:${frameMeasures.pluginsNumber},StyleSheets:${frameMeasures.styleSheetsNumber},Print StyleSheets:${frameMeasures.printStyleSheetsNumber},Inline StyleSheets:${frameMeasures.inlineStyleSheetsNumber},Empty Src Tag:${frameMeasures.emptySrcTagNumber},Inline Js Scripts:${frameMeasures.inlineJsScriptsNumber}`);
 }
 
+function isOldAnalyse(startingTime)
+{
+  return (startingTime < analyseStartingTime);
+}
 
 function refreshUI() {
   document.getElementById("results").hidden = false;
@@ -83,7 +92,7 @@ function refreshUI() {
 }
 
 function showEcoRuleOnUI(rule) {
-  debug(() => "rule =" + JSON.stringify(rule)); 
+  //debug(() => "rule =" + JSON.stringify(rule)); 
   if (rule !== undefined) {
     var status = "NOK";
     if (rule.isRespected) status = "OK";
@@ -93,6 +102,8 @@ function showEcoRuleOnUI(rule) {
 }
 
 function launchAnalyse() {
+  analyseStartingTime = Date.now();
+  debug(() => `Starting new analyse , time = ${analyseStartingTime}` );
   initializeMeasures();
   initializeEcoRules()
   // Launch analyse via injection of a script in each frame of the current tab
@@ -152,26 +163,26 @@ function getNetworkMeasure() {
         measures.responsesSizeUncompress += entries[i].response.content.size;
         if (isStaticRessource(entries[i])) {
           measures.staticResourcesNumber++;
-          debug(() => `resource ${entries[i].request.url} is cacheable `);
+          //debug(() => `resource ${entries[i].request.url} is cacheable `);
           if (hasValidCacheHeaders(entries[i])) {
             measures.staticResourcesNumberWithCacheHeaders++;
-            debug(() => `resource ${entries[i].request.url} is cached `);
+            //debug(() => `resource ${entries[i].request.url} is cached `);
           }
-          else  debug(() => `resource ${entries[i].request.url} is not cached `);
+          // else  debug(() => `resource ${entries[i].request.url} is not cached `);
         }
         if (isCompressibleResource(entries[i])) {
           measures.compressibleResourcesNumber++;
-          debug(() => `resource ${entries[i].request.url} is compressible `);
+          //debug(() => `resource ${entries[i].request.url} is compressible `);
           if (isResourceCompressed(entries[i])) {
             measures.compressibleResourcesNumberCompressed++;
-            debug(() => `resource ${entries[i].request.url} is compressed `);
+            //debug(() => `resource ${entries[i].request.url} is compressed `);
           }
-          else  debug(() => `resource ${entries[i].request.url} is not compressed `);
+          //else  debug(() => `resource ${entries[i].request.url} is not compressed `);
         }
         let domain = getDomainFromUrl(entries[i].request.url);
         if (domains.indexOf(domain) === -1) {
           domains.push(domain);
-          debug(() => `found domain ${domain}`);
+          //debug(() => `found domain ${domain}`);
         }
       }
       measures.domainsNumber = domains.length;
@@ -240,9 +251,9 @@ function analyseMinifiedJs(code, url) {
   measures.totalJs++;
   if (isMinified(code)) {
     measures.minifiedJsNumber++;
-    debug(() => `${url} is minified`);
+    //debug(() => `${url} is minified`);
   }
-  else debug(() => `${url} is not minified`);
+  //else debug(() => `${url} is not minified`);
   measures.percentMinifiedJs = measures.minifiedJsNumber / measures.totalJs * 100;
   rules.checkRule("minifiedJs",measures);
   refreshUI();
@@ -253,9 +264,9 @@ function analyseMinifiedCss(code, url) {
   measures.totalCss++;
   if (isMinified(code)) {
     measures.minifiedCssNumber++;
-    debug(() => `${url} is minified`);
+    //debug(() => `${url} is minified`);
   }
-  else debug(() => `${url} is not minified`);
+  //else debug(() => `${url} is not minified`);
   measures.percentMinifiedCss = measures.minifiedCssNumber / measures.totalCss * 100;
   rules.checkRule("minifiedCss",measures);
   refreshUI();

@@ -140,11 +140,11 @@ function hasValidCacheHeaders(resource) {
     if (header.name.toLowerCase() === 'date') cache.Date = header.value;
   }
 
-  debug(() => `Cache headers gathered: ${JSON.stringify(cache)}`);
+  // debug(() => `Cache headers gathered: ${JSON.stringify(cache)}`);
 
   if (cache.CacheControl) {
     if ((/(no-cache)|(no-store)|(max-age\s*=\s*0)/i).test(cache.CacheControl)) {
-      debug(() => `Cache-Control header indicate a non cacheable resource: ${cache.CacheControl}`);
+      //debug(() => `Cache-Control header indicate a non cacheable resource: ${cache.CacheControl}`);
       isValid = false;
     } else {
       isValid = true;
@@ -156,7 +156,7 @@ function hasValidCacheHeaders(resource) {
     let expires = new Date(cache.Expires);
     // Expires is in the past
     if (expires < now) {
-      debug(() => `Expires header is in the past ! ${now.toString()} < ${expires.toString()}`);
+      //debug(() => `Expires header is in the past ! ${now.toString()} < ${expires.toString()}`);
       isValid = false;
     }
   }
