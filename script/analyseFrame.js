@@ -40,6 +40,9 @@ function start_analyse() {
   const inlineJsScriptsNumber = getInlineJsScriptsNumber();
   console.log("Inline Js Scripts Number  = " + inlineJsScriptsNumber);
 
+  const imageResizedInBrowserNumber =  getImageResizedInBrowserNumber();
+  console.log("Image Resized in Browser Number  = " + imageResizedInBrowserNumber);
+
   const pageAnalysis = {
                       "analyseStartingTime":analyseStartingTime,
                       "url":document.URL,
@@ -50,7 +53,9 @@ function start_analyse() {
                       "inlineStyleSheetsNumber":inlineStyleSheetsNumber,
                       "emptySrcTagNumber":emptySrcTagNumber,
                       "inlineJsScript":inlineJsScript,
-                      "inlineJsScriptsNumber":inlineJsScriptsNumber};
+                      "inlineJsScriptsNumber":inlineJsScriptsNumber,
+                      "imageResizedInBrowserNumber":imageResizedInBrowserNumber
+                    };
  
 
   console.log("Send result");
@@ -128,6 +133,16 @@ scriptArray.forEach(script => {
   if ((script.text.length>0) && (!isJSON)) inlineScriptNumber++;
   });
 return inlineScriptNumber;
+}
+
+
+function getImageResizedInBrowserNumber () { 
+  var imgArray = Array.from(document.querySelectorAll('img'));
+  var imageResizedInBrowserNumber = 0;
+  imgArray.forEach(img => {
+    if (img.clientWidth < img.naturalWidth || img.clientHeight < img.naturalHeight) imageResizedInBrowserNumber++;
+  });
+  return imageResizedInBrowserNumber;
 }
 
 

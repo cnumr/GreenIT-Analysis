@@ -66,12 +66,15 @@ function aggregateFrameMeasures(frameMeasures) {
   if (frameMeasures.inlineJsScript.length > 0) analyseJsCode(frameMeasures.inlineJsScript, "inline",measures);
   if (measures.inlineJsScriptsNumber < frameMeasures.inlineJsScriptsNumber) measures.inlineJsScriptsNumber = frameMeasures.inlineJsScriptsNumber;
 
+  measures.imageResizedInBrowserNumber += frameMeasures.imageResizedInBrowserNumber;
+
   rules.checkRule('plugins', measures);
   rules.checkRule('styleSheets', measures);
   rules.checkRule('printStyleSheets', measures);
   rules.checkRule('emptySrcTag', measures);
   rules.checkRule('jsValidate', measures);
   rules.checkRule('externalizeCss', measures);
+  rules.checkRule('dontResizeImageInBrowser',measures);
 }
 
 function logFrameMeasures(frameMeasures) {
@@ -176,7 +179,8 @@ function MeasuresAcquisition(rules) {
       "staticResourcesNumberWithCacheHeaders": 0,
       "staticResourcesNumberWithETags":0,
       "compressibleResourcesNumber": 0,
-      "compressibleResourcesNumberCompressed": 0
+      "compressibleResourcesNumberCompressed": 0,
+      "imageResizedInBrowserNumber":0
     };
   }
 

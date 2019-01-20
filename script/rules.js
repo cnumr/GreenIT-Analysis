@@ -25,6 +25,7 @@ function Rules() {
   rules.set("addExpiresOrCacheControlHeaders",new addExpiresOrCacheControlHeadersRule());
   rules.set("useETags",new useETagsRule());
   rules.set("compressHttp",new compressHttpRule());
+  rules.set("dontResizeImageInBrowser", new dontResizeImageInBrowserRule());
   
 
   this.checkRule = function (rule,measures) {
@@ -232,6 +233,20 @@ function Rules() {
       }
     }
   }
+
+
+  function dontResizeImageInBrowserRule() {
+    this.isRespected = true;
+    this.id = "dontResizeImageInBrowser";
+    this.comment = "";
+    
+    this.check = function(measures) {  
+      if (measures.imageResizedInBrowserNumber > 0) this.isRespected = false;
+      this.comment =  measures.imageResizedInBrowserNumber + " image(s) resized in browser found";
+    }
+  }
+
+  
  }
 
 
