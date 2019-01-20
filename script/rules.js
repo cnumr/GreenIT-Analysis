@@ -23,6 +23,7 @@ function Rules() {
   rules.set("httpRequests",new httpRequestsRule());
   rules.set("domainsNumber",new domainsNumberRule());
   rules.set("addExpiresOrCacheControlHeaders",new addExpiresOrCacheControlHeadersRule());
+  rules.set("useETags",new useETagsRule());
   rules.set("compressHttp",new compressHttpRule());
   
 
@@ -195,6 +196,25 @@ function Rules() {
       }
     }
   }
+
+  function useETagsRule() {
+    this.isRespected = true;
+    this.id = "useETags";
+    this.comment = "";
+    
+    this.check = function(measures) {  
+      if (measures.staticResourcesNumber > 0) {
+        const eTagsRatio = measures.staticResourcesNumberWithETags / measures.staticResourcesNumber * 100;
+        //debug(() => `static resources ${measures.staticResourcesNumber}`);
+       //debug(() => `static resources with ETags ${measures.staticResourcesNumberWithETags}`);
+        if (eTagsRatio < 95) this.isRespected = false;
+        else this.isRespected=true;
+        this.comment = Math.round(eTagsRatio) + " % (" + measures.staticResourcesNumberWithETags + "/" + measures.staticResourcesNumber + ") resources with ETags";
+      }
+    }
+  }
+
+
 
   function compressHttpRule() {
     this.isRespected = true;

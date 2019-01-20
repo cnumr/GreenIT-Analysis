@@ -177,7 +177,12 @@ function isResourceCompressed(resource) {
   return ((contentEncoding.length>0) && (httpCompressionTokens.indexOf(contentEncoding.toLocaleLowerCase()) !== -1));
 }
 
-
+// utils for ETags rule 
+function isRessourceUsingETag(resource) {
+  const eTag = getResponseHeaderFromResource(resource, "ETag");
+  if (eTag === "") return false;
+  return true;
+}
 
 function getDomainFromUrl(url) {
   var elements = url.split("//");

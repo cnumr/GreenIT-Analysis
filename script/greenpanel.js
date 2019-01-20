@@ -174,6 +174,7 @@ function MeasuresAcquisition(rules) {
       "domainsNumber": 0,
       "staticResourcesNumber": 0,
       "staticResourcesNumberWithCacheHeaders": 0,
+      "staticResourcesNumberWithETags":0,
       "compressibleResourcesNumber": 0,
       "compressibleResourcesNumberCompressed": 0
     };
@@ -206,6 +207,7 @@ function MeasuresAcquisition(rules) {
               //debug(() => `resource ${entries[i].request.url} is cached `);
             }
             // else  debug(() => `resource ${entries[i].request.url} is not cached `);
+            if (isRessourceUsingETag(entries[i])) measures.staticResourcesNumberWithETags++;
           }
           if (isCompressibleResource(entries[i])) {
             measures.compressibleResourcesNumber++;
@@ -226,6 +228,7 @@ function MeasuresAcquisition(rules) {
         localRules.checkRule("httpRequests", measures);
         localRules.checkRule("domainsNumber", measures);
         localRules.checkRule("addExpiresOrCacheControlHeaders", measures);
+        localRules.checkRule("useETags", measures);
         localRules.checkRule("compressHttp", measures);
         refreshUI();
       }
