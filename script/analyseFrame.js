@@ -43,6 +43,9 @@ function start_analyse() {
   const imageResizedInBrowserNumber =  getImageResizedInBrowserNumber();
   console.log("Image Resized in Browser Number  = " + imageResizedInBrowserNumber);
 
+  const cssFontFaceRuleSet = getCssFontFaceRule();
+  console.log("Css Font Face rules set size = " + cssFontFaceRuleSet.size);
+
   const pageAnalysis = {
                       "analyseStartingTime":analyseStartingTime,
                       "url":document.URL,
@@ -54,7 +57,8 @@ function start_analyse() {
                       "emptySrcTagNumber":emptySrcTagNumber,
                       "inlineJsScript":inlineJsScript,
                       "inlineJsScriptsNumber":inlineJsScriptsNumber,
-                      "imageResizedInBrowserNumber":imageResizedInBrowserNumber
+                      "imageResizedInBrowserNumber":imageResizedInBrowserNumber,
+                      "cssFontFaceRuleSet":cssFontFaceRuleSet
                     };
  
 
@@ -144,6 +148,32 @@ function getImageResizedInBrowserNumber () {
   });
   return imageResizedInBrowserNumber;
 }
+
+
+function getCssFontFaceRule() {
+  Array.from(document.styleSheets).reduce((fonts, sheet) => {
+    try {
+      Array.from(sheet.cssRules).reduce((fonts, cssRule) => {
+
+        // If the rule is not a CSSFont one, skip it
+        if (!(cssRule instanceof CSSFontFaceRule)) return fonts;
+
+        // Get the custom font family
+        const fontFamily = cssRule.style.getPropertyValue('font-family').replace(/^"|"$/g, '');
+        if (!fonts.has(fontFamily)) fonts.add(fontFamily);
+
+        return fonts;
+
+      }, fonts);
+    } catch  (err) {
+      // Accessing sheet.cssRules will throw a security error if the CSS is loaded from another domain
+      if (err.name !== 'SecurityError') throw err;
+    }
+    return fonts;
+  }, new Set());
+return new Set();
+}
+
 
 
 start_analyse();

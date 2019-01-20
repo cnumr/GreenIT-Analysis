@@ -75,6 +75,7 @@ function aggregateFrameMeasures(frameMeasures) {
   rules.checkRule('jsValidate', measures);
   rules.checkRule('externalizeCss', measures);
   rules.checkRule('dontResizeImageInBrowser',measures);
+  rules.checkRule('useStandardTypefaces',measures);
 }
 
 function logFrameMeasures(frameMeasures) {
@@ -180,7 +181,8 @@ function MeasuresAcquisition(rules) {
       "staticResourcesNumberWithETags":0,
       "compressibleResourcesNumber": 0,
       "compressibleResourcesNumberCompressed": 0,
-      "imageResizedInBrowserNumber":0
+      "imageResizedInBrowserNumber":0,
+      "cssFontFaceRuleSet":new Set()
     };
   }
 

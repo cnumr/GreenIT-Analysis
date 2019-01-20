@@ -26,6 +26,8 @@ function Rules() {
   rules.set("useETags",new useETagsRule());
   rules.set("compressHttp",new compressHttpRule());
   rules.set("dontResizeImageInBrowser", new dontResizeImageInBrowserRule());
+  rules.set("useStandardTypefaces", new useStandardTypefacesRule());
+  
   
 
   this.checkRule = function (rule,measures) {
@@ -246,6 +248,18 @@ function Rules() {
     }
   }
 
+  function useStandardTypefacesRule() {
+    this.isRespected = true;
+    this.id = "useStandardTypefaces";
+    this.comment = "";
+    
+    this.check = function(measures) {  
+      if (measures.cssFontFaceRuleSet.size > 0) this.isRespected = false;
+      this.comment =  measures.cssFontFaceRuleSet.size + " non standard typeface(s) found";
+    }
+  }
+
+  
   
  }
 
