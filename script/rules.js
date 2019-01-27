@@ -254,9 +254,9 @@ function Rules() {
     this.comment = "";
     
     this.check = function(measures) {  
-      if (measures.cssFontFaceRuleSize > 0) {
+      if (measures.cssFontFaceRuleNumber > 0) {
         this.isRespected = false;
-        this.comment =  measures.cssFontFaceRuleSize + " custom fonts found for at least one frame";
+        this.comment =  measures.cssFontFaceRuleNumber + " custom fonts found for at least one frame";
       }
       else this.comment = "No custom fonts found";
     }

@@ -82,7 +82,7 @@ function aggregateFrameMeasures(frameMeasures) {
 }
 
 function logFrameMeasures(frameMeasures) {
-  debug(() => `Analyse form frame : ${frameMeasures.url}, analyseStartingTime : ${frameMeasures.analyseStartingTime}DomSize:${frameMeasures.domSize},Plugins:${frameMeasures.pluginsNumber},StyleSheets:${frameMeasures.styleSheetsNumber},Print StyleSheets:${frameMeasures.printStyleSheetsNumber},Inline StyleSheets:${frameMeasures.inlineStyleSheetsNumber},Empty Src Tag:${frameMeasures.emptySrcTagNumber},Inline Js Scripts:${frameMeasures.inlineJsScriptsNumber},css Font Face:${frameMeasures.cssFontFaceRuleSize}`);
+  debug(() => `Analyse form frame : ${frameMeasures.url}, analyseStartingTime : ${frameMeasures.analyseStartingTime}DomSize:${frameMeasures.domSize},Plugins:${frameMeasures.pluginsNumber},StyleSheets:${frameMeasures.styleSheetsNumber},Print StyleSheets:${frameMeasures.printStyleSheetsNumber},Inline StyleSheets:${frameMeasures.inlineStyleSheetsNumber},Empty Src Tag:${frameMeasures.emptySrcTagNumber},Inline Js Scripts:${frameMeasures.inlineJsScriptsNumber},css Font Face:${frameMeasures.cssFontFaceRuleNumber}`);
 }
 
 function isOldAnalyse(startingTime) {
