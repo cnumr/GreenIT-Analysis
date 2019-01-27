@@ -60,7 +60,7 @@ function Rules() {
     this.comment = "Not more that 2 stylesheets per frame found";
     
     this.check = function(measures) {  
-      if (measures.styleSheetsNumber > 2 > 0) {
+      if (measures.styleSheetsNumber > 2) {
         this.isRespected = false ;
         this.comment = measures.styleSheetsNumber + " stylesheets found for at least one frame";
       }
@@ -254,8 +254,11 @@ function Rules() {
     this.comment = "";
     
     this.check = function(measures) {  
-      if (measures.cssFontFaceRuleSet.size > 0) this.isRespected = false;
-      this.comment =  measures.cssFontFaceRuleSet.size + " non standard typeface(s) found";
+      if (measures.cssFontFaceRuleSize > 0) {
+        this.isRespected = false;
+        this.comment =  measures.cssFontFaceRuleSize + " custom fonts found for at least one frame";
+      }
+      else this.comment = "No custom fonts found";
     }
   }
 

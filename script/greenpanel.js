@@ -68,6 +68,9 @@ function aggregateFrameMeasures(frameMeasures) {
 
   measures.imageResizedInBrowserNumber += frameMeasures.imageResizedInBrowserNumber;
 
+  if (measures.cssFontFaceRuleNumber < frameMeasures.cssFontFaceRuleNumber) measures.cssFontFaceRuleNumber = frameMeasures.cssFontFaceRuleNumber;
+
+
   rules.checkRule('plugins', measures);
   rules.checkRule('styleSheets', measures);
   rules.checkRule('printStyleSheets', measures);
@@ -79,7 +82,7 @@ function aggregateFrameMeasures(frameMeasures) {
 }
 
 function logFrameMeasures(frameMeasures) {
-  debug(() => `Analyse form frame : ${frameMeasures.url}, analyseStartingTime : ${frameMeasures.analyseStartingTime}DomSize:${frameMeasures.domSize},Plugins:${frameMeasures.pluginsNumber},StyleSheets:${frameMeasures.styleSheetsNumber},Print StyleSheets:${frameMeasures.printStyleSheetsNumber},Inline StyleSheets:${frameMeasures.inlineStyleSheetsNumber},Empty Src Tag:${frameMeasures.emptySrcTagNumber},Inline Js Scripts:${frameMeasures.inlineJsScriptsNumber}`);
+  debug(() => `Analyse form frame : ${frameMeasures.url}, analyseStartingTime : ${frameMeasures.analyseStartingTime}DomSize:${frameMeasures.domSize},Plugins:${frameMeasures.pluginsNumber},StyleSheets:${frameMeasures.styleSheetsNumber},Print StyleSheets:${frameMeasures.printStyleSheetsNumber},Inline StyleSheets:${frameMeasures.inlineStyleSheetsNumber},Empty Src Tag:${frameMeasures.emptySrcTagNumber},Inline Js Scripts:${frameMeasures.inlineJsScriptsNumber},css Font Face:${frameMeasures.cssFontFaceRuleSize}`);
 }
 
 function isOldAnalyse(startingTime) {
@@ -182,7 +185,7 @@ function MeasuresAcquisition(rules) {
       "compressibleResourcesNumber": 0,
       "compressibleResourcesNumberCompressed": 0,
       "imageResizedInBrowserNumber":0,
-      "cssFontFaceRuleSet":new Set()
+      "cssFontFaceRuleNumber":0
     };
   }
 

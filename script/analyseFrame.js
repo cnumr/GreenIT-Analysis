@@ -43,8 +43,8 @@ function start_analyse() {
   const imageResizedInBrowserNumber =  getImageResizedInBrowserNumber();
   console.log("Image Resized in Browser Number  = " + imageResizedInBrowserNumber);
 
-  const cssFontFaceRuleSet = getCssFontFaceRule();
-  console.log("Css Font Face rules set size = " + cssFontFaceRuleSet.size);
+  const cssFontFaceRuleNumber = getCssFontFaceRuleNumber();
+  console.log("Css Font Face rules size = " + cssFontFaceRuleNumber);
 
   const pageAnalysis = {
                       "analyseStartingTime":analyseStartingTime,
@@ -58,8 +58,8 @@ function start_analyse() {
                       "inlineJsScript":inlineJsScript,
                       "inlineJsScriptsNumber":inlineJsScriptsNumber,
                       "imageResizedInBrowserNumber":imageResizedInBrowserNumber,
-                      "cssFontFaceRuleSet":cssFontFaceRuleSet
-                    };
+                      "cssFontFaceRuleNumber":cssFontFaceRuleNumber
+  }
  
 
   console.log("Send result");
@@ -150,8 +150,8 @@ function getImageResizedInBrowserNumber () {
 }
 
 
-function getCssFontFaceRule() {
-  Array.from(document.styleSheets).reduce((fonts, sheet) => {
+function getCssFontFaceRuleNumber() {
+  var fontList= Array.from(document.styleSheets).reduce((fonts, sheet) => {
     try {
       Array.from(sheet.cssRules).reduce((fonts, cssRule) => {
 
@@ -171,10 +171,7 @@ function getCssFontFaceRule() {
     }
     return fonts;
   }, new Set());
-return new Set();
+return fontList.size;
 }
 
-
-
 start_analyse();
-
