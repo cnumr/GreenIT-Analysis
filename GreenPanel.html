@@ -48,11 +48,11 @@
 
 
 th, td {
-  //  word-break: break-all;
-	 border: 1px solid white;
-	     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;    
+	border: 1px solid white;
+	overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 10px;    
 }
 
 table {
@@ -83,29 +83,33 @@ table {
 
 <div id="results" hidden>
 
-<H3> EcoIndex </H3>
+<H4> EcoIndex </H4>
+
+<table class="table table-condensed">
+    <tbody>
+      <tr>
+        <td> Eco Index </td><td id="ecoIndex"></td> <td id="grade"></td>
+      </tr>
+    </tbody>
+  </table>
 
 <table class="table table-condensed"> 
   <tbody>
     <tr>
-      <td>Request number </td><td id="requestNumber"></td>
+      <th>Request number  </th>
+      <th>Size Kb (Size Kb uncompress)  </th>
+      <th> DOM Size </th>
     </tr>
     <tr>
-      <td>Size (Kb)   </td><td id="responsesSize"></td>
-    </tr>
-    <tr>
-      <td>DOM Size  </td> <td id="domSize"></td>
-    </tr>
-    <tr>
-      <td>Eco Index </td><td id="ecoIndex"></td>
-    </tr>
-    <tr>
-      <td>Grade </td><td id="grade"></td>
+      <td id="requestNumber"></td>
+      <td id="responsesSize"></td>
+      <td id="domSize"></td>
     </tr>
   </tbody>
 </table>
 
-<H3> Good practice </H3>
+
+<H4> Good practice </H4>
 
 <table class="table table-condensed"> 
   <tbody>

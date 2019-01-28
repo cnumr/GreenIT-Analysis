@@ -93,7 +93,7 @@ function refreshUI() {
   const measures = measuresAcquisition.getMeasures();
   document.getElementById("results").hidden = false;
   document.getElementById("requestNumber").innerHTML = measures.nbRequest;
-  document.getElementById("responsesSize").innerHTML = measures.responsesSize / 1000 + "(" + measures.responsesSizeUncompress / 1000 + ")";
+  document.getElementById("responsesSize").innerHTML = Math.round(measures.responsesSize / 1000) + " (" + Math.round(measures.responsesSizeUncompress / 1000) + ")";
   document.getElementById("domSize").innerHTML = measures.domSize;
   document.getElementById("ecoIndex").innerHTML = measures.ecoIndex;
   document.getElementById("grade").innerHTML = '<span class="grade ' + measures.grade + '">' + measures.grade + '</span>';

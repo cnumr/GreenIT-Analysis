@@ -100,7 +100,7 @@ function Rules() {
     
     this.check = function(measures) {  
       if (measures.totalCss > 0) {
-        if (measures.percentMinifiedJs<95)  this.isRespected = false;
+        if (measures.percentMinifiedCss<95)  this.isRespected = false;
         else this.isRespected = true;
         this.comment = Math.round(measures.percentMinifiedCss) + " % (" + measures.minifiedCssNumber + "/" + measures.totalCss + ") minified stylesheet ";
       }
