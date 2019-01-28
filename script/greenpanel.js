@@ -77,6 +77,7 @@ function aggregateFrameMeasures(frameMeasures) {
   rules.checkRule('emptySrcTag', measures);
   rules.checkRule('jsValidate', measures);
   rules.checkRule('externalizeCss', measures);
+  rules.checkRule('externalizeJs', measures);
   rules.checkRule('dontResizeImageInBrowser',measures);
   rules.checkRule('useStandardTypefaces',measures);
 }
