@@ -214,24 +214,28 @@ function MeasuresAcquisition(rules) {
             //debug(() => `resource ${entries[i].request.url} is cacheable `);
             if (hasValidCacheHeaders(entries[i])) {
               measures.staticResourcesNumberWithCacheHeaders++;
-              //debug(() => `resource ${entries[i].request.url} is cached `);
+              debug(() => `resource ${entries[i].request.url} is cached `);
             }
-            // else  debug(() => `resource ${entries[i].request.url} is not cached `);
-            if (isRessourceUsingETag(entries[i])) measures.staticResourcesNumberWithETags++;
+            else  debug(() => `resource ${entries[i].request.url} is not cached `);
+            if (isRessourceUsingETag(entries[i])) {
+              measures.staticResourcesNumberWithETags++;
+              debug(() => `resource ${entries[i].request.url} is using ETags `);
+            }
+            else debug(() => `resource ${entries[i].request.url} is not using ETags `);
           }
           if (isCompressibleResource(entries[i])) {
             measures.compressibleResourcesNumber++;
             //debug(() => `resource ${entries[i].request.url} is compressible `);
             if (isResourceCompressed(entries[i])) {
               measures.compressibleResourcesNumberCompressed++;
-              //debug(() => `resource ${entries[i].request.url} is compressed `);
+              debug(() => `resource ${entries[i].request.url} is compressed `);
             }
-            //else  debug(() => `resource ${entries[i].request.url} is not compressed `);
+            else  debug(() => `resource ${entries[i].request.url} is not compressed `);
           }
           let domain = getDomainFromUrl(entries[i].request.url);
           if (domains.indexOf(domain) === -1) {
             domains.push(domain);
-            //debug(() => `found domain ${domain}`);
+            debug(() => `found domain ${domain}`);
           }
         }
         measures.domainsNumber = domains.length;
@@ -284,9 +288,9 @@ function MeasuresAcquisition(rules) {
     measures.totalJs++;
     if (isMinified(code)) {
       measures.minifiedJsNumber++;
-      //debug(() => `${url} is minified`);
+      debug(() => `${url} is minified`);
     }
-    //else debug(() => `${url} is not minified`);
+    else debug(() => `${url} is not minified`);
     measures.percentMinifiedJs = measures.minifiedJsNumber / measures.totalJs * 100;
     localRules.checkRule("minifiedJs", measures);
     refreshUI();
@@ -297,9 +301,9 @@ function MeasuresAcquisition(rules) {
     measures.totalCss++;
     if (isMinified(code)) {
       measures.minifiedCssNumber++;
-      //debug(() => `${url} is minified`);
+      debug(() => `${url} is minified`);
     }
-    //else debug(() => `${url} is not minified`);
+    else debug(() => `${url} is not minified`);
     measures.percentMinifiedCss = measures.minifiedCssNumber / measures.totalCss * 100;
     localRules.checkRule("minifiedCss", measures);
     refreshUI();

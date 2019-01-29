@@ -35,7 +35,7 @@ function start_analyse() {
   console.log("Empty Src Tag Number  = " + emptySrcTagNumber);
 
   const inlineJsScript = getInlineJsScript();  
-  console.log("Inline Script  = " + inlineJsScript);
+  console.log("Inline Script  = " + inlineJsScript.slice(0, 20)+'...');
 
   const inlineJsScriptsNumber = getInlineJsScriptsNumber();
   console.log("Inline Js Scripts Number  = " + inlineJsScriptsNumber);
