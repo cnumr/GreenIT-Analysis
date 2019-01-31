@@ -5,8 +5,8 @@
   "name": "GreenIT-Analysis",
   "version": "0.1",
   "homepage_url": "https://github.com/didierfred/GreenIT-Analysis",
-  "icons": {
-    "48": "icons/ecoindex-48.png"
+  "icons" : {
+    "48": "icons/earth-48.png"
   },
   "permissions": [
     "activeTab","tabs","storage","webRequest", "webRequestBlocking", "<all_urls>"
@@ -14,8 +14,10 @@
   "background": {
     "scripts": ["background.js"]
   },
-   "devtools_page": "GreenIT-Analysis.html"
-
+   "devtools_page": "GreenIT-Analysis.html",
+   "browser_action": {
+    "default_icon": "icons/earth-48.png"
+  }
 }
 
 
