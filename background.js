@@ -13,6 +13,21 @@
 let connections = {};
 
 
+
+/*
+* Listen for message form tab and send it to devtools 
+**/
+const notify = (message, sender, sendResponse) => {
+
+  if (sender.tab) {
+    let tabId = sender.tab.id;
+    if (tabId in connections) connections[tabId].postMessage(message);
+    else console.warn("Tab not found in connection list.");
+  }
+  else console.warn("sender.tab not defined.");
+}
+
+
 chrome.runtime.onMessage.addListener(notify);
 
 console.log("start background process");
@@ -43,17 +58,3 @@ chrome.runtime.onConnect.addListener((devToolsConnection) => {
   });
 
 });
-
-
-/*
-* Listen for message form tab and send it to devtools 
-**/
-const notify = (message, sender, sendResponse) => {
-
-  if (sender.tab) {
-    let tabId = sender.tab.id;
-    if (tabId in connections) connections[tabId].postMessage(message);
-    else console.warn("Tab not found in connection list.");
-  }
-  else console.warn("sender.tab not defined.");
-}
