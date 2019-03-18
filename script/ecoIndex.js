@@ -18,7 +18,7 @@ return Math.round(100 - 5 * (3*q_dom + 2*q_req + q_size)/6);
 
 function calculQuantile(quantiles,value)
 {
-for (var i=1;i<quantiles.length;i++)
+for (let i=1;i<quantiles.length;i++)
 	{
 	if (value<quantiles[i]) return (i + (value-quantiles[i-1])/(quantiles[i] -quantiles[i-1]));
 	}

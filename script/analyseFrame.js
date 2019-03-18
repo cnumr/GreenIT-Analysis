@@ -72,15 +72,14 @@ function start_analyse() {
 function getPluginsNumber()
 {
   const plugins = document.querySelectorAll('object,embed');
-  if (plugins===undefined) return 0;
-  else return plugins.length;
+  return (plugins===undefined)?0:plugins.length;
 }
 
 
 
 function getStyleSheetsNumber() {
-  var styleSheets = Array.from(document.styleSheets).reduce((memo, sheet) => {
-    var isPrint =  ( String(sheet.media) === 'print');
+  let styleSheets = Array.from(document.styleSheets).reduce((memo, sheet) => {
+    let isPrint =  ( String(sheet.media) === 'print');
     const isInlined = !sheet.href;
     //We ignore "print" and inlined CSS willingly
     if (isPrint || isInlined) return memo;
@@ -106,8 +105,8 @@ function getPrintStyleSheetsNumber() {
 }
 
 function getInlineStyleSheetsNumber () { 
-  var styleSheetsArray = Array.from(document.styleSheets);
-  var inlineStyleSheetsNumber = 0;
+  let styleSheetsArray = Array.from(document.styleSheets);
+  let inlineStyleSheetsNumber = 0;
   styleSheetsArray.forEach(styleSheet => {
     if (!styleSheet.href)  inlineStyleSheetsNumber++;
   });
@@ -117,10 +116,10 @@ function getInlineStyleSheetsNumber () {
 
 function getInlineJsScript()
 {
-var scriptArray= Array.from(document.scripts);
-var scriptText ="";
+let scriptArray= Array.from(document.scripts);
+let scriptText ="";
 scriptArray.forEach(script => {
-  var isJSON = (String(script.type)==="application/ld+json"); // Exclude type="application/ld+json" from parsing js analyse
+  let isJSON = (String(script.type)==="application/ld+json"); // Exclude type="application/ld+json" from parsing js analyse
   if ((script.text.length>0) && (!isJSON)) scriptText += "\n" + script.text;
   //console.log("script:"+ script.src);
   //console.log("text:"+ script.text);
@@ -130,10 +129,10 @@ return scriptText;
 
 function getInlineJsScriptsNumber()
 {
-var scriptArray= Array.from(document.scripts);
-var inlineScriptNumber = 0;
+let scriptArray= Array.from(document.scripts);
+let inlineScriptNumber = 0;
 scriptArray.forEach(script => {
-  var isJSON = (String(script.type)==="application/ld+json"); // Exclude type="application/ld+json" from count
+  let isJSON = (String(script.type)==="application/ld+json"); // Exclude type="application/ld+json" from count
   if ((script.text.length>0) && (!isJSON)) inlineScriptNumber++;
   });
 return inlineScriptNumber;
@@ -141,8 +140,8 @@ return inlineScriptNumber;
 
 
 function getImageResizedInBrowserNumber () { 
-  var imgArray = Array.from(document.querySelectorAll('img'));
-  var imageResizedInBrowserNumber = 0;
+  let imgArray = Array.from(document.querySelectorAll('img'));
+  let imageResizedInBrowserNumber = 0;
   imgArray.forEach(img => {
     if (img.clientWidth < img.naturalWidth || img.clientHeight < img.naturalHeight) imageResizedInBrowserNumber++;
   });
@@ -151,7 +150,7 @@ function getImageResizedInBrowserNumber () {
 
 
 function getCssFontFaceRuleNumber() {
-  var fontList= Array.from(document.styleSheets).reduce((fonts, sheet) => {
+  let fontList= Array.from(document.styleSheets).reduce((fonts, sheet) => {
     try {
       Array.from(sheet.cssRules).reduce((fonts, cssRule) => {
 
