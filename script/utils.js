@@ -120,8 +120,8 @@ function isStaticRessource(resource) {
 }
 
 function getResponseHeaderFromResource(resource, headerName) {
-  var headers = resource.response.headers;
-  var headerValue = "";
+  let headers = resource.response.headers;
+  let headerValue = "";
   headers.forEach(header => {
     if (header.name.toLowerCase() === headerName.toLowerCase()) headerValue = header.value;
   });
@@ -134,11 +134,11 @@ function hasValidCacheHeaders(resource) {
   let cache = {};
   let isValid = false;
 
-  for (let header, i = 0; (header = headers[i]); ++i) {
+  headers.map(header => {
     if (header.name.toLowerCase() === 'cache-control') cache.CacheControl = header.value;
     if (header.name.toLowerCase() === 'expires') cache.Expires = header.value;
     if (header.name.toLowerCase() === 'date') cache.Date = header.value;
-  }
+  });
 
   // debug(() => `Cache headers gathered: ${JSON.stringify(cache)}`);
 
@@ -199,9 +199,9 @@ function getDomainFromUrl(url) {
 */
 function countChar(char, str) {
   let total = 0;
-  for (let curr, i = 0; (curr = str[i]); i++) {
+  str.map(curr => {
     if (curr === char) total++;
-  }
+  });
   return total;
 }
 
