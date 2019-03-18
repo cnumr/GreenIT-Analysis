@@ -29,3 +29,9 @@ Pour éviter un problème de CORS, lancer Chrome en désactivant la sécurité :
 ```
 google-chrome --disable-web-security --user-data-dir
 ```
+
+### Tests manuels
+Ouvrir dans Google Chrome la page tests/Manual/test.html.   
+Lancer l'outil d'analyse et vérifier que les résultats correspondent à ce qui est indiqué sur la page.   
+=======
+
