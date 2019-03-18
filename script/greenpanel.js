@@ -186,7 +186,7 @@ function MeasuresAcquisition (rules) {
     };
   }
 
-  function startMeasuring() {
+  this.startMeasuring = function() {
     getNetworkMeasure();
     getResourcesMeasure();
   }

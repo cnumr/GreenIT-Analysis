@@ -199,7 +199,7 @@ function getDomainFromUrl(url) {
 */
 function countChar(char, str) {
   let total = 0;
-  str.map(curr => {
+  str.split("").map(curr => {
     if (curr === char) total++;
   });
   return total;

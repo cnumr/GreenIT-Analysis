@@ -30,30 +30,36 @@ function Rules() {
   
   
 
-  this.checkRule = (rule,measures) => rules.get(rule).check(measures);
+  this.checkRule = function (rule,measures) {
+    rules.get(rule).check(measures);
+  }
 
-  this.getRule = (rule) => rules.get(rule);
+  this.getRule = function (rule) {
+    return rules.get(rule);
+  }
 
-  this.getAllRules = () => rules;
+  this.getAllRules = function() {
+    return rules;
+  }
 
-  this.pluginsRule = () => {
+  function pluginsRule() {
     this.isRespected = true;
     this.id = "plugins";
     this.comment = "No plugin found";
     
-    this.check = (measures) => {  
+    this.check = function(measures) {  
       if (measures.pluginsNumber > 0) {
         this.isRespected = false ;
         this.comment = measures.pluginsNumber + " plugin(s) found";
       }
     }
   }
-  this.styleSheetsRule = () => {
+  function styleSheetsRule() {
     this.isRespected = true;
     this.id = "styleSheets";
     this.comment = "Not more that 2 stylesheets per frame found";
     
-    this.check = (measures) => {  
+    this.check = function(measures) {  
       if (measures.styleSheetsNumber > 2) {
         this.isRespected = false ;
         this.comment = measures.styleSheetsNumber + " stylesheets found for at least one frame";
@@ -61,12 +67,12 @@ function Rules() {
     }
   }
 
-  this.printStyleSheetsRule = () => {
+  function printStyleSheetsRule() {
     this.isRespected = false;
     this.id = "printStyleSheets";
     this.comment = "No print stylesheet found";
     
-    this.check = (measures) => {  
+    this.check = function(measures) {  
       if (measures.printStyleSheetsNumber > 0) {
         this.isRespected = true ;
         this.comment = measures.printStyleSheetsNumber + " print StyleSheet(s) found"
@@ -79,7 +85,7 @@ function Rules() {
     this.id = "externalizeCss";
     this.comment = "No inline stylesheet found";
     
-    this.check = (measures) => {  
+    this.check = function(measures) {  
       if (measures.inlineStyleSheetsNumber > 0) {
         this.isRespected = false ;
         this.comment = measures.inlineStyleSheetsNumber + " inline stylesheets found ";
@@ -92,7 +98,7 @@ function Rules() {
     this.id = "minifiedCss";
     this.comment = "No css found";
     
-    this.check = (measures) => {  
+    this.check = function(measures) {  
       if (measures.totalCss > 0) {
         if (measures.percentMinifiedCss<95)  this.isRespected = false;
         else this.isRespected = true;
@@ -106,7 +112,7 @@ function Rules() {
     this.id = "emptySrcTag";
     this.comment = "No empty src tags found";
     
-    this.check = (measures) => {  
+    this.check = function(measures) {  
       if (measures.emptySrcTagNumber > 0) {
         this.isRespected = false;
         this.comment = measures.emptySrcTagNumber + " empty src tag(s) found";
@@ -132,7 +138,7 @@ function Rules() {
     this.id = "externalizeJs";
     this.comment = "No inline JavaScript";
     
-    this.check = (measures) => {  
+    this.check = function(measures) {  
       if (measures.inlineJsScriptsNumber > 0) {
         if (measures.inlineJsScriptsNumber > 1 ) this.isRespected = false;
         this.comment = measures.inlineJsScriptsNumber + " inline  javascripts found ";
@@ -145,7 +151,7 @@ function Rules() {
     this.id = "minifiedJs";
     this.comment = "No js found";
     
-    this.check = (measures) => {  
+    this.check = function(measures) {  
       if (measures.totalJs > 0) {
         if (measures.percentMinifiedJs < 95) this.isRespected = false;
         else this.isRespected = true;
@@ -159,7 +165,7 @@ function Rules() {
     this.id = "httpRequests";
     this.comment = "";
     
-    this.check = (measures) => {  
+    this.check = function(measures) {  
         if (measures.nbRequest > 26) this.isRespected = false;
         this.comment = measures.nbRequest + " HTTP request(s) ";
     }
@@ -182,7 +188,7 @@ function Rules() {
     this.id = "addExpiresOrCacheControlHeaders";
     this.comment = "";
     
-    this.check = (measures) => {  
+    this.check = function(measures) {  
       if (measures.staticResourcesNumber > 0) {
         const cacheHeaderRatio = measures.staticResourcesNumberWithCacheHeaders / measures.staticResourcesNumber * 100;
         //debug(() => `static resources ${measures.staticResourcesNumber}`);
@@ -199,7 +205,7 @@ function Rules() {
     this.id = "useETags";
     this.comment = "";
     
-    this.check = (measures) => {  
+    this.check = function(measures) {  
       if (measures.staticResourcesNumber > 0) {
         const eTagsRatio = measures.staticResourcesNumberWithETags / measures.staticResourcesNumber * 100;
         //debug(() => `static resources ${measures.staticResourcesNumber}`);
@@ -218,7 +224,7 @@ function Rules() {
     this.id = "compressHttp";
     this.comment = "";
     
-    this.check = (measures) => {  
+    this.check = function(measures) {  
       if (measures.compressibleResourcesNumber > 0) {
         const compressRatio = measures.compressibleResourcesNumberCompressed / measures.compressibleResourcesNumber * 100;
         //debug(() => `compressible resources ${measures.compressibleResourcesNumber}`);
@@ -235,7 +241,7 @@ function Rules() {
     this.id = "dontResizeImageInBrowser";
     this.comment = "";
     
-    this.check = (measures) => {  
+    this.check = function(measures) {  
       if (measures.imageResizedInBrowserNumber > 0) this.isRespected = false;
       this.comment =  measures.imageResizedInBrowserNumber + " image(s) resized in browser found";
     }
@@ -246,7 +252,7 @@ function Rules() {
     this.id = "useStandardTypefaces";
     this.comment = "";
     
-    this.check = (measures) => {  
+    this.check = function(measures) {  
       if (measures.cssFontFaceRuleNumber > 0) {
         this.isRespected = false;
         this.comment =  measures.cssFontFaceRuleNumber + " custom fonts found for at least one frame";
