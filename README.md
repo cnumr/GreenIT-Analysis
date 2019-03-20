@@ -1,11 +1,11 @@
 # GreenIT-Analysis 
 
-Extension pour Google Chrome.  
+Extension pour Google Chrome & Chromium   
 Pour l'instant, certaines API utilisées ne sont pas prises en charge par Firefox. 
 
 Cette extension a pour vocation de reprendre les fonctionnalités de [EcoIndex](http://www.ecoindex.fr/) et [EcoMeter](http://www.ecometer.org/).
 
-L'outil vous permet de quantifier les impacts environnementaux d'un parcours utilisateur complet, même derrière un firewall et / ou une authentification applicative. Ilvérifie également l'utilisation de bonnes pratiques visant à diminuer ces impacts.
+L'outil vous permet de quantifier les impacts environnementaux d'un parcours utilisateur complet, même derrière un firewall et / ou une authentification applicative. Il vérifie également l'utilisation de bonnes pratiques visant à diminuer ces impacts.
 
 
 ### Utiliser l'extension
@@ -13,7 +13,7 @@ L'outil vous permet de quantifier les impacts environnementaux d'un parcours uti
 * Aller dans l'onglet GreenIT.   
 * Dans le navigateur, aller sur la page à analyser.
 * Dans l'onglet GreenIT des outils de développement, cliquer sur le bouton "Launch Analysis".
-* Les résultats s'affiches.
+* Les résultats s'affichent.
 
 
 ## Tests
@@ -33,3 +33,5 @@ google-chrome --disable-web-security --user-data-dir
 ### Tests manuels
 Ouvrir dans Google Chrome la page tests/Manual/test.html.   
 Lancer l'outil d'analyse et vérifier que les résultats correspondent à ce qui est indiqué sur la page.   
+=======
+
