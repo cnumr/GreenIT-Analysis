@@ -52,7 +52,7 @@ chrome.runtime.onConnect.addListener((devToolsConnection) => {
     Object.keys(connections).map(tab => {
       if (connections[tab] == port) {
         delete connections[tab];
-        break;
+        return false;
       }
     });
   });
