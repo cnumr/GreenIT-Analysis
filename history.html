@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+	<head>
+  <title>GreenIT Plugin History</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/bootstrap.min.css"> 
+  
+  <style type="text/css"> 
+
+.note {
+    display:inline-block;
+    width:24px;
+    height:24px;
+    text-align:center;
+    border-radius:50%;
+    background-color:#f00;          
+    font-size: 18px;
+    line-height: 22px;
+}
+
+
+.note.A {
+    background-color:#349A47;
+    color:#fff;
+}
+.note.B {
+    background-color:#51B84B;
+    color:#fff;
+}
+.note.C {
+    background-color:#CADB2A
+}
+.note.D {
+    background-color:#F6EB15
+}
+.note.E {
+    background-color:#FECD06
+}
+.note.F {
+    background-color:#F99839;
+    color:#fff;
+}
+.note.G {
+    background-color:#ED2124;
+    color:#fff;
+}
+
+</style>
+  </head>
+
+<body>
+
+<div class="container-fluid">
+<div class="row">
+  <div class="col-sm-6"> <h1>GreenIT Plugin History</h1>  </div>
+  <div class="col-sm-6" align="right"><br/>
+		
+	<a href="#" id="delete_all_button" class="btn btn-primary btn-sm">
+          <span class="glyphicon glyphicon-trash"></span> Delete All
+        </a> 
+
+	<a href="#" id="export_button" class="btn btn-primary btn-sm">
+          <span class="glyphicon glyphicon-download-alt"></span> CSV Export
+        </a> 
+		
+  </div>
+</div>
+<br>
+
+<table class="table table-condensed " >
+<thead>
+<tr>
+<th>Date</th>
+<th>Url</th>
+<th>Request Number</th>
+<th>Size (Kb) </th> 
+<th>DOM Size</th>
+<th>Greenhouse Gases Emission (gCO2e)</th>
+<th>Water Consumption (cl) </th> 
+<th>EcoIndex</th> 
+<th>Grade</th>
+<th></th>  
+</tr>
+</thead>
+<tbody id="history">
+</tbody>
+</table>
+<br/>
+<br/>
+<div class="row">
+ <div class="col-sm-12" align="right">
+<a href="https://github.com/didierfred/GreenIT-Analysis" target="_blank">
+          <span class="glyphicon glyphicon-question-sign"></span> Help
+      </a> 
+ </div>
+</div>
+
+</div>
+<script type="text/javascript" src="script/history.js"> </script> 
+<br>
+<iframe id="download" width="0" height="0" frameBorder="0"> 
+</iframe>
+</body>
+
+</html>

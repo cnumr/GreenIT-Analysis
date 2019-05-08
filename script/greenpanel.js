@@ -23,12 +23,15 @@ let backgroundPageConnection;
 let rules;
 let lastAnalyseStartingTime = 0;
 let measuresAcquisition;
+let url="";
 
 initPanel();
 
 function initPanel() {
   openBackgroundPageConnection();
   document.getElementById('launchAnalyse').addEventListener('click', (e) => launchAnalyse());
+  document.getElementById('saveAnalyse').addEventListener('click', (e) => storeAnalysisInHistory());
+  document.getElementById('viewHistory').addEventListener('click', (e) => viewHistory());
 }
 
 function openBackgroundPageConnection() {
@@ -161,7 +164,8 @@ function MeasuresAcquisition (rules) {
   let localRules = rules;
 
   this.initializeMeasures = () => {
-    measures = {       
+    measures = { 
+      "url":"",      
       "domSize": 0,
       "nbRequest": 0,
       "responsesSize": 0,
@@ -205,6 +209,11 @@ function MeasuresAcquisition (rules) {
   getNetworkMeasure = () => {
     chrome.devtools.network.getHAR((har) => {
       let entries = har.entries;
+     
+      // Get the "mother" url 
+      if (entries.length >0) {
+        measures.url = entries[0].request.url;
+      }
       let domains = [];
       if (entries.length) {
         measures.nbRequest = entries.length;
@@ -310,5 +319,83 @@ function MeasuresAcquisition (rules) {
   }
 }
 
+/**
+Add to the history the result of an analyse
+**/
+function storeAnalysisInHistory()
+{
+let measures = measuresAcquisition.getMeasures();
+if (!measures) return;
+
+var analyse_history;
+var string_analyse_history = localStorage.getItem("analyse_history");
+
+if (string_analyse_history)
+	{
+	analyse_history =JSON.parse(string_analyse_history);
+	analyse_history.reverse();
+  analyse_history.push({resultDate:new Date(),
+                        url:measures.url,
+                        nbRequest:measures.nbRequest,
+                        responsesSize:Math.round(measures.responsesSize/1000),
+                        domSize:measures.domSize,
+                        greenhouseGasesEmission:measures.greenhouseGasesEmission,
+                        waterConsumption:measures.waterConsumption,
+                        ecoIndex:measures.ecoIndex,
+                        grade:measures.grade});
+	analyse_history.reverse();
+	}
+else analyse_history = [{resultDate:new Date(),
+                         url:measures.url,
+                         nbRequest:measures.nbRequest,
+                         responsesSize:Math.round(measures.responsesSize/1000),
+                         domSize:measures.domSize,
+                         greenhouseGasesEmission:measures.greenhouseGasesEmission,
+                         waterConsumption:measures.waterConsumption,
+                         ecoIndex:measures.ecoIndex,
+                         grade:measures.grade}];
 
 
+localStorage.setItem("analyse_history",JSON.stringify(analyse_history));
+}
+
+
+		
+function loadConfigTab(tabs)  {
+  var config_tab;
+  // search for config tab
+  for (let tab of tabs)  {
+    if (tab.url.startsWith(chrome.extension.getURL(""))) config_tab = tab;
+  }
+  // config tab exits , put the focus on it
+  if (config_tab) chrome.tabs.update(config_tab.id,{active:true})
+  // else create a new tab
+  else chrome.tabs.create({url:"/popup/config.html"});
+}
+
+
+
+function viewHistory()
+	{
+    chrome.tabs.query({currentWindow: true},loadHistoryTab);
+	}
+	
+	
+function loadHistoryTab(tabs)
+{
+  var history_tab;
+  // search for config tab
+  for (let tab of tabs)  {
+    if (tab.url.startsWith(chrome.extension.getURL(""))) history_tab = tab;
+  }
+  // config tab exits , put the focus on it
+  if (history_tab) 
+  {
+    chrome.tabs.reload(history_tab.id);
+    chrome.tabs.update(history_tab.id,{active:true});
+  }
+  // else create a new tab
+  else chrome.tabs.create({url:"history.html"});
+		
+
+}
