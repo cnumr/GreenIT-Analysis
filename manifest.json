@@ -9,7 +9,7 @@
     "48": "icons/earth-48.png"
   },
   "permissions": [
-    "activeTab","tabs","storage","webRequest", "webRequestBlocking", "<all_urls>"
+    "activeTab","tabs","storage","<all_urls>"
   ],
   "background": {
     "scripts": ["background.js"]

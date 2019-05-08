@@ -7,16 +7,18 @@ let quantiles_size = [0, 1.37, 144.7, 319.53, 479.46, 631.97, 783.38, 937.91, 10
 /**
 Calcul ecoIndex based on formula from web site www.ecoindex.fr
 **/
-function calculEcoIndex(dom,req,size)
+function computeEcoIndex(dom,req,size)
 {
-const q_dom= calculQuantile(quantiles_dom,dom);
-const q_req= calculQuantile(quantiles_req,req);
-const q_size= calculQuantile(quantiles_size,size);
+
+const q_dom= computeQuantile(quantiles_dom,dom);
+const q_req= computeQuantile(quantiles_req,req);
+const q_size= computeQuantile(quantiles_size,size);
+
 
 return Math.round(100 - 5 * (3*q_dom + 2*q_req + q_size)/6);
 }
 
-function calculQuantile(quantiles,value)
+function computeQuantile(quantiles,value)
 {
 for (let i=1;i<quantiles.length;i++)
 	{
@@ -35,5 +37,15 @@ if (ecoIndex > 35) return "D";
 if (ecoIndex > 20) return "E";
 if (ecoIndex > 5) return "F";
 return "G";
+}
+
+function computeGreenhouseGasesEmissionfromEcoIndex(ecoIndex)
+{
+	return (Math.round(100 * (2 + 2 * (50 - ecoIndex) / 100)) / 100);
+}
+
+function computeWaterConsumptionfromEcoIndex(ecoIndex)
+{
+	return (Math.round(100 * (3 + 3 * (50 - ecoIndex) / 100)) / 100);
 }
 
