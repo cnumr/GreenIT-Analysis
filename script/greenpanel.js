@@ -55,8 +55,12 @@ function aggregateFrameMeasures(frameMeasures) {
   let measures = measuresAcquisition.getMeasures();
 
   measures.domSize += frameMeasures.domSize;
-  measures.ecoIndex = calculEcoIndex(measures.domSize, measures.nbRequest, Math.round(measures.responsesSize / 1000));
+  measures.ecoIndex = computeEcoIndex(measures.domSize, measures.nbRequest, Math.round(measures.responsesSize / 1000));
+  measures.waterConsumption = computeWaterConsumptionfromEcoIndex(measures.ecoIndex);
+  measures.greenhouseGasesEmission = computeGreenhouseGasesEmissionfromEcoIndex(measures.ecoIndex);
   measures.grade = getEcoIndexGrade(measures.ecoIndex);
+
+  debug(() => `ecoIndex =  ${measures.ecoIndex}`); 
   measures.pluginsNumber += frameMeasures.pluginsNumber;
 
   if (measures.styleSheetsNumber < frameMeasures.styleSheetsNumber) measures.styleSheetsNumber = frameMeasures.styleSheetsNumber;
@@ -98,6 +102,8 @@ function refreshUI() {
   document.getElementById("domSize").innerHTML = measures.domSize;
   document.getElementById("ecoIndex").innerHTML = measures.ecoIndex;
   document.getElementById("grade").innerHTML = '<span class="grade ' + measures.grade + '">' + measures.grade + '</span>';
+  document.getElementById("waterConsumption").innerHTML = measures.waterConsumption;
+  document.getElementById("greenhouseGasesEmission").innerHTML = measures.greenhouseGasesEmission;
   rules.getAllRules().forEach(showEcoRuleOnUI);
 }
 
@@ -166,6 +172,8 @@ function MeasuresAcquisition(rules) {
       "responsesSizeUncompress": 0,
       "ecoIndex": 100,
       "grade": 'A',
+      "waterConsumption" :0,
+      "greenhouseGasesEmission":0,
       "pluginsNumber": 0,
       "styleSheetsNumber": 0,
       "printStyleSheetsNumber": 0,
