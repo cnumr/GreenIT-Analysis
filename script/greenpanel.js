@@ -16,28 +16,26 @@ requirejs.config({
 
 // Load module require.js
 requirejs(['esprima'],
-  function (esprima) {
-    console.log("Load esprima module");
-  });
+  (esprima) => console.log("Load esprima module"));
 
 
-var backgroundPageConnection;
-var rules;
-var lastAnalyseStartingTime = 0;
-var measuresAcquisition;
+let backgroundPageConnection;
+let rules;
+let lastAnalyseStartingTime = 0;
+let measuresAcquisition;
 
 initPanel();
 
 function initPanel() {
   openBackgroundPageConnection();
-  document.getElementById('launchAnalyse').addEventListener('click', function (e) { launchAnalyse(); });
+  document.getElementById('launchAnalyse').addEventListener('click', (e) => launchAnalyse());
 }
 
 function openBackgroundPageConnection() {
   backgroundPageConnection = chrome.runtime.connect({
     name: "greenDevPanel-page"
   });
-  backgroundPageConnection.onMessage.addListener(function (frameMeasures) {
+  backgroundPageConnection.onMessage.addListener((frameMeasures) =>{
     // Handle responses from the background page
     aggregateFrameMeasures(frameMeasures);
     refreshUI();
@@ -90,9 +88,7 @@ function logFrameMeasures(frameMeasures) {
   debug(() => `Analyse form frame : ${frameMeasures.url}, analyseStartingTime : ${frameMeasures.analyseStartingTime}DomSize:${frameMeasures.domSize},Plugins:${frameMeasures.pluginsNumber},StyleSheets:${frameMeasures.styleSheetsNumber},Print StyleSheets:${frameMeasures.printStyleSheetsNumber},Inline StyleSheets:${frameMeasures.inlineStyleSheetsNumber},Empty Src Tag:${frameMeasures.emptySrcTagNumber},Inline Js Scripts:${frameMeasures.inlineJsScriptsNumber},css Font Face:${frameMeasures.cssFontFaceRuleNumber}`);
 }
 
-function isOldAnalyse(startingTime) {
-  return (startingTime < lastAnalyseStartingTime);
-}
+function isOldAnalyse(startingTime) {return (startingTime < lastAnalyseStartingTime)};
 
 function refreshUI() {
   const measures = measuresAcquisition.getMeasures();
@@ -110,7 +106,7 @@ function refreshUI() {
 function showEcoRuleOnUI(rule) {
   //debug(() => "rule =" + JSON.stringify(rule)); 
   if (rule !== undefined) {
-    var status = "NOK";
+    let status = "NOK";
     if (rule.isRespected) status = "OK";
     document.getElementById(rule.id + "_status").src = "icons/" + status + ".png";
     document.getElementById(rule.id + "_comment").innerHTML = rule.comment;
@@ -118,7 +114,7 @@ function showEcoRuleOnUI(rule) {
 }
 
 function launchAnalyse() {
-  var now = Date.now();
+  let now = Date.now();
 
   // To avoid parallel analyse , force 1 secondes between analysis 
   if (now - lastAnalyseStartingTime < 1000) {
@@ -159,12 +155,12 @@ function analyseJsCode(code, url, measures) {
 }
 
 
-function MeasuresAcquisition(rules) {
+function MeasuresAcquisition (rules) {
   
   let measures ; 
   let localRules = rules;
 
-  this.initializeMeasures = function() {
+  this.initializeMeasures = () => {
     measures = {       
       "domSize": 0,
       "nbRequest": 0,
@@ -203,49 +199,48 @@ function MeasuresAcquisition(rules) {
     getResourcesMeasure();
   }
 
-  this.getMeasures = function() {
-    return measures;
-  }
+  this.getMeasures = () => measures;
+ 
 
-  function getNetworkMeasure() {
-    chrome.devtools.network.getHAR(function (har) {
-      var entries = har.entries;
-      var domains = [];
+  getNetworkMeasure = () => {
+    chrome.devtools.network.getHAR((har) => {
+      let entries = har.entries;
+      let domains = [];
       if (entries.length) {
         measures.nbRequest = entries.length;
-        for (var i = 0; i < entries.length; ++i) {
-          //console.log("entries = " + JSON.stringify(entries[i]));
-          measures.responsesSize += entries[i].response._transferSize;
-          measures.responsesSizeUncompress += entries[i].response.content.size;
-          if (isStaticRessource(entries[i])) {
+        entries.map(entry => {
+          //console.log("entries = " + JSON.stringify(entry));
+          measures.responsesSize += entry.response._transferSize;
+          measures.responsesSizeUncompress += entry.response.content.size;
+          if (isStaticRessource(entry)) {
             measures.staticResourcesNumber++;
-            //debug(() => `resource ${entries[i].request.url} is cacheable `);
-            if (hasValidCacheHeaders(entries[i])) {
+            //debug(() => `resource ${entry.request.url} is cacheable `);
+            if (hasValidCacheHeaders(entry)) {
               measures.staticResourcesNumberWithCacheHeaders++;
-              debug(() => `resource ${entries[i].request.url} is cached `);
+              debug(() => `resource ${entry.request.url} is cached `);
             }
-            else  debug(() => `resource ${entries[i].request.url} is not cached `);
-            if (isRessourceUsingETag(entries[i])) {
+            else  debug(() => `resource ${entry.request.url} is not cached `);
+            if (isRessourceUsingETag(entry)) {
               measures.staticResourcesNumberWithETags++;
-              debug(() => `resource ${entries[i].request.url} is using ETags `);
+              debug(() => `resource ${entry.request.url} is using ETags `);
             }
-            else debug(() => `resource ${entries[i].request.url} is not using ETags `);
+            else debug(() => `resource ${entry.request.url} is not using ETags `);
           }
-          if (isCompressibleResource(entries[i])) {
+          if (isCompressibleResource(entry)) {
             measures.compressibleResourcesNumber++;
-            //debug(() => `resource ${entries[i].request.url} is compressible `);
-            if (isResourceCompressed(entries[i])) {
+            //debug(() => `resource ${entry.request.url} is compressible `);
+            if (isResourceCompressed(entry)) {
               measures.compressibleResourcesNumberCompressed++;
-              debug(() => `resource ${entries[i].request.url} is compressed `);
+              debug(() => `resource ${entry.request.url} is compressed `);
             }
-            else  debug(() => `resource ${entries[i].request.url} is not compressed `);
+            else  debug(() => `resource ${entry.request.url} is not compressed `);
           }
-          let domain = getDomainFromUrl(entries[i].request.url);
+          let domain = getDomainFromUrl(entry.request.url);
           if (domains.indexOf(domain) === -1) {
             domains.push(domain);
             debug(() => `found domain ${domain}`);
           }
-        }
+        });
         measures.domainsNumber = domains.length;
         localRules.checkRule("httpRequests", measures);
         localRules.checkRule("domainsNumber", measures);
@@ -259,13 +254,13 @@ function MeasuresAcquisition(rules) {
 
 
   function getResourcesMeasure() {
-    chrome.devtools.inspectedWindow.getResources(function (resources) {
-      for (let i = 0; i < resources.length; ++i) {
-        if ((resources[i].type === 'script') || (resources[i].type === 'stylesheet')) {
-          let resourceAnalyser = new ResourceAnalyser(resources[i]);
+    chrome.devtools.inspectedWindow.getResources((resources) => {
+      resources.map(resource => {
+        if ((resource.type === 'script') || (resource.type === 'stylesheet')) {
+          let resourceAnalyser = new ResourceAnalyser(resource);
           resourceAnalyser.analyse();
         }
-      }
+      });
     });
   }
 
@@ -273,13 +268,11 @@ function MeasuresAcquisition(rules) {
   
 
   function ResourceAnalyser(resource) {
-    var resourceToAnalyse = resource;
+    let resourceToAnalyse = resource;
 
-    this.analyse = function () {
-      resourceToAnalyse.getContent(this.analyseJs);
-    };
+    this.analyse = () => resourceToAnalyse.getContent(this.analyseJs);
 
-    this.analyseJs = function (code) {
+    this.analyseJs = (code) => {
       // exclude from analyse the injected script 
       if (resourceToAnalyse.type === 'script')
         if (!resourceToAnalyse.url.includes("script/analyseFrame.js")) {
@@ -287,7 +280,6 @@ function MeasuresAcquisition(rules) {
           analyseMinifiedJs(code, resourceToAnalyse.url);
         }
       if (resourceToAnalyse.type === 'stylesheet') analyseMinifiedCss(code, resourceToAnalyse.url);
-
     }
   }
 

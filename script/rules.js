@@ -229,8 +229,7 @@ function Rules() {
         const compressRatio = measures.compressibleResourcesNumberCompressed / measures.compressibleResourcesNumber * 100;
         //debug(() => `compressible resources ${measures.compressibleResourcesNumber}`);
         //debug(() => `compressible resources compressed ${measures.compressibleResourcesNumberCompressed}`);
-        if (compressRatio < 95) this.isRespected = false;
-        else this.isRespected = true;
+        this.isRespected = (compressRatio >= 95);
         this.comment = Math.round(compressRatio) + " % (" + measures.compressibleResourcesNumberCompressed + "/" + measures.compressibleResourcesNumber + ") resources compressed";
       }
     }
