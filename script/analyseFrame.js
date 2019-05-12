@@ -143,6 +143,7 @@ function getImageResizedInBrowserNumber () {
   let imgArray = Array.from(document.querySelectorAll('img'));
   let imageResizedInBrowserNumber = 0;
   imgArray.forEach(img => {
+    console.log("width="+ img.clientWidth + "natural = " +img.naturalWidth  );
     if (img.clientWidth < img.naturalWidth || img.clientHeight < img.naturalHeight) imageResizedInBrowserNumber++;
   });
   return imageResizedInBrowserNumber;

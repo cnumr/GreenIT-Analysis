@@ -24,20 +24,35 @@
 .button:hover {
     background-color: #0070A0; 
 }
+
+@font-face {
+  font-family: specificFont;
+  src: url(sansation_light.woff);
+}
+
+@font-face {
+  font-family: specificFont2;
+  src: url(test.woff);
+}
 </style>
 </head>
 <body>
+    <img src="test.png" height="100" width="100" ></img>
+    <br/>
 TEST
 
 Shoud find : <br>
-1 Javascript Error <br>
+1 plugin found (in iframe) <br>
 3 stylesheet max per frame<br>
-4 src empty tag (one in the iframe) <br>
 1 print StyleSheet <br>
 1 inline stylesheet <br>
 66% 2/3 minified stylesheet <br>
+4 src empty tag (one in the iframe) <br>
+1 Javascript Error <br>
 1 inline script <br>
 50% (1/2) minified script <br>
+1 image resize in browser <br>
+2 custom font <br>
 <img src =""> </img>
 <iframe src="frame.html"></iframe>
 <script>
