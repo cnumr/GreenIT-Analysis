@@ -14,6 +14,8 @@ L'outil vous permet de quantifier les impacts environnementaux d'un parcours uti
 * Dans le navigateur, aller sur la page à analyser.
 * Dans l'onglet GreenIT des outils de développement, cliquer sur le bouton "Launch Analysis".
 * Les résultats s'affichent.
+* Vous pouvez sauvegarder ce résultat dans un historique (seul les indicateurs sont enregistrés) via le bouton "Save Analysis"
+* L'historique des résultats sauvegardés est disponible via le bouton "View History"
 
 
 ## Tests
