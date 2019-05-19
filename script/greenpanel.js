@@ -7,16 +7,6 @@
  * @author didierfred@gmail.com
  */
 
-const DEBUG = true;
-
-requirejs.config({
-  //By default load any module IDs from script
-  baseUrl: 'script',
-});
-
-// Load module require.js
-requirejs(['esprima'],
-  (esprima) => console.log("Load esprima module"));
 
 
 let backgroundPageConnection;
@@ -141,18 +131,7 @@ function launchAnalyse() {
 
 function analyseJsCode(code, url, measures) {
 
-  try {
-    const syntax = require("esprima").parse(code, { tolerant: true, sourceType: 'script', loc: true });
-    if (syntax.errors) {
-      if (syntax.errors.length > 0) {
-        measures.jsErrorsNumber += syntax.errors.length;
-        debug(() => `url ${url} : ${Syntax.errors.length} errors`);
-      }
-    }
-  } catch (err) {
-    measures.jsErrorsNumber++;
-    debug(() => `url ${url} : ${err} `);
-  }
+  measures.jsErrorsNumber += computeNumberOfErrorsInJSCode(code,url);
   rules.checkRule("jsValidate", measures);
   refreshUI();
 }

@@ -269,6 +269,27 @@ describe("utils.js", function() {
     });
   });
 
+  describe("#function computeNumberOfErrorsInJSCode", function() {
+ 
+    const minifiedJS = "for(c=0;c<a;++c)b[c]=e[c];return f.buffer=b} F.prototype.b=function(f,e,c){var a=this.buffer,b=this.index,g=this.f,l=a[b],m;c&&1<e&&(f=8<e?(H[f&255]<<24|H[f>>>8&255]<<16|H[f>>>16&255]<<8|H[f>>>24&255])>>32-e:H[f]>>8-e);if(8>e+g)l=l<<e|f,g+=e;else for(m=0;m<e;++m)l=l<<1|f>>e-m-1&1,8===++g&&(g=0,a[b++]=H[l],l=0,b===a.length&&(a=ga(this)));a[b]=l;this.buffer=a;this.f=g;this.index=b};F.prototype.finish=function(){var f=this.buffer,e=this.index,c;0<this.f&&(f[e]<<=8-this.f,f[e]=H[f[e]],e++);C?c=f.subarray(0,e):(f.length=e,c=f);return c}";
+
+    beforeEach(function() {	
+    });
+	
+    it("var test=0; is correct javascript, shoud return 0", function() {
+	      expect(testFrame.computeNumberOfErrorsInJSCode("var test=0;","test")).toEqual(0);
+    });
+
+    it("var test=0 t; is not correct javascript, shoud return 1", function() {
+      expect(testFrame.computeNumberOfErrorsInJSCode("var test=0 t;","test")).toEqual(1);
+    });
+
+    afterEach(function() {
+    });
+  });
+
+
+  
 
 });
 

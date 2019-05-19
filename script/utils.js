@@ -10,6 +10,19 @@
 
 // From https://fr.wikipedia.org/wiki/Type_MIME
 
+
+const DEBUG = true;
+
+requirejs.config({
+  //By default load any module IDs from script
+  baseUrl: 'script',
+});
+
+// Load module require.js
+requirejs(['esprima'],
+  (esprima) => console.log("Load esprima module"));
+
+
 const compressibleImage = [
   /^image\/bmp(;|$)/i,
   /^image\/svg\+xml(;|$)/i,
@@ -112,6 +125,7 @@ const httpCompressionTokens = [
   'gzip',
   'pack200-gzip',
 ];
+
 
 // utils for cache rule 
 function isStaticRessource(resource) {
@@ -225,6 +239,24 @@ function isMinified(scriptContent) {
 
   return isMinified;
 
+}
+
+
+function computeNumberOfErrorsInJSCode(code, url) {
+  let errorNumber =0;
+  try {
+    const syntax = require("esprima").parse(code, { tolerant: true, sourceType: 'script', loc: true });
+    if (syntax.errors) {
+      if (syntax.errors.length > 0) {
+        errorNumber += syntax.errors.length;
+        debug(() => `url ${url} : ${Syntax.errors.length} errors`);
+      }
+    }
+  } catch (err) {
+    errorNumber++;
+    debug(() => `url ${url} : ${err} `);
+  }
+  return errorNumber;
 }
 
 

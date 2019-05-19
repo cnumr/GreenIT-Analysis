@@ -107,8 +107,8 @@ describe("analyseFrame.js", function() {
     beforeEach(function() {	
     });
 	
-    it(" should return 2", function() {
-      expect(testFrame.getInlineJsScriptsNumber()).toEqual(2);
+    it(" should return 5", function() {
+      expect(testFrame.getInlineJsScriptsNumber()).toEqual(5);
     });
 
     afterEach(function() {
