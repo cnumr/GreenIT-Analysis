@@ -14,13 +14,16 @@ var analyse_history =[];
 var corresponding_index_for_line =[];
 
 window.onload = function() {
+	init_page();
+};
 
+
+function init_page()
+{
 	document.getElementById('delete_all_button').addEventListener('click',function (e) {delete_all();});
 	document.getElementById('export_button').addEventListener('click',function (e) {export_data();});
  	view_history();	
-} ;
-
-
+}
 
 /**
 For each line in history , write it on the page as a table line
