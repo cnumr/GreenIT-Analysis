@@ -17,6 +17,9 @@ L'outil vous permet de quantifier les impacts environnementaux d'un parcours uti
 * Vous pouvez sauvegarder ce résultat dans un historique (seul les indicateurs sont enregistrés) via le bouton "Save Analysis"
 * L'historique des résultats sauvegardés est disponible via le bouton "View History"
 
+Pour avoir une analyse des bonnes pratiques, il faut cocher la case "Activate best practices analysis".
+
+A noter que si le nombre de requêtes est à zéro, c'est probablement parce que vous n'avez pas charger la page avec les outils de developpement démarrés. Il faut donc penser à faire un rechargement de la page.
 
 ## Tests
 Pour utiliser directement l'extension avec les modifications effectuées localement :   
