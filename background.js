@@ -41,6 +41,8 @@ chrome.runtime.onConnect.addListener((devToolsConnection) => {
     console.log("received script to execute form tabId " + message.tabId);
     if (!connections[message.tabId]) connections[message.tabId] = devToolsConnection;
     chrome.tabs.executeScript(message.tabId,
+      { code: "var analyseBestPractices=" + message.analyseBestPractices + ";", allFrames: true });
+    chrome.tabs.executeScript(message.tabId,
       { file: message.scriptToInject, allFrames: true });
   }
   // add the listener

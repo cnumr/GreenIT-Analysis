@@ -13,7 +13,9 @@ let backgroundPageConnection;
 let rules;
 let lastAnalyseStartingTime = 0;
 let measuresAcquisition;
-let url="";
+let url = "";
+let analyseBestPractices = false;
+
 
 initPanel();
 
@@ -22,13 +24,14 @@ function initPanel() {
   document.getElementById('launchAnalyse').addEventListener('click', (e) => launchAnalyse());
   document.getElementById('saveAnalyse').addEventListener('click', (e) => storeAnalysisInHistory());
   document.getElementById('viewHistory').addEventListener('click', (e) => viewHistory());
+  document.getElementById('analyseBestPracticesCheckBox').addEventListener('click', (e) => setAnalyseBestPractices());
 }
 
 function openBackgroundPageConnection() {
   backgroundPageConnection = chrome.runtime.connect({
     name: "greenDevPanel-page"
   });
-  backgroundPageConnection.onMessage.addListener((frameMeasures) =>{
+  backgroundPageConnection.onMessage.addListener((frameMeasures) => {
     // Handle responses from the background page
     aggregateFrameMeasures(frameMeasures);
     refreshUI();
@@ -37,7 +40,7 @@ function openBackgroundPageConnection() {
 
 function aggregateFrameMeasures(frameMeasures) {
   //debug(() => `receive from frameAnalyse.js ${JSON.stringify(frameMeasures)}`);
-  logFrameMeasures(frameMeasures);
+  //logFrameMeasures(frameMeasures);
 
   if (isOldAnalyse(frameMeasures.analyseStartingTime)) {
     debug(() => `Analyse is too old for url ${frameMeasures.url} , time = ${frameMeasures.analyseStartingTime}`);
@@ -46,46 +49,52 @@ function aggregateFrameMeasures(frameMeasures) {
   let measures = measuresAcquisition.getMeasures();
 
   measures.domSize += frameMeasures.domSize;
-  measures.ecoIndex = computeEcoIndex(measures.domSize, measures.nbRequest, Math.round(measures.responsesSize / 1000));
-  measures.waterConsumption = computeWaterConsumptionfromEcoIndex(measures.ecoIndex);
-  measures.greenhouseGasesEmission = computeGreenhouseGasesEmissionfromEcoIndex(measures.ecoIndex);
-  measures.grade = getEcoIndexGrade(measures.ecoIndex);
+  computeEcoIndexMeasures(measures);
 
-  debug(() => `ecoIndex =  ${measures.ecoIndex}`); 
-  measures.pluginsNumber += frameMeasures.pluginsNumber;
+  if (analyseBestPractices) {
+    measures.pluginsNumber += frameMeasures.pluginsNumber;
 
-  if (measures.styleSheetsNumber < frameMeasures.styleSheetsNumber) measures.styleSheetsNumber = frameMeasures.styleSheetsNumber;
-  measures.printStyleSheetsNumber += frameMeasures.printStyleSheetsNumber;
-  if (measures.inlineStyleSheetsNumber < frameMeasures.inlineStyleSheetsNumber) measures.inlineStyleSheetsNumber = frameMeasures.inlineStyleSheetsNumber;
-  measures.emptySrcTagNumber += frameMeasures.emptySrcTagNumber;
-  if (frameMeasures.inlineJsScript.length > 0) analyseJsCode(frameMeasures.inlineJsScript, "inline",measures);
-  if (measures.inlineJsScriptsNumber < frameMeasures.inlineJsScriptsNumber) measures.inlineJsScriptsNumber = frameMeasures.inlineJsScriptsNumber;
+    if (measures.styleSheetsNumber < frameMeasures.styleSheetsNumber) measures.styleSheetsNumber = frameMeasures.styleSheetsNumber;
+    measures.printStyleSheetsNumber += frameMeasures.printStyleSheetsNumber;
+    if (measures.inlineStyleSheetsNumber < frameMeasures.inlineStyleSheetsNumber) measures.inlineStyleSheetsNumber = frameMeasures.inlineStyleSheetsNumber;
+    measures.emptySrcTagNumber += frameMeasures.emptySrcTagNumber;
+    if (frameMeasures.inlineJsScript.length > 0) analyseJsCode(frameMeasures.inlineJsScript, "inline", measures);
+    if (measures.inlineJsScriptsNumber < frameMeasures.inlineJsScriptsNumber) measures.inlineJsScriptsNumber = frameMeasures.inlineJsScriptsNumber;
 
-  measures.imageResizedInBrowserNumber += frameMeasures.imageResizedInBrowserNumber;
+    measures.imageResizedInBrowserNumber += frameMeasures.imageResizedInBrowserNumber;
 
-  if (measures.cssFontFaceRuleNumber < frameMeasures.cssFontFaceRuleNumber) measures.cssFontFaceRuleNumber = frameMeasures.cssFontFaceRuleNumber;
+    if (measures.cssFontFaceRuleNumber < frameMeasures.cssFontFaceRuleNumber) measures.cssFontFaceRuleNumber = frameMeasures.cssFontFaceRuleNumber;
 
 
-  rules.checkRule('plugins', measures);
-  rules.checkRule('styleSheets', measures);
-  rules.checkRule('printStyleSheets', measures);
-  rules.checkRule('emptySrcTag', measures);
-  rules.checkRule('jsValidate', measures);
-  rules.checkRule('externalizeCss', measures);
-  rules.checkRule('externalizeJs', measures);
-  rules.checkRule('dontResizeImageInBrowser',measures);
-  rules.checkRule('useStandardTypefaces',measures);
+    rules.checkRule('plugins', measures);
+    rules.checkRule('styleSheets', measures);
+    rules.checkRule('printStyleSheets', measures);
+    rules.checkRule('emptySrcTag', measures);
+    rules.checkRule('jsValidate', measures);
+    rules.checkRule('externalizeCss', measures);
+    rules.checkRule('externalizeJs', measures);
+    rules.checkRule('dontResizeImageInBrowser', measures);
+    rules.checkRule('useStandardTypefaces', measures);
+  }
 }
 
 function logFrameMeasures(frameMeasures) {
   debug(() => `Analyse form frame : ${frameMeasures.url}, analyseStartingTime : ${frameMeasures.analyseStartingTime}DomSize:${frameMeasures.domSize},Plugins:${frameMeasures.pluginsNumber},StyleSheets:${frameMeasures.styleSheetsNumber},Print StyleSheets:${frameMeasures.printStyleSheetsNumber},Inline StyleSheets:${frameMeasures.inlineStyleSheetsNumber},Empty Src Tag:${frameMeasures.emptySrcTagNumber},Inline Js Scripts:${frameMeasures.inlineJsScriptsNumber},css Font Face:${frameMeasures.cssFontFaceRuleNumber}`);
 }
 
-function isOldAnalyse(startingTime) {return (startingTime < lastAnalyseStartingTime)};
+function isOldAnalyse(startingTime) { return (startingTime < lastAnalyseStartingTime) };
+
+function computeEcoIndexMeasures(measures)
+{
+measures.ecoIndex = computeEcoIndex(measures.domSize, measures.nbRequest, Math.round(measures.responsesSize / 1000));
+measures.waterConsumption = computeWaterConsumptionfromEcoIndex(measures.ecoIndex);
+measures.greenhouseGasesEmission = computeGreenhouseGasesEmissionfromEcoIndex(measures.ecoIndex);
+measures.grade = getEcoIndexGrade(measures.ecoIndex);
+}
 
 function refreshUI() {
   const measures = measuresAcquisition.getMeasures();
-  document.getElementById("results").hidden = false;
+  document.getElementById("ecoIndexView").hidden = false;
   document.getElementById("requestNumber").innerHTML = measures.nbRequest;
   document.getElementById("responsesSize").innerHTML = Math.round(measures.responsesSize / 1000) + " (" + Math.round(measures.responsesSizeUncompress / 1000) + ")";
   document.getElementById("domSize").innerHTML = measures.domSize;
@@ -93,7 +102,11 @@ function refreshUI() {
   document.getElementById("grade").innerHTML = '<span class="grade ' + measures.grade + '">' + measures.grade + '</span>';
   document.getElementById("waterConsumption").innerHTML = measures.waterConsumption;
   document.getElementById("greenhouseGasesEmission").innerHTML = measures.greenhouseGasesEmission;
-  rules.getAllRules().forEach(showEcoRuleOnUI);
+  if (analyseBestPractices) {
+    document.getElementById("bestPracticesView").hidden = false;
+    rules.getAllRules().forEach(showEcoRuleOnUI);
+  }
+  else document.getElementById("bestPracticesView").hidden = true;
 }
 
 function showEcoRuleOnUI(rule) {
@@ -111,7 +124,7 @@ function launchAnalyse() {
 
   // To avoid parallel analyse , force 1 secondes between analysis 
   if (now - lastAnalyseStartingTime < 1000) {
-    debug (()=> "Ignore click");
+    debug(() => "Ignore click");
     return;
   }
   lastAnalyseStartingTime = now;
@@ -123,7 +136,8 @@ function launchAnalyse() {
   // Launch analyse via injection of a script in each frame of the current tab
   backgroundPageConnection.postMessage({
     tabId: chrome.devtools.inspectedWindow.tabId,
-    scriptToInject: "script/analyseFrame.js"
+    scriptToInject: "script/analyseFrame.js",
+    analyseBestPractices: analyseBestPractices
   });
   measuresAcquisition.startMeasuring();
 }
@@ -131,28 +145,28 @@ function launchAnalyse() {
 
 function analyseJsCode(code, url, measures) {
 
-  measures.jsErrorsNumber += computeNumberOfErrorsInJSCode(code,url);
+  measures.jsErrorsNumber += computeNumberOfErrorsInJSCode(code, url);
   rules.checkRule("jsValidate", measures);
   refreshUI();
 }
 
 
-function MeasuresAcquisition (rules) {
-  
-  let measures ; 
+function MeasuresAcquisition(rules) {
+
+  let measures;
   let localRules = rules;
 
   this.initializeMeasures = () => {
-    measures = { 
-      "url":"",      
+    measures = {
+      "url": "",
       "domSize": 0,
       "nbRequest": 0,
       "responsesSize": 0,
       "responsesSizeUncompress": 0,
       "ecoIndex": 100,
       "grade": 'A',
-      "waterConsumption" :0,
-      "greenhouseGasesEmission":0,
+      "waterConsumption": 0,
+      "greenhouseGasesEmission": 0,
       "pluginsNumber": 0,
       "styleSheetsNumber": 0,
       "printStyleSheetsNumber": 0,
@@ -169,72 +183,77 @@ function MeasuresAcquisition (rules) {
       "domainsNumber": 0,
       "staticResourcesNumber": 0,
       "staticResourcesNumberWithCacheHeaders": 0,
-      "staticResourcesNumberWithETags":0,
+      "staticResourcesNumberWithETags": 0,
       "compressibleResourcesNumber": 0,
       "compressibleResourcesNumberCompressed": 0,
-      "imageResizedInBrowserNumber":0,
-      "cssFontFaceRuleNumber":0
+      "imageResizedInBrowserNumber": 0,
+      "cssFontFaceRuleNumber": 0
     };
   }
 
-  this.startMeasuring = function() {
+  this.startMeasuring = function () {
     getNetworkMeasure();
-    getResourcesMeasure();
+    if (analyseBestPractices) getResourcesMeasure();
   }
 
   this.getMeasures = () => measures;
- 
+
 
   getNetworkMeasure = () => {
     chrome.devtools.network.getHAR((har) => {
       let entries = har.entries;
-     
+
       // Get the "mother" url 
-      if (entries.length >0) {
+      if (entries.length > 0) {
         measures.url = entries[0].request.url;
       }
       let domains = [];
       if (entries.length) {
         measures.nbRequest = entries.length;
         entries.map(entry => {
-          //console.log("entries = " + JSON.stringify(entry));
+          console.log("entries = " + JSON.stringify(entry));
           measures.responsesSize += entry.response._transferSize;
           measures.responsesSizeUncompress += entry.response.content.size;
-          if (isStaticRessource(entry)) {
-            measures.staticResourcesNumber++;
-            //debug(() => `resource ${entry.request.url} is cacheable `);
-            if (hasValidCacheHeaders(entry)) {
-              measures.staticResourcesNumberWithCacheHeaders++;
-              debug(() => `resource ${entry.request.url} is cached `);
+          if (analyseBestPractices) {
+            if (isStaticRessource(entry)) {
+              measures.staticResourcesNumber++;
+              //debug(() => `resource ${entry.request.url} is cacheable `);
+              if (hasValidCacheHeaders(entry)) {
+                measures.staticResourcesNumberWithCacheHeaders++;
+                debug(() => `resource ${entry.request.url} is cached `);
+              }
+              else debug(() => `resource ${entry.request.url} is not cached `);
+              if (isRessourceUsingETag(entry)) {
+                measures.staticResourcesNumberWithETags++;
+                debug(() => `resource ${entry.request.url} is using ETags `);
+              }
+              else debug(() => `resource ${entry.request.url} is not using ETags `);
             }
-            else  debug(() => `resource ${entry.request.url} is not cached `);
-            if (isRessourceUsingETag(entry)) {
-              measures.staticResourcesNumberWithETags++;
-              debug(() => `resource ${entry.request.url} is using ETags `);
+            if (isCompressibleResource(entry)) {
+              measures.compressibleResourcesNumber++;
+              //debug(() => `resource ${entry.request.url} is compressible `);
+              if (isResourceCompressed(entry)) {
+                measures.compressibleResourcesNumberCompressed++;
+                debug(() => `resource ${entry.request.url} is compressed `);
+              }
+              else debug(() => `resource ${entry.request.url} is not compressed `);
             }
-            else debug(() => `resource ${entry.request.url} is not using ETags `);
-          }
-          if (isCompressibleResource(entry)) {
-            measures.compressibleResourcesNumber++;
-            //debug(() => `resource ${entry.request.url} is compressible `);
-            if (isResourceCompressed(entry)) {
-              measures.compressibleResourcesNumberCompressed++;
-              debug(() => `resource ${entry.request.url} is compressed `);
+            let domain = getDomainFromUrl(entry.request.url);
+            if (domains.indexOf(domain) === -1) {
+              domains.push(domain);
+              debug(() => `found domain ${domain}`);
             }
-            else  debug(() => `resource ${entry.request.url} is not compressed `);
-          }
-          let domain = getDomainFromUrl(entry.request.url);
-          if (domains.indexOf(domain) === -1) {
-            domains.push(domain);
-            debug(() => `found domain ${domain}`);
           }
         });
-        measures.domainsNumber = domains.length;
-        localRules.checkRule("httpRequests", measures);
-        localRules.checkRule("domainsNumber", measures);
-        localRules.checkRule("addExpiresOrCacheControlHeaders", measures);
-        localRules.checkRule("useETags", measures);
-        localRules.checkRule("compressHttp", measures);
+        if (analyseBestPractices) {
+          measures.domainsNumber = domains.length;
+          localRules.checkRule("httpRequests", measures);
+          localRules.checkRule("domainsNumber", measures);
+          localRules.checkRule("addExpiresOrCacheControlHeaders", measures);
+          localRules.checkRule("useETags", measures);
+          localRules.checkRule("compressHttp", measures);
+        }
+        computeEcoIndexMeasures(measures);
         refreshUI();
       }
     });
@@ -253,7 +272,7 @@ function MeasuresAcquisition (rules) {
   }
 
 
-  
+
 
   function ResourceAnalyser(resource) {
     let resourceToAnalyse = resource;
@@ -264,7 +283,7 @@ function MeasuresAcquisition (rules) {
       // exclude from analyse the injected script 
       if (resourceToAnalyse.type === 'script')
         if (!resourceToAnalyse.url.includes("script/analyseFrame.js")) {
-          analyseJsCode(code, resourceToAnalyse.url,measures);
+          analyseJsCode(code, resourceToAnalyse.url, measures);
           analyseMinifiedJs(code, resourceToAnalyse.url);
         }
       if (resourceToAnalyse.type === 'stylesheet') analyseMinifiedCss(code, resourceToAnalyse.url);
@@ -301,65 +320,69 @@ function MeasuresAcquisition (rules) {
 /**
 Add to the history the result of an analyse
 **/
-function storeAnalysisInHistory()
-{
-let measures = measuresAcquisition.getMeasures();
-if (!measures) return;
+function storeAnalysisInHistory() {
+  let measures = measuresAcquisition.getMeasures();
+  if (!measures) return;
 
-var analyse_history;
-var string_analyse_history = localStorage.getItem("analyse_history");
+  var analyse_history;
+  var string_analyse_history = localStorage.getItem("analyse_history");
 
-if (string_analyse_history)
-	{
-	analyse_history =JSON.parse(string_analyse_history);
-	analyse_history.reverse();
-  analyse_history.push({resultDate:new Date(),
-                        url:measures.url,
-                        nbRequest:measures.nbRequest,
-                        responsesSize:Math.round(measures.responsesSize/1000),
-                        domSize:measures.domSize,
-                        greenhouseGasesEmission:measures.greenhouseGasesEmission,
-                        waterConsumption:measures.waterConsumption,
-                        ecoIndex:measures.ecoIndex,
-                        grade:measures.grade});
-	analyse_history.reverse();
-	}
-else analyse_history = [{resultDate:new Date(),
-                         url:measures.url,
-                         nbRequest:measures.nbRequest,
-                         responsesSize:Math.round(measures.responsesSize/1000),
-                         domSize:measures.domSize,
-                         greenhouseGasesEmission:measures.greenhouseGasesEmission,
-                         waterConsumption:measures.waterConsumption,
-                         ecoIndex:measures.ecoIndex,
-                         grade:measures.grade}];
+  if (string_analyse_history) {
+    analyse_history = JSON.parse(string_analyse_history);
+    analyse_history.reverse();
+    analyse_history.push({
+      resultDate: new Date(),
+      url: measures.url,
+      nbRequest: measures.nbRequest,
+      responsesSize: Math.round(measures.responsesSize / 1000),
+      domSize: measures.domSize,
+      greenhouseGasesEmission: measures.greenhouseGasesEmission,
+      waterConsumption: measures.waterConsumption,
+      ecoIndex: measures.ecoIndex,
+      grade: measures.grade
+    });
+    analyse_history.reverse();
+  }
+  else analyse_history = [{
+    resultDate: new Date(),
+    url: measures.url,
+    nbRequest: measures.nbRequest,
+    responsesSize: Math.round(measures.responsesSize / 1000),
+    domSize: measures.domSize,
+    greenhouseGasesEmission: measures.greenhouseGasesEmission,
+    waterConsumption: measures.waterConsumption,
+    ecoIndex: measures.ecoIndex,
+    grade: measures.grade
+  }];
 
 
-localStorage.setItem("analyse_history",JSON.stringify(analyse_history));
+  localStorage.setItem("analyse_history", JSON.stringify(analyse_history));
 }
 
 
-function viewHistory()
-	{
-    chrome.tabs.query({currentWindow: true},loadHistoryTab);
-	}
-	
-	
-function loadHistoryTab(tabs)
-{
+function viewHistory() {
+  chrome.tabs.query({ currentWindow: true }, loadHistoryTab);
+}
+
+
+function loadHistoryTab(tabs) {
   var history_tab;
   // search for config tab
-  for (let tab of tabs)  {
+  for (let tab of tabs) {
     if (tab.url.startsWith(chrome.extension.getURL(""))) history_tab = tab;
   }
   // config tab exits , put the focus on it
-  if (history_tab) 
-  {
+  if (history_tab) {
     chrome.tabs.reload(history_tab.id);
-    chrome.tabs.update(history_tab.id,{active:true});
+    chrome.tabs.update(history_tab.id, { active: true });
   }
   // else create a new tab
-  else chrome.tabs.create({url:"history.html"});
-		
+  else chrome.tabs.create({ url: "history.html" });
 
+
+}
+
+function setAnalyseBestPractices() {
+  analyseBestPractices = document.getElementById('analyseBestPracticesCheckBox').checked ;
+  if (!analyseBestPractices) document.getElementById("bestPracticesView").hidden = true;
 }

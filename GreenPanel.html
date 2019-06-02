@@ -75,6 +75,9 @@ table {
 <input type="button" class="btn btn-primary btn-sm" style="width:100px" id="saveAnalyse" value="Save analysis">
 <input type="button" class="btn btn-primary btn-sm" style="width:100px" id="viewHistory" value="View History">
 
+<br/>
+<input type="checkbox" class="btn btn-primary btn-sm"  id="analyseBestPracticesCheckBox"> Activate best practices analysis </input>
+
 
 </div>
 <script type="text/javascript" data-main="script/utils.js" src="script/require.js"> </script> 
@@ -83,7 +86,7 @@ table {
 <script type="text/javascript" src="script/rules.js"> </script> 
 <br>
 
-<div id="results" hidden>
+<div id="ecoIndexView" hidden>
 
 <H4> EcoIndex </H4>
 
@@ -123,8 +126,8 @@ table {
     </tr>
   </tbody>
 </table>
-
-
+</div>
+<div id="bestPracticesView" hidden>
 <H4> Best practices </H4>
 
 <table class="table table-condensed"> 
