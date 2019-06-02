@@ -24,6 +24,7 @@ function initPanel() {
   document.getElementById('launchAnalyse').addEventListener('click', (e) => launchAnalyse());
   document.getElementById('saveAnalyse').addEventListener('click', (e) => storeAnalysisInHistory());
   document.getElementById('viewHistory').addEventListener('click', (e) => viewHistory());
+  document.getElementById('helpButton').addEventListener('click', (e) => viewHelp());
   document.getElementById('analyseBestPracticesCheckBox').addEventListener('click', (e) => setAnalyseBestPractices());
 }
 
@@ -379,8 +380,13 @@ function loadHistoryTab(tabs) {
   // else create a new tab
   else chrome.tabs.create({ url: "history.html" });
 
-
 }
+
+
+function viewHelp() {
+  chrome.tabs.create({ url: "https://github.com/didierfred/GreenIT-Analysis" });
+}
+
 
 function setAnalyseBestPractices() {
   analyseBestPractices = document.getElementById('analyseBestPracticesCheckBox').checked ;
