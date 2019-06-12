@@ -86,7 +86,8 @@ function getPluginsNumber() {
 
 function getStyleSheetsNumber() {
   let styleSheets = Array.from(document.styleSheets).reduce((memo, sheet) => {
-    let isPrint = (String(sheet.media) === 'print');
+    // 12/06/2019 : need to put sheet.media[0] instead of sheet.media due to compatibility with old chromium version
+    let isPrint = (String(sheet.media[0]) === 'print');
     const isInlined = !sheet.href;
     //We ignore "print" and inlined CSS willingly
     if (isPrint || isInlined) return memo;

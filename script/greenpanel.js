@@ -362,7 +362,9 @@ function storeAnalysisInHistory() {
 
 
 function viewHistory() {
-  chrome.tabs.query({ currentWindow: true }, loadHistoryTab);
+  if (chrome.tabs) chrome.tabs.query({ currentWindow: true }, loadHistoryTab);
+  // chrome.tabs is not accessible in old chromium version 
+  else  window.open("history.html");
 }
 
 
@@ -383,8 +385,8 @@ function loadHistoryTab(tabs) {
 }
 
 
-function viewHelp() {
-  chrome.tabs.create({ url: "https://github.com/didierfred/GreenIT-Analysis" });
+function viewHelp() { 
+  window.open("https://github.com/didierfred/GreenIT-Analysis");
 }
 
 
