@@ -156,9 +156,12 @@ function getImageResizedInBrowserNumber() {
 
 
 function getCssFontFaceRuleNumber() {
+
   let fontList = Array.from(document.styleSheets).reduce((fonts, sheet) => {
     try {
-      Array.from(sheet.cssRules).reduce((fonts, cssRule) => {
+
+      // Need to check if sheet.cssRules is defined for old version of chromium 
+      if (sheet.cssRules) Array.from(sheet.cssRules).reduce((fonts, cssRule) => {
 
         // If the rule is not a CSSFont one, skip it
         if (!(cssRule instanceof CSSFontFaceRule)) return fonts;
