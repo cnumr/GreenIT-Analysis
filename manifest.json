@@ -17,7 +17,8 @@
    "devtools_page": "GreenIT-Analysis.html",
    "browser_action": {
     "default_icon": "icons/earth-48.png"
-  }
+  },
+  "default_locale": "en"
 }
 
 

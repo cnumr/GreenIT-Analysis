@@ -70,13 +70,16 @@ table {
 <div class="container-fluid">
 
 
+<a href="#" id="launchAnalyse" class="btn btn-primary btn-sm" data-i18n="launchAnalyseButton"></a>
+<a href="#" id="saveAnalyse" class="btn btn-primary btn-sm" data-i18n="saveAnalyseButton"></a>
+<a href="#" id="viewHistory" class="btn btn-primary btn-sm" data-i18n="historyButton"></a>
+<a href="#" id="helpButton" class="btn btn-primary btn-sm" data-i18n="helpButton"></a>
 
-<input type="button" class="btn btn-primary btn-sm" style="width:100px" id="launchAnalyse" value="Launch analysis">
-<input type="button" class="btn btn-primary btn-sm" style="width:100px" id="saveAnalyse" value="Save analysis">
-<input type="button" class="btn btn-primary btn-sm" style="width:100px" id="viewHistory" value="View History">
-<input type="button" class="btn btn-primary btn-sm" style="width:100px" id="helpButton" value="Help">
 <br/>
-<input type="checkbox" class="btn btn-primary btn-sm"  id="analyseBestPracticesCheckBox"> Activate best practices analysis </input>
+
+<div data-i18n="activateBestPracticeAnalysisCheckbox">
+<input type="checkbox" class="btn btn-primary btn-sm"  id="analyseBestPracticesCheckBox" ></input>
+</div>
 
 
 </div>
@@ -88,23 +91,17 @@ table {
 
 <div id="ecoIndexView" hidden>
 
-<H4> EcoIndex </H4>
-
-<table class="table table-condensed">
-    <tbody>
-      <tr>
-        <td> Eco Index </td><td id="ecoIndex"></td> <td id="grade"></td>
-      </tr>
-    </tbody>
-  </table>
+<H4> EcoIndex  <div id="grade"></div> </H4>
 
   <table class="table table-condensed"> 
     <tbody>
       <tr>
-        <th>Water consumption (cl)  </th>
-        <th> Greenhouse gases emission (gCO2e) </th>
+        <th data-i18n="ecoIndex"></th>
+        <th data-i18n="waterConsumption"></th>
+        <th data-i18n="greenhouseGasesEmission"> </th>
       </tr>
       <tr>
+        <td id="ecoIndex"></td>
         <td id="waterConsumption"></td>
         <td id="greenhouseGasesEmission"></td>
       </tr>
@@ -115,9 +112,9 @@ table {
 <table class="table table-condensed"> 
   <tbody>
     <tr>
-      <th>Request number  </th>
-      <th>Size Kb (Size Kb uncompress)  </th>
-      <th> DOM Size </th>
+      <th data-i18n="requestNumber">  </th>
+      <th data-i18n="pageSize"> </th>
+      <th data-i18n="domSize">  </th>
     </tr>
     <tr>
       <td id="requestNumber"></td>
@@ -128,63 +125,63 @@ table {
 </table>
 </div>
 <div id="bestPracticesView" hidden>
-<H4> Best practices </H4>
+<H4  data-i18n="bestPractices"></H4>
 
 <table class="table table-condensed"> 
   <tbody>
     <tr>
-      <td>Do not use plugins </td><td style="width:30px"> <img id="plugins_status" src="icons/OK.png"></td> <td id="plugins_comment"></td>
+      <td data-i18n="rule_Plugins"></td><td style="width:30px"> <img id="plugins_status" src="icons/OK.png"></td> <td id="plugins_comment"></td>
     </tr>
     <tr>
-      <td>Limit Stylesheet files </td><td style="width:30px"><img id="styleSheets_status" src="icons/OK.png"></td> <td id="styleSheets_comment"></td>
+      <td data-i18n="rule_StyleSheets"> </td><td style="width:30px"><img id="styleSheets_status" src="icons/OK.png"></td> <td id="styleSheets_comment"></td>
     </tr>
     <tr>
-      <td>Provide print stylesheet  </td> <td style="width:30px" ><img id="printStyleSheets_status" src="icons/OK.png"></td>  <td id="printStyleSheets_comment"></td>
+      <td data-i18n="rule_PrintStylesheet"></td> <td style="width:30px" ><img id="printStyleSheets_status" src="icons/OK.png"></td>  <td id="printStyleSheets_comment"></td>
     </tr>
     <tr>
-      <td>Externalize css </td><td style="width:30px"><img id="externalizeCss_status" src="icons/OK.png"></td> <td id="externalizeCss_comment"></td>
+      <td data-i18n="rule_ExternalizeCss"></td><td style="width:30px"><img id="externalizeCss_status" src="icons/OK.png"></td> <td id="externalizeCss_comment"></td>
     </tr>
     <tr>
-      <td>Minified css (>= 95%) </td><td style="width:30px"><img id="minifiedCss_status" src="icons/OK.png"></td> <td id="minifiedCss_comment"></td>
+      <td data-i18n="rule_MinifiedCss"></td><td style="width:30px"><img id="minifiedCss_status" src="icons/OK.png"></td> <td id="minifiedCss_comment"></td>
     </tr>
     <tr>
-      <td>Avoid empty src tag </td><td style="width:30px"><img id="emptySrcTag_status" src="icons/OK.png"></td> <td id="emptySrcTag_comment"></td>
+      <td data-i18n="rule_EmptySrcTag"></td><td style="width:30px"><img id="emptySrcTag_status" src="icons/OK.png"></td> <td id="emptySrcTag_comment"></td>
     </tr>
     <tr>
-      <td>Validate js </td><td style="width:30px"><img id="jsValidate_status" src="icons/OK.png"></td> <td id="jsValidate_comment"></td>
+      <td data-i18n="rule_JsValidate"> </td><td style="width:30px"><img id="jsValidate_status" src="icons/OK.png"></td> <td id="jsValidate_comment"></td>
     </tr>
     <tr>
-      <td>Externalize js </td><td style="width:30px"><img id="externalizeJs_status" src="icons/OK.png"></td> <td id="externalizeJs_comment"></td>
+      <td data-i18n="rule_ExternalizeJs"></td><td style="width:30px"><img id="externalizeJs_status" src="icons/OK.png"></td> <td id="externalizeJs_comment"></td>
     </tr>
     <tr>
-      <td>Minified js (>= 95%)</td><td style="width:30px"><img id="minifiedJs_status" src="icons/OK.png"></td> <td id="minifiedJs_comment"></td>
+      <td data-i18n="rule_MinifiedJs"></td><td style="width:30px"><img id="minifiedJs_status" src="icons/OK.png"></td> <td id="minifiedJs_comment"></td>
     </tr>
     <tr>
-      <td>Limit the number of HTTP requests (&lt;27)  </td><td style="width:30px"><img id="httpRequests_status" src="icons/OK.png"></td> <td id="httpRequests_comment"></td>
-    </tr>
-
-    <tr>
-      <td>Limit the number of domains (&lt;3)  </td><td style="width:30px"><img id="domainsNumber_status" src="icons/OK.png"></td> <td id="domainsNumber_comment"></td>
+      <td data-i18n="rule_HttpRequests"> </td><td style="width:30px"><img id="httpRequests_status" src="icons/OK.png"></td> <td id="httpRequests_comment"></td>
     </tr>
 
     <tr>
-      <td>Add expires or cache-control headers (>= 95%) </td><td style="width:30px"><img id="addExpiresOrCacheControlHeaders_status" src="icons/OK.png"></td> <td id="addExpiresOrCacheControlHeaders_comment"></td>
+      <td data-i18n="rule_DomainsNumber"></td><td style="width:30px"><img id="domainsNumber_status" src="icons/OK.png"></td> <td id="domainsNumber_comment"></td>
     </tr>
 
     <tr>
-      <td> Use ETags (>= 95%) </td><td style="width:30px"><img id="useETags_status" src="icons/OK.png"></td> <td id="useETags_comment"></td>
+      <td data-i18n="rule_AddExpiresOrCacheControlHeaders"></td><td style="width:30px"><img id="addExpiresOrCacheControlHeaders_status" src="icons/OK.png"></td> <td id="addExpiresOrCacheControlHeaders_comment"></td>
+    </tr>
+
+    <tr>
+      <td data-i18n="rule_UseETags"> </td><td style="width:30px"><img id="useETags_status" src="icons/OK.png"></td> <td id="useETags_comment"></td>
     </tr>
     
     <tr>
-      <td>Compress ressources (>= 95%) </td><td style="width:30px"><img id="compressHttp_status" src="icons/OK.png"></td> <td id="compressHttp_comment"></td>
+      <td data-i18n="rule_CompressHttp"> </td><td style="width:30px"><img id="compressHttp_status" src="icons/OK.png"></td> <td id="compressHttp_comment"></td>
     </tr>
 
     <tr>
-      <td>Don't resize image in browser </td><td style="width:30px"><img id="dontResizeImageInBrowser_status" src="icons/OK.png"></td> <td id="dontResizeImageInBrowser_comment"></td>
+      <td data-i18n="rule_DontResizeImageInBrowser"> </td><td style="width:30px"><img id="dontResizeImageInBrowser_status" src="icons/OK.png"></td> <td id="dontResizeImageInBrowser_comment"></td>
     </tr>
     
     <tr>
-      <td> Use Standard Typefaces </td><td style="width:30px"><img id="useStandardTypefaces_status" src="icons/OK.png"></td> <td id="useStandardTypefaces_comment"></td>
+      <td data-i18n="rule_UseStandardTypefaces"> </td><td style="width:30px"><img id="useStandardTypefaces_status" src="icons/OK.png"></td> <td id="useStandardTypefaces_comment"></td>
     </tr>
   </tbody>
 </table>
@@ -193,6 +190,8 @@ table {
 
 
 </center>
+
+<script type="text/javascript" src="script/i18n.js"> </script>
 </body>
 
 </html>

@@ -55,16 +55,15 @@
 <div class="container-fluid">
 <div class="row">
   <div class="col-sm-6"> <h1>GreenIT Plugin History</h1>  </div>
-  <div class="col-sm-6" align="right"><br/>
-		
-	<a href="#" id="delete_all_button" class="btn btn-primary btn-sm">
-          <span class="glyphicon glyphicon-trash"></span> Delete All
-        </a> 
-
-	<a href="#" id="export_button" class="btn btn-primary btn-sm">
-          <span class="glyphicon glyphicon-download-alt"></span> CSV Export
-        </a> 
-		
+  <div class="col-sm-6"><br />
+    <a href="#" id="export_button" class="btn btn-primary btn-sm" data-i18n="exportButton" style="float:right">
+      <span class="glyphicon glyphicon-download-alt"></span>
+    </a>
+    <div style="float:right"> &nbsp </div>
+    <a href="#" id="delete_all_button" class="btn btn-primary btn-sm" data-i18n="deleteAllButton"
+      style="float:right">
+      <span class="glyphicon glyphicon-trash"></span>
+    </a>
   </div>
 </div>
 <br>
@@ -72,16 +71,18 @@
 <table class="table table-condensed " >
 <thead>
 <tr>
-<th>Date</th>
-<th>Url</th>
-<th>Request Number</th>
-<th>Size (Kb) </th> 
-<th>DOM Size</th>
-<th>Greenhouse Gases Emission (gCO2e)</th>
-<th>Water Consumption (cl) </th> 
-<th>EcoIndex</th> 
-<th>Grade</th>
-<th></th>  
+
+<th data-i18n="date"></th>
+<th data-i18n="url"></th>
+<th data-i18n="requestNumber"></th>
+<th data-i18n="pageSize"></th>
+<th data-i18n="domSize"></th>
+<th data-i18n="greenhouseGasesEmission"></th>
+<th data-i18n="waterConsumption"></th>
+<th data-i18n="ecoIndex"></th>
+<th data-i18n="grade"></th>
+<th></th>
+
 </tr>
 </thead>
 <tbody id="history">
@@ -91,14 +92,15 @@
 <br/>
 <div class="row">
  <div class="col-sm-12" align="right">
-<a href="https://github.com/didierfred/GreenIT-Analysis" target="_blank">
-          <span class="glyphicon glyphicon-question-sign"></span> Help
+<a href="https://github.com/didierfred/GreenIT-Analysis" target="_blank" data-i18n="helpLink" style="float:right">
+          <span class="glyphicon glyphicon-question-sign"></span>
       </a> 
  </div>
 </div>
 
 </div>
 <script type="text/javascript" src="script/history.js"> </script> 
+<script type="text/javascript" src="script/i18n.js"> </script>
 <br>
 <iframe id="download" width="0" height="0" frameBorder="0"> 
 </iframe>

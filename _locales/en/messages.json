@@ -1,0 +1,194 @@
+{
+  "activateBestPracticeAnalysisCheckbox": {
+    "message": "Activate best practices analysis",
+    "description": "Title for activateBestPracticeAnalysisCheckbox"
+  },
+  "bestPractices": {
+    "message": "Best practices",
+    "description": "Title for best practice"
+  },
+  "csvColumnsLabel": {
+    "message": "Date;Url;Request number;Size(kb);Dom size;Greenhouse Gases Emission (gCO2e);Water consumption;ecoIndex;Grade",
+    "description": "csvColumnsLabel"
+  },
+  "date": {
+    "message": "Date",
+    "description": "Date"
+  },
+  "deleteAllButton": {
+    "message": "Delete All",
+    "description": "Delete All Button"
+  },
+  "deleteAllConfirmMessage": {
+    "message": "Do you really want to delete all history ?",
+    "description": "Delete All Confirm Message"
+  },
+  "deleteButton": {
+    "message": "Delete",
+    "description": "Delete Button"
+  },
+  "domSize": {
+    "message": "Dom Size",
+    "description": "Dom Size"
+  },
+  "ecoIndex": {
+    "message": "EcoIndex",
+    "description": "EcoIndex"
+  },
+  "exportButton": {
+    "message": "Export",
+    "description": "Export Button"
+  },
+  "grade": {
+    "message": "Grade",
+    "description": "Grade"
+  },
+  "greenhouseGasesEmission": {
+    "message": "Greenhouse Gases Emission (gCO2e)",
+    "description": "Greenhouse Gases Emission (gCO2e)"
+  },
+  "helpButton": {
+    "message": "Help",
+    "description": "Help button"
+  },
+  "helpLink": {
+    "message": "Help",
+    "description": "Help link"
+  },
+  "historyButton": {
+    "message": "History",
+    "description": "History Button"
+  },
+  "historyPageTitle": {
+    "message": "EcoIndex  - Analyse History",
+    "description": "History page title"
+  },
+  "launchAnalyseButton": {
+    "message": "Lancer l'analyse",
+    "description": "Launch Analysis"
+  },
+  "pageSize": {
+    "message": "Page Size (Kb) ",
+    "description": "Page Size(Kb) ."
+  },
+  "pluginTitle": {
+    "message": "EcoIndex Plugin ",
+    "description": "Plugin title"
+  },
+  "requestNumber": {
+    "message": "Request number",
+    "description": "Number of request"
+  },
+  "rule_AddExpiresOrCacheControlHeaders": {
+    "message": "Add expires or cache-control headers (>= 95%)",
+    "description": "Add expires or cache-Control headers"
+  },
+  "rule_CompressHttp": {
+    "message": "Compress ressources (>= 95%) ",
+    "description": "Compress ressources "
+  },
+  "rule_DomainsNumber": {
+    "message": "Limit the number of domains (>3)",
+    "description": "Limit the number of domains"
+  },
+  "rule_DontResizeImageInBrowser": {
+    "message": "Don't resize image in browser",
+    "description": "Do not resize image in browser"
+  },
+  "rule_EmptySrcTag": {
+    "message": "Avoid empty src tag",
+    "description": "Avoid empty src tag"
+  },
+  "rule_EmptySrcTag_DefaultComment": {
+    "message": "No empty src tags found",
+    "description": "No empty src tags found"
+  },
+  "rule_ExternalizeCss": {
+    "message": "Externalize css",
+    "description": "Externalize css"
+  },
+  "rule_ExternalizeCss_DefaultComment": {
+    "message": "No inline stylesheet found",
+    "description": "No inline stylesheet found"
+  },
+  "rule_ExternalizeJs": {
+    "message": "Externalize js",
+    "description": "Externalize js"
+  },
+  "rule_ExternalizeJs_DefaultComment": {
+    "message": "No inline JavaScript",
+    "description": "No inline JavaScript"
+  },
+  "rule_HttpRequests": {
+    "message": "Limit the number of HTTP requests (>27)",
+    "description": "Limit the number of HTTP requests"
+  },
+  "rule_MinifiedCss": {
+    "message": "Minified css (>= 95%)",
+    "description": "Minified css (>= 95%)"
+  },
+  "rule_MinifiedCss_DefaultComment": {
+    "message": "No css found",
+    "description": "No css found"
+  },
+  "rule_MinifiedJs": {
+    "message": "Minified js (>= 95%)",
+    "description": "Minified js (>= 95%)"
+  },
+  "rule_MinifiedJs_DefaultComment": {
+    "message": "No js found",
+    "description": "No js found"
+  },
+  "rule_Plugins": {
+    "message": "Do not use plugins",
+    "description": "Do not use plugins"
+  },
+  "rule_Plugins_DefaultComment": {
+    "message": "No plugin found",
+    "description": "No plugin found"
+  },
+  "rule_PrintStyleSheet": {
+    "message": "Provide print stylesheet",
+    "description": "Provide print stylesheet"
+  },
+  "rule_PrintStyleSheet_DefaultComment": {
+    "message": "No print stylesheet found",
+    "description": "No print stylesheet found"
+  },
+  "rule_StyleSheets": {
+    "message": "Limit Stylesheet files",
+    "description": "Limit Stylesheet files"
+  },
+  "rule_StyleSheets_DefaultComment": {
+    "message": "Not more that 2 stylesheets per frame found",
+    "description": "Not more that 2 stylesheets per frame found"
+  }, 
+  "rule_UseETags": {
+    "message": "Use ETags (>= 95%)",
+    "description": "Use ETags (>= 95%)"
+  },
+  "rule_UseStandardTypefaces": {
+    "message": "Use Standard Typefaces",
+    "description": "Use Standard Typefaces"
+  },
+  "rule_JsValidate": {
+    "message": "Validate js",
+    "description": "Validate js"
+  },
+  "rule_JsValidate_DefaultComment": {
+    "message": "Javascript validate",
+    "description": "Javascript validate"
+  },
+  "saveAnalyseButton": {
+    "message": "Save analysis",
+    "description": "Save Analyse Button"
+  },
+  "url": {
+    "message": "Url",
+    "description": "Url"
+  },
+  "waterConsumption": {
+    "message": "Water Consumption (cl)",
+    "description": "Water Consumption (cl)"
+  }
+}

@@ -1,0 +1,98 @@
+{
+    "activateBestPracticeAnalysisCheckbox": {
+        "message": "Activer l'analyse des bonnes pratiques",
+        "description": "Title for activateBestPracticeAnalysisCheckbox"
+    },
+    "bestPractices": {
+        "message": "Bonnes pratiques",
+        "description": "Title for best practice"
+      },
+    "csvColumnsLabel": {
+        "message": "Date;Url;Nombre requêtes;Taille(kb);Taille du dom;GES;Eau;ecoIndex;Note",
+        "description": "csvColumnsLabel"
+    },
+    "date": {
+        "message": "Date",
+        "description": "Date"
+    },
+    "deleteAllButton": {
+        "message": "Effacer tout",
+        "description": "Delete All Button"
+    },
+    "deleteAllConfirmMessage": {
+        "message": "Voulez vous vraiment supprimer tout l'historique ?",
+        "description": "Delete All Confirm Message"
+    },
+    "deleteButton": {
+        "message": "Effacer",
+        "description": "Delete Button"
+    },
+    "domSize": {
+        "message": "Taille du DOM",
+        "description": "Dom Size"
+    },
+    "ecoIndex": {
+        "message": "EcoIndex",
+        "description": "EcoIndex"
+    },
+    "exportButton": {
+        "message": "Exporter",
+        "description": "Export Button"
+    },
+    "grade": {
+        "message": "Note",
+        "description": "Grade"
+    },
+    "greenhouseGasesEmission": {
+        "message": "GES (gCO2e)",
+        "description": "Greenhouse Gases Emission (gCO2e)"
+    },
+    "helpButton": {
+        "message": "Aide",
+        "description": "Help button"
+      },
+    "helpLink": {
+        "message": "Aide",
+        "description": "Help link"
+    },
+    "historyButton": {
+        "message": "Historique",
+        "description": "History Button"
+    },
+    "historyPageTitle": {
+        "message": "EcoIndex  - Historique des analyses",
+        "description": "History page title"
+    },
+    "launchAnalyseButton": {
+        "message": "Lancer l'analyse",
+        "description": "Launch Analysis"
+      },
+    "pageSize": {
+        "message": "Taille de la page (Kb) ",
+        "description": "Page Size(Kb) ."
+    },
+    "pluginTitle": {
+        "message": "EcoIndex Plugin ",
+        "description": "Plugin title"
+    },
+    "requestNumber": {
+        "message": "Nombre de requêtes ",
+        "description": "Number of request"
+    },
+    "rule_Plugins": {
+        "message": "Ne pas utiliser de plugins ",
+        "description": "Do not use plugins"
+    },
+    "saveAnalyseButton": {
+        "message": "Sauver l'analyse",
+        "description": "Save Analyse Button"
+    },
+    "url": {
+        "message": "Url",
+        "description": "Url"
+    },
+    "waterConsumption": {
+        "message": "Eau (cl)",
+        "description": "Water Consumption (cl)"
+    }
+}

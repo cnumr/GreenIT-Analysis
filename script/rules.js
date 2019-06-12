@@ -45,7 +45,7 @@ function Rules() {
   function pluginsRule() {
     this.isRespected = true;
     this.id = "plugins";
-    this.comment = "No plugin found";
+    this.comment = chrome.i18n.getMessage("rule_Plugins_DefaultComment");
     
     this.check = function(measures) {  
       if (measures.pluginsNumber > 0) {
