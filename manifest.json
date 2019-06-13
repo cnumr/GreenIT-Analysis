@@ -6,7 +6,7 @@
   "version": "0.3",
   "homepage_url": "https://github.com/didierfred/GreenIT-Analysis",
   "icons" : {
-    "48": "icons/earth-48.png"
+    "48": "icons/logo-48.png"
   },
   "permissions": [
     "activeTab","tabs","storage","<all_urls>"
@@ -16,7 +16,7 @@
   },
    "devtools_page": "GreenIT-Analysis.html",
    "browser_action": {
-    "default_icon": "icons/earth-48.png"
+    "default_icon": "icons/logo-48.png"
   },
   "default_locale": "en"
 }
