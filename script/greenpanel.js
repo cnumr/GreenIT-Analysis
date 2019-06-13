@@ -97,7 +97,10 @@ function refreshUI() {
   const measures = measuresAcquisition.getMeasures();
   document.getElementById("ecoIndexView").hidden = false;
   document.getElementById("requestNumber").innerHTML = measures.nbRequest;
-  document.getElementById("responsesSize").innerHTML = Math.round(measures.responsesSize / 1000) + " (" + Math.round(measures.responsesSizeUncompress / 1000) + ")";
+  
+  if (measures.responsesSizeUncompress!=0) document.getElementById("responsesSize").innerHTML = Math.round(measures.responsesSize / 1000) + " (" + Math.round(measures.responsesSizeUncompress / 1000) + ")";
+  else document.getElementById("responsesSize").innerHTML = Math.round(measures.responsesSize / 1000);
+  
   document.getElementById("domSize").innerHTML = measures.domSize;
   document.getElementById("ecoIndex").innerHTML = measures.ecoIndex;
   document.getElementById("grade").innerHTML = '<span class="grade ' + measures.grade + '">' + measures.grade + '</span>';
@@ -213,8 +216,16 @@ function MeasuresAcquisition(rules) {
         measures.nbRequest = entries.length;
         entries.map(entry => {
           console.log("entries = " + JSON.stringify(entry));
-          measures.responsesSize += entry.response._transferSize;
-          measures.responsesSizeUncompress += entry.response.content.size;
+          
+		  // If chromium : 
+		  // _transferSize represent the real data volume transfert 
+		  // while content.size represent the size of the page which is uncompress
+		  if (entry.response._transferSize) {
+			  measures.responsesSize += entry.response._transferSize;
+			  measures.responsesSizeUncompress += entry.response.content.size;
+		  }
+		  else measures.responsesSize += entry.response.content.size;
+		  
           if (analyseBestPractices) {
             if (isStaticRessource(entry)) {
               measures.staticResourcesNumber++;
