@@ -83,17 +83,53 @@
     "message": "Add expires or cache-control headers (>= 95%)",
     "description": "Add expires or cache-Control headers"
   },
+  "rule_AddExpiresOrCacheControlHeaders_Comment": {
+    "message": "$PERCENT$ resources cached",
+    "description": "Percentage of resources cached ",
+    "placeholders": {
+      "PERCENT": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_CompressHttp": {
     "message": "Compress ressources (>= 95%) ",
     "description": "Compress ressources "
+  },
+  "rule_CompressHttp_Comment": {
+    "message": "$PERCENT$ resources compressed",
+    "description": "Percentage of resources compressed",
+    "placeholders": {
+      "PERCENT": {
+        "content": "$1"
+      }
+    }
   },
   "rule_DomainsNumber": {
     "message": "Limit the number of domains (>3)",
     "description": "Limit the number of domains"
   },
+  "rule_DomainsNumber_Comment": {
+    "message": "$NB$ domain(s) found",
+    "description": "Number of domain(s) found",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_DontResizeImageInBrowser": {
     "message": "Don't resize image in browser",
     "description": "Do not resize image in browser"
+  },
+  "rule_DontResizeImageInBrowser_Comment": {
+    "message": "$NB$ image(s) resized in browser found",
+    "description": "Number of image(s) resized in browser found",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
   },
   "rule_EmptySrcTag": {
     "message": "Avoid empty src tag",
@@ -103,6 +139,15 @@
     "message": "No empty src tags found",
     "description": "No empty src tags found"
   },
+  "rule_EmptySrcTag_Comment": {
+    "message": "$NB$ empty src tag(s) found",
+    "description": "Number of  empty src tag(s) found ",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_ExternalizeCss": {
     "message": "Externalize css",
     "description": "Externalize css"
@@ -110,6 +155,15 @@
   "rule_ExternalizeCss_DefaultComment": {
     "message": "No inline stylesheet found",
     "description": "No inline stylesheet found"
+  },
+  "rule_ExternalizeCss_Comment": {
+    "message": "$NB$ inline stylesheet(s) found ",
+    "description": "Number of inline stylesheets found ",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
   },
   "rule_ExternalizeJs": {
     "message": "Externalize js",
@@ -119,9 +173,27 @@
     "message": "No inline JavaScript",
     "description": "No inline JavaScript"
   },
+  "rule_ExternalizeJs_Comment": {
+    "message": "$NB$ inline  javascripts found",
+    "description": "Number of inline  javascripts found ",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_HttpRequests": {
     "message": "Limit the number of HTTP requests (>27)",
     "description": "Limit the number of HTTP requests"
+  },
+  "rule_HttpRequests_Comment": {
+    "message": "$NB$ HTTP request(s)",
+    "description": "Number of HTTP request(s)",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
   },
   "rule_MinifiedCss": {
     "message": "Minified css (>= 95%)",
@@ -131,6 +203,15 @@
     "message": "No css found",
     "description": "No css found"
   },
+  "rule_MinifiedCss_Comment": {
+    "message": "$NB$ minified stylesheet",
+    "description": "Percentage of minified stylesheet ",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_MinifiedJs": {
     "message": "Minified js (>= 95%)",
     "description": "Minified js (>= 95%)"
@@ -138,6 +219,15 @@
   "rule_MinifiedJs_DefaultComment": {
     "message": "No js found",
     "description": "No js found"
+  },
+  "rule_MinifiedJs_Comment": {
+    "message": "$NB$ minified javascript",
+    "description": "Percentage of minified javascript ",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
   },
   "rule_Plugins": {
     "message": "Do not use plugins",
@@ -147,6 +237,15 @@
     "message": "No plugin found",
     "description": "No plugin found"
   },
+  "rule_Plugins_Comment": {
+    "message": "$NB_PLUGINS$ plugin(s) found",
+    "description": "Number of plugin found",
+    "placeholders": {
+      "NB_PLUGINS": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_PrintStyleSheet": {
     "message": "Provide print stylesheet",
     "description": "Provide print stylesheet"
@@ -155,6 +254,15 @@
     "message": "No print stylesheet found",
     "description": "No print stylesheet found"
   },
+  "rule_PrintStyleSheet_Comment": {
+    "message": "$NB_PRINTSTLESHEET$ print StyleSheet(s) found",
+    "description": "Number of print StyleSheet(s) found",
+    "placeholders": {
+      "NB_PRINTSTLESHEET": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_StyleSheets": {
     "message": "Limit Stylesheet files",
     "description": "Limit Stylesheet files"
@@ -162,14 +270,45 @@
   "rule_StyleSheets_DefaultComment": {
     "message": "Not more that 2 stylesheets per frame found",
     "description": "Not more that 2 stylesheets per frame found"
-  }, 
+  },
+  "rule_StyleSheets_Comment": {
+    "message": "$NB_STYLESHEETS$ stylesheets found for at least one frame",
+    "description": "Number of stylesheets for at least one frame",
+    "placeholders": {
+      "NB_STYLESHEETS": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_UseETags": {
     "message": "Use ETags (>= 95%)",
     "description": "Use ETags (>= 95%)"
   },
+  "rule_UseETags_Comment": {
+    "message": "$PERCENT$ resources with ETags",
+    "description": "Percentage of resources with ETags",
+    "placeholders": {
+      "PERCENT": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_UseStandardTypefaces": {
     "message": "Use Standard Typefaces",
     "description": "Use Standard Typefaces"
+  },
+  "rule_UseStandardTypefaces_DefaultComment": {
+    "message": "No custom fonts found",
+    "description": "No custom fonts found"
+  },
+  "rule_UseStandardTypefaces_Comment": {
+    "message": "$NB$ custom fonts found for at least one frame",
+    "description": "Number of custom fonts found for at least one frame",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
   },
   "rule_JsValidate": {
     "message": "Validate js",
@@ -178,6 +317,15 @@
   "rule_JsValidate_DefaultComment": {
     "message": "Javascript validate",
     "description": "Javascript validate"
+  },
+  "rule_JsValidate_Comment": {
+    "message": "$NB$ javascript error(s) found",
+    "description": "Number of  javascript error(s) found ",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
   },
   "saveAnalyseButton": {
     "message": "Save analysis",

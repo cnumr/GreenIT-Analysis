@@ -10,27 +10,27 @@
 
 
 function Rules() {
-  let rules  = new Map();
-  rules.set("plugins",new pluginsRule());
-  rules.set("styleSheets",new styleSheetsRule());
-  rules.set("printStyleSheets",new printStyleSheetsRule());
-  rules.set("externalizeCss",new externalizeCssRule());
-  rules.set("minifiedCss",new minifiedCssRule());
-  rules.set("emptySrcTag",new emptySrcTagRule());
-  rules.set("jsValidate",new jsValidateRule());
-  rules.set("externalizeJs",new externalizeJsRule());
-  rules.set("minifiedJs",new minifiedJsRule());
-  rules.set("httpRequests",new httpRequestsRule());
-  rules.set("domainsNumber",new domainsNumberRule());
-  rules.set("addExpiresOrCacheControlHeaders",new addExpiresOrCacheControlHeadersRule());
-  rules.set("useETags",new useETagsRule());
-  rules.set("compressHttp",new compressHttpRule());
+  let rules = new Map();
+  rules.set("plugins", new pluginsRule());
+  rules.set("styleSheets", new styleSheetsRule());
+  rules.set("printStyleSheets", new printStyleSheetsRule());
+  rules.set("externalizeCss", new externalizeCssRule());
+  rules.set("minifiedCss", new minifiedCssRule());
+  rules.set("emptySrcTag", new emptySrcTagRule());
+  rules.set("jsValidate", new jsValidateRule());
+  rules.set("externalizeJs", new externalizeJsRule());
+  rules.set("minifiedJs", new minifiedJsRule());
+  rules.set("httpRequests", new httpRequestsRule());
+  rules.set("domainsNumber", new domainsNumberRule());
+  rules.set("addExpiresOrCacheControlHeaders", new addExpiresOrCacheControlHeadersRule());
+  rules.set("useETags", new useETagsRule());
+  rules.set("compressHttp", new compressHttpRule());
   rules.set("dontResizeImageInBrowser", new dontResizeImageInBrowserRule());
   rules.set("useStandardTypefaces", new useStandardTypefacesRule());
-  
-  
 
-  this.checkRule = function (rule,measures) {
+
+
+  this.checkRule = function (rule, measures) {
     rules.get(rule).check(measures);
   }
 
@@ -38,7 +38,7 @@ function Rules() {
     return rules.get(rule);
   }
 
-  this.getAllRules = function() {
+  this.getAllRules = function () {
     return rules;
   }
 
@@ -46,23 +46,23 @@ function Rules() {
     this.isRespected = true;
     this.id = "plugins";
     this.comment = chrome.i18n.getMessage("rule_Plugins_DefaultComment");
-    
-    this.check = function(measures) {  
+
+    this.check = function (measures) {
       if (measures.pluginsNumber > 0) {
-        this.isRespected = false ;
-        this.comment = measures.pluginsNumber + " plugin(s) found";
+        this.isRespected = false;
+        this.comment = chrome.i18n.getMessage("rule_Plugins_Comment", String(measures.pluginsNumber));
       }
     }
   }
   function styleSheetsRule() {
     this.isRespected = true;
     this.id = "styleSheets";
-    this.comment = "Not more that 2 stylesheets per frame found";
-    
-    this.check = function(measures) {  
+    this.comment = chrome.i18n.getMessage("rule_StyleSheets_DefaultComment");
+
+    this.check = function (measures) {
       if (measures.styleSheetsNumber > 2) {
-        this.isRespected = false ;
-        this.comment = measures.styleSheetsNumber + " stylesheets found for at least one frame";
+        this.isRespected = false;
+        this.comment = chrome.i18n.getMessage("rule_StyleSheets_Comment", String(measures.styleSheetsNumber));
       }
     }
   }
@@ -70,12 +70,12 @@ function Rules() {
   function printStyleSheetsRule() {
     this.isRespected = false;
     this.id = "printStyleSheets";
-    this.comment = "No print stylesheet found";
-    
-    this.check = function(measures) {  
+    this.comment = chrome.i18n.getMessage("rule_PrintStyleSheet_DefaultComment");
+
+    this.check = function (measures) {
       if (measures.printStyleSheetsNumber > 0) {
-        this.isRespected = true ;
-        this.comment = measures.printStyleSheetsNumber + " print StyleSheet(s) found"
+        this.isRespected = true;
+        this.comment = chrome.i18n.getMessage("rule_PrintStyleSheet_Comment", String(measures.printStyleSheetsNumber));
       }
     }
   }
@@ -83,12 +83,12 @@ function Rules() {
   function externalizeCssRule() {
     this.isRespected = true;
     this.id = "externalizeCss";
-    this.comment = "No inline stylesheet found";
-    
-    this.check = function(measures) {  
+    this.comment = chrome.i18n.getMessage("rule_ExternalizeCss_DefaultComment");
+
+    this.check = function (measures) {
       if (measures.inlineStyleSheetsNumber > 0) {
-        this.isRespected = false ;
-        this.comment = measures.inlineStyleSheetsNumber + " inline stylesheets found ";
+        this.isRespected = false;
+        this.comment = chrome.i18n.getMessage("rule_ExternalizeCss_Comment", String(measures.inlineStyleSheetsNumber));
       }
     }
   }
@@ -96,39 +96,41 @@ function Rules() {
   function minifiedCssRule() {
     this.isRespected = true;
     this.id = "minifiedCss";
-    this.comment = "No css found";
-    
-    this.check = function(measures) {  
+    this.comment = chrome.i18n.getMessage("rule_MinifiedCss_DefaultComment");
+
+    this.check = function (measures) {
       if (measures.totalCss > 0) {
-        if (measures.percentMinifiedCss<95)  this.isRespected = false;
+        if (measures.percentMinifiedCss < 95) this.isRespected = false;
         else this.isRespected = true;
-        this.comment = Math.round(measures.percentMinifiedCss) + " % (" + measures.minifiedCssNumber + "/" + measures.totalCss + ") minified stylesheet ";
+        this.comment = chrome.i18n.getMessage("rule_MinifiedCss_Comment",
+          Math.round(measures.percentMinifiedCss) + " % ("
+          + measures.minifiedCssNumber + "/" + measures.totalCss + ")");
       }
     }
   }
-  
+
   function emptySrcTagRule() {
     this.isRespected = true;
     this.id = "emptySrcTag";
-    this.comment = "No empty src tags found";
-    
-    this.check = function(measures) {  
+    this.comment = chrome.i18n.getMessage("rule_EmptySrcTag_DefaultComment");
+
+    this.check = function (measures) {
       if (measures.emptySrcTagNumber > 0) {
         this.isRespected = false;
-        this.comment = measures.emptySrcTagNumber + " empty src tag(s) found";
+        this.comment = chrome.i18n.getMessage("rule_EmptySrcTag_Comment", String(measures.emptySrcTagNumber));
       }
     }
   }
-  
+
   function jsValidateRule() {
     this.isRespected = true;
     this.id = "jsValidate";
-    this.comment = "Javascript validate";
-    
-    this.check = function(measures) {  
+    this.comment = chrome.i18n.getMessage("rule_JsValidate_DefaultComment");
+
+    this.check = function (measures) {
       if (measures.jsErrorsNumber > 0) {
         this.isRespected = false;
-        this.comment = measures.jsErrorsNumber + " javascript error(s) found";
+        this.comment = chrome.i18n.getMessage("rule_JsValidate_Comment", String(measures.jsErrorsNumber));
       }
     }
   }
@@ -136,12 +138,13 @@ function Rules() {
   function externalizeJsRule() {
     this.isRespected = true;
     this.id = "externalizeJs";
-    this.comment = "No inline JavaScript";
-    
-    this.check = function(measures) {  
+    this.comment = chrome.i18n.getMessage("rule_ExternalizeJs_DefaultComment");
+
+    this.check = function (measures) {
       if (measures.inlineJsScriptsNumber > 0) {
-        if (measures.inlineJsScriptsNumber > 1 ) this.isRespected = false;
-        this.comment = measures.inlineJsScriptsNumber + " inline  javascripts found ";
+        if (measures.inlineJsScriptsNumber > 1) this.isRespected = false;
+        this.comment = chrome.i18n.getMessage("rule_ExternalizeJs_Comment", String(measures.inlineJsScriptsNumber));
+        
       }
     }
   }
@@ -149,13 +152,17 @@ function Rules() {
   function minifiedJsRule() {
     this.isRespected = true;
     this.id = "minifiedJs";
-    this.comment = "No js found";
-    
-    this.check = function(measures) {  
+    this.comment = chrome.i18n.getMessage("rule_MinifiedJs_DefaultComment");
+
+    this.check = function (measures) {
       if (measures.totalJs > 0) {
         if (measures.percentMinifiedJs < 95) this.isRespected = false;
         else this.isRespected = true;
-        this.comment = Math.round(measures.percentMinifiedJs) + " % (" + measures.minifiedJsNumber + "/" + measures.totalJs + ") minified javascript ";
+
+        this.comment = chrome.i18n.getMessage("rule_MinifiedJs_Comment", 
+        Math.round(measures.percentMinifiedJs) + " % (" 
+        + measures.minifiedJsNumber 
+        + "/" + measures.totalJs + ")");
       }
     }
   }
@@ -164,38 +171,41 @@ function Rules() {
     this.isRespected = true;
     this.id = "httpRequests";
     this.comment = "";
-    
-    this.check = function(measures) {  
-        if (measures.nbRequest > 26) this.isRespected = false;
-        this.comment = measures.nbRequest + " HTTP request(s) ";
+
+    this.check = function (measures) {
+      if (measures.nbRequest > 26) this.isRespected = false;
+      this.comment = chrome.i18n.getMessage("rule_HttpRequests_Comment", String(measures.nbRequest));
     }
   }
-  
+
   function domainsNumberRule() {
     this.isRespected = true;
     this.id = "domainsNumber";
     this.comment = "";
-    
-    this.check = function(measures) {  
+
+    this.check = function (measures) {
       if (measures.domainsNumber > 2) this.isRespected = false;
-      this.comment =  measures.domainsNumber + " domain(s) found";
+      this.comment = chrome.i18n.getMessage("rule_DomainsNumber_Comment", String(measures.domainsNumber));
     }
   }
-  
+
 
   function addExpiresOrCacheControlHeadersRule() {
     this.isRespected = true;
     this.id = "addExpiresOrCacheControlHeaders";
     this.comment = "";
-    
-    this.check = function(measures) {  
+
+    this.check = function (measures) {
       if (measures.staticResourcesNumber > 0) {
         const cacheHeaderRatio = measures.staticResourcesNumberWithCacheHeaders / measures.staticResourcesNumber * 100;
         //debug(() => `static resources ${measures.staticResourcesNumber}`);
-       //debug(() => `static resources with cache header ${measures.staticResourcesNumberWithCacheHeaders}`);
+        //debug(() => `static resources with cache header ${measures.staticResourcesNumberWithCacheHeaders}`);
         if (cacheHeaderRatio < 95) this.isRespected = false;
-        else this.isRespected=true;
-        this.comment = Math.round(cacheHeaderRatio) + " % (" + measures.staticResourcesNumberWithCacheHeaders + "/" + measures.staticResourcesNumber + ") resources cached";
+        else this.isRespected = true;
+        this.comment = chrome.i18n.getMessage("rule_AddExpiresOrCacheControlHeaders_Comment",
+         Math.round(cacheHeaderRatio) + " % (" + 
+         measures.staticResourcesNumberWithCacheHeaders + 
+         "/" + measures.staticResourcesNumber + ")");
       }
     }
   }
@@ -204,15 +214,18 @@ function Rules() {
     this.isRespected = true;
     this.id = "useETags";
     this.comment = "";
-    
-    this.check = function(measures) {  
+
+    this.check = function (measures) {
       if (measures.staticResourcesNumber > 0) {
         const eTagsRatio = measures.staticResourcesNumberWithETags / measures.staticResourcesNumber * 100;
         //debug(() => `static resources ${measures.staticResourcesNumber}`);
-       //debug(() => `static resources with ETags ${measures.staticResourcesNumberWithETags}`);
+        //debug(() => `static resources with ETags ${measures.staticResourcesNumberWithETags}`);
         if (eTagsRatio < 95) this.isRespected = false;
-        else this.isRespected=true;
-        this.comment = Math.round(eTagsRatio) + " % (" + measures.staticResourcesNumberWithETags + "/" + measures.staticResourcesNumber + ") resources with ETags";
+        else this.isRespected = true;
+        this.comment = chrome.i18n.getMessage("rule_UseETags_Comment",
+         Math.round(eTagsRatio) + " % (" +
+          measures.staticResourcesNumberWithETags + "/" +
+           measures.staticResourcesNumber + ")");
       }
     }
   }
@@ -223,14 +236,17 @@ function Rules() {
     this.isRespected = true;
     this.id = "compressHttp";
     this.comment = "";
-    
-    this.check = function(measures) {  
+
+    this.check = function (measures) {
       if (measures.compressibleResourcesNumber > 0) {
         const compressRatio = measures.compressibleResourcesNumberCompressed / measures.compressibleResourcesNumber * 100;
         //debug(() => `compressible resources ${measures.compressibleResourcesNumber}`);
         //debug(() => `compressible resources compressed ${measures.compressibleResourcesNumberCompressed}`);
         this.isRespected = (compressRatio >= 95);
-        this.comment = Math.round(compressRatio) + " % (" + measures.compressibleResourcesNumberCompressed + "/" + measures.compressibleResourcesNumber + ") resources compressed";
+        this.comment = chrome.i18n.getMessage("rule_CompressHttp_Comment",
+        Math.round(compressRatio) + " % (" + 
+        measures.compressibleResourcesNumberCompressed + "/" + 
+        measures.compressibleResourcesNumber + ")");
       }
     }
   }
@@ -240,29 +256,28 @@ function Rules() {
     this.isRespected = true;
     this.id = "dontResizeImageInBrowser";
     this.comment = "";
-    
-    this.check = function(measures) {  
+
+    this.check = function (measures) {
       if (measures.imageResizedInBrowserNumber > 0) this.isRespected = false;
-      this.comment =  measures.imageResizedInBrowserNumber + " image(s) resized in browser found";
+      this.comment = chrome.i18n.getMessage("rule_DontResizeImageInBrowser_Comment", String(measures.imageResizedInBrowserNumber));
     }
   }
 
   function useStandardTypefacesRule() {
     this.isRespected = true;
     this.id = "useStandardTypefaces";
-    this.comment = "";
-    
-    this.check = function(measures) {  
+    this.comment = chrome.i18n.getMessage("rule_UseStandardTypefaces_DefaultComment");
+
+    this.check = function (measures) {
       if (measures.cssFontFaceRuleNumber > 0) {
         this.isRespected = false;
-        this.comment =  measures.cssFontFaceRuleNumber + " custom fonts found for at least one frame";
+        this.comment = chrome.i18n.getMessage("rule_UseStandardTypefaces_Comment", String(measures.cssFontFaceRuleNumber));
       }
-      else this.comment = "No custom fonts found";
     }
   }
 
-  
-  
- }
+
+
+}
 
 
