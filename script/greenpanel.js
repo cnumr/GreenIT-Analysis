@@ -85,22 +85,21 @@ function logFrameMeasures(frameMeasures) {
 
 function isOldAnalyse(startingTime) { return (startingTime < lastAnalyseStartingTime) };
 
-function computeEcoIndexMeasures(measures)
-{
-measures.ecoIndex = computeEcoIndex(measures.domSize, measures.nbRequest, Math.round(measures.responsesSize / 1000));
-measures.waterConsumption = computeWaterConsumptionfromEcoIndex(measures.ecoIndex);
-measures.greenhouseGasesEmission = computeGreenhouseGasesEmissionfromEcoIndex(measures.ecoIndex);
-measures.grade = getEcoIndexGrade(measures.ecoIndex);
+function computeEcoIndexMeasures(measures) {
+  measures.ecoIndex = computeEcoIndex(measures.domSize, measures.nbRequest, Math.round(measures.responsesSize / 1000));
+  measures.waterConsumption = computeWaterConsumptionfromEcoIndex(measures.ecoIndex);
+  measures.greenhouseGasesEmission = computeGreenhouseGasesEmissionfromEcoIndex(measures.ecoIndex);
+  measures.grade = getEcoIndexGrade(measures.ecoIndex);
 }
 
 function refreshUI() {
   const measures = measuresAcquisition.getMeasures();
   document.getElementById("ecoIndexView").hidden = false;
   document.getElementById("requestNumber").innerHTML = measures.nbRequest;
-  
-  if (measures.responsesSizeUncompress!=0) document.getElementById("responsesSize").innerHTML = Math.round(measures.responsesSize / 1000) + " (" + Math.round(measures.responsesSizeUncompress / 1000) + ")";
+
+  if (measures.responsesSizeUncompress != 0) document.getElementById("responsesSize").innerHTML = Math.round(measures.responsesSize / 1000) + " (" + Math.round(measures.responsesSizeUncompress / 1000) + ")";
   else document.getElementById("responsesSize").innerHTML = Math.round(measures.responsesSize / 1000);
-  
+
   document.getElementById("domSize").innerHTML = measures.domSize;
   document.getElementById("ecoIndex").innerHTML = measures.ecoIndex;
   document.getElementById("grade").innerHTML = '<span class="grade ' + measures.grade + '">' + measures.grade + '</span>';
@@ -215,17 +214,17 @@ function MeasuresAcquisition(rules) {
       if (entries.length) {
         measures.nbRequest = entries.length;
         entries.map(entry => {
-          console.log("entries = " + JSON.stringify(entry));
-          
-		  // If chromium : 
-		  // _transferSize represent the real data volume transfert 
-		  // while content.size represent the size of the page which is uncompress
-		  if (entry.response._transferSize) {
-			  measures.responsesSize += entry.response._transferSize;
-			  measures.responsesSizeUncompress += entry.response.content.size;
-		  }
-		  else measures.responsesSize += entry.response.content.size;
-		  
+          //console.log("entries = " + JSON.stringify(entry));
+
+          // If chromium : 
+          // _transferSize represent the real data volume transfert 
+          // while content.size represent the size of the page which is uncompress
+          if (entry.response._transferSize) {
+            measures.responsesSize += entry.response._transferSize;
+            measures.responsesSizeUncompress += entry.response.content.size;
+          }
+          else measures.responsesSize += entry.response.content.size;
+
           if (analyseBestPractices) {
             if (isStaticRessource(entry)) {
               measures.staticResourcesNumber++;
@@ -275,9 +274,13 @@ function MeasuresAcquisition(rules) {
   function getResourcesMeasure() {
     chrome.devtools.inspectedWindow.getResources((resources) => {
       resources.map(resource => {
-        if ((resource.type === 'script') || (resource.type === 'stylesheet')) {
-          let resourceAnalyser = new ResourceAnalyser(resource);
-          resourceAnalyser.analyse();
+        console.log("DEBUG - resource = " + JSON.stringify(resource));
+        //exclude ressource injected by other extensions
+        if (!resource.url.startsWith("chrome-extension")){
+          if ((resource.type === 'script') || (resource.type === 'stylesheet')) {
+            let resourceAnalyser = new ResourceAnalyser(resource);
+            resourceAnalyser.analyse();
+          }
         }
       });
     });
@@ -307,9 +310,9 @@ function MeasuresAcquisition(rules) {
     measures.totalJs++;
     if (isMinified(code)) {
       measures.minifiedJsNumber++;
-      debug(() => `${url} is minified`);
+      debug(() => `js ${url} is minified `);
     }
-    else debug(() => `${url} is not minified`);
+    else debug(() => `js ${url} is not minified`);
     measures.percentMinifiedJs = measures.minifiedJsNumber / measures.totalJs * 100;
     localRules.checkRule("minifiedJs", measures);
     refreshUI();
@@ -320,9 +323,9 @@ function MeasuresAcquisition(rules) {
     measures.totalCss++;
     if (isMinified(code)) {
       measures.minifiedCssNumber++;
-      debug(() => `${url} is minified`);
+      debug(() => `css ${url} is minified`);
     }
-    else debug(() => `${url} is not minified`);
+    else debug(() => `css ${url} is not minified`);
     measures.percentMinifiedCss = measures.minifiedCssNumber / measures.totalCss * 100;
     localRules.checkRule("minifiedCss", measures);
     refreshUI();
@@ -375,7 +378,7 @@ function storeAnalysisInHistory() {
 function viewHistory() {
   if (chrome.tabs) chrome.tabs.query({ currentWindow: true }, loadHistoryTab);
   // chrome.tabs is not accessible in old chromium version 
-  else  window.open("history.html");
+  else window.open("history.html");
 }
 
 
@@ -396,12 +399,12 @@ function loadHistoryTab(tabs) {
 }
 
 
-function viewHelp() { 
+function viewHelp() {
   window.open("https://github.com/didierfred/GreenIT-Analysis");
 }
 
 
 function setAnalyseBestPractices() {
-  analyseBestPractices = document.getElementById('analyseBestPracticesCheckBox').checked ;
+  analyseBestPractices = document.getElementById('analyseBestPracticesCheckBox').checked;
   if (!analyseBestPractices) document.getElementById("bestPracticesView").hidden = true;
 }
