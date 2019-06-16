@@ -275,8 +275,7 @@ function MeasuresAcquisition(rules) {
     chrome.devtools.inspectedWindow.getResources((resources) => {
       resources.map(resource => {
         console.log("DEBUG - resource = " + JSON.stringify(resource));
-        //exclude ressource injected by other extensions
-        if (!resource.url.startsWith("chrome-extension")){
+        if (resource.url.startsWith("file")||resource.url.startsWith("http")){
           if ((resource.type === 'script') || (resource.type === 'stylesheet')) {
             let resourceAnalyser = new ResourceAnalyser(resource);
             resourceAnalyser.analyse();
