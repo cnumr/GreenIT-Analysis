@@ -48,8 +48,6 @@ function openBackgroundPageConnection() {
 }
 
 function aggregateFrameMeasures(frameMeasures) {
-  //debug(() => `receive from frameAnalyse.js ${JSON.stringify(frameMeasures)}`);
-  //logFrameMeasures(frameMeasures);
 
   if (isOldAnalyse(frameMeasures.analyseStartingTime)) {
     debug(() => `Analyse is too old for url ${frameMeasures.url} , time = ${frameMeasures.analyseStartingTime}`);
@@ -85,10 +83,6 @@ function aggregateFrameMeasures(frameMeasures) {
     rules.checkRule('dontResizeImageInBrowser', measures);
     rules.checkRule('useStandardTypefaces', measures);
   }
-}
-
-function logFrameMeasures(frameMeasures) {
-  debug(() => `Analyse form frame : ${frameMeasures.url}, analyseStartingTime : ${frameMeasures.analyseStartingTime}DomSize:${frameMeasures.domSize},Plugins:${frameMeasures.pluginsNumber},StyleSheets:${frameMeasures.styleSheetsNumber},Print StyleSheets:${frameMeasures.printStyleSheetsNumber},Inline StyleSheets:${frameMeasures.inlineStyleSheetsNumber},Empty Src Tag:${frameMeasures.emptySrcTagNumber},Inline Js Scripts:${frameMeasures.inlineJsScriptsNumber},css Font Face:${frameMeasures.cssFontFaceRuleNumber}`);
 }
 
 function isOldAnalyse(startingTime) { return (startingTime < lastAnalyseStartingTime) };
@@ -129,7 +123,6 @@ function refreshUI() {
 }
 
 function showEcoRuleOnUI(rule) {
-  //debug(() => "rule =" + JSON.stringify(rule)); 
   if (rule !== undefined) {
     let status = "NOK";
     if (rule.isRespected) status = "OK";
@@ -230,7 +223,6 @@ function MeasuresAcquisition(rules) {
       if (entries.length) {
         measures.nbRequest = entries.length;
         entries.map(entry => {
-          //console.log("entries = " + JSON.stringify(entry));
 
           // If chromium : 
           // _transferSize represent the real data volume transfert 
@@ -244,7 +236,6 @@ function MeasuresAcquisition(rules) {
           if (analyseBestPractices) {
             if (isStaticRessource(entry)) {
               measures.staticResourcesNumber++;
-              //debug(() => `resource ${entry.request.url} is cacheable `);
               if (hasValidCacheHeaders(entry)) {
                 measures.staticResourcesNumberWithCacheHeaders++;
                 debug(() => `resource ${entry.request.url} is cached `);
@@ -258,7 +249,6 @@ function MeasuresAcquisition(rules) {
             }
             if (isCompressibleResource(entry)) {
               measures.compressibleResourcesNumber++;
-              //debug(() => `resource ${entry.request.url} is compressible `);
               if (isResourceCompressed(entry)) {
                 measures.compressibleResourcesNumberCompressed++;
                 debug(() => `resource ${entry.request.url} is compressed `);
@@ -290,7 +280,6 @@ function MeasuresAcquisition(rules) {
   function getResourcesMeasure() {
     if (chrome.devtools.inspectedWindow.getResources) chrome.devtools.inspectedWindow.getResources((resources) => {
       resources.map(resource => {
-        console.log("DEBUG - resource = " + JSON.stringify(resource));
         if (resource.url.startsWith("file")||resource.url.startsWith("http")){
           if ((resource.type === 'script') || (resource.type === 'stylesheet')) {
             let resourceAnalyser = new ResourceAnalyser(resource);

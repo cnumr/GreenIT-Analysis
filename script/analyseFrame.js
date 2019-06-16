@@ -10,44 +10,22 @@
 
 
 function start_analyse() {
-
-  console.log("analyseBestPractices = " + analyseBestPractices);
-
-
   const analyseStartingTime = Date.now();
-  console.log(analyseStartingTime + ";url=" + document.URL);
   const dom_size = document.getElementsByTagName("*").length;
-  console.log("local dom size=" + dom_size);
   let pageAnalysis;
 
   if (analyseBestPractices) {
     // test with http://www.wickham43.net/flashvideo.php
     const pluginsNumber = getPluginsNumber();
-    console.log("Plugins number = " + pluginsNumber);
-
     const styleSheetsNumber = getStyleSheetsNumber();
-    console.log("StyleSheets Number = " + styleSheetsNumber);
-
     const printStyleSheetsNumber = getPrintStyleSheetsNumber();
-    console.log("Print StyleSheets Number = " + printStyleSheetsNumber);
-
     const inlineStyleSheetsNumber = getInlineStyleSheetsNumber();
-    console.log("Inline styleSheet Number  = " + inlineStyleSheetsNumber);
-
     const emptySrcTagNumber = getEmptySrcTagNumber();
-    console.log("Empty Src Tag Number  = " + emptySrcTagNumber);
-
     const inlineJsScript = getInlineJsScript();
-    console.log("Inline Script  = " + inlineJsScript.slice(0, 20) + '...');
-
     const inlineJsScriptsNumber = getInlineJsScriptsNumber();
-    console.log("Inline Js Scripts Number  = " + inlineJsScriptsNumber);
-
     const imageResizedInBrowserNumber = getImageResizedInBrowserNumber();
-    console.log("Image Resized in Browser Number  = " + imageResizedInBrowserNumber);
-
     const cssFontFaceRuleNumber = getCssFontFaceRuleNumber();
-    console.log("Css Font Face rules size = " + cssFontFaceRuleNumber);
+
 
     pageAnalysis = {
       "analyseStartingTime": analyseStartingTime,
@@ -69,8 +47,6 @@ function start_analyse() {
     "url": document.URL,
     "domSize": dom_size
   }
-
-  console.log("Send result");
 
   chrome.runtime.sendMessage(pageAnalysis);
 }
@@ -128,8 +104,6 @@ function getInlineJsScript() {
   scriptArray.forEach(script => {
     let isJSON = (String(script.type) === "application/ld+json"); // Exclude type="application/ld+json" from parsing js analyse
     if ((script.text.length > 0) && (!isJSON)) scriptText += "\n" + script.text;
-    //console.log("script:"+ script.src);
-    //console.log("text:"+ script.text);
   });
   return scriptText;
 }
@@ -149,7 +123,6 @@ function getImageResizedInBrowserNumber() {
   let imgArray = Array.from(document.querySelectorAll('img'));
   let imageResizedInBrowserNumber = 0;
   imgArray.forEach(img => {
-    console.log("width=" + img.clientWidth + "natural = " + img.naturalWidth);
     if (img.clientWidth < img.naturalWidth || img.clientHeight < img.naturalHeight) imageResizedInBrowserNumber++;
   });
   return imageResizedInBrowserNumber;
