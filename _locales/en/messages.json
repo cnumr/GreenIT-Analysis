@@ -327,6 +327,10 @@
       }
     }
   },
+  "unsupportedRuleAnalyse": {
+    "message": "-- Analyse not supported by this browser --",
+    "description": "Analyse not supported by this browser"
+  },
   "saveAnalyseButton": {
     "message": "Save analysis",
     "description": "Save Analyse Button"

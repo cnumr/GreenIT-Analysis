@@ -15,11 +15,8 @@ function Rules() {
   rules.set("styleSheets", new styleSheetsRule());
   rules.set("printStyleSheets", new printStyleSheetsRule());
   rules.set("externalizeCss", new externalizeCssRule());
-  rules.set("minifiedCss", new minifiedCssRule());
   rules.set("emptySrcTag", new emptySrcTagRule());
-  rules.set("jsValidate", new jsValidateRule());
   rules.set("externalizeJs", new externalizeJsRule());
-  rules.set("minifiedJs", new minifiedJsRule());
   rules.set("httpRequests", new httpRequestsRule());
   rules.set("domainsNumber", new domainsNumberRule());
   rules.set("addExpiresOrCacheControlHeaders", new addExpiresOrCacheControlHeadersRule());
@@ -28,7 +25,13 @@ function Rules() {
   rules.set("dontResizeImageInBrowser", new dontResizeImageInBrowserRule());
   rules.set("useStandardTypefaces", new useStandardTypefacesRule());
 
-
+  // if method chrome.devtools.inspectedWindow.getResources is not implemented (ex: firefox)
+  // These rules cannot be computed
+  if (chrome.devtools.inspectedWindow.getResources){
+    rules.set("minifiedJs", new minifiedJsRule());
+    rules.set("jsValidate", new jsValidateRule());
+    rules.set("minifiedCss", new minifiedCssRule());
+  }
 
   this.checkRule = function (rule, measures) {
     rules.get(rule).check(measures);

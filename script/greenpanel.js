@@ -21,6 +21,14 @@ initPanel();
 
 function initPanel() {
   openBackgroundPageConnection();
+
+    // if method chrome.devtools.inspectedWindow.getResources is not implemented (ex: firefox)
+  // These rules cannot be computed
+  if (!chrome.devtools.inspectedWindow.getResources){
+    setUnsupportedRuleAnalyse("minifiedJs");
+    setUnsupportedRuleAnalyse("jsValidate");
+    setUnsupportedRuleAnalyse("minifiedCss");
+  }
   document.getElementById('launchAnalyse').addEventListener('click', (e) => launchAnalyse());
   document.getElementById('saveAnalyse').addEventListener('click', (e) => storeAnalysisInHistory());
   document.getElementById('viewHistory').addEventListener('click', (e) => viewHistory());
@@ -59,7 +67,7 @@ function aggregateFrameMeasures(frameMeasures) {
     measures.printStyleSheetsNumber += frameMeasures.printStyleSheetsNumber;
     if (measures.inlineStyleSheetsNumber < frameMeasures.inlineStyleSheetsNumber) measures.inlineStyleSheetsNumber = frameMeasures.inlineStyleSheetsNumber;
     measures.emptySrcTagNumber += frameMeasures.emptySrcTagNumber;
-    if (frameMeasures.inlineJsScript.length > 0) analyseJsCode(frameMeasures.inlineJsScript, "inline", measures);
+    if ((frameMeasures.inlineJsScript.length > 0) && (chrome.devtools.inspectedWindow.getResources)) analyseJsCode(frameMeasures.inlineJsScript, "inline", measures);
     if (measures.inlineJsScriptsNumber < frameMeasures.inlineJsScriptsNumber) measures.inlineJsScriptsNumber = frameMeasures.inlineJsScriptsNumber;
 
     measures.imageResizedInBrowserNumber += frameMeasures.imageResizedInBrowserNumber;
@@ -71,7 +79,7 @@ function aggregateFrameMeasures(frameMeasures) {
     rules.checkRule('styleSheets', measures);
     rules.checkRule('printStyleSheets', measures);
     rules.checkRule('emptySrcTag', measures);
-    rules.checkRule('jsValidate', measures);
+    if (chrome.devtools.inspectedWindow.getResources) rules.checkRule('jsValidate', measures);
     rules.checkRule('externalizeCss', measures);
     rules.checkRule('externalizeJs', measures);
     rules.checkRule('dontResizeImageInBrowser', measures);
@@ -91,6 +99,14 @@ function computeEcoIndexMeasures(measures) {
   measures.greenhouseGasesEmission = computeGreenhouseGasesEmissionfromEcoIndex(measures.ecoIndex);
   measures.grade = getEcoIndexGrade(measures.ecoIndex);
 }
+
+
+function setUnsupportedRuleAnalyse(ruleId)
+{
+  document.getElementById(ruleId + "_status").src = "";
+  document.getElementById(ruleId + "_comment").innerHTML = chrome.i18n.getMessage("unsupportedRuleAnalyse");
+}
+
 
 function refreshUI() {
   const measures = measuresAcquisition.getMeasures();
@@ -272,7 +288,7 @@ function MeasuresAcquisition(rules) {
 
 
   function getResourcesMeasure() {
-    chrome.devtools.inspectedWindow.getResources((resources) => {
+    if (chrome.devtools.inspectedWindow.getResources) chrome.devtools.inspectedWindow.getResources((resources) => {
       resources.map(resource => {
         console.log("DEBUG - resource = " + JSON.stringify(resource));
         if (resource.url.startsWith("file")||resource.url.startsWith("http")){
