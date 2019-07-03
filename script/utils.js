@@ -148,7 +148,7 @@ function hasValidCacheHeaders(resource) {
   let cache = {};
   let isValid = false;
 
-  headers.map(header => {
+  headers.forEach(header => {
     if (header.name.toLowerCase() === 'cache-control') cache.CacheControl = header.value;
     if (header.name.toLowerCase() === 'expires') cache.Expires = header.value;
     if (header.name.toLowerCase() === 'date') cache.Date = header.value;
@@ -213,7 +213,7 @@ function getDomainFromUrl(url) {
 */
 function countChar(char, str) {
   let total = 0;
-  str.split("").map(curr => {
+  str.split("").forEach(curr => {
     if (curr === char) total++;
   });
   return total;

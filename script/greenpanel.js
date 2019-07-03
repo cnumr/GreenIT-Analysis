@@ -222,7 +222,7 @@ function MeasuresAcquisition(rules) {
       let domains = [];
       if (entries.length) {
         measures.nbRequest = entries.length;
-        entries.map(entry => {
+        entries.forEach(entry => {
 
           // If chromium : 
           // _transferSize represent the real data volume transfert 
@@ -279,7 +279,7 @@ function MeasuresAcquisition(rules) {
 
   function getResourcesMeasure() {
     if (chrome.devtools.inspectedWindow.getResources) chrome.devtools.inspectedWindow.getResources((resources) => {
-      resources.map(resource => {
+      resources.forEach(resource => {
         if (resource.url.startsWith("file")||resource.url.startsWith("http")){
           if ((resource.type === 'script') || (resource.type === 'stylesheet')) {
             let resourceAnalyser = new ResourceAnalyser(resource);
