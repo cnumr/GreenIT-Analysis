@@ -24,6 +24,7 @@ function Rules() {
   rules.set("compressHttp", new compressHttpRule());
   rules.set("dontResizeImageInBrowser", new dontResizeImageInBrowserRule());
   rules.set("useStandardTypefaces", new useStandardTypefacesRule());
+  rules.set("maxCookiesLength", new maxCookiesLengthRule());
 
   // if method chrome.devtools.inspectedWindow.getResources is not implemented (ex: firefox)
   // These rules cannot be computed
@@ -279,7 +280,18 @@ function Rules() {
     }
   }
 
+  function maxCookiesLengthRule() {
+    this.isRespected = true;
+    this.id = "maxCookiesLength";
+    this.comment = chrome.i18n.getMessage("rule_MaxCookiesLength_DefaultComment");
 
+    this.check = function (measures) {
+      this.comment = chrome.i18n.getMessage("rule_MaxCookiesLength_Comment", String(measures.maxCookiesLength));
+      if (measures.maxCookiesLength > 512) this.isRespected = false;
+    }
+  }
+
+  
 
 }
 

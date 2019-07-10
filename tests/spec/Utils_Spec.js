@@ -27,6 +27,31 @@ describe("utils.js", function() {
   });
 
 
+
+  describe("#function getCookiesLength", function() {
+    
+    beforeEach(function() {	
+    });
+	
+    it(" should return 0", function() {
+	    const resource = {request: {httpVersion:"http/2.0",headers:[{name:"content-encoding",value:"gzip"},{name:"content-type",value:"text/css"},{name:"toto",value:"test"}]}};
+      expect(testFrame.getCookiesLength(resource)).toEqual(0);
+    });
+
+    it(" should return 5", function() {
+	    const resource = {request: {httpVersion:"http/2.0",headers:[{name:"content-encoding",value:"gzip"},{name:"cookie",value:"12345"},{name:"toto",value:"test"}]}};
+      expect(testFrame.getCookiesLength(resource)).toEqual(5);
+    });
+
+    it(" should return 10", function() {
+	    const resource = {request: {httpVersion:"http/2.0",headers:[{name:"content-encoding",value:"gzip"},{name:"Cookie",value:"123456789y"},{name:"toto",value:"test"}]}};
+      expect(testFrame.getCookiesLength(resource)).toEqual(10);
+    });
+    afterEach(function() {
+    });
+  });
+
+
   describe("#function isStaticRessource", function() {
  
     beforeEach(function() {	
