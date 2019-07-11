@@ -196,16 +196,16 @@
     }
   },
   "rule_MaxCookiesLength": {
-    "message": "Max cookies length(<512b)",
-    "description": "Max cookies length(<512b)"
+    "message": "Max cookies length(<512 Bytes )",
+    "description": "Max cookies length(<512B)"
   },
   "rule_MaxCookiesLength_DefaultComment": {
     "message": "No cookies",
     "description": "No cookies"
   },
   "rule_MaxCookiesLength_Comment": {
-    "message": "Cookies length = $Length$ ",
-    "description": "Cookie length value",
+    "message": "Max cookies length = $Length$ Bytes ",
+    "description": "Max cookie length value",
     "placeholders": {
       "Length": {
         "content": "$1"

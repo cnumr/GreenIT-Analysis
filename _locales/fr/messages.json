@@ -1,346 +1,363 @@
 {
-    "activateBestPracticeAnalysisCheckbox": {
-        "message": "Activer l'analyse des bonnes pratiques",
-        "description": "Title for activateBestPracticeAnalysisCheckbox"
-    },
-    "bestPractices": {
-        "message": "Bonnes pratiques",
-        "description": "Title for best practice"
-      },
-    "csvColumnsLabel": {
-        "message": "Date;Url;Nombre requêtes;Taille(kb);Taille du dom;GES;Eau;ecoIndex;Note",
-        "description": "csvColumnsLabel"
-    },
-    "date": {
-        "message": "Date",
-        "description": "Date"
-    },
-    "deleteAllButton": {
-        "message": "Effacer tout",
-        "description": "Delete All Button"
-    },
-    "deleteAllConfirmMessage": {
-        "message": "Voulez vous vraiment supprimer tout l'historique ?",
-        "description": "Delete All Confirm Message"
-    },
-    "deleteButton": {
-        "message": "Effacer",
-        "description": "Delete Button"
-    },
-    "domSize": {
-        "message": "Taille du DOM",
-        "description": "Dom Size"
-    },
-    "ecoIndex": {
-        "message": "EcoIndex",
-        "description": "EcoIndex"
-    },
-    "exportButton": {
-        "message": "Exporter",
-        "description": "Export Button"
-    },
-    "grade": {
-        "message": "Note",
-        "description": "Grade"
-    },
-    "greenhouseGasesEmission": {
-        "message": "GES (gCO2e)",
-        "description": "Greenhouse Gases Emission (gCO2e)"
-    },
-    "helpButton": {
-        "message": "Aide",
-        "description": "Help button"
-      },
-    "helpLink": {
-        "message": "Aide",
-        "description": "Help link"
-    },
-    "historyButton": {
-        "message": "Historique",
-        "description": "History Button"
-    },
-    "historyPageTitle": {
-        "message": "EcoIndex  - Historique des analyses",
-        "description": "History page title"
-    },
-    "launchAnalyseButton": {
-        "message": "Lancer l'analyse",
-        "description": "Launch Analysis"
-      },
-    "pageSize": {
-        "message": "Taille de la page (Kb) ",
-        "description": "Page Size(Kb) ."
-    },
-    "pluginTitle": {
-        "message": "EcoIndex Plugin ",
-        "description": "Plugin title"
-    },
-    "requestNumber": {
-        "message": "Nombre de requêtes ",
-        "description": "Number of request"
-    },
-    "rule_AddExpiresOrCacheControlHeaders": {
-        "message": "Ajouter des expires ou cache-control headers (>= 95%)",
-        "description": "Add expires or cache-Control headers"
-      },
-      "rule_AddExpiresOrCacheControlHeaders_Comment": {
-        "message": "$PERCENT$ ressources cachées",
-        "description": "Percentage of resources cached ",
-        "placeholders": {
-          "PERCENT": {
-            "content": "$1"
-          }
-        }
-      },
-      "rule_CompressHttp": {
-        "message": "Ressources compressées (>= 95%) ",
-        "description": "Compress ressources "
-      },
-      "rule_CompressHttp_Comment": {
-        "message": "$PERCENT$ ressources compressées",
-        "description": "Percentage of resources compressed",
-        "placeholders": {
-          "PERCENT": {
-            "content": "$1"
-          }
-        }
-      },
-      "rule_DomainsNumber": {
-        "message": "Limiter le nombre de domaines (>3)",
-        "description": "Limit the number of domains"
-      },
-      "rule_DomainsNumber_Comment": {
-        "message": "$NB$ domaine(s) trouvé(s)",
-        "description": "Number of domain(s) found",
-        "placeholders": {
-          "NB": {
-            "content": "$1"
-          }
-        }
-      },
-      "rule_DontResizeImageInBrowser": {
-        "message": "Ne pas retailler les images dans le navigateur",
-        "description": "Do not resize image in browser"
-      },
-      "rule_DontResizeImageInBrowser_Comment": {
-        "message": "$NB$ image(s) retaillée(s) dans le navigateur",
-        "description": "Number of image(s) resized in browser found",
-        "placeholders": {
-          "NB": {
-            "content": "$1"
-          }
-        }
-      },
-      "rule_EmptySrcTag": {
-        "message": "Eviter les tags SRC vides",
-        "description": "Avoid empty src tag"
-      },
-      "rule_EmptySrcTag_DefaultComment": {
-        "message": "Pas de tag SRC vide",
-        "description": "No empty src tags found"
-      },
-      "rule_EmptySrcTag_Comment": {
-        "message": "$NB$ tag(s) SRC vide(s)",
-        "description": "Number of  empty src tag(s) found ",
-        "placeholders": {
-          "NB": {
-            "content": "$1"
-          }
-        }
-      },
-      "rule_ExternalizeCss": {
-        "message": "Externaliser les css",
-        "description": "Externalize css"
-      },
-      "rule_ExternalizeCss_DefaultComment": {
-        "message": "Pas de inline stylesheet",
-        "description": "No inline stylesheet found"
-      },
-      "rule_ExternalizeCss_Comment": {
-        "message": "$NB$ inline stylesheet(s)",
-        "description": "Number of inline stylesheets found ",
-        "placeholders": {
-          "NB": {
-            "content": "$1"
-          }
-        }
-      },
-      "rule_ExternalizeJs": {
-        "message": "Externaliser les js",
-        "description": "Externalize js"
-      },
-      "rule_ExternalizeJs_DefaultComment": {
-        "message": "Pas d'inline JavaScript",
-        "description": "No inline JavaScript"
-      },
-      "rule_ExternalizeJs_Comment": {
-        "message": "$NB$ inline  javascript(s)",
-        "description": "Number of inline  javascripts found ",
-        "placeholders": {
-          "NB": {
-            "content": "$1"
-          }
-        }
-      },
-      "rule_HttpRequests": {
-        "message": "Limiter le nombre de requêtes HTTP (>27)",
-        "description": "Limit the number of HTTP requests"
-      },
-      "rule_HttpRequests_Comment": {
-        "message": "$NB$ requête(s) HTTP ",
-        "description": "Number of HTTP request(s)",
-        "placeholders": {
-          "NB": {
-            "content": "$1"
-          }
-        }
-      },
-      "rule_MinifiedCss": {
-        "message": "Minifier les css (>= 95%)",
-        "description": "Minified css (>= 95%)"
-      },
-      "rule_MinifiedCss_DefaultComment": {
-        "message": "Aucun css",
-        "description": "No css found"
-      },
-      "rule_MinifiedCss_Comment": {
-        "message": "$NB$ css minifiées",
-        "description": "Percentage of minified stylesheet ",
-        "placeholders": {
-          "NB": {
-            "content": "$1"
-          }
-        }
-      },
-      "rule_MinifiedJs": {
-        "message": "Minifier les js (>= 95%)",
-        "description": "Minified js (>= 95%)"
-      },
-      "rule_MinifiedJs_DefaultComment": {
-        "message": "Aucun js",
-        "description": "No js found"
-      },
-      "rule_MinifiedJs_Comment": {
-        "message": "$NB$ js minifié",
-        "description": "Percentage of minified javascript ",
-        "placeholders": {
-          "NB": {
-            "content": "$1"
-          }
-        }
-      },
-      "rule_Plugins": {
-        "message": "Ne pas utiliser de plugins",
-        "description": "Do not use plugins"
-      },
-      "rule_Plugins_DefaultComment": {
-        "message": "Aucun plugin",
-        "description": "No plugin found"
-      },
-      "rule_Plugins_Comment": {
-        "message": "$NB_PLUGINS$ plugin(s)",
-        "description": "Number of plugin found",
-        "placeholders": {
-          "NB_PLUGINS": {
-            "content": "$1"
-          }
-        }
-      },
-      "rule_PrintStyleSheet": {
-        "message": "Fournir une print css",
-        "description": "Provide print stylesheet"
-      },
-      "rule_PrintStyleSheet_DefaultComment": {
-        "message": "Pas de print css",
-        "description": "No print stylesheet found"
-      },
-      "rule_PrintStyleSheet_Comment": {
-        "message": "$NB_PRINTSTLESHEET$ print css",
-        "description": "Number of print StyleSheet(s) found",
-        "placeholders": {
-          "NB_PRINTSTLESHEET": {
-            "content": "$1"
-          }
-        }
-      },
-      "rule_StyleSheets": {
-        "message": "Limit le nombre de fichiers css",
-        "description": "Limit Stylesheet files"
-      },
-      "rule_StyleSheets_DefaultComment": {
-        "message": "Pas plus de 2 fichiers css par frames",
-        "description": "Not more that 2 stylesheets per frame found"
-      },
-      "rule_StyleSheets_Comment": {
-        "message": "$NB_STYLESHEETS$ fichiers css pour au moins une frame",
-        "description": "Number of stylesheets for at least one frame",
-        "placeholders": {
-          "NB_STYLESHEETS": {
-            "content": "$1"
-          }
-        }
-      },
-      "rule_UseETags": {
-        "message": "Utiliser des ETags (>= 95%)",
-        "description": "Use ETags (>= 95%)"
-      },
-      "rule_UseETags_Comment": {
-        "message": "$PERCENT$ ressources utilisant des ETags",
-        "description": "Percentage of resources with ETags",
-        "placeholders": {
-          "PERCENT": {
-            "content": "$1"
-          }
-        }
-      },
-      "rule_UseStandardTypefaces": {
-        "message": "Utiliser des polices de caractères standards",
-        "description": "Use Standard Typefaces"
-      },
-      "rule_UseStandardTypefaces_DefaultComment": {
-        "message": "Pas de polices de caractères spécifiques",
-        "description": "No custom fonts found"
-      },
-      "rule_UseStandardTypefaces_Comment": {
-        "message": "$NB$ police(s) de caractères spécifique(s) pour au moins une frame",
-        "description": "Number of custom fonts found for at least one frame",
-        "placeholders": {
-          "NB": {
-            "content": "$1"
-          }
-        }
-      },
-      "rule_JsValidate": {
-        "message": "Valider le javascript",
-        "description": "Validate js"
-      },
-      "rule_JsValidate_DefaultComment": {
-        "message": "Javascript validé",
-        "description": "Javascript validate"
-      },
-      "rule_JsValidate_Comment": {
-        "message": "$NB$ erreur(s) javascript",
-        "description": "Number of  javascript error(s) found ",
-        "placeholders": {
-          "NB": {
-            "content": "$1"
-          }
-        }
-      },
-    "unsupportedRuleAnalyse": {
-        "message": "-- Analyse non supportée par ce navigateur --",
-        "description": "Analyse not supported by this browser"
-      },
-    "saveAnalyseButton": {
-        "message": "Sauver l'analyse",
-        "description": "Save Analyse Button"
-    },
-    "url": {
-        "message": "Url",
-        "description": "Url"
-    },
-    "waterConsumption": {
-        "message": "Eau (cl)",
-        "description": "Water Consumption (cl)"
+  "activateBestPracticeAnalysisCheckbox": {
+    "message": "Activer l'analyse des bonnes pratiques",
+    "description": "Title for activateBestPracticeAnalysisCheckbox"
+  },
+  "bestPractices": {
+    "message": "Bonnes pratiques",
+    "description": "Title for best practice"
+  },
+  "csvColumnsLabel": {
+    "message": "Date;Url;Nombre requêtes;Taille(kb);Taille du dom;GES;Eau;ecoIndex;Note",
+    "description": "csvColumnsLabel"
+  },
+  "date": {
+    "message": "Date",
+    "description": "Date"
+  },
+  "deleteAllButton": {
+    "message": "Effacer tout",
+    "description": "Delete All Button"
+  },
+  "deleteAllConfirmMessage": {
+    "message": "Voulez vous vraiment supprimer tout l'historique ?",
+    "description": "Delete All Confirm Message"
+  },
+  "deleteButton": {
+    "message": "Effacer",
+    "description": "Delete Button"
+  },
+  "domSize": {
+    "message": "Taille du DOM",
+    "description": "Dom Size"
+  },
+  "ecoIndex": {
+    "message": "EcoIndex",
+    "description": "EcoIndex"
+  },
+  "exportButton": {
+    "message": "Exporter",
+    "description": "Export Button"
+  },
+  "grade": {
+    "message": "Note",
+    "description": "Grade"
+  },
+  "greenhouseGasesEmission": {
+    "message": "GES (gCO2e)",
+    "description": "Greenhouse Gases Emission (gCO2e)"
+  },
+  "helpButton": {
+    "message": "Aide",
+    "description": "Help button"
+  },
+  "helpLink": {
+    "message": "Aide",
+    "description": "Help link"
+  },
+  "historyButton": {
+    "message": "Historique",
+    "description": "History Button"
+  },
+  "historyPageTitle": {
+    "message": "EcoIndex  - Historique des analyses",
+    "description": "History page title"
+  },
+  "launchAnalyseButton": {
+    "message": "Lancer l'analyse",
+    "description": "Launch Analysis"
+  },
+  "pageSize": {
+    "message": "Taille de la page (Kb) ",
+    "description": "Page Size(Kb) ."
+  },
+  "pluginTitle": {
+    "message": "EcoIndex Plugin ",
+    "description": "Plugin title"
+  },
+  "requestNumber": {
+    "message": "Nombre de requêtes ",
+    "description": "Number of request"
+  },
+  "rule_AddExpiresOrCacheControlHeaders": {
+    "message": "Ajouter des expires ou cache-control headers (>= 95%)",
+    "description": "Add expires or cache-Control headers"
+  },
+  "rule_AddExpiresOrCacheControlHeaders_Comment": {
+    "message": "$PERCENT$ ressources cachées",
+    "description": "Percentage of resources cached ",
+    "placeholders": {
+      "PERCENT": {
+        "content": "$1"
+      }
     }
+  },
+  "rule_CompressHttp": {
+    "message": "Ressources compressées (>= 95%) ",
+    "description": "Compress ressources "
+  },
+  "rule_CompressHttp_Comment": {
+    "message": "$PERCENT$ ressources compressées",
+    "description": "Percentage of resources compressed",
+    "placeholders": {
+      "PERCENT": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_DomainsNumber": {
+    "message": "Limiter le nombre de domaines (>3)",
+    "description": "Limit the number of domains"
+  },
+  "rule_DomainsNumber_Comment": {
+    "message": "$NB$ domaine(s) trouvé(s)",
+    "description": "Number of domain(s) found",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_DontResizeImageInBrowser": {
+    "message": "Ne pas retailler les images dans le navigateur",
+    "description": "Do not resize image in browser"
+  },
+  "rule_DontResizeImageInBrowser_Comment": {
+    "message": "$NB$ image(s) retaillée(s) dans le navigateur",
+    "description": "Number of image(s) resized in browser found",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_EmptySrcTag": {
+    "message": "Eviter les tags SRC vides",
+    "description": "Avoid empty src tag"
+  },
+  "rule_EmptySrcTag_DefaultComment": {
+    "message": "Pas de tag SRC vide",
+    "description": "No empty src tags found"
+  },
+  "rule_EmptySrcTag_Comment": {
+    "message": "$NB$ tag(s) SRC vide(s)",
+    "description": "Number of  empty src tag(s) found ",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_ExternalizeCss": {
+    "message": "Externaliser les css",
+    "description": "Externalize css"
+  },
+  "rule_ExternalizeCss_DefaultComment": {
+    "message": "Pas de inline stylesheet",
+    "description": "No inline stylesheet found"
+  },
+  "rule_ExternalizeCss_Comment": {
+    "message": "$NB$ inline stylesheet(s)",
+    "description": "Number of inline stylesheets found ",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_ExternalizeJs": {
+    "message": "Externaliser les js",
+    "description": "Externalize js"
+  },
+  "rule_ExternalizeJs_DefaultComment": {
+    "message": "Pas d'inline JavaScript",
+    "description": "No inline JavaScript"
+  },
+  "rule_ExternalizeJs_Comment": {
+    "message": "$NB$ inline  javascript(s)",
+    "description": "Number of inline  javascripts found ",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_HttpRequests": {
+    "message": "Limiter le nombre de requêtes HTTP (>27)",
+    "description": "Limit the number of HTTP requests"
+  },
+  "rule_HttpRequests_Comment": {
+    "message": "$NB$ requête(s) HTTP ",
+    "description": "Number of HTTP request(s)",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_MaxCookiesLength": {
+    "message": "Taille maximum des cookies par domaine(<512 Octets)",
+    "description": "Max cookies length(<512B)"
+  },
+  "rule_MaxCookiesLength_DefaultComment": {
+    "message": "Pas de cookies",
+    "description": "No cookies"
+  },
+  "rule_MaxCookiesLength_Comment": {
+    "message": "Taille maximum = $Length$ Octets ",
+    "description": "Max cookie length value",
+    "placeholders": {
+      "Length": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_MinifiedCss": {
+    "message": "Minifier les css (>= 95%)",
+    "description": "Minified css (>= 95%)"
+  },
+  "rule_MinifiedCss_DefaultComment": {
+    "message": "Aucun css",
+    "description": "No css found"
+  },
+  "rule_MinifiedCss_Comment": {
+    "message": "$NB$ css minifiées",
+    "description": "Percentage of minified stylesheet ",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_MinifiedJs": {
+    "message": "Minifier les js (>= 95%)",
+    "description": "Minified js (>= 95%)"
+  },
+  "rule_MinifiedJs_DefaultComment": {
+    "message": "Aucun js",
+    "description": "No js found"
+  },
+  "rule_MinifiedJs_Comment": {
+    "message": "$NB$ js minifié",
+    "description": "Percentage of minified javascript ",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_Plugins": {
+    "message": "Ne pas utiliser de plugins",
+    "description": "Do not use plugins"
+  },
+  "rule_Plugins_DefaultComment": {
+    "message": "Aucun plugin",
+    "description": "No plugin found"
+  },
+  "rule_Plugins_Comment": {
+    "message": "$NB_PLUGINS$ plugin(s)",
+    "description": "Number of plugin found",
+    "placeholders": {
+      "NB_PLUGINS": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_PrintStyleSheet": {
+    "message": "Fournir une print css",
+    "description": "Provide print stylesheet"
+  },
+  "rule_PrintStyleSheet_DefaultComment": {
+    "message": "Pas de print css",
+    "description": "No print stylesheet found"
+  },
+  "rule_PrintStyleSheet_Comment": {
+    "message": "$NB_PRINTSTLESHEET$ print css",
+    "description": "Number of print StyleSheet(s) found",
+    "placeholders": {
+      "NB_PRINTSTLESHEET": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_StyleSheets": {
+    "message": "Limit le nombre de fichiers css",
+    "description": "Limit Stylesheet files"
+  },
+  "rule_StyleSheets_DefaultComment": {
+    "message": "Pas plus de 2 fichiers css par frames",
+    "description": "Not more that 2 stylesheets per frame found"
+  },
+  "rule_StyleSheets_Comment": {
+    "message": "$NB_STYLESHEETS$ fichiers css pour au moins une frame",
+    "description": "Number of stylesheets for at least one frame",
+    "placeholders": {
+      "NB_STYLESHEETS": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_UseETags": {
+    "message": "Utiliser des ETags (>= 95%)",
+    "description": "Use ETags (>= 95%)"
+  },
+  "rule_UseETags_Comment": {
+    "message": "$PERCENT$ ressources utilisant des ETags",
+    "description": "Percentage of resources with ETags",
+    "placeholders": {
+      "PERCENT": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_UseStandardTypefaces": {
+    "message": "Utiliser des polices de caractères standards",
+    "description": "Use Standard Typefaces"
+  },
+  "rule_UseStandardTypefaces_DefaultComment": {
+    "message": "Pas de polices de caractères spécifiques",
+    "description": "No custom fonts found"
+  },
+  "rule_UseStandardTypefaces_Comment": {
+    "message": "$NB$ police(s) de caractères spécifique(s) pour au moins une frame",
+    "description": "Number of custom fonts found for at least one frame",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_JsValidate": {
+    "message": "Valider le javascript",
+    "description": "Validate js"
+  },
+  "rule_JsValidate_DefaultComment": {
+    "message": "Javascript validé",
+    "description": "Javascript validate"
+  },
+  "rule_JsValidate_Comment": {
+    "message": "$NB$ erreur(s) javascript",
+    "description": "Number of  javascript error(s) found ",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
+  },
+  "unsupportedRuleAnalyse": {
+    "message": "-- Analyse non supportée par ce navigateur --",
+    "description": "Analyse not supported by this browser"
+  },
+  "saveAnalyseButton": {
+    "message": "Sauver l'analyse",
+    "description": "Save Analyse Button"
+  },
+  "url": {
+    "message": "Url",
+    "description": "Url"
+  },
+  "waterConsumption": {
+    "message": "Eau (cl)",
+    "description": "Water Consumption (cl)"
+  }
 }

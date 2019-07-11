@@ -28,7 +28,7 @@ function Rules() {
 
   // if method chrome.devtools.inspectedWindow.getResources is not implemented (ex: firefox)
   // These rules cannot be computed
-  if (chrome.devtools.inspectedWindow.getResources){
+  if (chrome.devtools.inspectedWindow.getResources) {
     rules.set("minifiedJs", new minifiedJsRule());
     rules.set("jsValidate", new jsValidateRule());
     rules.set("minifiedCss", new minifiedCssRule());
@@ -148,7 +148,7 @@ function Rules() {
       if (measures.inlineJsScriptsNumber > 0) {
         if (measures.inlineJsScriptsNumber > 1) this.isRespected = false;
         this.comment = chrome.i18n.getMessage("rule_ExternalizeJs_Comment", String(measures.inlineJsScriptsNumber));
-        
+
       }
     }
   }
@@ -163,10 +163,10 @@ function Rules() {
         if (measures.percentMinifiedJs < 95) this.isRespected = false;
         else this.isRespected = true;
 
-        this.comment = chrome.i18n.getMessage("rule_MinifiedJs_Comment", 
-        Math.round(measures.percentMinifiedJs) + " % (" 
-        + measures.minifiedJsNumber 
-        + "/" + measures.totalJs + ")");
+        this.comment = chrome.i18n.getMessage("rule_MinifiedJs_Comment",
+          Math.round(measures.percentMinifiedJs) + " % ("
+          + measures.minifiedJsNumber
+          + "/" + measures.totalJs + ")");
       }
     }
   }
@@ -207,9 +207,9 @@ function Rules() {
         if (cacheHeaderRatio < 95) this.isRespected = false;
         else this.isRespected = true;
         this.comment = chrome.i18n.getMessage("rule_AddExpiresOrCacheControlHeaders_Comment",
-         Math.round(cacheHeaderRatio) + " % (" + 
-         measures.staticResourcesNumberWithCacheHeaders + 
-         "/" + measures.staticResourcesNumber + ")");
+          Math.round(cacheHeaderRatio) + " % (" +
+          measures.staticResourcesNumberWithCacheHeaders +
+          "/" + measures.staticResourcesNumber + ")");
       }
     }
   }
@@ -227,9 +227,9 @@ function Rules() {
         if (eTagsRatio < 95) this.isRespected = false;
         else this.isRespected = true;
         this.comment = chrome.i18n.getMessage("rule_UseETags_Comment",
-         Math.round(eTagsRatio) + " % (" +
+          Math.round(eTagsRatio) + " % (" +
           measures.staticResourcesNumberWithETags + "/" +
-           measures.staticResourcesNumber + ")");
+          measures.staticResourcesNumber + ")");
       }
     }
   }
@@ -248,9 +248,9 @@ function Rules() {
         //debug(() => `compressible resources compressed ${measures.compressibleResourcesNumberCompressed}`);
         this.isRespected = (compressRatio >= 95);
         this.comment = chrome.i18n.getMessage("rule_CompressHttp_Comment",
-        Math.round(compressRatio) + " % (" + 
-        measures.compressibleResourcesNumberCompressed + "/" + 
-        measures.compressibleResourcesNumber + ")");
+          Math.round(compressRatio) + " % (" +
+          measures.compressibleResourcesNumberCompressed + "/" +
+          measures.compressibleResourcesNumber + ")");
       }
     }
   }
@@ -286,12 +286,14 @@ function Rules() {
     this.comment = chrome.i18n.getMessage("rule_MaxCookiesLength_DefaultComment");
 
     this.check = function (measures) {
-      this.comment = chrome.i18n.getMessage("rule_MaxCookiesLength_Comment", String(measures.maxCookiesLength));
-      if (measures.maxCookiesLength > 512) this.isRespected = false;
+      if (measures.maxCookiesLength !== 0) {
+        this.comment = chrome.i18n.getMessage("rule_MaxCookiesLength_Comment", String(measures.maxCookiesLength));
+        if (measures.maxCookiesLength > 512) this.isRespected = false;
+      }
     }
   }
 
-  
+
 
 }
 
