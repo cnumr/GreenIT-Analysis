@@ -213,7 +213,11 @@ function MeasuresAcquisition(rules) {
 
   getNetworkMeasure = () => {
     chrome.devtools.network.getHAR((har) => {
-      let entries = har.entries;
+      
+      debug(() => `Total resources (including data urls): ${har.entries.length}`);
+      // only account for network traffic, filtering resources embedded through data urls
+      let entries = har.entries.filter(entry => isNetworkResource(entry));
+      debug(() => `Network resources (excluding data urls): ${entries.length}`);
 
       // Get the "mother" url 
       if (entries.length > 0) {
