@@ -241,6 +241,12 @@ function isMinified(scriptContent) {
 
 }
 
+/**
+ * Detect non-network resources (data urls embedded in page)
+ */
+function isNetworkResource(harEntry){
+  return !(harEntry.request.httpVersion === "data");
+}
 
 function computeNumberOfErrorsInJSCode(code, url) {
   let errorNumber =0;
