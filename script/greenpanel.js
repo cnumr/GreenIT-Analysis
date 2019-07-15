@@ -213,7 +213,9 @@ function MeasuresAcquisition(rules) {
 
   getNetworkMeasure = () => {
     chrome.devtools.network.getHAR((har) => {
-      let entries = har.entries;
+      debug(() => `Total resources (including data urls): ${har.entries.length}`);
+      let entries = har.entries.filter(entry => isNetworkResource(entry));
+      debug(() => `Network resources (excluding data urls): ${entries.length}`);
 
       // Get the "mother" url 
       if (entries.length > 0) {
@@ -223,7 +225,6 @@ function MeasuresAcquisition(rules) {
       if (entries.length) {
         measures.nbRequest = entries.length;
         entries.forEach(entry => {
-
           // If chromium : 
           // _transferSize represent the real data volume transfert 
           // while content.size represent the size of the page which is uncompress
