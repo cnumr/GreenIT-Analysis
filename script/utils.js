@@ -256,9 +256,10 @@ function isMinified(scriptContent) {
 
 /**
  * Detect non-network resources (data urls embedded in page)
+ *  Test with request.url as  request.httpVersion === "data"  does not work with old chrome version (example v55)
  */
 function isNetworkResource(harEntry){
-  return !(harEntry.request.httpVersion === "data");
+  return !(harEntry.request.url.startsWith("data"));
 }
 
 function computeNumberOfErrorsInJSCode(code, url) {
