@@ -134,8 +134,7 @@ function isStaticRessource(resource) {
 }
 
 
-function getHeaderWithName(headers,headerName)
-{
+function getHeaderWithName(headers, headerName) {
   let headerValue = "";
   headers.forEach(header => {
     if (header.name.toLowerCase() === headerName.toLowerCase()) headerValue = header.value;
@@ -144,12 +143,11 @@ function getHeaderWithName(headers,headerName)
 }
 
 function getResponseHeaderFromResource(resource, headerName) {
-  return getHeaderWithName(resource.response.headers,headerName);
+  return getHeaderWithName(resource.response.headers, headerName);
 }
 
-function getCookiesLength(resource)
-{
-  let cookies = getHeaderWithName(resource.request.headers,"cookie");
+function getCookiesLength(resource) {
+  let cookies = getHeaderWithName(resource.request.headers, "cookie");
   if (cookies) return cookies.length;
   else return 0;
 }
@@ -201,7 +199,7 @@ function isCompressibleResource(resource) {
 
 function isResourceCompressed(resource) {
   const contentEncoding = getResponseHeaderFromResource(resource, "content-encoding");
-  return ((contentEncoding.length>0) && (httpCompressionTokens.indexOf(contentEncoding.toLocaleLowerCase()) !== -1));
+  return ((contentEncoding.length > 0) && (httpCompressionTokens.indexOf(contentEncoding.toLocaleLowerCase()) !== -1));
 }
 
 // utils for ETags rule 
@@ -258,12 +256,12 @@ function isMinified(scriptContent) {
  * Detect non-network resources (data urls embedded in page)
  *  Test with request.url as  request.httpVersion === "data"  does not work with old chrome version (example v55)
  */
-function isNetworkResource(harEntry){
+function isNetworkResource(harEntry) {
   return !(harEntry.request.url.startsWith("data"));
 }
 
 function computeNumberOfErrorsInJSCode(code, url) {
-  let errorNumber =0;
+  let errorNumber = 0;
   try {
     const syntax = require("esprima").parse(code, { tolerant: true, sourceType: 'script', loc: true });
     if (syntax.errors) {
