@@ -133,14 +133,27 @@ function isStaticRessource(resource) {
   return staticResources.some(value => value.test(contentType));
 }
 
-function getResponseHeaderFromResource(resource, headerName) {
-  let headers = resource.response.headers;
+
+function getHeaderWithName(headers,headerName)
+{
   let headerValue = "";
   headers.forEach(header => {
     if (header.name.toLowerCase() === headerName.toLowerCase()) headerValue = header.value;
   });
   return headerValue;
 }
+
+function getResponseHeaderFromResource(resource, headerName) {
+  return getHeaderWithName(resource.response.headers,headerName);
+}
+
+function getCookiesLength(resource)
+{
+  let cookies = getHeaderWithName(resource.request.headers,"cookie");
+  if (cookies) return cookies.length;
+  else return 0;
+}
+
 
 function hasValidCacheHeaders(resource) {
 
