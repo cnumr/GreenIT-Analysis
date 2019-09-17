@@ -21,6 +21,14 @@ Pour avoir une analyse des bonnes pratiques, il faut cocher la case "Activate be
 
 A noter que si le nombre de requêtes est à zéro, c'est probablement parce que vous n'avez pas charger la page avec les outils de developpement démarrés. Il faut donc penser à faire un rechargement de la page.
 
+
+###Permissions de l'extension 
+
+Pour fonctionner, l'extension utilise les permissions suivantes : 
+* storage : utilisée pour stocker le résultat des analyses 
+* activeTab, tabs : utilisée pour afficher la page des analyses sauvegardées et pour accéder aux contenus des pages pour l'analyse 
+* <all_urls> : utilisée pour accéder aux Urls pour l'analyse
+
 ## Tests
 Pour utiliser directement l'extension avec les modifications effectuées localement :   
 * Aller dans les paramètres de Chrome > Plus d'outils > Extensions. Activer le Mode Développeur. 
