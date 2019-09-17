@@ -133,8 +133,8 @@ function isStaticRessource(resource) {
   return staticResources.some(value => value.test(contentType));
 }
 
-function getResponseHeaderFromResource(resource, headerName) {
-  let headers = resource.response.headers;
+
+function getHeaderWithName(headers, headerName) {
   let headerValue = "";
   headers.forEach(header => {
     if (header.name.toLowerCase() === headerName.toLowerCase()) headerValue = header.value;
@@ -142,13 +142,24 @@ function getResponseHeaderFromResource(resource, headerName) {
   return headerValue;
 }
 
+function getResponseHeaderFromResource(resource, headerName) {
+  return getHeaderWithName(resource.response.headers, headerName);
+}
+
+function getCookiesLength(resource) {
+  let cookies = getHeaderWithName(resource.request.headers, "cookie");
+  if (cookies) return cookies.length;
+  else return 0;
+}
+
+
 function hasValidCacheHeaders(resource) {
 
   const headers = resource.response.headers;
   let cache = {};
   let isValid = false;
 
-  headers.map(header => {
+  headers.forEach(header => {
     if (header.name.toLowerCase() === 'cache-control') cache.CacheControl = header.value;
     if (header.name.toLowerCase() === 'expires') cache.Expires = header.value;
     if (header.name.toLowerCase() === 'date') cache.Date = header.value;
@@ -188,7 +199,7 @@ function isCompressibleResource(resource) {
 
 function isResourceCompressed(resource) {
   const contentEncoding = getResponseHeaderFromResource(resource, "content-encoding");
-  return ((contentEncoding.length>0) && (httpCompressionTokens.indexOf(contentEncoding.toLocaleLowerCase()) !== -1));
+  return ((contentEncoding.length > 0) && (httpCompressionTokens.indexOf(contentEncoding.toLocaleLowerCase()) !== -1));
 }
 
 // utils for ETags rule 
@@ -213,7 +224,7 @@ function getDomainFromUrl(url) {
 */
 function countChar(char, str) {
   let total = 0;
-  str.split("").map(curr => {
+  str.split("").forEach(curr => {
     if (curr === char) total++;
   });
   return total;
@@ -241,9 +252,16 @@ function isMinified(scriptContent) {
 
 }
 
+/**
+ * Detect non-network resources (data urls embedded in page)
+ *  Test with request.url as  request.httpVersion === "data"  does not work with old chrome version (example v55)
+ */
+function isNetworkResource(harEntry) {
+  return !(harEntry.request.url.startsWith("data"));
+}
 
 function computeNumberOfErrorsInJSCode(code, url) {
-  let errorNumber =0;
+  let errorNumber = 0;
   try {
     const syntax = require("esprima").parse(code, { tolerant: true, sourceType: 'script', loc: true });
     if (syntax.errors) {

@@ -22,9 +22,9 @@ initPanel();
 function initPanel() {
   openBackgroundPageConnection();
 
-    // if method chrome.devtools.inspectedWindow.getResources is not implemented (ex: firefox)
+  // if method chrome.devtools.inspectedWindow.getResources is not implemented (ex: firefox)
   // These rules cannot be computed
-  if (!chrome.devtools.inspectedWindow.getResources){
+  if (!chrome.devtools.inspectedWindow.getResources) {
     setUnsupportedRuleAnalyse("minifiedJs");
     setUnsupportedRuleAnalyse("jsValidate");
     setUnsupportedRuleAnalyse("minifiedCss");
@@ -95,8 +95,7 @@ function computeEcoIndexMeasures(measures) {
 }
 
 
-function setUnsupportedRuleAnalyse(ruleId)
-{
+function setUnsupportedRuleAnalyse(ruleId) {
   document.getElementById(ruleId + "_status").src = "";
   document.getElementById(ruleId + "_comment").innerHTML = chrome.i18n.getMessage("unsupportedRuleAnalyse");
 }
@@ -199,7 +198,8 @@ function MeasuresAcquisition(rules) {
       "compressibleResourcesNumber": 0,
       "compressibleResourcesNumberCompressed": 0,
       "imageResizedInBrowserNumber": 0,
-      "cssFontFaceRuleNumber": 0
+      "cssFontFaceRuleNumber": 0,
+      "maxCookiesLength": 0
     };
   }
 
@@ -213,7 +213,11 @@ function MeasuresAcquisition(rules) {
 
   getNetworkMeasure = () => {
     chrome.devtools.network.getHAR((har) => {
-      let entries = har.entries;
+      
+      debug(() => `Total resources (including data urls): ${har.entries.length}`);
+      // only account for network traffic, filtering resources embedded through data urls
+      let entries = har.entries.filter(entry => isNetworkResource(entry));
+      debug(() => `Network resources (excluding data urls): ${entries.length}`);
 
       // Get the "mother" url 
       if (entries.length > 0) {
@@ -222,7 +226,7 @@ function MeasuresAcquisition(rules) {
       let domains = [];
       if (entries.length) {
         measures.nbRequest = entries.length;
-        entries.map(entry => {
+        entries.forEach(entry => {
 
           // If chromium : 
           // _transferSize represent the real data volume transfert 
@@ -260,6 +264,10 @@ function MeasuresAcquisition(rules) {
               domains.push(domain);
               debug(() => `found domain ${domain}`);
             }
+            const cookiesLength = getCookiesLength(entry);
+            if (cookiesLength !== 0) debug(() => `COOKIE LENGTH = ${cookiesLength} for url ${entry.request.url}`);
+            if (cookiesLength > measures.maxCookiesLength) measures.maxCookiesLength = cookiesLength;
+
           }
         });
         if (analyseBestPractices) {
@@ -269,6 +277,7 @@ function MeasuresAcquisition(rules) {
           localRules.checkRule("addExpiresOrCacheControlHeaders", measures);
           localRules.checkRule("useETags", measures);
           localRules.checkRule("compressHttp", measures);
+          localRules.checkRule("maxCookiesLength", measures);
         }
         computeEcoIndexMeasures(measures);
         refreshUI();
@@ -279,8 +288,8 @@ function MeasuresAcquisition(rules) {
 
   function getResourcesMeasure() {
     if (chrome.devtools.inspectedWindow.getResources) chrome.devtools.inspectedWindow.getResources((resources) => {
-      resources.map(resource => {
-        if (resource.url.startsWith("file")||resource.url.startsWith("http")){
+      resources.forEach(resource => {
+        if (resource.url.startsWith("file") || resource.url.startsWith("http")) {
           if ((resource.type === 'script') || (resource.type === 'stylesheet')) {
             let resourceAnalyser = new ResourceAnalyser(resource);
             resourceAnalyser.analyse();
