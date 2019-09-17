@@ -22,7 +22,7 @@ Pour avoir une analyse des bonnes pratiques, il faut cocher la case "Activate be
 A noter que si le nombre de requêtes est à zéro, c'est probablement parce que vous n'avez pas charger la page avec les outils de developpement démarrés. Il faut donc penser à faire un rechargement de la page.
 
 
-###Permissions de l'extension 
+### Permissions de l'extension 
 
 Pour fonctionner, l'extension utilise les permissions suivantes : 
 * storage : utilisée pour stocker le résultat des analyses 
