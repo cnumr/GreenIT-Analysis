@@ -19,7 +19,12 @@ L'outil vous permet de quantifier les impacts environnementaux d'un parcours uti
 
 Pour avoir une analyse des bonnes pratiques, il faut cocher la case "Activate best practices analysis".
 
-A noter que si le nombre de requêtes est à zéro, c'est probablement parce que vous n'avez pas charger la page avec les outils de developpement démarrés. Il faut donc penser à faire un rechargement de la page.
+
+Quelques points de vigilance : 
+
+* Si le nombre de requêtes est à zéro, c'est probablement parce que vous n'avez pas charger la page avec les outils de developpement démarrés. Il faut donc penser à faire un rechargement de la page.
+* Pour avoir des mesures correctes, il faut préalablement vider le cache du navigateur (Dans le cas contraire, le volume transféré va être reduit si vous etes déjà consulté le site mesuré).
+* l'utilisation d'un bloqueur de publicité ou autre filtre à une influence sur le résultat.
 
 
 ### Permissions de l'extension 
