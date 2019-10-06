@@ -235,7 +235,11 @@ function MeasuresAcquisition(rules) {
             measures.responsesSize += entry.response._transferSize;
             measures.responsesSizeUncompress += entry.response.content.size;
           }
-          else measures.responsesSize += entry.response.content.size;
+          else 
+          {
+            measures.responsesSize += entry.response.content.size;
+            debug(() => `entry size = ${entry.response.content.size} , responseSize = ${measures.responsesSize}`);
+          }
 
           if (analyseBestPractices) {
             if (isStaticRessource(entry)) {

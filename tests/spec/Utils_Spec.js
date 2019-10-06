@@ -27,7 +27,6 @@ describe("utils.js", function () {
   });
 
 
-
   describe("#function getCookiesLength", function () {
 
     beforeEach(function () {
@@ -329,14 +328,8 @@ describe("utils.js", function () {
       expect(testFrame.isNetworkResource(resource)).toEqual(false);
     });
 
-
     afterEach(function () {
     });
   });
-
-
-
-
-
 });
 
