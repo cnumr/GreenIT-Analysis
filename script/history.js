@@ -99,7 +99,8 @@ function delete_all() {
 function create_csv() {
 	var csv = chrome.i18n.getMessage("csvColumnsLabel") + "\n" ;
 	analyse_history.forEach(function (analyse) {
-		csv += analyse.result_date +
+		const date = new Date(analyse.resultDate);
+		csv += date.toLocaleDateString() + " " + date.toLocaleTimeString() +
 			";\"" + analyse.url +
 			"\";" + analyse.nbRequest +
 			";" + analyse.responsesSize +
