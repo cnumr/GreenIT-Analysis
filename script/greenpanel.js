@@ -238,7 +238,7 @@ function MeasuresAcquisition(rules) {
           else 
           {
             measures.responsesSize += entry.response.content.size;
-            debug(() => `entry size = ${entry.response.content.size} , responseSize = ${measures.responsesSize}`);
+            // debug(() => `entry size = ${entry.response.content.size} , responseSize = ${measures.responsesSize}`);
           }
 
           if (analyseBestPractices) {
