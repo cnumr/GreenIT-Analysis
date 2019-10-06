@@ -45,13 +45,14 @@
     color:#fff;
 }
 
-
+.bestPraticeDetail {
+  border: 1px solid rgb(226, 8, 8);
+}
 
 th, td {
 	border: 1px solid white;
 	overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
   font-size: 10px;    
 }
 
@@ -59,6 +60,10 @@ table {
  border-collapse: collapse;
  table-layout: fixed;
  width: 450px;
+}
+
+.bestPraticeLink {
+  color: black;
 }
 
 </style>
@@ -84,7 +89,6 @@ table {
 
 </div>
 <script type="text/javascript" data-main="script/utils.js" src="script/require.js"> </script> 
-<br>
 
 <div id="ecoIndexView" hidden>
 
@@ -127,8 +131,17 @@ table {
 <table class="table table-condensed"> 
   <tbody>
     <tr>
-      <td data-i18n="rule_Plugins"></td><td style="width:30px"> <img id="plugins_status" src="icons/OK.png"></td> <td id="plugins_comment"></td>
+      <td >
+        <a href="#" id="plugin_detail" class="plus_link bestPraticeLink" span data-i18n="rule_Plugins"></a>
+      </td>
+      <td style="width:30px"> <img id="plugins_status" src="icons/OK.png"></td> <td id="plugins_comment"></td>
     </tr>
+    <tr id="plugin_detail_text" hidden>
+      <td colspan="3">
+          <p  class="bestPraticeDetail" data-i18n="rule_PluginsDetailDescription">  </p> 
+      </td>
+    </tr>
+
     <tr>
       <td data-i18n="rule_StyleSheets"> </td><td style="width:30px"><img id="styleSheets_status" src="icons/OK.png"></td> <td id="styleSheets_comment"></td>
     </tr>

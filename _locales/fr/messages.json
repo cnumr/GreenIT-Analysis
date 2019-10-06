@@ -250,6 +250,12 @@
     "message": "Ne pas utiliser de plugins",
     "description": "Do not use plugins"
   },
+
+  "rule_PluginsDetailDescription": {
+    "message": "Avoid using plugins (Flash Player, Java and Silverlight virtual machines, etc.) because they can be a heavy drain on resources (CPU and RAM). This is especially true with Adobe’s Flash Player, to such an extent that Apple decided to not install the technology on its mobile devices to maximize battery life. Favor standard technology such as HTML5 and ECMAScript",
+    "description": "Do not use plugins"
+  },
+
   "rule_Plugins_DefaultComment": {
     "message": "Aucun plugin",
     "description": "No plugin found"

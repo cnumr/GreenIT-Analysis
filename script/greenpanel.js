@@ -34,6 +34,18 @@ function initPanel() {
   document.getElementById('viewHistory').addEventListener('click', (e) => viewHistory());
   document.getElementById('helpButton').addEventListener('click', (e) => viewHelp());
   document.getElementById('analyseBestPracticesCheckBox').addEventListener('click', (e) => setAnalyseBestPractices());
+
+  // Set a listener for each plus button (detail best practice )
+  const links = document.getElementsByClassName("plus_link");
+  for (var i=0;i<links.length;i++)
+  {
+    const id = links.item(i).id;
+    document.getElementById(id).addEventListener('click', (e) => {
+      //On désactive le comportement du lien
+      e.preventDefault();
+      showBestPracticeDetail(id+"_text");
+    });
+  }
 }
 
 function openBackgroundPageConnection() {
@@ -424,4 +436,13 @@ function viewHelp() {
 function setAnalyseBestPractices() {
   analyseBestPractices = document.getElementById('analyseBestPracticesCheckBox').checked;
   if (!analyseBestPractices) document.getElementById("bestPracticesView").hidden = true;
+}
+
+// Comments popup
+
+function showBestPracticeDetail(id){
+  
+  if (document.getElementById(id).hidden) document.getElementById(id).hidden = false ;
+  else document.getElementById(id).hidden = true; 
+  
 }
