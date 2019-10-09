@@ -36,14 +36,14 @@ function initPanel() {
   document.getElementById('analyseBestPracticesCheckBox').addEventListener('click', (e) => setAnalyseBestPractices());
 
   // Set a listener for each plus button (detail best practice )
-  const links = document.getElementsByClassName("plus_link");
+  const links = document.getElementsByClassName("bestPraticeLink");
   for (var i=0;i<links.length;i++)
   {
     const id = links.item(i).id;
     document.getElementById(id).addEventListener('click', (e) => {
       //On désactive le comportement du lien
       e.preventDefault();
-      showBestPracticeDetail(id+"_text");
+      showBestPracticeDetail(id+"_Text");
     });
   }
 }
