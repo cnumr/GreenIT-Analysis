@@ -67,6 +67,14 @@
     "message": "Lancer l'analyse",
     "description": "Launch Analysis"
   },
+  "menuText": {
+    "message": "GreenIT Analysis est installé et accessible via le panneau développeur (F12) ",
+    "description": "Text when you click on the plugin's icone"
+  },
+  "menuMoreInformation": {
+    "message": "plus d'information ...",
+    "description": "Link for help in the menu frame"
+  },
   "pageSize": {
     "message": "Taille de la page (Kb) ",
     "description": "Page Size(Kb) ."
@@ -84,7 +92,7 @@
     "description": "Add expires or cache-Control headers"
   },
   "rule_AddExpiresOrCacheControlHeaders_DetailDescription": {
-    "message": "The Expires and Cache-Control headers determine how long a browser should keep a resource in its cache. You should therefore use them, and configure them correctly for CSS style sheets, JavaScript scripts and images. Ideally, these elements should be kept as long as possible so that the browser does not request them again from the server. This saves HTTP requests, bandwidth and CPU power server-side.",
+    "message": "Les en-têtes Expires et Cache-Control déterminent la durée pendant laquelle un navigateur doit conserver une ressource dans son cache. Vous devez donc les utiliser et les configurer correctement pour les feuilles de style CSS, les scripts JavaScript et les images. Idéalement, ces éléments doivent être conservés le plus longtemps possible pour que le navigateur ne les demande plus au serveur. Cela permet d'économiser les requêtes HTTP, la bande passante et l'alimentation du serveur.",
     "description": "Add expires or cache-Control headers"
   },
   "rule_AddExpiresOrCacheControlHeaders_Comment": {
@@ -101,7 +109,7 @@
     "description": "Compress ressources "
   },
   "rule_CompressHttp_DetailDescription": {
-    "message": "You can compress the content of HTML pages to minimize bandwidth consumption between the client and the server. All modern browsers (for smartphones, tablets, notebook and desktop computers) accept HTML compressed via gzip or Deflate. The easiest way to do so is to configure the web server so that it compresses the HTML data stream, either on-the-fly or automatically, as it leaves the server. This practice (on-the-fly compression) is only beneficial for a HTML data stream as it is constantly evolving. When possible, we recommend that you manually compress static resources (e.g. CSS and JavaScript libraries) all in one go.",
+    "message": "Vous pouvez compresser le contenu des pages HTML pour réduire la consommation de bande passante entre le client et le serveur. Tous les navigateurs modernes (smartphones, tablettes, ordinateurs portables et ordinateurs de bureau) acceptent le format HTML compressé via gzip ou Deflate. Le moyen le plus simple consiste à configurer le serveur Web de manière à ce qu'il comprime le flux de données HTML, à la volée ou automatiquement, à la sortie du serveur. Cette pratique (compression à la volée) n’est bénéfique que pour un flux de données HTML, car il évolue constamment. Lorsque cela est possible, nous vous recommandons de compresser manuellement les ressources statiques (par exemple, les bibliothèques CSS et JavaScript) en une seule fois.",
     "description": "Compress ressources "
   },
   "rule_CompressHttp_Comment": {
@@ -118,7 +126,7 @@
     "description": "Limit the number of domains"
   },
   "rule_DomainsNumber_DetailDescription": {
-    "message": "When a website or online service hosts a web page’s components across several domains, the browser has to establish an HTTP connection with every single one. Once the HTML page has been retrieved, the browser calls the sources as it traverses the DOM (Document Object Model). Some resources are essential for the page to work. If they are hosted on another domain which is slow, it may increase the page’s render time. You should therefore, when possible, group all resources on a single domain. The only exception to this is for static resources (style sheets, images, etc.), which should be hosted on a separate domain to avoid sending one or multiple cookies for each browser GET HTTP request. This reduces response time and unnecessary bandwidth consumption.",
+    "message": "Lorsqu'un site Web ou un service en ligne héberge les composants d'une page Web dans plusieurs domaines, le navigateur doit établir une connexion HTTP avec chacun d'entre eux. Une fois la page HTML récupérée, le navigateur appelle les sources lorsqu'il traverse le DOM (Document Object Model). Certaines ressources sont essentielles au bon fonctionnement de la page. S'ils sont hébergés sur un autre domaine qui est lent, cela peut augmenter le temps de rendu de la page. Vous devez donc, lorsque cela est possible, regrouper toutes les ressources sur un seul domaine. La seule exception à cette règle concerne les ressources statiques (feuilles de style, images, etc.), qui doivent être hébergées sur un domaine distinct afin d'éviter l'envoi d'un ou plusieurs cookies pour chaque requête HTTP du navigateur GET. Cela réduit le temps de réponse et la consommation inutile de bande passante.",
     "description": "Limit Stylesheet files"
   },
   "rule_DomainsNumber_Comment": {
@@ -135,7 +143,7 @@
     "description": "Do not resize image in browser"
   },
   "rule_DontResizeImageInBrowser_DetailDescription": {
-    "message": "Do not resize images using HTML height and width attributes. Doing so sends images in their original size, wasting bandwidth and CPU power. A PNG-24 350 x 300 px image is 41 KB. If you resized the same image file using HTML, and displayed it as a 70 x 60 px thumbnail, it would still be 41 KB, when in reality it should be no more than 3 KB! Meaning 38 KB downloaded for nothing. The best solution is to resize images using software such as Photoshop, without using HTML. When content added by the website’s users has no specific added value, it is best to prevent them from being able to insert images using a WYSIWYG editor e.g. CKEditor.",
+    "message": "Ne redimensionnez pas les images avec les attributs HTML height et width. Cela envoie des images dans leur taille originale, gaspillant de la bande passante et de la puissance du processeur. Une image PNG-24 de 350 x 300 px est de 41 KB. Si vous redimensionniez le même fichier image en HTML et que vous l’affichez sous forme de vignette de 70 x 60 px, il s’agirait toujours de 41 Ko, alors qu’il devrait en réalité ne pas dépasser 3 Ko! Signification 38 KB téléchargés pour rien. La meilleure solution consiste à redimensionner les images à l'aide d'un logiciel tel que Photoshop, sans utiliser HTML. Lorsque le contenu ajouté par les utilisateurs du site Web n’a pas de valeur ajoutée spécifique, il est préférable de les empêcher d’insérer des images à l’aide d’un éditeur WYSIWYG, par exemple CKEditor.",
     "description": "Do not resize image in browser "
   },
   "rule_DontResizeImageInBrowser_Comment": {
@@ -152,7 +160,7 @@
     "description": "Avoid empty src tag"
   },
   "rule_EmptySrcTag_DetailDescription": {
-    "message": "If there is an image tag with an empty src attribute, the browser will call the directory in which the page is located, generating unnecessary, additional HTTP requests.",
+    "message": "S'il existe une balise d'image avec un attribut src vide, le navigateur appelle le répertoire dans lequel se trouve la page, générant des requêtes HTTP inutiles et supplémentaires.",
     "description": "Minified css"
   },
   "rule_EmptySrcTag_DefaultComment": {
@@ -173,7 +181,7 @@
     "description": "Externalize css"
   },
   "rule_ExternalizeCss_DetailDescription": {
-    "message": "Ensure that CSS files are separate from the page’s HTML code. If you include CSS in the body of the HTML file, and it is used for several pages (or even the whole website), then the code must be sent for each page requested by the user, therefore increasing the volume of data sent. However, if the CSS are in their own separate files, the browser can avoid requesting them again by storing them in its local cache.",
+    "message": "Assurez-vous que les fichiers CSS sont séparés du code HTML de la page. Si vous incluez du CSS dans le corps du fichier HTML et qu'il est utilisé pour plusieurs pages (ou même pour l'ensemble du site Web), le code doit être envoyé pour chaque page demandée par l'utilisateur, augmentant ainsi le volume de données envoyées. Toutefois, si les CSS se trouvent dans leurs propres fichiers distincts, le navigateur peut éviter de les redemander en les stockant dans son cache local.",
     "description": "Externalize css"
   },
   "rule_ExternalizeCss_DefaultComment": {
@@ -194,7 +202,7 @@
     "description": "Externalize js"
   },
   "rule_ExternalizeJs_DetailDescription": {
-    "message": "Ensure that JavaScript code is separate from the page’s HTML code, with the exception of any configuration variables for JavaScript objects. If you include JavaScript code in the body of the HTML file, and it is used for several pages (or even the whole website), then the code must be sent for each page requested by the user, therefore increasing the volume of data sent. However, if the JavaScript code is in his own separate file, the browser can avoid requesting them again by storing them in its local cache.",
+    "message": "Assurez-vous que le code JavaScript est distinct du code HTML de la page, à l’exception de toute variable de configuration pour les objets JavaScript. Si vous incluez du code JavaScript dans le corps du fichier HTML et qu'il est utilisé pour plusieurs pages (ou même pour l'ensemble du site Web), le code doit être envoyé pour chaque page demandée par l'utilisateur, augmentant ainsi le volume de données envoyées. Toutefois, si le code JavaScript se trouve dans son propre fichier séparé, le navigateur peut éviter de les redemander en les stockant dans son cache local.",
     "description": "Externalize js"
   },
   "rule_ExternalizeJs_DefaultComment": {
@@ -215,7 +223,7 @@
     "description": "Limit the number of HTTP requests"
   },
   "rule_HttpRequests_DetailDescription": {
-    "message": "A page’s download time client-side directly correlates to the number and size of files the browser has to download. For each file, the browser sends a GET HTTP to the server. It waits for the response, and then downloads the resource as soon as it is available. Depending on the type of web server you use, the more requests per page there are, the fewer pages the server can handle. Reducing the number of requests per page is key to reducing the number of HTTP severs needed to run the website, and consequently its environmental impact",
+    "message": "Le temps de téléchargement d’une page côté client est directement corrélé au nombre et à la taille des fichiers que le navigateur doit télécharger. Pour chaque fichier, le navigateur envoie un HTTP GET au serveur. Il attend la réponse, puis télécharge la ressource dès qu'elle est disponible. Selon le type de serveur Web que vous utilisez, plus le nombre de demandes par page est élevé, moins le serveur peut gérer de pages. La réduction du nombre de requêtes par page est essentielle pour réduire le nombre de serveurs HTTP nécessaires à l'exécution du site Web et, partant, son impact sur l'environnement.",
     "description": "Limit the number of HTTP requests"
   },
   "rule_HttpRequests_Comment": {
@@ -232,7 +240,7 @@
     "description": "Validate js"
   },
   "rule_JsValidate_DetailDescription": {
-    "message": "JSLint is a JavaScript code quality tool that checks that the JavaScript syntax used will be understood by all browsers. The code produced thus complies with coding rules which enables interpreters to quickly and easily run the code. The CPU is therefore utilized for a shorter time.",
+    "message": "JSLint est un outil de contrôle de qualité du code qui vérifie que la syntaxe JavaScript utilisée sera comprise par tous les navigateurs. Le code produit est donc conforme aux règles de codage qui permettent aux interpréteurs d’exécuter le code rapidement et facilement. Le processeur est donc utilisé pour un temps plus court.",
     "description": "Validate Js"
   },
   "rule_JsValidate_DefaultComment": {
@@ -253,7 +261,7 @@
     "description": "Max cookies length(<512B)"
   },
   "rule_MaxCookiesLength_DetailDescription": {
-    "message": "Cookie length should be small as it is send with each request",
+    "message": "La longueur du cookie doit être réduite car il est envoyé à chaque requête.",
     "description": "Max cookies length"
   },
   "rule_MaxCookiesLength_DefaultComment": {
@@ -274,7 +282,7 @@
     "description": "Minified css (>= 95%)"
   },
   "rule_MinifiedCss_DetailDescription": {
-    "message": "Use a tool like YUI Compressor to remove unnecessary spaces and line breaks. Google’s Apache mod_pagespeed can also automate this operation.",
+    "message": "Utilisez un outil tel que YUI Compressor pour supprimer les espaces et les sauts de ligne inutiles. Apache mod_pagespeed de Google peut également automatiser cette opération.",
     "description": "Minified css"
   },
   "rule_MinifiedCss_DefaultComment": {
@@ -295,7 +303,7 @@
     "description": "Minified js (>= 95%)"
   },
   "rule_MinifiedJs_DetailDescription": {
-    "message": "Use a tool such as YUI Compressor to remove unnecessary white spaces, line breaks, semi-colons and shorten local variable names. This operation can be automated using Google’s Apache mod_pagespeed module. A standard 248 KB JavaScript file will be 97 KB after being minified.",
+    "message": "Utilisez un outil tel que YUI Compressor pour supprimer les espaces inutiles, les sauts de ligne, les points-virgules et raccourcir les noms de variables locales. Cette opération peut être automatisée à l’aide du module Apache mod_pagespeed de Google.",
     "description": "Minified js"
   },
   "rule_MinifiedJs_DefaultComment": {
@@ -317,7 +325,7 @@
   },
 
   "rule_Plugins_DetailDescription": {
-    "message": "Avoid using plugins (Flash Player, Java and Silverlight virtual machines, etc.) because they can be a heavy drain on resources (CPU and RAM). This is especially true with Adobe’s Flash Player, to such an extent that Apple decided to not install the technology on its mobile devices to maximize battery life. Favor standard technology such as HTML5 and ECMAScript",
+    "message": "Évitez d’utiliser des plug-ins (machines virtuelles Flash Player, Java et Silverlight, etc.), car ils peuvent entraîner une lourde charge de ressources (processeur et RAM). C’est particulièrement vrai avec le lecteur Adobe, à tel point qu’Apple a décidé de ne pas installer la technologie sur ses appareils mobiles afin de maximiser la durée de vie de la batterie. Privilégiez les technologies standard telles que HTML5 et ECMAScript",
     "description": "Do not use plugins"
   },
 
@@ -339,7 +347,7 @@
     "description": "Provide print stylesheet"
   },
   "rule_PrintStyleSheet_DetailDescription": {
-    "message": "In addition to the benefits for the user, this style sheet reduces the number of pages printed, and therefore indirectly minimizes the website’s ecological footprint. It should be as streamlined as possible and employ an ink-light typeface e.g. Century Gothic. Also consider hiding the header, footer, menu and sidebar, as well as deleting all images except those needed for content.This print style sheet makes for a cleaner print by trimming down what is displayed on the screen:",
+    "message": "Outre les avantages pour l’utilisateur, cette feuille de style réduit le nombre de pages imprimées et donc réduit indirectement l’empreinte écologique du site Web. Elle doit être aussi simple que possible et utiliser une police de caractères à l'encre claire, par exemple Siècle gothique. Envisagez également de masquer l'en-tête, le pied de page, le menu et la barre latérale, ainsi que de supprimer toutes les images, à l'exception de celles nécessaires au contenu. Cette feuille de style d'impression permet d'obtenir une impression plus nette en réduisant ce qui est affiché à l'écran.",
     "description": "Provide print stylesheet"
   },
   "rule_PrintStyleSheet_DefaultComment": {
@@ -360,7 +368,7 @@
     "description": "Limit Stylesheet files"
   },
   "rule_StyleSheets_DetailDescription": {
-    "message": "Minimize the number of CSS files to reduce the number of HTTP requests. If several style sheets are used on all of the website’s pages, concatenate them into one single file. Some CMS and frameworks offer ways to do such optimization automatically",
+    "message": "Réduisez le nombre de fichiers CSS pour réduire le nombre de requêtes HTTP. Si plusieurs feuilles de style sont utilisées sur toutes les pages du site Web, concaténez-les dans un seul fichier. Certains CMS et frameworks offrent des moyens d'effectuer cette optimisation automatiquement.",
     "description": "Limit Stylesheet files"
   },
   "rule_StyleSheets_DefaultComment": {
@@ -381,7 +389,7 @@
     "description": "Use ETags (>= 95%)"
   },
   "rule_UseETags_DetailDescription": {
-    "message": "An ETag is a signature attached a server response. If the client requests a URL (HTML page, image, style sheet, etc.) whose ETag is identical to the one it already has, the web server will reply that it does not need to download the resource and that it should use the one it already possesses. Using ETags saves huge amounts of bandwidth.",
+    "message": "Un ETag est une signature associée à une réponse du serveur. Si le client demande une URL (page HTML, image, feuille de style, etc.) dont l'ETag est identique à celle qu'il a déjà, le serveur Web répondra qu'il n'a pas besoin de télécharger la ressource et qu'il doit utiliser celle-ci. il possède déjà. L'utilisation d'ETags permet d'économiser d'énormes quantités de bande passante.",
     "description": "Use ETags"
   },
   "rule_UseETags_Comment": {
@@ -398,7 +406,7 @@
     "description": "Use Standard Typefaces"
   },
   "rule_UseStandardTypefaces_DetailDescription": {
-    "message": "Use standard typefaces as they already exist on the user’s computer, and therefore do not need to be downloaded. This saves bandwidth and improves the website’s render time.",
+    "message": "Utilisez des polices standards telles qu’elles existent déjà sur l’ordinateur de l’utilisateur et n’ont donc pas besoin d’être téléchargées. Cela économise de la bande passante et améliore le temps de rendu du site Web.",
     "description": "Use Standard Typefaces"
   },
   "rule_UseStandardTypefaces_DefaultComment": {

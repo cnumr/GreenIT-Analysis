@@ -64,8 +64,16 @@
     "description": "History page title"
   },
   "launchAnalyseButton": {
-    "message": "Lancer l'analyse",
+    "message": "Launch Analysis",
     "description": "Launch Analysis"
+  },
+  "menuText": {
+    "message": "GreenIT Analysis is install in your browser and accessible via the devtool panel (F12) ",
+    "description": "Text when you click on the plugin's icone"
+  },
+  "menuMoreInformation": {
+    "message": "more information ...",
+    "description": "Link for help in the menu frame"
   },
   "pageSize": {
     "message": "Page Size (Kb) ",
@@ -83,6 +91,10 @@
     "message": "Add expires or cache-control headers (>= 95%)",
     "description": "Add expires or cache-Control headers"
   },
+  "rule_AddExpiresOrCacheControlHeaders_DetailDescription": {
+    "message": "The Expires and Cache-Control headers determine how long a browser should keep a resource in its cache. You should therefore use them, and configure them correctly for CSS style sheets, JavaScript scripts and images. Ideally, these elements should be kept as long as possible so that the browser does not request them again from the server. This saves HTTP requests, bandwidth and CPU power server-side.",
+    "description": "Add expires or cache-Control headers"
+  },
   "rule_AddExpiresOrCacheControlHeaders_Comment": {
     "message": "$PERCENT$ resources cached",
     "description": "Percentage of resources cached ",
@@ -94,6 +106,10 @@
   },
   "rule_CompressHttp": {
     "message": "Compress ressources (>= 95%) ",
+    "description": "Compress ressources "
+  },
+  "rule_CompressHttp_DetailDescription": {
+    "message": "You can compress the content of HTML pages to minimize bandwidth consumption between the client and the server. All modern browsers (for smartphones, tablets, notebook and desktop computers) accept HTML compressed via gzip or Deflate. The easiest way to do so is to configure the web server so that it compresses the HTML data stream, either on-the-fly or automatically, as it leaves the server. This practice (on-the-fly compression) is only beneficial for a HTML data stream as it is constantly evolving. When possible, we recommend that you manually compress static resources (e.g. CSS and JavaScript libraries) all in one go.",
     "description": "Compress ressources "
   },
   "rule_CompressHttp_Comment": {
@@ -109,6 +125,10 @@
     "message": "Limit the number of domains (>3)",
     "description": "Limit the number of domains"
   },
+  "rule_DomainsNumber_DetailDescription": {
+    "message": "When a website or online service hosts a web page’s components across several domains, the browser has to establish an HTTP connection with every single one. Once the HTML page has been retrieved, the browser calls the sources as it traverses the DOM (Document Object Model). Some resources are essential for the page to work. If they are hosted on another domain which is slow, it may increase the page’s render time. You should therefore, when possible, group all resources on a single domain. The only exception to this is for static resources (style sheets, images, etc.), which should be hosted on a separate domain to avoid sending one or multiple cookies for each browser GET HTTP request. This reduces response time and unnecessary bandwidth consumption.",
+    "description": "Limit Stylesheet files"
+  },
   "rule_DomainsNumber_Comment": {
     "message": "$NB$ domain(s) found",
     "description": "Number of domain(s) found",
@@ -122,6 +142,10 @@
     "message": "Don't resize image in browser",
     "description": "Do not resize image in browser"
   },
+  "rule_DontResizeImageInBrowser_DetailDescription": {
+    "message": "Do not resize images using HTML height and width attributes. Doing so sends images in their original size, wasting bandwidth and CPU power. A PNG-24 350 x 300 px image is 41 KB. If you resized the same image file using HTML, and displayed it as a 70 x 60 px thumbnail, it would still be 41 KB, when in reality it should be no more than 3 KB! Meaning 38 KB downloaded for nothing. The best solution is to resize images using software such as Photoshop, without using HTML. When content added by the website’s users has no specific added value, it is best to prevent them from being able to insert images using a WYSIWYG editor e.g. CKEditor.",
+    "description": "Do not resize image in browser "
+  },
   "rule_DontResizeImageInBrowser_Comment": {
     "message": "$NB$ image(s) resized in browser found",
     "description": "Number of image(s) resized in browser found",
@@ -134,6 +158,10 @@
   "rule_EmptySrcTag": {
     "message": "Avoid empty src tag",
     "description": "Avoid empty src tag"
+  },
+  "rule_EmptySrcTag_DetailDescription": {
+    "message": "If there is an image tag with an empty src attribute, the browser will call the directory in which the page is located, generating unnecessary, additional HTTP requests.",
+    "description": "Minified css"
   },
   "rule_EmptySrcTag_DefaultComment": {
     "message": "No empty src tags found",
@@ -150,6 +178,10 @@
   },
   "rule_ExternalizeCss": {
     "message": "Externalize css",
+    "description": "Externalize css"
+  },
+  "rule_ExternalizeCss_DetailDescription": {
+    "message": "Ensure that CSS files are separate from the page’s HTML code. If you include CSS in the body of the HTML file, and it is used for several pages (or even the whole website), then the code must be sent for each page requested by the user, therefore increasing the volume of data sent. However, if the CSS are in their own separate files, the browser can avoid requesting them again by storing them in its local cache.",
     "description": "Externalize css"
   },
   "rule_ExternalizeCss_DefaultComment": {
@@ -169,6 +201,10 @@
     "message": "Externalize js",
     "description": "Externalize js"
   },
+  "rule_ExternalizeJs_DetailDescription": {
+    "message": "Ensure that JavaScript code is separate from the page’s HTML code, with the exception of any configuration variables for JavaScript objects. If you include JavaScript code in the body of the HTML file, and it is used for several pages (or even the whole website), then the code must be sent for each page requested by the user, therefore increasing the volume of data sent. However, if the JavaScript code is in his own separate file, the browser can avoid requesting them again by storing them in its local cache.",
+    "description": "Externalize js"
+  },
   "rule_ExternalizeJs_DefaultComment": {
     "message": "No inline JavaScript",
     "description": "No inline JavaScript"
@@ -186,6 +222,10 @@
     "message": "Limit the number of HTTP requests (>27)",
     "description": "Limit the number of HTTP requests"
   },
+  "rule_HttpRequests_DetailDescription": {
+    "message": "A page’s download time client-side directly correlates to the number and size of files the browser has to download. For each file, the browser sends a GET HTTP to the server. It waits for the response, and then downloads the resource as soon as it is available. Depending on the type of web server you use, the more requests per page there are, the fewer pages the server can handle. Reducing the number of requests per page is key to reducing the number of HTTP severs needed to run the website, and consequently its environmental impact",
+    "description": "Limit the number of HTTP requests"
+  },
   "rule_HttpRequests_Comment": {
     "message": "$NB$ HTTP request(s)",
     "description": "Number of HTTP request(s)",
@@ -198,6 +238,10 @@
   "rule_MaxCookiesLength": {
     "message": "Max cookies length(<512 Bytes )",
     "description": "Max cookies length(<512B)"
+  },
+  "rule_MaxCookiesLength_DetailDescription": {
+    "message": "Cookie length should be small as it is send with each request",
+    "description": "Max cookies length"
   },
   "rule_MaxCookiesLength_DefaultComment": {
     "message": "No cookies",
@@ -216,6 +260,10 @@
     "message": "Minified css (>= 95%)",
     "description": "Minified css (>= 95%)"
   },
+  "rule_MinifiedCss_DetailDescription": {
+    "message": "Use a tool like YUI Compressor to remove unnecessary spaces and line breaks. Google’s Apache mod_pagespeed can also automate this operation.",
+    "description": "Minified css"
+  },
   "rule_MinifiedCss_DefaultComment": {
     "message": "No css found",
     "description": "No css found"
@@ -233,6 +281,10 @@
     "message": "Minified js (>= 95%)",
     "description": "Minified js (>= 95%)"
   },
+  "rule_MinifiedJs_DetailDescription": {
+    "message": "Use a tool such as YUI Compressor to remove unnecessary white spaces, line breaks, semi-colons and shorten local variable names. This operation can be automated using Google’s Apache mod_pagespeed module.",
+    "description": "Minified js"
+  },
   "rule_MinifiedJs_DefaultComment": {
     "message": "No js found",
     "description": "No js found"
@@ -248,6 +300,10 @@
   },
   "rule_Plugins": {
     "message": "Do not use plugins",
+    "description": "Do not use plugins"
+  },
+  "rule_Plugins_DetailDescription": {
+    "message": "Avoid using plugins (Flash Player, Java and Silverlight virtual machines, etc.) because they can be a heavy drain on resources (CPU and RAM). This is especially true with Adobe’s Flash Player, to such an extent that Apple decided to not install the technology on its mobile devices to maximize battery life. Favor standard technology such as HTML5 and ECMAScript",
     "description": "Do not use plugins"
   },
   "rule_Plugins_DefaultComment": {
@@ -267,6 +323,10 @@
     "message": "Provide print stylesheet",
     "description": "Provide print stylesheet"
   },
+  "rule_PrintStyleSheet_DetailDescription": {
+    "message": "In addition to the benefits for the user, this style sheet reduces the number of pages printed, and therefore indirectly minimizes the website’s ecological footprint. It should be as streamlined as possible and employ an ink-light typeface e.g. Century Gothic. Also consider hiding the header, footer, menu and sidebar, as well as deleting all images except those needed for content.This print style sheet makes for a cleaner print by trimming down what is displayed on the screen.",
+    "description": "Provide print stylesheet"
+  },
   "rule_PrintStyleSheet_DefaultComment": {
     "message": "No print stylesheet found",
     "description": "No print stylesheet found"
@@ -282,6 +342,10 @@
   },
   "rule_StyleSheets": {
     "message": "Limit Stylesheet files",
+    "description": "Limit Stylesheet files"
+  },
+  "rule_StyleSheets_DetailDescription": {
+    "message": "Minimize the number of CSS files to reduce the number of HTTP requests. If several style sheets are used on all of the website’s pages, concatenate them into one single file. Some CMS and frameworks offer ways to do such optimization automatically",
     "description": "Limit Stylesheet files"
   },
   "rule_StyleSheets_DefaultComment": {
@@ -301,6 +365,10 @@
     "message": "Use ETags (>= 95%)",
     "description": "Use ETags (>= 95%)"
   },
+  "rule_UseETags_DetailDescription": {
+    "message": "An ETag is a signature attached a server response. If the client requests a URL (HTML page, image, style sheet, etc.) whose ETag is identical to the one it already has, the web server will reply that it does not need to download the resource and that it should use the one it already possesses. Using ETags saves huge amounts of bandwidth.",
+    "description": "Use ETags"
+  },
   "rule_UseETags_Comment": {
     "message": "$PERCENT$ resources with ETags",
     "description": "Percentage of resources with ETags",
@@ -312,6 +380,10 @@
   },
   "rule_UseStandardTypefaces": {
     "message": "Use Standard Typefaces",
+    "description": "Use Standard Typefaces"
+  },
+  "rule_UseStandardTypefaces_DetailDescription": {
+    "message": "Use standard typefaces as they already exist on the user’s computer, and therefore do not need to be downloaded. This saves bandwidth and improves the website’s render time.",
     "description": "Use Standard Typefaces"
   },
   "rule_UseStandardTypefaces_DefaultComment": {
@@ -330,6 +402,10 @@
   "rule_JsValidate": {
     "message": "Validate js",
     "description": "Validate js"
+  },
+  "rule_JsValidate_DetailDescription": {
+    "message": "JSLint is a JavaScript code quality tool that checks that the JavaScript syntax used will be understood by all browsers. The code produced thus complies with coding rules which enables interpreters to quickly and easily run the code. The CPU is therefore utilized for a shorter time.",
+    "description": "Validate Js"
   },
   "rule_JsValidate_DefaultComment": {
     "message": "Javascript validate",
