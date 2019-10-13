@@ -429,7 +429,7 @@ function loadHistoryTab(tabs) {
 
 
 function viewHelp() {
-  window.open("https://github.com/didierfred/GreenIT-Analysis");
+  window.open("https://github.com/didierfred/GreenIT-Analysis/blob/master/README.md");
 }
 
 
