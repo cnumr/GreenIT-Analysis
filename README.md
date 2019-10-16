@@ -26,6 +26,14 @@ Quelques points de vigilance:
 * Pour avoir des mesures correctes, il faut préalablement vider le cache du navigateur (Dans le cas contraire, le volume transféré va être réduit si vous avez déjà consulté le site mesuré).
 * L'utilisation d'un bloqueur de publicité ou autre filtre a une influence sur le résultat.
 
+### Enregistrement du parcours utilisateur
+
+Vous pouvez quantifier les impacts environnementaux d'un parcours utilisateur en lançant et en enregistrant des analyses sucessives après chaque page visitée. 
+
+ Attention cependant car le plugin ne vous permet pas d'enregistrer simplement un parcours utilisateur dans le cas d'une application monopage (Single Page Application). En effet lorsque vous cliquez sur analyse, les valeurs  "Taille de la page"  et "Nombre de requêtes"  portent  sur toute la page en cours (qui reste la même tout au long du parcours) et pas sur les ressources ajoutées entre l'analyse en cours et l'analyse précédente.Pour remédier à ce problème, deux solutions possibles :
+ * Après chaque analyse intermédiaire vider les requêtes tracées par le navigateur via le panneau réseau (ou Network) du panel développeur. L'analyse suivante ne prendra en compte que les nouvelles ressources téléchargées. 
+ * Faire une seule analyse à la fin du parcours sur l'application single page (du fait de la structure mono page , l'analyse prendra en compte toutes les requêtes et données echangées lors du parcours) . 
+
 
 ### Permissions de l'extension 
 
