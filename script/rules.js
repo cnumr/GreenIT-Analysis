@@ -188,7 +188,7 @@ function Rules() {
     this.comment = "";
 
     this.check = function (measures) {
-      if (measures.domainsNumber > 2) this.isRespected = false;
+      if (measures.domainsNumber > 3) this.isRespected = false;
       this.comment = chrome.i18n.getMessage("rule_DomainsNumber_Comment", String(measures.domainsNumber));
     }
   }
