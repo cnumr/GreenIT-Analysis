@@ -52,7 +52,11 @@
       color: #fff;
     }
 
-    .bestPraticeDetail {
+    .bestPracticeDetail {
+      border: 1px solid rgb(8, 226, 73);
+    }
+
+    .bestPracticeDetailComment {
       border: 1px solid rgb(226, 8, 8);
     }
 
@@ -70,8 +74,17 @@
       width: 450px;
     }
 
-    .bestPraticeLink {
+    .bestPracticeLink {
       color: black;
+    }
+
+    .detailCommentLink {
+      color: rgb(3, 3, 3);
+      background-color: #F6EB15;
+
+      background-color: rgb(219, 221, 223);
+      font-size: 10px;
+      line-height: 5px;
     }
   </style>
 
@@ -140,226 +153,262 @@
         <tbody>
           <tr>
             <td>
-              <a href="#" id="plugin_Detail" class="bestPraticeLink" data-i18n="rule_Plugins"></a>
+              <a href="#" id="plugin_Detail" class="bestPracticeLink" data-i18n="rule_Plugins"></a>
             </td>
             <td style="width:30px"> <img id="plugins_status" src="icons/OK.png"></td>
             <td id="plugins_comment"></td>
           </tr>
-          <tr id="plugin_Detail_Text" hidden>
+          <tr id="plugin_DetailTextRow" hidden>
             <td colspan="3">
-              <p class="bestPraticeDetail" data-i18n="rule_Plugins_DetailDescription"> </p>
+              <p class="bestPracticeDetail" data-i18n="rule_Plugins_DetailDescription"> </p>
             </td>
           </tr>
 
+
           <tr>
             <td>
-              <a href="#" id="styleSheet_Detail" class="bestPraticeLink" data-i18n="rule_StyleSheets"></a>
+              <a href="#" id="styleSheet_Detail" class="bestPracticeLink" data-i18n="rule_StyleSheets"></a>
             </td>
             <td style="width:30px"> <img id="styleSheets_status" src="icons/OK.png"></td>
             <td id="styleSheets_comment"></td>
           </tr>
-          <tr id="styleSheet_Detail_Text" hidden>
+          <tr id="styleSheet_DetailTextRow" hidden>
             <td colspan="3">
-              <p class="bestPraticeDetail" data-i18n="rule_StyleSheets_DetailDescription"> </p>
+              <p class="bestPracticeDetail" data-i18n="rule_StyleSheets_DetailDescription"> </p>
             </td>
           </tr>
 
           <tr>
             <td>
-              <a href="#" id="printStyleSheet_Detail" class="bestPraticeLink" data-i18n="rule_PrintStylesheet"></a>
+              <a href="#" id="printStyleSheet_Detail" class="bestPracticeLink" data-i18n="rule_PrintStylesheet"></a>
             </td>
             <td style="width:30px"><img id="printStyleSheets_status" src="icons/OK.png"></td>
             <td id="printStyleSheets_comment"></td>
           </tr>
-          <tr id="printStyleSheet_Detail_Text" hidden>
+          <tr id="printStyleSheet_DetailTextRow" hidden>
             <td colspan="3">
-              <p class="bestPraticeDetail" data-i18n="rule_PrintStyleSheet_DetailDescription"> </p>
+              <p class="bestPracticeDetail" data-i18n="rule_PrintStyleSheet_DetailDescription"> </p>
             </td>
           </tr>
 
           <tr>
             <td>
-              <a href="#" id="externalizeCss_Detail" class="bestPraticeLink" data-i18n="rule_ExternalizeCss"></a>
+              <a href="#" id="externalizeCss_Detail" class="bestPracticeLink" data-i18n="rule_ExternalizeCss"></a>
             </td>
             <td style="width:30px"><img id="externalizeCss_status" src="icons/OK.png"></td>
             <td id="externalizeCss_comment"></td>
           </tr>
-          <tr id="externalizeCss_Detail_Text" hidden>
+          <tr id="externalizeCss_DetailTextRow" hidden>
             <td colspan="3">
-              <p class="bestPraticeDetail" data-i18n="rule_ExternalizeCss_DetailDescription"> </p>
+              <p class="bestPracticeDetail" data-i18n="rule_ExternalizeCss_DetailDescription"> </p>
             </td>
           </tr>
 
           <tr>
             <td>
-              <a href="#" id="minifiedCss_Detail" class="bestPraticeLink" data-i18n="rule_MinifiedCss"></a>
+              <a href="#" id="minifiedCss_Detail" class="bestPracticeLink" data-i18n="rule_MinifiedCss"></a>
             </td>
             <td style="width:30px"><img id="minifiedCss_status" src="icons/OK.png"></td>
             <td id="minifiedCss_comment"></td>
           </tr>
-          <tr id="minifiedCss_Detail_Text" hidden>
+          <tr id="minifiedCss_DetailTextRow" hidden>
             <td colspan="3">
-              <p class="bestPraticeDetail" data-i18n="rule_MinifiedCss_DetailDescription"> </p>
+              <p class="bestPracticeDetail" data-i18n="rule_MinifiedCss_DetailDescription"> </p>
             </td>
           </tr>
 
           <tr>
             <td>
-              <a href="#" id="emptySrcTag_Detail" class="bestPraticeLink" data-i18n="rule_EmptySrcTag"></a>
+              <a href="#" id="emptySrcTag_Detail" class="bestPracticeLink" data-i18n="rule_EmptySrcTag"></a>
             </td>
             <td style="width:30px"><img id="emptySrcTag_status" src="icons/OK.png"></td>
             <td id="emptySrcTag_comment"></td>
           </tr>
-          <tr id="emptySrcTag_Detail_Text" hidden>
+          <tr id="emptySrcTag_DetailTextRow" hidden>
             <td colspan="3">
-              <p class="bestPraticeDetail" data-i18n="rule_EmptySrcTag_DetailDescription"> </p>
+              <p class="bestPracticeDetail" data-i18n="rule_EmptySrcTag_DetailDescription"> </p>
             </td>
           </tr>
 
 
           <tr>
             <td>
-              <a href="#" id="jsValidate_Detail" class="bestPraticeLink" data-i18n="rule_JsValidate"></a>
+              <a href="#" id="jsValidate_Detail" class="bestPracticeLink" data-i18n="rule_JsValidate"></a>
             </td>
             <td style="width:30px"><img id="jsValidate_status" src="icons/OK.png"></td>
             <td id="jsValidate_comment"></td>
           </tr>
-          <tr id="jsValidate_Detail_Text" hidden>
+          <tr id="jsValidate_DetailTextRow" hidden>
             <td colspan="3">
-              <p class="bestPraticeDetail" data-i18n="rule_JsValidate_DetailDescription"> </p>
+              <p class="bestPracticeDetail" data-i18n="rule_JsValidate_DetailDescription"> </p>
             </td>
           </tr>
 
           <tr>
             <td>
-              <a href="#" id="externalizeJs_Detail" class="bestPraticeLink" data-i18n="rule_ExternalizeJs"></a>
+              <a href="#" id="externalizeJs_Detail" class="bestPracticeLink" data-i18n="rule_ExternalizeJs"></a>
             </td>
             <td style="width:30px"><img id="externalizeJs_status" src="icons/OK.png"></td>
             <td id="externalizeJs_comment"></td>
           </tr>
-          <tr id="externalizeJs_Detail_Text" hidden>
+          <tr id="externalizeJs_DetailTextRow" hidden>
             <td colspan="3">
-              <p class="bestPraticeDetail" data-i18n="rule_ExternalizeJs_DetailDescription"> </p>
+              <p class="bestPracticeDetail" data-i18n="rule_ExternalizeJs_DetailDescription"> </p>
             </td>
           </tr>
 
           <tr>
             <td>
-              <a href="#" id="minifiedJs_Detail" class="bestPraticeLink" data-i18n="rule_MinifiedJs"></a>
+              <a href="#" id="minifiedJs_Detail" class="bestPracticeLink" data-i18n="rule_MinifiedJs"></a>
             </td>
             <td style="width:30px"><img id="minifiedJs_status" src="icons/OK.png"></td>
             <td id="minifiedJs_comment"></td>
           </tr>
-          <tr id="minifiedJs_Detail_Text" hidden>
+          <tr id="minifiedJs_DetailTextRow" hidden>
             <td colspan="3">
-              <p class="bestPraticeDetail" data-i18n="rule_MinifiedJs_DetailDescription"> </p>
+              <p class="bestPracticeDetail" data-i18n="rule_MinifiedJs_DetailDescription"> </p>
             </td>
           </tr>
 
           <tr>
             <td>
-              <a href="#" id="httpRequests_Detail" class="bestPraticeLink" data-i18n="rule_HttpRequests"></a>
+              <a href="#" id="httpRequests_Detail" class="bestPracticeLink" data-i18n="rule_HttpRequests"></a>
             </td>
             <td style="width:30px"><img id="httpRequests_status" src="icons/OK.png"></td>
-            <td id="httpRequests_comment"></td>
+            <td> <span id="httpRequests_comment"> </span> <a href="#" id="httpRequests_DetailComment"
+                class="detailCommentLink" hidden>.....</a> </td>
           </tr>
-          <tr id="httpRequests_Detail_Text" hidden>
+          <tr id="httpRequests_DetailTextRow" hidden>
             <td colspan="3">
-              <p class="bestPraticeDetail" data-i18n="rule_HttpRequests_DetailDescription"> </p>
+              <p class="bestPracticeDetail" data-i18n="rule_HttpRequests_DetailDescription"> </p>
+            </td>
+          </tr>
+          <tr id="httpRequests_DetailCommentTextRow" hidden>
+            <td colspan="3">
+              <p id="httpRequests_DetailCommentText" class="bestPracticeDetailComment"> </p>
             </td>
           </tr>
 
           <tr>
             <td>
-              <a href="#" id="domainsNumber_Detail" class="bestPraticeLink" data-i18n="rule_DomainsNumber"></a>
+              <a href="#" id="domainsNumber_Detail" class="bestPracticeLink" data-i18n="rule_DomainsNumber"></a>
             </td>
             <td style="width:30px"><img id="domainsNumber_status" src="icons/OK.png"></td>
-            <td id="domainsNumber_comment"></td>
+            <td> <span id="domainsNumber_comment"> </span> <a href="#" id="domainsNumber_DetailComment"
+                class="detailCommentLink" hidden>.....</a> </td>
           </tr>
-          <tr id="domainsNumber_Detail_Text" hidden>
+          <tr id="domainsNumber_DetailTextRow" hidden>
             <td colspan="3">
-              <p class="bestPraticeDetail" data-i18n="rule_DomainsNumber_DetailDescription"> </p>
+              <p class="bestPracticeDetail" data-i18n="rule_DomainsNumber_DetailDescription"> </p>
+            </td>
+          </tr>
+          <tr id="domainsNumber_DetailCommentTextRow" hidden>
+            <td colspan="3">
+              <p id="domainsNumber_DetailCommentText" class="bestPracticeDetailComment"> </p>
             </td>
           </tr>
 
           <tr>
             <td>
-              <a href="#" id="addExpiresOrCacheControlHeaders_Detail" class="bestPraticeLink"
+              <a href="#" id="addExpiresOrCacheControlHeaders_Detail" class="bestPracticeLink"
                 data-i18n="rule_AddExpiresOrCacheControlHeaders"></a>
             </td>
             <td style="width:30px"><img id="addExpiresOrCacheControlHeaders_status" src="icons/OK.png"></td>
-            <td id="addExpiresOrCacheControlHeaders_comment"></td>
+            <td> <span id="addExpiresOrCacheControlHeaders_comment"> </span> <a href="#"
+                id="addExpiresOrCacheControlHeaders_DetailComment" class="detailCommentLink" hidden>.....</a> </td>
           </tr>
-          <tr id="addExpiresOrCacheControlHeaders_Detail_Text" hidden>
+          <tr id="addExpiresOrCacheControlHeaders_DetailTextRow" hidden>
             <td colspan="3">
-              <p class="bestPraticeDetail" data-i18n="rule_AddExpiresOrCacheControlHeaders_DetailDescription"> </p>
+              <p class="bestPracticeDetail" data-i18n="rule_AddExpiresOrCacheControlHeaders_DetailDescription"> </p>
+            </td>
+          </tr>
+          <tr id="addExpiresOrCacheControlHeaders_DetailCommentTextRow" hidden>
+            <td colspan="3">
+              <p id="addExpiresOrCacheControlHeaders_DetailCommentText" class="bestPracticeDetailComment"> </p>
             </td>
           </tr>
 
           <tr>
             <td>
-              <a href="#" id="useETags_Detail" class="bestPraticeLink" data-i18n="rule_UseETags"></a>
+              <a href="#" id="useETags_Detail" class="bestPracticeLink" data-i18n="rule_UseETags"></a>
             </td>
             <td style="width:30px"><img id="useETags_status" src="icons/OK.png"></td>
-            <td id="useETags_comment"></td>
+            <td> <span id="useETags_comment"> </span> <a href="#" id="useETags_DetailComment" class="detailCommentLink"
+                hidden>.....</a> </td>
           </tr>
-          <tr id="useETags_Detail_Text" hidden>
+          <tr id="useETags_DetailTextRow" hidden>
             <td colspan="3">
-              <p class="bestPraticeDetail" data-i18n="rule_UseETags_DetailDescription"> </p>
+              <p class="bestPracticeDetail" data-i18n="rule_UseETags_DetailDescription"> </p>
             </td>
           </tr>
-
+          <tr id="useETags_DetailCommentTextRow" hidden>
+            <td colspan="3">
+              <p id="useETags_DetailCommentText" class="bestPracticeDetailComment"> </p>
+            </td>
+          </tr>
           <tr>
             <td>
-              <a href="#" id="compressHttp_Detail" class="bestPraticeLink" data-i18n="rule_CompressHttp"></a> </td>
+              <a href="#" id="compressHttp_Detail" class="bestPracticeLink" data-i18n="rule_CompressHttp"></a> </td>
             <td style="width:30px"><img id="compressHttp_status" src="icons/OK.png"></td>
-            <td id="compressHttp_comment"></td>
+            <td> <span id="compressHttp_comment"> </span> <a href="#" id="compressHttp_DetailComment"
+                class="detailCommentLink" hidden>.....</a> </td>
           </tr>
-          <tr id="compressHttp_Detail_Text" hidden>
+          <tr id="compressHttp_DetailTextRow" hidden>
             <td colspan="3">
-              <p class="bestPraticeDetail" data-i18n="rule_CompressHttp_DetailDescription"> </p>
+              <p class="bestPracticeDetail" data-i18n="rule_CompressHttp_DetailDescription"> </p>
+            </td>
+          </tr>
+          <tr id="compressHttp_DetailCommentTextRow" hidden>
+            <td colspan="3">
+              <p id="compressHttp_DetailCommentText" class="bestPracticeDetailComment"> </p>
             </td>
           </tr>
 
           <tr>
             <td>
-              <a href="#" id="dontResizeImageInBrowser_Detail" class="bestPraticeLink"
+              <a href="#" id="dontResizeImageInBrowser_Detail" class="bestPracticeLink"
                 data-i18n="rule_DontResizeImageInBrowser"></a> </td>
             </td>
             <td style="width:30px"><img id="dontResizeImageInBrowser_status" src="icons/OK.png"></td>
             <td id="dontResizeImageInBrowser_comment"></td>
           </tr>
-          <tr id="dontResizeImageInBrowser_Detail_Text" hidden>
+          <tr id="dontResizeImageInBrowser_DetailTextRow" hidden>
             <td colspan="3">
-              <p class="bestPraticeDetail" data-i18n="rule_DontResizeImageInBrowser_DetailDescription"> </p>
+              <p class="bestPracticeDetail" data-i18n="rule_DontResizeImageInBrowser_DetailDescription"> </p>
             </td>
           </tr>
 
           <tr>
             <td>
-              <a href="#" id="useStandardTypefaces_Detail" class="bestPraticeLink"
+              <a href="#" id="useStandardTypefaces_Detail" class="bestPracticeLink"
                 data-i18n="rule_UseStandardTypefaces"></a> </td>
             </td>
             <td style="width:30px"><img id="useStandardTypefaces_status" src="icons/OK.png"></td>
             <td id="useStandardTypefaces_comment"></td>
           </tr>
-          <tr id="useStandardTypefaces_Detail_Text" hidden>
+          <tr id="useStandardTypefaces_DetailTextRow" hidden>
             <td colspan="3">
-              <p class="bestPraticeDetail" data-i18n="rule_UseStandardTypefaces_DetailDescription"> </p>
+              <p class="bestPracticeDetail" data-i18n="rule_UseStandardTypefaces_DetailDescription"> </p>
             </td>
           </tr>
 
           <tr>
             <td>
-              <a href="#" id="maxCookiesLength_Detail" class="bestPraticeLink" data-i18n="rule_MaxCookiesLength"></a>
+              <a href="#" id="maxCookiesLength_Detail" class="bestPracticeLink" data-i18n="rule_MaxCookiesLength"></a>
             </td>
             </td>
             <td style="width:30px"><img id="maxCookiesLength_status" src="icons/OK.png"></td>
-            <td id="maxCookiesLength_comment"></td>
+            <td> <span id="maxCookiesLength_comment"> </span> <a href="#" id="maxCookiesLength_DetailComment"
+                class="detailCommentLink" hidden>.....</a> </td>
           </tr>
-          <tr id="maxCookiesLength_Detail_Text" hidden>
+          <tr id="maxCookiesLength_DetailTextRow" hidden>
             <td colspan="3">
-              <p class="bestPraticeDetail" data-i18n="rule_MaxCookiesLength_DetailDescription"> </p>
+              <p class="bestPracticeDetail" data-i18n="rule_MaxCookiesLength_DetailDescription"> </p>
+            </td>
+          </tr>
+          <tr id="maxCookiesLength_DetailCommentTextRow" hidden>
+            <td colspan="3">
+              <p id="maxCookiesLength_DetailCommentText" class="bestPracticeDetailComment"> </p>
             </td>
           </tr>
         </tbody>

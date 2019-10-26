@@ -36,16 +36,29 @@ function initPanel() {
   document.getElementById('analyseBestPracticesCheckBox').addEventListener('click', (e) => setAnalyseBestPractices());
 
   // Set a listener for each plus button (detail best practice )
-  const links = document.getElementsByClassName("bestPraticeLink");
+  let links = document.getElementsByClassName("bestPracticeLink");
   for (var i=0;i<links.length;i++)
   {
     const id = links.item(i).id;
     document.getElementById(id).addEventListener('click', (e) => {
       //On désactive le comportement du lien
       e.preventDefault();
-      showBestPracticeDetail(id+"_Text");
+      showBestPracticeDetail(id+"TextRow");
     });
   }
+
+  // Set a listener for each plus link ( detail comment )
+  links = document.getElementsByClassName("detailCommentLink");
+  for (var i=0;i<links.length;i++)
+  {
+    const id = links.item(i).id;
+    document.getElementById(id).addEventListener('click', (e) => {
+      //On désactive le comportement du lien
+      e.preventDefault();
+      showCommentDetail(id+"TextRow");
+    });
+  }
+
 }
 
 function openBackgroundPageConnection() {
@@ -139,6 +152,22 @@ function showEcoRuleOnUI(rule) {
     if (rule.isRespected) status = "OK";
     document.getElementById(rule.id + "_status").src = "icons/" + status + ".png";
     document.getElementById(rule.id + "_comment").innerHTML = rule.comment;
+
+    if (rule.detailComment.length >0)
+    {
+      document.getElementById(rule.id + "_DetailComment").hidden = false;
+      document.getElementById(rule.id + "_DetailCommentText").innerHTML = rule.detailComment;
+    }
+    else 
+    {
+      if (document.getElementById(rule.id + "_DetailComment")) 
+      {
+        document.getElementById(rule.id + "_DetailComment").hidden = true;
+        document.getElementById(rule.id + "_DetailCommentText").innerHTML ="";
+        document.getElementById(rule.id + "_DetailCommentTextRow").hidden = true;
+      }
+    }
+
   }
 }
 
@@ -204,13 +233,9 @@ function MeasuresAcquisition(rules) {
       "totalJs": 0,
       "percentMinifiedJs": 0,
       "staticResourcesNumber": 0,
-      "staticResourcesNumberWithCacheHeaders": 0,
       "staticResourcesNumberWithETags": 0,
-      "compressibleResourcesNumber": 0,
-      "compressibleResourcesNumberCompressed": 0,
       "imageResizedInBrowserNumber": 0,
       "cssFontFaceRuleNumber": 0,
-      "maxCookiesLength": 0
     };
   }
 
@@ -250,34 +275,6 @@ function MeasuresAcquisition(rules) {
           {
             measures.responsesSize += entry.response.content.size;
             // debug(() => `entry size = ${entry.response.content.size} , responseSize = ${measures.responsesSize}`);
-          }
-
-          if (analyseBestPractices) {
-            if (isStaticRessource(entry)) {
-              measures.staticResourcesNumber++;
-              if (hasValidCacheHeaders(entry)) {
-                measures.staticResourcesNumberWithCacheHeaders++;
-                debug(() => `resource ${entry.request.url} is cached `);
-              }
-              else debug(() => `resource ${entry.request.url} is not cached `);
-              if (isRessourceUsingETag(entry)) {
-                measures.staticResourcesNumberWithETags++;
-                debug(() => `resource ${entry.request.url} is using ETags `);
-              }
-              else debug(() => `resource ${entry.request.url} is not using ETags `);
-            }
-            if (isCompressibleResource(entry)) {
-              measures.compressibleResourcesNumber++;
-              if (isResourceCompressed(entry)) {
-                measures.compressibleResourcesNumberCompressed++;
-                debug(() => `resource ${entry.request.url} is compressed `);
-              }
-              else debug(() => `resource ${entry.request.url} is not compressed `);
-            }
-            const cookiesLength = getCookiesLength(entry);
-            if (cookiesLength !== 0) debug(() => `COOKIE LENGTH = ${cookiesLength} for url ${entry.request.url}`);
-            if (cookiesLength > measures.maxCookiesLength) measures.maxCookiesLength = cookiesLength;
-
           }
         });
         if (analyseBestPractices) {
@@ -431,9 +428,18 @@ function setAnalyseBestPractices() {
   if (!analyseBestPractices) document.getElementById("bestPracticesView").hidden = true;
 }
 
-// Comments popup
+// Best practice comment texte 
 
 function showBestPracticeDetail(id){
+  
+  if (document.getElementById(id).hidden) document.getElementById(id).hidden = false ;
+  else document.getElementById(id).hidden = true; 
+  
+}
+
+// Comments detail text
+
+function showCommentDetail(id){
   
   if (document.getElementById(id).hidden) document.getElementById(id).hidden = false ;
   else document.getElementById(id).hidden = true; 
