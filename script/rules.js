@@ -188,8 +188,16 @@ function Rules() {
     this.comment = "";
 
     this.check = function (measures) {
-      if (measures.domainsNumber > 3) this.isRespected = false;
-      this.comment = chrome.i18n.getMessage("rule_DomainsNumber_Comment", String(measures.domainsNumber));
+      let domains = [];
+      if (measures.entries.length) measures.entries.forEach(entry => {
+        let domain = getDomainFromUrl(entry.request.url);
+        if (domains.indexOf(domain) === -1) {
+          domains.push(domain);
+          debug(() => `found domain ${domain}`);
+        }
+      });
+      if (domains.length > 3) this.isRespected = false;
+      this.comment = chrome.i18n.getMessage("rule_DomainsNumber_Comment", String(domains.length));
     }
   }
 

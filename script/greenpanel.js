@@ -203,7 +203,6 @@ function MeasuresAcquisition(rules) {
       "minifiedJsNumber": 0,
       "totalJs": 0,
       "percentMinifiedJs": 0,
-      "domainsNumber": 0,
       "staticResourcesNumber": 0,
       "staticResourcesNumberWithCacheHeaders": 0,
       "staticResourcesNumberWithETags": 0,
@@ -235,7 +234,7 @@ function MeasuresAcquisition(rules) {
       if (entries.length > 0) {
         measures.url = entries[0].request.url;
       }
-      let domains = [];
+      measures.entries = entries ; 
       if (entries.length) {
         measures.nbRequest = entries.length;
         entries.forEach(entry => {
@@ -275,11 +274,6 @@ function MeasuresAcquisition(rules) {
               }
               else debug(() => `resource ${entry.request.url} is not compressed `);
             }
-            let domain = getDomainFromUrl(entry.request.url);
-            if (domains.indexOf(domain) === -1) {
-              domains.push(domain);
-              debug(() => `found domain ${domain}`);
-            }
             const cookiesLength = getCookiesLength(entry);
             if (cookiesLength !== 0) debug(() => `COOKIE LENGTH = ${cookiesLength} for url ${entry.request.url}`);
             if (cookiesLength > measures.maxCookiesLength) measures.maxCookiesLength = cookiesLength;
@@ -287,7 +281,6 @@ function MeasuresAcquisition(rules) {
           }
         });
         if (analyseBestPractices) {
-          measures.domainsNumber = domains.length;
           localRules.checkRule("httpRequests", measures);
           localRules.checkRule("domainsNumber", measures);
           localRules.checkRule("addExpiresOrCacheControlHeaders", measures);
