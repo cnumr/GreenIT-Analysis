@@ -331,10 +331,16 @@ function Rules() {
     this.id = "dontResizeImageInBrowser";
     this.comment = "";
     this.detailComment = "";
+    this.imagesResizedInBrowserNumber = 0;
 
     this.check = function (measures) {
-      if (measures.imageResizedInBrowserNumber > 0) this.isRespected = false;
-      this.comment = chrome.i18n.getMessage("rule_DontResizeImageInBrowser_Comment", String(measures.imageResizedInBrowserNumber));
+
+      measures.imagesResizedInBrowser.forEach(entry => {
+        this.detailComment += `${entry} <br>`;
+      });
+      this.imagesResizedInBrowserNumber += measures.imagesResizedInBrowser.length
+      if (this.imagesResizedInBrowserNumber > 0) this.isRespected = false;
+      this.comment = chrome.i18n.getMessage("rule_DontResizeImageInBrowser_Comment", String(this.imagesResizedInBrowserNumber));
     }
   }
 
@@ -343,11 +349,16 @@ function Rules() {
     this.id = "useStandardTypefaces";
     this.comment = chrome.i18n.getMessage("rule_UseStandardTypefaces_DefaultComment");
     this.detailComment = "";
+    this.cssFontFaceNumber = 0;
 
     this.check = function (measures) {
-      if (measures.cssFontFaceRuleNumber > 0) {
+      measures.cssFontFace.forEach(font => {
+        this.detailComment += `${font} <br>`;
+        });
+        this.cssFontFaceNumber += measures.cssFontFace.length;
+      if (this.cssFontFaceNumber > 0) {
         this.isRespected = false;
-        this.comment = chrome.i18n.getMessage("rule_UseStandardTypefaces_Comment", String(measures.cssFontFaceRuleNumber));
+        this.comment = chrome.i18n.getMessage("rule_UseStandardTypefaces_Comment", String(this.cssFontFaceNumber));
       }
     }
   }

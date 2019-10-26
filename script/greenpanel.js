@@ -93,9 +93,10 @@ function aggregateFrameMeasures(frameMeasures) {
     if ((frameMeasures.inlineJsScript.length > 0) && (chrome.devtools.inspectedWindow.getResources)) analyseJsCode(frameMeasures.inlineJsScript, "inline", measures);
     if (measures.inlineJsScriptsNumber < frameMeasures.inlineJsScriptsNumber) measures.inlineJsScriptsNumber = frameMeasures.inlineJsScriptsNumber;
 
-    measures.imageResizedInBrowserNumber += frameMeasures.imageResizedInBrowserNumber;
+    measures.imagesResizedInBrowser = frameMeasures.imagesResizedInBrowser;
+    measures.cssFontFace = frameMeasures.cssFontFace;
 
-    if (measures.cssFontFaceRuleNumber < frameMeasures.cssFontFaceRuleNumber) measures.cssFontFaceRuleNumber = frameMeasures.cssFontFaceRuleNumber;
+    //if (measures.cssFontFaceRuleNumber < frameMeasures.cssFontFaceRuleNumber) measures.cssFontFaceRuleNumber = frameMeasures.cssFontFaceRuleNumber;
 
 
     rules.checkRule('plugins', measures);
@@ -234,8 +235,8 @@ function MeasuresAcquisition(rules) {
       "percentMinifiedJs": 0,
       "staticResourcesNumber": 0,
       "staticResourcesNumberWithETags": 0,
-      "imageResizedInBrowserNumber": 0,
-      "cssFontFaceRuleNumber": 0,
+      "imagesResizedInBrowser" : [],
+      "cssFontFace": [],
     };
   }
 

@@ -23,8 +23,8 @@ function start_analyse() {
     const emptySrcTagNumber = getEmptySrcTagNumber();
     const inlineJsScript = getInlineJsScript();
     const inlineJsScriptsNumber = getInlineJsScriptsNumber();
-    const imageResizedInBrowserNumber = getImageResizedInBrowserNumber();
-    const cssFontFaceRuleNumber = getCssFontFaceRuleNumber();
+    const imagesResizedInBrowser = getImagesResizedInBrowser();
+    const cssFontFace = getCssFontFace();
 
 
     pageAnalysis = {
@@ -38,8 +38,8 @@ function start_analyse() {
       "emptySrcTagNumber": emptySrcTagNumber,
       "inlineJsScript": inlineJsScript,
       "inlineJsScriptsNumber": inlineJsScriptsNumber,
-      "imageResizedInBrowserNumber": imageResizedInBrowserNumber,
-      "cssFontFaceRuleNumber": cssFontFaceRuleNumber
+      "imagesResizedInBrowser": imagesResizedInBrowser,
+      "cssFontFace": cssFontFace
     }
   }
   else pageAnalysis = {
@@ -119,17 +119,21 @@ function getInlineJsScriptsNumber() {
 }
 
 
-function getImageResizedInBrowserNumber() {
+function getImagesResizedInBrowser() {
   let imgArray = Array.from(document.querySelectorAll('img'));
-  let imageResizedInBrowserNumber = 0;
+  let imagesResized = [];
   imgArray.forEach(img => {
-    if (img.clientWidth < img.naturalWidth || img.clientHeight < img.naturalHeight) imageResizedInBrowserNumber++;
+    if (img.clientWidth < img.naturalWidth || img.clientHeight < img.naturalHeight) 
+    {
+      // Images of one pixel are some times used ... , we exclude them
+      if (img.naturalWidth > 1)  imagesResized.push(img.src);
+    }
   });
-  return imageResizedInBrowserNumber;
+  return imagesResized;
 }
 
 
-function getCssFontFaceRuleNumber() {
+function getCssFontFace() {
 
   let fontList = Array.from(document.styleSheets).reduce((fonts, sheet) => {
     try {
@@ -153,7 +157,7 @@ function getCssFontFaceRuleNumber() {
     }
     return fonts;
   }, new Set());
-  return fontList.size;
+  return Array.from(fontList);
 }
 
 start_analyse();
