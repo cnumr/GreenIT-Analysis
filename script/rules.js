@@ -216,7 +216,7 @@ function Rules() {
           debug(() => `found domain ${domain}`);
         }
       });
-      if (domains.length > 3) this.isRespected = false;
+      if (domains.length > 2) this.isRespected = false;
       domains.forEach(domain => {
         this.detailComment += domain + "<br>";
       });

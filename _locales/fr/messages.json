@@ -122,7 +122,7 @@
     }
   },
   "rule_DomainsNumber": {
-    "message": "Limiter le nombre de domaines (>3)",
+    "message": "Limiter le nombre de domaines (<3)",
     "description": "Limit the number of domains"
   },
   "rule_DomainsNumber_DetailDescription": {
@@ -219,7 +219,7 @@
     }
   },
   "rule_HttpRequests": {
-    "message": "Limiter le nombre de requêtes HTTP (>27)",
+    "message": "Limiter le nombre de requêtes HTTP (<27)",
     "description": "Limit the number of HTTP requests"
   },
   "rule_HttpRequests_DetailDescription": {
@@ -364,7 +364,7 @@
     }
   },
   "rule_StyleSheets": {
-    "message": "Limiter le nombre de fichiers css",
+    "message": "Limiter le nombre de fichiers css (<3) ",
     "description": "Limit Stylesheet files"
   },
   "rule_StyleSheets_DetailDescription": {
