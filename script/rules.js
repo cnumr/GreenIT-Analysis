@@ -183,6 +183,11 @@ function Rules() {
     this.detailComment = "";
 
     this.check = function (measures) {
+      this.detailComment = "";
+      measures.jsShouldBeMinified.forEach(url => {
+        this.detailComment += `${url} should be minified <br>`; 
+      });
+
       if (measures.totalJs > 0) {
         if (measures.percentMinifiedJs < 95) this.isRespected = false;
         else this.isRespected = true;

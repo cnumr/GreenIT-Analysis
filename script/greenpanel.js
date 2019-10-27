@@ -231,6 +231,7 @@ function MeasuresAcquisition(rules) {
       "jsErrors": new Map(),
       "inlineJsScriptsNumber": 0,
       "minifiedJsNumber": 0,
+      "jsShouldBeMinified" : [],
       "totalJs": 0,
       "percentMinifiedJs": 0,
       "staticResourcesNumber": 0,
@@ -331,9 +332,8 @@ function MeasuresAcquisition(rules) {
     measures.totalJs++;
     if (isMinified(code)) {
       measures.minifiedJsNumber++;
-      debug(() => `js ${url} is minified `);
     }
-    else debug(() => `js ${url} is not minified`);
+    else measures.jsShouldBeMinified.push(url);
     measures.percentMinifiedJs = measures.minifiedJsNumber / measures.totalJs * 100;
     localRules.checkRule("minifiedJs", measures);
     refreshUI();
