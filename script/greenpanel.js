@@ -194,9 +194,14 @@ function launchAnalyse() {
 
 function analyseJsCode(code, url, measures) {
 
-  measures.jsErrorsNumber += computeNumberOfErrorsInJSCode(code, url);
-  rules.checkRule("jsValidate", measures);
-  refreshUI();
+  let errorNumber =  computeNumberOfErrorsInJSCode(code, url);
+  if (errorNumber > 0)  
+  {
+    measures.jsErrors.set(url,errorNumber);
+    rules.checkRule("jsValidate", measures);
+    refreshUI();
+  }
+  
 }
 
 
@@ -223,7 +228,7 @@ function MeasuresAcquisition(rules) {
       "totalCss": 0,
       "percentMinifiedCss": 0,
       "emptySrcTagNumber": 0,
-      "jsErrorsNumber": 0,
+      "jsErrors": new Map(),
       "inlineJsScriptsNumber": 0,
       "minifiedJsNumber": 0,
       "totalJs": 0,

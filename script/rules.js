@@ -148,9 +148,15 @@ function Rules() {
     this.detailComment = "";
 
     this.check = function (measures) {
-      if (measures.jsErrorsNumber > 0) {
+      let errors = 0;
+      this.detailComment = "";
+      measures.jsErrors.forEach((value, key) => {
+        this.detailComment += (`URL ${key} has ${value} error(s) <br>`);
+        errors += value;
+      });
+      if (errors > 0) {
         this.isRespected = false;
-        this.comment = chrome.i18n.getMessage("rule_JsValidate_Comment", String(measures.jsErrorsNumber));
+        this.comment = chrome.i18n.getMessage("rule_JsValidate_Comment", String(errors));
       }
     }
   }
