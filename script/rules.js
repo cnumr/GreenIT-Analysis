@@ -69,7 +69,11 @@ function Rules() {
       let styleSheets = [];
       if (measures.entries.length) measures.entries.forEach(entry => {
         if (getResponseHeaderFromResource(entry, "content-type").toLowerCase() === 'text/css') {
-          if (styleSheets.indexOf(entry.request.url) === -1) styleSheets.push(entry.request.url);
+          if (styleSheets.indexOf(entry.request.url) === -1) 
+          { 
+            styleSheets.push(entry.request.url);
+            this.detailComment += entry.request.url + "<br>";
+          }
         }
       });
       if (styleSheets.length > 2) {

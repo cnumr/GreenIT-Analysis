@@ -167,14 +167,20 @@
 
           <tr>
             <td>
-              <a href="#" id="styleSheet_Detail" class="bestPracticeLink" data-i18n="rule_StyleSheets"></a>
+              <a href="#" id="styleSheets_Detail" class="bestPracticeLink" data-i18n="rule_StyleSheets"></a>
             </td>
             <td style="width:30px"> <img id="styleSheets_status" src="icons/OK.png"></td>
-            <td id="styleSheets_comment"></td>
+            <td> <span id="styleSheets_comment"> </span> <a href="#" id="styleSheets_DetailComment"
+              class="detailCommentLink" hidden>.....</a> </td>
           </tr>
-          <tr id="styleSheet_DetailTextRow" hidden>
+          <tr id="styleSheets_DetailTextRow" hidden>
             <td colspan="3">
               <p class="bestPracticeDetail" data-i18n="rule_StyleSheets_DetailDescription"> </p>
+            </td>
+          </tr>
+          <tr id="styleSheets_DetailCommentTextRow" hidden>
+            <td colspan="3">
+              <p id="styleSheets_DetailCommentText" class="bestPracticeDetailComment"> </p>
             </td>
           </tr>
 
