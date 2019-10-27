@@ -391,8 +391,8 @@
     "description": "No custom fonts found"
   },
   "rule_UseStandardTypefaces_Comment": {
-    "message": "$NB$ custom fonts found for at least one frame",
-    "description": "Number of custom fonts found for at least one frame",
+    "message": "$NB$ custom fonts found",
+    "description": "Number of custom fonts found",
     "placeholders": {
       "NB": {
         "content": "$1"
