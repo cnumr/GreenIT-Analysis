@@ -372,12 +372,12 @@
     "description": "Limit Stylesheet files"
   },
   "rule_StyleSheets_DefaultComment": {
-    "message": "Pas plus de 2 fichiers css par frames",
-    "description": "Not more that 2 stylesheets per frame found"
+    "message": "Pas plus de 2 fichiers css",
+    "description": "Not more that 2 stylesheets found"
   },
   "rule_StyleSheets_Comment": {
-    "message": "$NB_STYLESHEETS$ fichiers css pour au moins une frame",
-    "description": "Number of stylesheets for at least one frame",
+    "message": "$NB_STYLESHEETS$ fichiers css",
+    "description": "Number of stylesheets",
     "placeholders": {
       "NB_STYLESHEETS": {
         "content": "$1"

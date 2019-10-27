@@ -66,9 +66,15 @@ function Rules() {
     this.detailComment = "";
 
     this.check = function (measures) {
-      if (measures.styleSheetsNumber > 2) {
+      let styleSheets = [];
+      if (measures.entries.length) measures.entries.forEach(entry => {
+        if (getResponseHeaderFromResource(entry, "content-type").toLowerCase() === 'text/css') {
+          if (styleSheets.indexOf(entry.request.url) === -1) styleSheets.push(entry.request.url);
+        }
+      });
+      if (styleSheets.length > 2) {
         this.isRespected = false;
-        this.comment = chrome.i18n.getMessage("rule_StyleSheets_Comment", String(measures.styleSheetsNumber));
+        this.comment = chrome.i18n.getMessage("rule_StyleSheets_Comment", String(styleSheets.length));
       }
     }
   }
@@ -354,8 +360,8 @@ function Rules() {
     this.check = function (measures) {
       measures.cssFontFace.forEach(font => {
         this.detailComment += `${font} <br>`;
-        });
-        this.cssFontFaceNumber += measures.cssFontFace.length;
+      });
+      this.cssFontFaceNumber += measures.cssFontFace.length;
       if (this.cssFontFaceNumber > 0) {
         this.isRespected = false;
         this.comment = chrome.i18n.getMessage("rule_UseStandardTypefaces_Comment", String(this.cssFontFaceNumber));

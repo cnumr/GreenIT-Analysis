@@ -48,21 +48,6 @@ describe("analyseFrame.js", function() {
     });
   });
 
-
-  describe("#function getStyleSheetsNumber", function() {
- 
-    beforeEach(function() {	
-    });
-	
-    it(" should return 2", function() {
-      expect(testFrame.getStyleSheetsNumber()).toEqual(2);
-    });
-
-    afterEach(function() {
-    });
-  });
-
-
   describe("#function getPrintStyleSheetsNumber", function() {
  
     beforeEach(function() {	
@@ -115,13 +100,13 @@ describe("analyseFrame.js", function() {
     });
   });
 
-  describe("#function getImageResizedInBrowserNumber()", function() {
+  describe("#function getImagesResizedInBrowser()", function() {
  
     beforeEach(function() {	
     });
 	
     it(" should return 1", function() {
-      expect(testFrame.getImageResizedInBrowserNumber()).toEqual(1);
+      expect(testFrame.getImagesResizedInBrowser().length).toEqual(1);
     });
 
     afterEach(function() {
@@ -134,7 +119,7 @@ describe("analyseFrame.js", function() {
     });
 	
     it(" should return 2", function() {
-      expect(testFrame.getCssFontFaceRuleNumber()).toEqual(2);
+      expect(testFrame.getCssFontFace().length).toEqual(2);
     });
 
     afterEach(function() {

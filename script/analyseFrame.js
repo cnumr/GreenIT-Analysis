@@ -17,7 +17,6 @@ function start_analyse() {
   if (analyseBestPractices) {
     // test with http://www.wickham43.net/flashvideo.php
     const pluginsNumber = getPluginsNumber();
-    const styleSheetsNumber = getStyleSheetsNumber();
     const printStyleSheetsNumber = getPrintStyleSheetsNumber();
     const inlineStyleSheetsNumber = getInlineStyleSheetsNumber();
     const emptySrcTagNumber = getEmptySrcTagNumber();
@@ -32,7 +31,6 @@ function start_analyse() {
       "url": document.URL,
       "domSize": dom_size,
       "pluginsNumber": pluginsNumber,
-      "styleSheetsNumber": styleSheetsNumber,
       "printStyleSheetsNumber": printStyleSheetsNumber,
       "inlineStyleSheetsNumber": inlineStyleSheetsNumber,
       "emptySrcTagNumber": emptySrcTagNumber,
@@ -56,22 +54,6 @@ function start_analyse() {
 function getPluginsNumber() {
   const plugins = document.querySelectorAll('object,embed');
   return (plugins === undefined) ? 0 : plugins.length;
-}
-
-
-
-function getStyleSheetsNumber() {
-  let styleSheets = Array.from(document.styleSheets).reduce((memo, sheet) => {
-    // 12/06/2019 : need to put sheet.media[0] instead of sheet.media due to compatibility with old chromium version
-    let isPrint = (String(sheet.media[0]) === 'print');
-    const isInlined = !sheet.href;
-    //We ignore "print" and inlined CSS willingly
-    if (isPrint || isInlined) return memo;
-    memo.push(sheet.href);
-    return memo;
-  }, []);
-  return styleSheets.length;
-
 }
 
 

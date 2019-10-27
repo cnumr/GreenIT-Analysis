@@ -86,7 +86,6 @@ function aggregateFrameMeasures(frameMeasures) {
   if (analyseBestPractices) {
     measures.pluginsNumber += frameMeasures.pluginsNumber;
 
-    if (measures.styleSheetsNumber < frameMeasures.styleSheetsNumber) measures.styleSheetsNumber = frameMeasures.styleSheetsNumber;
     measures.printStyleSheetsNumber += frameMeasures.printStyleSheetsNumber;
     if (measures.inlineStyleSheetsNumber < frameMeasures.inlineStyleSheetsNumber) measures.inlineStyleSheetsNumber = frameMeasures.inlineStyleSheetsNumber;
     measures.emptySrcTagNumber += frameMeasures.emptySrcTagNumber;
@@ -96,11 +95,8 @@ function aggregateFrameMeasures(frameMeasures) {
     measures.imagesResizedInBrowser = frameMeasures.imagesResizedInBrowser;
     measures.cssFontFace = frameMeasures.cssFontFace;
 
-    //if (measures.cssFontFaceRuleNumber < frameMeasures.cssFontFaceRuleNumber) measures.cssFontFaceRuleNumber = frameMeasures.cssFontFaceRuleNumber;
-
 
     rules.checkRule('plugins', measures);
-    rules.checkRule('styleSheets', measures);
     rules.checkRule('printStyleSheets', measures);
     rules.checkRule('emptySrcTag', measures);
     if (chrome.devtools.inspectedWindow.getResources) rules.checkRule('jsValidate', measures);
@@ -221,7 +217,6 @@ function MeasuresAcquisition(rules) {
       "waterConsumption": 0,
       "greenhouseGasesEmission": 0,
       "pluginsNumber": 0,
-      "styleSheetsNumber": 0,
       "printStyleSheetsNumber": 0,
       "inlineStyleSheetsNumber": 0,
       "minifiedCssNumber": 0,
@@ -279,6 +274,7 @@ function MeasuresAcquisition(rules) {
           }
         });
         if (analyseBestPractices) {
+          localRules.checkRule("styleSheets", measures);
           localRules.checkRule("httpRequests", measures);
           localRules.checkRule("domainsNumber", measures);
           localRules.checkRule("addExpiresOrCacheControlHeaders", measures);
