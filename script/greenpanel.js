@@ -233,8 +233,6 @@ function MeasuresAcquisition(rules) {
       "minifiedJsNumber": 0,
       "jsShouldBeMinified" : [],
       "totalJs": 0,
-      "staticResourcesNumber": 0,
-      "staticResourcesNumberWithETags": 0,
       "imagesResizedInBrowser" : [],
       "cssFontFace": [],
     };
