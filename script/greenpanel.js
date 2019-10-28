@@ -225,6 +225,7 @@ function MeasuresAcquisition(rules) {
       "printStyleSheetsNumber": 0,
       "inlineStyleSheetsNumber": 0,
       "minifiedCssNumber": 0,
+      "cssShouldBeMinified" : [],
       "totalCss": 0,
       "percentMinifiedCss": 0,
       "emptySrcTagNumber": 0,
@@ -344,9 +345,8 @@ function MeasuresAcquisition(rules) {
     measures.totalCss++;
     if (isMinified(code)) {
       measures.minifiedCssNumber++;
-      debug(() => `css ${url} is minified`);
     }
-    else debug(() => `css ${url} is not minified`);
+    else measures.cssShouldBeMinified.push(url);
     measures.percentMinifiedCss = measures.minifiedCssNumber / measures.totalCss * 100;
     localRules.checkRule("minifiedCss", measures);
     refreshUI();
