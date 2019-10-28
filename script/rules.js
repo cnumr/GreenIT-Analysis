@@ -121,11 +121,12 @@ function Rules() {
       measures.cssShouldBeMinified.forEach(url => {
         this.detailComment += `${url} should be minified <br>`; 
       });
+      const percentMinifiedCss = measures.minifiedCssNumber / measures.totalCss * 100;
       if (measures.totalCss > 0) {
-        if (measures.percentMinifiedCss < 95) this.isRespected = false;
+        if (percentMinifiedCss < 95) this.isRespected = false;
         else this.isRespected = true;
         this.comment = chrome.i18n.getMessage("rule_MinifiedCss_Comment",
-          Math.round(measures.percentMinifiedCss) + " % ("
+          Math.round(percentMinifiedCss) + " % ("
           + measures.minifiedCssNumber + "/" + measures.totalCss + ")");
       }
     }
@@ -191,13 +192,13 @@ function Rules() {
       measures.jsShouldBeMinified.forEach(url => {
         this.detailComment += `${url} should be minified <br>`; 
       });
-
+      const percentMinifiedJs = measures.minifiedJsNumber / measures.totalJs * 100;
       if (measures.totalJs > 0) {
-        if (measures.percentMinifiedJs < 95) this.isRespected = false;
+        if (percentMinifiedJs < 95) this.isRespected = false;
         else this.isRespected = true;
 
         this.comment = chrome.i18n.getMessage("rule_MinifiedJs_Comment",
-          Math.round(measures.percentMinifiedJs) + " % ("
+          Math.round(percentMinifiedJs) + " % ("
           + measures.minifiedJsNumber
           + "/" + measures.totalJs + ")");
       }

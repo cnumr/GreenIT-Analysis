@@ -227,14 +227,12 @@ function MeasuresAcquisition(rules) {
       "minifiedCssNumber": 0,
       "cssShouldBeMinified" : [],
       "totalCss": 0,
-      "percentMinifiedCss": 0,
       "emptySrcTagNumber": 0,
       "jsErrors": new Map(),
       "inlineJsScriptsNumber": 0,
       "minifiedJsNumber": 0,
       "jsShouldBeMinified" : [],
       "totalJs": 0,
-      "percentMinifiedJs": 0,
       "staticResourcesNumber": 0,
       "staticResourcesNumberWithETags": 0,
       "imagesResizedInBrowser" : [],
@@ -335,7 +333,6 @@ function MeasuresAcquisition(rules) {
       measures.minifiedJsNumber++;
     }
     else measures.jsShouldBeMinified.push(url);
-    measures.percentMinifiedJs = measures.minifiedJsNumber / measures.totalJs * 100;
     localRules.checkRule("minifiedJs", measures);
     refreshUI();
   }
@@ -347,7 +344,6 @@ function MeasuresAcquisition(rules) {
       measures.minifiedCssNumber++;
     }
     else measures.cssShouldBeMinified.push(url);
-    measures.percentMinifiedCss = measures.minifiedCssNumber / measures.totalCss * 100;
     localRules.checkRule("minifiedCss", measures);
     refreshUI();
   }
