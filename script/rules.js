@@ -121,8 +121,8 @@ function Rules() {
       measures.cssShouldBeMinified.forEach(url => {
         this.detailComment += `${url} should be minified <br>`; 
       });
-      const percentMinifiedCss = measures.minifiedCssNumber / measures.totalCss * 100;
       if (measures.totalCss > 0) {
+        const percentMinifiedCss = measures.minifiedCssNumber / measures.totalCss * 100;
         if (percentMinifiedCss < 95) this.isRespected = false;
         else this.isRespected = true;
         this.comment = chrome.i18n.getMessage("rule_MinifiedCss_Comment",
@@ -192,8 +192,8 @@ function Rules() {
       measures.jsShouldBeMinified.forEach(url => {
         this.detailComment += `${url} should be minified <br>`; 
       });
-      const percentMinifiedJs = measures.minifiedJsNumber / measures.totalJs * 100;
       if (measures.totalJs > 0) {
+        const percentMinifiedJs = measures.minifiedJsNumber / measures.totalJs * 100;
         if (percentMinifiedJs < 95) this.isRespected = false;
         else this.isRespected = true;
 
@@ -232,7 +232,6 @@ function Rules() {
         let domain = getDomainFromUrl(entry.request.url);
         if (domains.indexOf(domain) === -1) {
           domains.push(domain);
-          debug(() => `found domain ${domain}`);
         }
       });
       if (domains.length > 2) this.isRespected = false;
