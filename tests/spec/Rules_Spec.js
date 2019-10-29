@@ -996,8 +996,8 @@ describe("rules.js", function () {
 
     it(" 4 ressources ,  3 small cookie and one big cookie, it should return false", function () {
       let rules = new Rules();
-      let bigCookie ="";
-      for (let i=0;i<100;i++) bigCookie+="01234556789"
+      let bigCookie = "";
+      for (let i = 0; i < 100; i++) bigCookie += "01234556789"
       const measures = {
         entries:
           [
@@ -1007,16 +1007,86 @@ describe("rules.js", function () {
             { request: { url: "http://testc", headers: [{ name: 'cookie', value: bigCookie }] } },
           ]
       };
-      
+
       let rule = rules.getRule("maxCookiesLength");
+      rule.check(measures);
+      expect(rule.isRespected).toBe(false);
+    });
+    afterEach(function () {
+    });
+  });
+
+  describe("#noRedirectRule", function () {
+
+    beforeEach(function () {
+
+    });
+
+    it(" 0 redirect, it should return true", function () {
+      let rules = new Rules();
+      const measures = {
+        entries:
+          [{
+            request: { url: "test" },
+            response:
+            {
+              status:200, statusText: "", httpVersion: "http/2.0", headers:
+                [{ name: "content-encoding", value: "gzip" }]
+            }
+          }]
+      };
+      let rule = rules.getRule("noRedirect");
+      rule.check(measures);
+      expect(rule.isRespected).toBe(true);
+    });
+
+    it(" 1 redirect, it should return false", function () {
+      let rules = new Rules();
+      const measures = {
+        entries:
+          [{
+            request: { url: "test" },
+            response:
+            {
+              status:301, statusText: "", httpVersion: "http/2.0", headers:
+                [{ name: "content-encoding", value: "gzip" }]
+            }
+          }]
+      };
+      let rule = rules.getRule("noRedirect");
       rule.check(measures);
       expect(rule.isRespected).toBe(false);
     });
 
 
-  });
-  afterEach(function () {
+    it(" 2 redirect, it should return false", function () {
+      let rules = new Rules();
+      const measures = {
+        entries:
+          [{
+            request: { url: "test" },
+            response:
+            {
+              status:301, statusText: "", httpVersion: "http/2.0", headers:
+                [{ name: "content-encoding", value: "gzip" }]
+            }
+          },
+          {
+            request: { url: "test2" },
+            response:
+            {
+              status:307, statusText: "", httpVersion: "http/2.0", headers:
+                [{ name: "content-encoding", value: "gzip" }]
+            }
+          }]
+      };
+      let rule = rules.getRule("noRedirect");
+      rule.check(measures);
+      expect(rule.isRespected).toBe(false);
+    });
+
+
+    afterEach(function () {
+    });
   });
 });
-
-

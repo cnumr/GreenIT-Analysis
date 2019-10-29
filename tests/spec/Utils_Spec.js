@@ -331,5 +331,38 @@ describe("utils.js", function () {
     afterEach(function () {
     });
   });
+
+
+  describe("#function isHttpRedirectCode", function() {
+    
+    beforeEach(function() {	
+    });
+	
+    it(" 301 should return true", function() {
+      expect(isHttpRedirectCode(301)).toEqual(true);
+    });
+    it(" 302 should return true", function() {
+      expect(isHttpRedirectCode(302)).toEqual(true);
+    });
+    it(" 303 should return true", function() {
+      expect(isHttpRedirectCode(303)).toEqual(true);
+    });
+    it(" 307 should return true", function() {
+      expect(isHttpRedirectCode(307)).toEqual(true);
+    });
+    it(" 200 should return false", function() {
+      expect(isHttpRedirectCode(200)).toEqual(false);
+    });
+    it(" 201 should return false", function() {
+      expect(isHttpRedirectCode(201)).toEqual(false);
+    });
+    it(" 404 should return false", function() {
+      expect(isHttpRedirectCode(404)).toEqual(false);
+    });
+
+    afterEach(function() {
+    });
+  });
+
 });
 

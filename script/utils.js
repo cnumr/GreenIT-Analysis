@@ -126,6 +126,7 @@ const httpCompressionTokens = [
   'pack200-gzip',
 ];
 
+const httpRedirectCodes = [301,302,303,307];
 
 // utils for cache rule 
 function isStaticRessource(resource) {
@@ -277,6 +278,10 @@ function computeNumberOfErrorsInJSCode(code, url) {
   return errorNumber;
 }
 
+function isHttpRedirectCode(code)
+{
+  return httpRedirectCodes.some(value => value===code);
+}
 
 function debug(lazyString) {
   if (!DEBUG) return;

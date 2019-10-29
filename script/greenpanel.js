@@ -252,7 +252,7 @@ function MeasuresAcquisition(rules) {
       debug(() => `Total resources (including data urls): ${har.entries.length}`);
       // only account for network traffic, filtering resources embedded through data urls
       let entries = har.entries.filter(entry => isNetworkResource(entry));
-      debug(() => `Network resources (excluding data urls): ${entries.length}`);
+  
 
       // Get the "mother" url 
       if (entries.length > 0) {
@@ -284,6 +284,7 @@ function MeasuresAcquisition(rules) {
           localRules.checkRule("useETags", measures);
           localRules.checkRule("compressHttp", measures);
           localRules.checkRule("maxCookiesLength", measures);
+          localRules.checkRule("noRedirect", measures);
         }
         computeEcoIndexMeasures(measures);
         refreshUI();
@@ -315,6 +316,7 @@ function MeasuresAcquisition(rules) {
 
     this.analyseJs = (code) => {
       // exclude from analyse the injected script 
+console.log("will analyse ressource " + resourceToAnalyse.url + " with type = " + resourceToAnalyse.type );
       if (resourceToAnalyse.type === 'script')
         if (!resourceToAnalyse.url.includes("script/analyseFrame.js")) {
           analyseJsCode(code, resourceToAnalyse.url, measures);

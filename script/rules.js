@@ -25,6 +25,8 @@ function Rules() {
   rules.set("dontResizeImageInBrowser", new dontResizeImageInBrowserRule());
   rules.set("useStandardTypefaces", new useStandardTypefacesRule());
   rules.set("maxCookiesLength", new maxCookiesLengthRule());
+  rules.set("noRedirect", new noRedirectRule());
+  
 
   // if method chrome.devtools.inspectedWindow.getResources is not implemented (ex: firefox)
   // These rules cannot be computed
@@ -68,7 +70,7 @@ function Rules() {
     this.check = function (measures) {
       let styleSheets = [];
       if (measures.entries.length) measures.entries.forEach(entry => {
-        if (getResponseHeaderFromResource(entry, "content-type").toLowerCase() === 'text/css') {
+        if (getResponseHeaderFromResource(entry, "content-type").toLowerCase().includes('text/css')) {
           if (styleSheets.indexOf(entry.request.url) === -1) {
             styleSheets.push(entry.request.url);
             this.detailComment += entry.request.url + "<br>";
@@ -119,7 +121,7 @@ function Rules() {
     this.check = function (measures) {
       this.detailComment = "";
       measures.cssShouldBeMinified.forEach(url => {
-        this.detailComment += `${url} should be minified <br>`; 
+        this.detailComment += `${url} should be minified <br>`;
       });
       if (measures.totalCss > 0) {
         const percentMinifiedCss = measures.minifiedCssNumber / measures.totalCss * 100;
@@ -190,7 +192,7 @@ function Rules() {
     this.check = function (measures) {
       this.detailComment = "";
       measures.jsShouldBeMinified.forEach(url => {
-        this.detailComment += `${url} should be minified <br>`; 
+        this.detailComment += `${url} should be minified <br>`;
       });
       if (measures.totalJs > 0) {
         const percentMinifiedJs = measures.minifiedJsNumber / measures.totalJs * 100;
@@ -323,7 +325,6 @@ function Rules() {
 
       let compressibleResourcesNumber = 0;
       let compressibleResourcesNumberCompressed = 0;
-
       if (measures.entries.length) measures.entries.forEach(entry => {
         if (isCompressibleResource(entry)) {
           compressibleResourcesNumber++;
@@ -383,45 +384,66 @@ function Rules() {
         }
       });
 
-    if (this.cssFontFace.length > 0) {
-      this.isRespected = false;
-      this.comment = chrome.i18n.getMessage("rule_UseStandardTypefaces_Comment", String(this.cssFontFace.length));
-    }
-  }
-}
-
-function maxCookiesLengthRule() {
-  this.isRespected = true;
-  this.id = "maxCookiesLength";
-  this.comment = chrome.i18n.getMessage("rule_MaxCookiesLength_DefaultComment");
-  this.detailComment = "";
-
-  this.check = function (measures) {
-    let maxCookiesLength = 0;
-    let domains = new Map();
-    if (measures.entries.length) measures.entries.forEach(entry => {
-      const cookiesLength = getCookiesLength(entry);
-
-      if (cookiesLength !== 0) {
-        let domain = getDomainFromUrl(entry.request.url);
-        if (domains.has(domain)) {
-          if (domains.get(domain) < cookiesLength) domains.set(domain, cookiesLength);
-        }
-        else domains.set(domain, cookiesLength);
-        if (cookiesLength > maxCookiesLength) maxCookiesLength = cookiesLength;
+      if (this.cssFontFace.length > 0) {
+        this.isRespected = false;
+        this.comment = chrome.i18n.getMessage("rule_UseStandardTypefaces_Comment", String(this.cssFontFace.length));
       }
-    });
-    domains.forEach((value, key) => {
-      this.detailComment += `COOKIE LENGTH = ${value} for domain ${key} <br>`;
-    });
-    if (maxCookiesLength !== 0) {
-      this.comment = chrome.i18n.getMessage("rule_MaxCookiesLength_Comment", String(maxCookiesLength));
-      if (maxCookiesLength > 512) this.isRespected = false;
     }
   }
-}
 
+  function maxCookiesLengthRule() {
+    this.isRespected = true;
+    this.id = "maxCookiesLength";
+    this.comment = chrome.i18n.getMessage("rule_MaxCookiesLength_DefaultComment");
+    this.detailComment = "";
 
+    this.check = function (measures) {
+      let maxCookiesLength = 0;
+      let domains = new Map();
+      if (measures.entries.length) measures.entries.forEach(entry => {
+        const cookiesLength = getCookiesLength(entry);
+
+        if (cookiesLength !== 0) {
+          let domain = getDomainFromUrl(entry.request.url);
+          if (domains.has(domain)) {
+            if (domains.get(domain) < cookiesLength) domains.set(domain, cookiesLength);
+          }
+          else domains.set(domain, cookiesLength);
+          if (cookiesLength > maxCookiesLength) maxCookiesLength = cookiesLength;
+        }
+      });
+      domains.forEach((value, key) => {
+        this.detailComment += `COOKIE LENGTH = ${value} for domain ${key} <br>`;
+      });
+      if (maxCookiesLength !== 0) {
+        this.comment = chrome.i18n.getMessage("rule_MaxCookiesLength_Comment", String(maxCookiesLength));
+        if (maxCookiesLength > 512) this.isRespected = false;
+      }
+    }
+  }
+
+  function noRedirectRule() {
+    this.isRespected = true;
+    this.id = "noRedirect";
+    this.comment = "";
+    this.detailComment = "";
+
+    this.check = function (measures) {
+      let redirectNumber = 0;
+      if (measures.entries.length) measures.entries.forEach(entry => {
+        if (entry.response) {
+         if  (isHttpRedirectCode(entry.response.status))
+         {
+          this.detailComment += entry.response.status + " " + entry.request.url + "<br>";
+          redirectNumber++;
+         }
+        
+        }
+      });
+      if (redirectNumber> 0) this.isRespected = false;
+      this.comment = chrome.i18n.getMessage("rule_NoRedirect_Comment", String(redirectNumber));
+    }
+  }
 
 }
 

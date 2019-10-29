@@ -319,6 +319,23 @@
       }
     }
   },
+  "rule_NoRedirect": {
+    "message": "Eviter les redirections",
+    "description": "Avoid redirect"
+  },
+  "rule_NoRedirect_DetailDescription": {
+    "message": "Les redirections consomment inutilement des ressources",
+    "description": "Avoir redirect"
+  },
+  "rule_NoRedirect_Comment": {
+    "message": "$NB_REDIRECT$ redirection(s)",
+    "description": "Number of redirect",
+    "placeholders": {
+      "NB_REDIRECT": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_Plugins": {
     "message": "Ne pas utiliser de plugins",
     "description": "Do not use plugins"
