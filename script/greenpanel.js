@@ -29,36 +29,7 @@ function initPanel() {
     setUnsupportedRuleAnalyse("jsValidate");
     setUnsupportedRuleAnalyse("minifiedCss");
   }
-  document.getElementById('launchAnalyse').addEventListener('click', (e) => launchAnalyse());
-  document.getElementById('saveAnalyse').addEventListener('click', (e) => storeAnalysisInHistory());
-  document.getElementById('viewHistory').addEventListener('click', (e) => viewHistory());
-  document.getElementById('helpButton').addEventListener('click', (e) => viewHelp());
-  document.getElementById('analyseBestPracticesCheckBox').addEventListener('click', (e) => setAnalyseBestPractices());
-
-  // Set a listener for each plus button (detail best practice )
-  let links = document.getElementsByClassName("bestPracticeLink");
-  for (var i=0;i<links.length;i++)
-  {
-    const id = links.item(i).id;
-    document.getElementById(id).addEventListener('click', (e) => {
-      //On désactive le comportement du lien
-      e.preventDefault();
-      showBestPracticeDetail(id+"TextRow");
-    });
-  }
-
-  // Set a listener for each plus link ( detail comment )
-  links = document.getElementsByClassName("detailCommentLink");
-  for (var i=0;i<links.length;i++)
-  {
-    const id = links.item(i).id;
-    document.getElementById(id).addEventListener('click', (e) => {
-      //On désactive le comportement du lien
-      e.preventDefault();
-      showCommentDetail(id+"TextRow");
-    });
-  }
-
+  initUI();
 }
 
 function openBackgroundPageConnection() {
@@ -66,46 +37,19 @@ function openBackgroundPageConnection() {
     name: "greenDevPanel-page"
   });
   backgroundPageConnection.onMessage.addListener((frameMeasures) => {
-    // Handle responses from the background page
-    aggregateFrameMeasures(frameMeasures);
+    handleResponseFromBackground(frameMeasures);
     refreshUI();
   });
 }
 
-function aggregateFrameMeasures(frameMeasures) {
-
+function handleResponseFromBackground(frameMeasures) {
   if (isOldAnalyse(frameMeasures.analyseStartingTime)) {
     debug(() => `Analyse is too old for url ${frameMeasures.url} , time = ${frameMeasures.analyseStartingTime}`);
     return;
   }
-  let measures = measuresAcquisition.getMeasures();
-
-  measures.domSize += frameMeasures.domSize;
-  computeEcoIndexMeasures(measures);
-
-  if (analyseBestPractices) {
-    measures.pluginsNumber += frameMeasures.pluginsNumber;
-
-    measures.printStyleSheetsNumber += frameMeasures.printStyleSheetsNumber;
-    if (measures.inlineStyleSheetsNumber < frameMeasures.inlineStyleSheetsNumber) measures.inlineStyleSheetsNumber = frameMeasures.inlineStyleSheetsNumber;
-    measures.emptySrcTagNumber += frameMeasures.emptySrcTagNumber;
-    if ((frameMeasures.inlineJsScript.length > 0) && (chrome.devtools.inspectedWindow.getResources)) analyseJsCode(frameMeasures.inlineJsScript, "inline", measures);
-    if (measures.inlineJsScriptsNumber < frameMeasures.inlineJsScriptsNumber) measures.inlineJsScriptsNumber = frameMeasures.inlineJsScriptsNumber;
-
-    measures.imagesResizedInBrowser = frameMeasures.imagesResizedInBrowser;
-    measures.cssFontFace = frameMeasures.cssFontFace;
-
-
-    rules.checkRule('plugins', measures);
-    rules.checkRule('printStyleSheets', measures);
-    rules.checkRule('emptySrcTag', measures);
-    if (chrome.devtools.inspectedWindow.getResources) rules.checkRule('jsValidate', measures);
-    rules.checkRule('externalizeCss', measures);
-    rules.checkRule('externalizeJs', measures);
-    rules.checkRule('dontResizeImageInBrowser', measures);
-    rules.checkRule('useStandardTypefaces', measures);
-  }
+  measuresAcquisition.aggregateFrameMeasures(frameMeasures);
 }
+
 
 function isOldAnalyse(startingTime) { return (startingTime < lastAnalyseStartingTime) };
 
@@ -116,57 +60,6 @@ function computeEcoIndexMeasures(measures) {
   measures.grade = getEcoIndexGrade(measures.ecoIndex);
 }
 
-
-function setUnsupportedRuleAnalyse(ruleId) {
-  document.getElementById(ruleId + "_status").src = "";
-  document.getElementById(ruleId + "_comment").innerHTML = chrome.i18n.getMessage("unsupportedRuleAnalyse");
-}
-
-
-function refreshUI() {
-  const measures = measuresAcquisition.getMeasures();
-  document.getElementById("ecoIndexView").hidden = false;
-  document.getElementById("requestNumber").innerHTML = measures.nbRequest;
-
-  if (measures.responsesSizeUncompress != 0) document.getElementById("responsesSize").innerHTML = Math.round(measures.responsesSize / 1000) + " (" + Math.round(measures.responsesSizeUncompress / 1000) + ")";
-  else document.getElementById("responsesSize").innerHTML = Math.round(measures.responsesSize / 1000);
-
-  document.getElementById("domSize").innerHTML = measures.domSize;
-  document.getElementById("ecoIndex").innerHTML = measures.ecoIndex;
-  document.getElementById("grade").innerHTML = '<span class="grade ' + measures.grade + '">' + measures.grade + '</span>';
-  document.getElementById("waterConsumption").innerHTML = measures.waterConsumption;
-  document.getElementById("greenhouseGasesEmission").innerHTML = measures.greenhouseGasesEmission;
-  if (analyseBestPractices) {
-    document.getElementById("bestPracticesView").hidden = false;
-    rules.getAllRules().forEach(showEcoRuleOnUI);
-  }
-  else document.getElementById("bestPracticesView").hidden = true;
-}
-
-function showEcoRuleOnUI(rule) {
-  if (rule !== undefined) {
-    let status = "NOK";
-    if (rule.isRespected) status = "OK";
-    document.getElementById(rule.id + "_status").src = "icons/" + status + ".png";
-    document.getElementById(rule.id + "_comment").innerHTML = rule.comment;
-
-    if (rule.detailComment.length >0)
-    {
-      document.getElementById(rule.id + "_DetailComment").hidden = false;
-      document.getElementById(rule.id + "_DetailCommentText").innerHTML = rule.detailComment;
-    }
-    else 
-    {
-      if (document.getElementById(rule.id + "_DetailComment")) 
-      {
-        document.getElementById(rule.id + "_DetailComment").hidden = true;
-        document.getElementById(rule.id + "_DetailCommentText").innerHTML ="";
-        document.getElementById(rule.id + "_DetailCommentTextRow").hidden = true;
-      }
-    }
-
-  }
-}
 
 function launchAnalyse() {
   let now = Date.now();
@@ -192,19 +85,6 @@ function launchAnalyse() {
 }
 
 
-function analyseJsCode(code, url, measures) {
-
-  let errorNumber =  computeNumberOfErrorsInJSCode(code, url);
-  if (errorNumber > 0)  
-  {
-    measures.jsErrors.set(url,errorNumber);
-    rules.checkRule("jsValidate", measures);
-    refreshUI();
-  }
-  
-}
-
-
 function MeasuresAcquisition(rules) {
 
   let measures;
@@ -225,15 +105,15 @@ function MeasuresAcquisition(rules) {
       "printStyleSheetsNumber": 0,
       "inlineStyleSheetsNumber": 0,
       "minifiedCssNumber": 0,
-      "cssShouldBeMinified" : [],
+      "cssShouldBeMinified": [],
       "totalCss": 0,
       "emptySrcTagNumber": 0,
       "jsErrors": new Map(),
       "inlineJsScriptsNumber": 0,
       "minifiedJsNumber": 0,
-      "jsShouldBeMinified" : [],
+      "jsShouldBeMinified": [],
       "totalJs": 0,
-      "imagesResizedInBrowser" : [],
+      "imagesResizedInBrowser": [],
       "cssFontFace": [],
     };
   }
@@ -245,20 +125,58 @@ function MeasuresAcquisition(rules) {
 
   this.getMeasures = () => measures;
 
+  this.aggregateFrameMeasures = function (frameMeasures) {
+
+    measures.domSize += frameMeasures.domSize;
+    computeEcoIndexMeasures(measures);
+
+    if (analyseBestPractices) {
+      measures.pluginsNumber += frameMeasures.pluginsNumber;
+
+      measures.printStyleSheetsNumber += frameMeasures.printStyleSheetsNumber;
+      if (measures.inlineStyleSheetsNumber < frameMeasures.inlineStyleSheetsNumber) measures.inlineStyleSheetsNumber = frameMeasures.inlineStyleSheetsNumber;
+      measures.emptySrcTagNumber += frameMeasures.emptySrcTagNumber;
+      if ((frameMeasures.inlineJsScript.length > 0) && (chrome.devtools.inspectedWindow.getResources)) analyseJsCode(frameMeasures.inlineJsScript, "inline");
+      if (measures.inlineJsScriptsNumber < frameMeasures.inlineJsScriptsNumber) measures.inlineJsScriptsNumber = frameMeasures.inlineJsScriptsNumber;
+
+      measures.imagesResizedInBrowser = frameMeasures.imagesResizedInBrowser;
+      measures.cssFontFace = frameMeasures.cssFontFace;
+
+
+      rules.checkRule('plugins', measures);
+      rules.checkRule('printStyleSheets', measures);
+      rules.checkRule('emptySrcTag', measures);
+      if (chrome.devtools.inspectedWindow.getResources) rules.checkRule('jsValidate', measures);
+      rules.checkRule('externalizeCss', measures);
+      rules.checkRule('externalizeJs', measures);
+      rules.checkRule('dontResizeImageInBrowser', measures);
+      rules.checkRule('useStandardTypefaces', measures);
+    }
+  }
+
+
+  function analyseJsCode(code, url) {
+    let errorNumber = computeNumberOfErrorsInJSCode(code, url);
+    if (errorNumber > 0) {
+      measures.jsErrors.set(url, errorNumber);
+      rules.checkRule("jsValidate", measures);
+      refreshUI();
+    }
+  }
 
   getNetworkMeasure = () => {
     chrome.devtools.network.getHAR((har) => {
-      
+
       debug(() => `Total resources (including data urls): ${har.entries.length}`);
       // only account for network traffic, filtering resources embedded through data urls
       let entries = har.entries.filter(entry => isNetworkResource(entry));
-  
+
 
       // Get the "mother" url 
       if (entries.length > 0) {
         measures.url = entries[0].request.url;
       }
-      measures.entries = entries ; 
+      measures.entries = entries;
       if (entries.length) {
         measures.nbRequest = entries.length;
         entries.forEach(entry => {
@@ -270,8 +188,7 @@ function MeasuresAcquisition(rules) {
             measures.responsesSize += entry.response._transferSize;
             measures.responsesSizeUncompress += entry.response.content.size;
           }
-          else 
-          {
+          else {
             measures.responsesSize += entry.response.content.size;
             // debug(() => `entry size = ${entry.response.content.size} , responseSize = ${measures.responsesSize}`);
           }
@@ -316,10 +233,10 @@ function MeasuresAcquisition(rules) {
 
     this.analyseJs = (code) => {
       // exclude from analyse the injected script 
-console.log("will analyse ressource " + resourceToAnalyse.url + " with type = " + resourceToAnalyse.type );
+      console.log("will analyse ressource " + resourceToAnalyse.url + " with type = " + resourceToAnalyse.type);
       if (resourceToAnalyse.type === 'script')
         if (!resourceToAnalyse.url.includes("script/analyseFrame.js")) {
-          analyseJsCode(code, resourceToAnalyse.url, measures);
+          analyseJsCode(code, resourceToAnalyse.url);
           analyseMinifiedJs(code, resourceToAnalyse.url);
         }
       if (resourceToAnalyse.type === 'stylesheet') analyseMinifiedCss(code, resourceToAnalyse.url);
@@ -389,57 +306,4 @@ function storeAnalysisInHistory() {
 
 
   localStorage.setItem("analyse_history", JSON.stringify(analyse_history));
-}
-
-
-function viewHistory() {
-  if (chrome.tabs) chrome.tabs.query({ currentWindow: true }, loadHistoryTab);
-  // chrome.tabs is not accessible in old chromium version 
-  else window.open("history.html");
-}
-
-
-function loadHistoryTab(tabs) {
-  var history_tab;
-  // search for config tab
-  for (let tab of tabs) {
-    if (tab.url.startsWith(chrome.extension.getURL(""))) history_tab = tab;
-  }
-  // config tab exits , put the focus on it
-  if (history_tab) {
-    chrome.tabs.reload(history_tab.id);
-    chrome.tabs.update(history_tab.id, { active: true });
-  }
-  // else create a new tab
-  else chrome.tabs.create({ url: "history.html" });
-
-}
-
-
-function viewHelp() {
-  window.open("https://github.com/didierfred/GreenIT-Analysis/blob/master/README.md");
-}
-
-
-function setAnalyseBestPractices() {
-  analyseBestPractices = document.getElementById('analyseBestPracticesCheckBox').checked;
-  if (!analyseBestPractices) document.getElementById("bestPracticesView").hidden = true;
-}
-
-// Best practice comment texte 
-
-function showBestPracticeDetail(id){
-  
-  if (document.getElementById(id).hidden) document.getElementById(id).hidden = false ;
-  else document.getElementById(id).hidden = true; 
-  
-}
-
-// Comments detail text
-
-function showCommentDetail(id){
-  
-  if (document.getElementById(id).hidden) document.getElementById(id).hidden = false ;
-  else document.getElementById(id).hidden = true; 
-  
 }
