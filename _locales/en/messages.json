@@ -315,6 +315,23 @@
       }
     }
   },
+  "rule_OptimizeBitmapImages": {
+    "message": "Optimize bitmap images",
+    "description": "Optimize bitmap images"
+  },
+  "rule_OptimizeBitmapImages_DetailDescription": {
+    "message": "Choose the good resolution for image .... ",
+    "description": "Optimize bitmap images"
+  },
+  "rule_OptimizeBitmapImages_Comment": {
+    "message": "$NB_IMAGES$ image(s)shoud probably be optimized",
+    "description": "Number of images to optimize",
+    "placeholders": {
+      "NB_IMAGES": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_Plugins": {
     "message": "Do not use plugins",
     "description": "Do not use plugins"

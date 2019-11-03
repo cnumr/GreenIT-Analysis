@@ -7,15 +7,12 @@
  * @author didierfred@gmail.com
  */
 
-
-
 let backgroundPageConnection;
 let rules;
 let lastAnalyseStartingTime = 0;
 let measuresAcquisition;
 let url = "";
 let analyseBestPractices = false;
-
 
 initPanel();
 
@@ -114,7 +111,7 @@ function MeasuresAcquisition(rules) {
       "jsShouldBeMinified": [],
       "totalJs": 0,
       "imagesResizedInBrowser": [],
-      "cssFontFace": [],
+      "cssFontFace": []
     };
   }
 
@@ -142,7 +139,6 @@ function MeasuresAcquisition(rules) {
       measures.imagesResizedInBrowser = frameMeasures.imagesResizedInBrowser;
       measures.cssFontFace = frameMeasures.cssFontFace;
 
-
       rules.checkRule('plugins', measures);
       rules.checkRule('printStyleSheets', measures);
       rules.checkRule('emptySrcTag', measures);
@@ -155,29 +151,21 @@ function MeasuresAcquisition(rules) {
   }
 
 
-  function analyseJsCode(code, url) {
-    let errorNumber = computeNumberOfErrorsInJSCode(code, url);
-    if (errorNumber > 0) {
-      measures.jsErrors.set(url, errorNumber);
-      rules.checkRule("jsValidate", measures);
-      refreshUI();
-    }
-  }
 
   getNetworkMeasure = () => {
     chrome.devtools.network.getHAR((har) => {
 
-      debug(() => `Total resources (including data urls): ${har.entries.length}`);
       // only account for network traffic, filtering resources embedded through data urls
       let entries = har.entries.filter(entry => isNetworkResource(entry));
 
-
       // Get the "mother" url 
-      if (entries.length > 0) {
-        measures.url = entries[0].request.url;
-      }
+      if (entries.length > 0) measures.url = entries[0].request.url;
+
       measures.entries = entries;
       if (entries.length) {
+
+
+
         measures.nbRequest = entries.length;
         entries.forEach(entry => {
 
@@ -202,6 +190,7 @@ function MeasuresAcquisition(rules) {
           localRules.checkRule("compressHttp", measures);
           localRules.checkRule("maxCookiesLength", measures);
           localRules.checkRule("noRedirect", measures);
+          localRules.checkRule("optimizeBitmapImages", measures);
         }
         computeEcoIndexMeasures(measures);
         refreshUI();
@@ -233,36 +222,37 @@ function MeasuresAcquisition(rules) {
 
     this.analyseJs = (code) => {
       // exclude from analyse the injected script 
-      console.log("will analyse ressource " + resourceToAnalyse.url + " with type = " + resourceToAnalyse.type);
       if (resourceToAnalyse.type === 'script')
         if (!resourceToAnalyse.url.includes("script/analyseFrame.js")) {
           analyseJsCode(code, resourceToAnalyse.url);
           analyseMinifiedJs(code, resourceToAnalyse.url);
         }
       if (resourceToAnalyse.type === 'stylesheet') analyseMinifiedCss(code, resourceToAnalyse.url);
+      refreshUI();
     }
   }
-
 
   function analyseMinifiedJs(code, url) {
     measures.totalJs++;
-    if (isMinified(code)) {
-      measures.minifiedJsNumber++;
-    }
+    if (isMinified(code)) measures.minifiedJsNumber++;
     else measures.jsShouldBeMinified.push(url);
     localRules.checkRule("minifiedJs", measures);
-    refreshUI();
   }
-
 
   function analyseMinifiedCss(code, url) {
     measures.totalCss++;
-    if (isMinified(code)) {
-      measures.minifiedCssNumber++;
-    }
+    if (isMinified(code)) measures.minifiedCssNumber++;
     else measures.cssShouldBeMinified.push(url);
     localRules.checkRule("minifiedCss", measures);
-    refreshUI();
+  }
+
+  function analyseJsCode(code, url) {
+    let errorNumber = computeNumberOfErrorsInJSCode(code, url);
+    if (errorNumber > 0) {
+      measures.jsErrors.set(url, errorNumber);
+      rules.checkRule("jsValidate", measures);
+      refreshUI();
+    }
   }
 }
 
@@ -273,26 +263,9 @@ function storeAnalysisInHistory() {
   let measures = measuresAcquisition.getMeasures();
   if (!measures) return;
 
-  var analyse_history;
+  var analyse_history = [];
   var string_analyse_history = localStorage.getItem("analyse_history");
-
-  if (string_analyse_history) {
-    analyse_history = JSON.parse(string_analyse_history);
-    analyse_history.reverse();
-    analyse_history.push({
-      resultDate: new Date(),
-      url: measures.url,
-      nbRequest: measures.nbRequest,
-      responsesSize: Math.round(measures.responsesSize / 1000),
-      domSize: measures.domSize,
-      greenhouseGasesEmission: measures.greenhouseGasesEmission,
-      waterConsumption: measures.waterConsumption,
-      ecoIndex: measures.ecoIndex,
-      grade: measures.grade
-    });
-    analyse_history.reverse();
-  }
-  else analyse_history = [{
+  var analyse_to_store = {
     resultDate: new Date(),
     url: measures.url,
     nbRequest: measures.nbRequest,
@@ -302,7 +275,15 @@ function storeAnalysisInHistory() {
     waterConsumption: measures.waterConsumption,
     ecoIndex: measures.ecoIndex,
     grade: measures.grade
-  }];
+  };
+
+  if (string_analyse_history) {
+    analyse_history = JSON.parse(string_analyse_history);
+    analyse_history.reverse();
+    analyse_history.push(analyse_to_store);
+    analyse_history.reverse();
+  }
+  else analyse_history.push(analyse_to_store);
 
 
   localStorage.setItem("analyse_history", JSON.stringify(analyse_history));

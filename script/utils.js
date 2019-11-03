@@ -283,6 +283,27 @@ function isHttpRedirectCode(code)
   return httpRedirectCodes.some(value => value===code);
 }
 
+
+function getImageTypeFromResource(resource) {
+  const contentType = getResponseHeaderFromResource(resource, "content-type");
+  if (contentType==="image/png") return "png";
+  if (contentType==="image/jpeg") return "jpeg";
+  if (contentType==="image/gif") return "gif";
+  if (contentType==="image/bmp") return "bmp";
+  return "";
+}
+
+
+function isImageResolutionOptimized(pixelsNumber,imageSize,imageType)
+{
+  if (imageSize>500000) return false;
+  if ((imageType==="jpg")||(imageSize>50000))
+  {
+    if (pixelsNumber/imageSize<5) return false;
+  }
+  return true;
+}
+
 function debug(lazyString) {
   if (!DEBUG) return;
   const message = typeof lazyString === 'function' ? lazyString() : lazyString;

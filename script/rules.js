@@ -26,7 +26,9 @@ function Rules() {
   rules.set("useStandardTypefaces", new useStandardTypefacesRule());
   rules.set("maxCookiesLength", new maxCookiesLengthRule());
   rules.set("noRedirect", new noRedirectRule());
-  
+  rules.set("optimizeBitmapImages", new optimizeBitmapImagesRule());
+
+
 
   // if method chrome.devtools.inspectedWindow.getResources is not implemented (ex: firefox)
   // These rules cannot be computed
@@ -432,16 +434,52 @@ function Rules() {
       let redirectNumber = 0;
       if (measures.entries.length) measures.entries.forEach(entry => {
         if (entry.response) {
-         if  (isHttpRedirectCode(entry.response.status))
-         {
-          this.detailComment += entry.response.status + " " + entry.request.url + "<br>";
-          redirectNumber++;
-         }
-        
+          if (isHttpRedirectCode(entry.response.status)) {
+            this.detailComment += entry.response.status + " " + entry.request.url + "<br>";
+            redirectNumber++;
+          }
         }
       });
-      if (redirectNumber> 0) this.isRespected = false;
+      if (redirectNumber > 0) this.isRespected = false;
       this.comment = chrome.i18n.getMessage("rule_NoRedirect_Comment", String(redirectNumber));
+    }
+  }
+
+  function optimizeBitmapImagesRule() {
+    this.isRespected = true;
+    this.id = "optimizeBitmapImages";
+    this.comment = "";
+    this.detailComment = "";
+    this.nbImagesToOptimize = 0;
+
+    this.check = function (measures) {
+      let nbImagesToOptimize = 0;
+      if (measures.entries) measures.entries.forEach(entry => {
+        if (entry.response) {
+          const imageType = getImageTypeFromResource(entry);
+          if (imageType !== "") {
+            var myImage = new Image();
+            myImage.src = entry.request.url;
+            // needed to access object in the function after
+            myImage.rule = this;
+            
+            myImage.size = entry.response.content.size;
+            myImage.onload = function () {
+              if (!isImageResolutionOptimized(this.width * this.height,this.size,imageType)) {
+                nbImagesToOptimize++;
+                this.rule.detailComment += this.src + " , " + Math.round(this.size/1000) + "Kb , " + this.width + "x" + this.height + "<br>";
+              }
+              if (nbImagesToOptimize > 0) {
+                this.rule.isRespected = false;
+                this.rule.comment = chrome.i18n.getMessage("rule_OptimizeBitmapImages_Comment", String(nbImagesToOptimize));
+                showEcoRuleOnUI(this.rule);
+              }
+            }
+
+          }
+        }
+      });
+
     }
   }
 

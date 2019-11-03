@@ -1,5 +1,4 @@
 
-
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
@@ -21,7 +20,7 @@ function initUI() {
     document.getElementById(id).addEventListener('click', (e) => {
       //On désactive le comportement du lien
       e.preventDefault();
-      showBestPracticeDetail(id + "TextRow");
+      switchElementVisibiliy(id + "TextRow");
     });
   }
 
@@ -32,10 +31,9 @@ function initUI() {
     document.getElementById(id).addEventListener('click', (e) => {
       //On désactive le comportement du lien
       e.preventDefault();
-      showCommentDetail(id + "TextRow");
+      switchElementVisibiliy(id + "TextRow");
     });
   }
-
 }
 
 function setUnsupportedRuleAnalyse(ruleId) {
@@ -107,7 +105,6 @@ function loadHistoryTab(tabs) {
   }
   // else create a new tab
   else chrome.tabs.create({ url: "history.html" });
-
 }
 
 
@@ -121,18 +118,7 @@ function setAnalyseBestPractices() {
   if (!analyseBestPractices) document.getElementById("bestPracticesView").hidden = true;
 }
 
-// Best practice comment texte 
-
-function showBestPracticeDetail(id) {
-
-  if (document.getElementById(id).hidden) document.getElementById(id).hidden = false;
-  else document.getElementById(id).hidden = true;
-
-}
-
-// Comments detail text
-
-function showCommentDetail(id) {
+function switchElementVisibiliy(id) {
 
   if (document.getElementById(id).hidden) document.getElementById(id).hidden = false;
   else document.getElementById(id).hidden = true;

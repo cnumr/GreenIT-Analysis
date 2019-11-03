@@ -37,7 +37,7 @@ function start_analyse() {
       "inlineJsScript": inlineJsScript,
       "inlineJsScriptsNumber": inlineJsScriptsNumber,
       "imagesResizedInBrowser": imagesResizedInBrowser,
-      "cssFontFace": cssFontFace
+      "cssFontFace": cssFontFace,
     }
   }
   else pageAnalysis = {
@@ -141,5 +141,4 @@ function getCssFontFace() {
   }, new Set());
   return Array.from(fontList);
 }
-
 start_analyse();
