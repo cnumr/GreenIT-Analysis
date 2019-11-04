@@ -290,6 +290,7 @@ function getImageTypeFromResource(resource) {
   if (contentType==="image/jpeg") return "jpeg";
   if (contentType==="image/gif") return "gif";
   if (contentType==="image/bmp") return "bmp";
+  if (contentType==="image/tiff") return "tiff";
   return "";
 }
 
@@ -297,7 +298,7 @@ function getImageTypeFromResource(resource) {
 function isImageResolutionOptimized(pixelsNumber,imageSize,imageType)
 {
   if (imageSize>500000) return false;
-  if ((imageType==="jpg")||(imageSize>50000))
+  if ((imageType==="jpeg")||(imageSize>50000))
   {
     if (pixelsNumber/imageSize<5) return false;
   }

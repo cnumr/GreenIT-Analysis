@@ -456,7 +456,9 @@ function Rules() {
       let nbImagesToOptimize = 0;
       if (measures.entries) measures.entries.forEach(entry => {
         if (entry.response) {
+          console.log("entry.request.url=" + entry.request.url );
           const imageType = getImageTypeFromResource(entry);
+          console.log("imageType=" + imageType );
           if (imageType !== "") {
             var myImage = new Image();
             myImage.src = entry.request.url;

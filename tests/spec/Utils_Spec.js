@@ -364,5 +364,84 @@ describe("utils.js", function () {
     });
   });
 
+
+  describe("#function getImageTypeFromResource", function () {
+
+
+    beforeEach(function () {
+    });
+
+    it("no content type , should return an empty String", function () {
+      const resource = { response: { url: "http://test", headers: [{ name: "content-encoding", value: "gzip" },{ name: "toto", value: "test" }] } };
+      expect(testFrame.getImageTypeFromResource(resource)).toEqual("");
+    });
+    it("content type is not an image type , should return an empty String ", function () {
+      const resource = { response: { url: "http://test", headers: [{ name: "content-type", value: "test" }, { name: "cookie", value: "12345" }] } };
+      expect(testFrame.getImageTypeFromResource(resource)).toEqual("");
+    });
+    it("content type is image/png, should return png", function () {
+      const resource = { response: { url: "http://test", headers: [{ name: "content-type", value: "image/png" },{ name: "toto", value: "test" }] } };
+      expect(testFrame.getImageTypeFromResource(resource)).toEqual("png");
+    });
+    it("content type is image/jpg, should return jpeg", function () {
+      const resource = { response: { url: "http://test", headers: [{ name: "content-type", value: "image/jpeg" },{ name: "toto", value: "test" }] } };
+      expect(testFrame.getImageTypeFromResource(resource)).toEqual("jpeg");
+    });
+    it("content type is image/gif, should return gif", function () {
+      const resource = { response: { url: "http://test", headers: [{ name: "content-type", value: "image/gif" },{ name: "toto", value: "test" }] } };
+      expect(testFrame.getImageTypeFromResource(resource)).toEqual("gif");
+    });
+    it("content type is image/bmp, should return bmp", function () {
+      const resource = { response: { url: "http://test", headers: [{ name: "content-type", value: "image/bmp" },{ name: "toto", value: "test" }] } };
+      expect(testFrame.getImageTypeFromResource(resource)).toEqual("bmp");
+    });
+    it("content type is image/tiff, should return tiff", function () {
+      const resource = { response: { url: "http://test", headers: [{ name: "content-type", value: "image/tiff" },{ name: "toto", value: "test" }] } };
+      expect(testFrame.getImageTypeFromResource(resource)).toEqual("tiff");
+    });
+    afterEach(function () {
+    });
+  });
+  describe("#function isImageResolutionOptimized", function() {
+    
+    beforeEach(function() {	
+    });
+	
+    it(" image png size 700000 should return false", function() {
+      expect(isImageResolutionOptimized(1000,700000,"png")).toEqual(false);
+    });
+    it(" image bmp size 800000 should return false", function() {
+      expect(isImageResolutionOptimized(1000,800000,"bmp")).toEqual(false);
+    });
+    it(" image png size 1000 should return true", function() {
+      expect(isImageResolutionOptimized(1000,1000,"png")).toEqual(true);
+    });
+    it(" image png pixel=200000 size=100000 should return false", function() {
+      expect(isImageResolutionOptimized(200000,100000,"png")).toEqual(false);
+    });
+    it(" image tiff pixel=200000 size=100000 should return false", function() {
+      expect(isImageResolutionOptimized(200000,100000,"tiff")).toEqual(false);
+    });
+    it(" image png pixel=400000 size=100000 should return false", function() {
+      expect(isImageResolutionOptimized(400000,100000,"png")).toEqual(false);
+    });
+    it(" image jpeg pixel=400000 size=100000 should return false", function() {
+      expect(isImageResolutionOptimized(400000,100000,"jpeg")).toEqual(false);
+    });
+    it(" image png pixel=400001 size=80000 should return true", function() {
+      expect(isImageResolutionOptimized(400001,80000,"png")).toEqual(true);
+    });
+    it(" image jpeg pixel=400001 size=80000 should return true", function() {
+      expect(isImageResolutionOptimized(400001,80000,"jpeg")).toEqual(true);
+    });
+    it(" image jpeg pixel=10000 size=1000 should return true", function() {
+      expect(isImageResolutionOptimized(10000,1000,"jpeg")).toEqual(true);
+    });
+    it(" image jpeg pixel=2000 size=1000 should return false", function() {
+      expect(isImageResolutionOptimized(2000,1000,"jpeg")).toEqual(false);
+    });
+    afterEach(function() {
+    });
+  });
 });
 
