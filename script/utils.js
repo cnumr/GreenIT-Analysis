@@ -298,6 +298,7 @@ function getImageTypeFromResource(resource) {
 function isImageResolutionOptimized(pixelsNumber,imageSize,imageType)
 {
   if (imageSize>500000) return false;
+  if (imageSize <2000 ) return true;
   if ((imageType==="jpeg")||(imageSize>50000))
   {
     if (pixelsNumber/imageSize<5) return false;

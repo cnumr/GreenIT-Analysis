@@ -416,6 +416,12 @@ describe("utils.js", function () {
     it(" image png size 1000 should return true", function() {
       expect(isImageResolutionOptimized(1000,1000,"png")).toEqual(true);
     });
+    it(" image png size 10000 should return true", function() {
+      expect(isImageResolutionOptimized(1000,1000,"png")).toEqual(true);
+    });
+    it(" image jpeg size 1500 should return true", function() {
+      expect(isImageResolutionOptimized(1000,1500,"jpeg")).toEqual(true);
+    });
     it(" image png pixel=200000 size=100000 should return false", function() {
       expect(isImageResolutionOptimized(200000,100000,"png")).toEqual(false);
     });
@@ -437,8 +443,8 @@ describe("utils.js", function () {
     it(" image jpeg pixel=10000 size=1000 should return true", function() {
       expect(isImageResolutionOptimized(10000,1000,"jpeg")).toEqual(true);
     });
-    it(" image jpeg pixel=2000 size=1000 should return false", function() {
-      expect(isImageResolutionOptimized(2000,1000,"jpeg")).toEqual(false);
+    it(" image jpeg pixel=20000 size=10000 should return false", function() {
+      expect(isImageResolutionOptimized(20000,10000,"jpeg")).toEqual(false);
     });
     afterEach(function() {
     });
