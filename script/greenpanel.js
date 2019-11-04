@@ -189,6 +189,7 @@ function MeasuresAcquisition(rules) {
           localRules.checkRule("useETags", measures);
           localRules.checkRule("compressHttp", measures);
           localRules.checkRule("maxCookiesLength", measures);
+          localRules.checkRule("noCookieForStaticRessources", measures);
           localRules.checkRule("noRedirect", measures);
           localRules.checkRule("optimizeBitmapImages", measures);
         }

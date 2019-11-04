@@ -319,6 +319,27 @@
       }
     }
   },
+  "rule_NoCookieForStaticRessources": {
+    "message": "Pas de cookie pour les ressources statiques",
+    "description": "No cookie for static ressources"
+  },
+  "rule_NoCookieForStaticRessources_DetailDescription": {
+    "message": "Pas de cookie pour les ressources statiques ...",
+    "description": "No cookie for static ressources"
+  },
+  "rule_NoCookieForStaticRessources_DefaultComment": {
+    "message": "Aucun cookie",
+    "description": "No cookie"
+  },
+  "rule_NoCookieForStaticRessources_Comment": {
+    "message": "$NB$ ressource(s) statiques avec un cookie",
+    "description": "Number of static ressources with cookie ",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_NoRedirect": {
     "message": "Eviter les redirections",
     "description": "Avoid redirect"

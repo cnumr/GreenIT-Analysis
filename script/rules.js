@@ -27,7 +27,7 @@ function Rules() {
   rules.set("maxCookiesLength", new maxCookiesLengthRule());
   rules.set("noRedirect", new noRedirectRule());
   rules.set("optimizeBitmapImages", new optimizeBitmapImagesRule());
-
+  rules.set("noCookieForStaticRessources", new noCookieForStaticRessourcesRule());
 
 
   // if method chrome.devtools.inspectedWindow.getResources is not implemented (ex: firefox)
@@ -424,6 +424,28 @@ function Rules() {
     }
   }
 
+  function noCookieForStaticRessourcesRule() {
+    this.isRespected = true;
+    this.id = "noCookieForStaticRessources";
+    this.comment = chrome.i18n.getMessage("rule_NoCookieForStaticRessources_DefaultComment");
+    this.detailComment = "";
+
+    this.check = function (measures) {
+      let nbRessourcesStaticWithCookie = 0;
+      if (measures.entries.length) measures.entries.forEach(entry => {
+        if (isStaticRessource(entry) && (getCookiesLength(entry)>0))
+        {
+          nbRessourcesStaticWithCookie++;
+          this.isRespected= false;
+          this.detailComment += entry.request.url + " has cookie <br>";
+        }
+      });
+      if (nbRessourcesStaticWithCookie > 0) {
+        this.comment = chrome.i18n.getMessage("rule_NoCookieForStaticRessources_Comment", String(nbRessourcesStaticWithCookie));
+      }
+    }
+  }
+
   function noRedirectRule() {
     this.isRespected = true;
     this.id = "noRedirect";
@@ -484,6 +506,8 @@ function Rules() {
 
     }
   }
+
+
 
 }
 
