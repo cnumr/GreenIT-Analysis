@@ -64,9 +64,9 @@ function refreshUI() {
 
 function showEcoRuleOnUI(rule) {
   if (rule !== undefined) {
-    let status = "NOK";
-    if (rule.isRespected) status = "OK";
-    document.getElementById(rule.id + "_status").src = "icons/" + status + ".png";
+    let status = "C";
+    if (rule.isRespected) status = "A";
+    document.getElementById(rule.id + "_status").src = "icons/" + status + ".svg";
     document.getElementById(rule.id + "_comment").innerHTML = rule.comment;
 
     if (rule.detailComment.length > 0) {
