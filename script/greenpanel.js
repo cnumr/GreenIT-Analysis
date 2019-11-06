@@ -40,6 +40,7 @@ function openBackgroundPageConnection() {
 }
 
 function handleResponseFromBackground(frameMeasures) {
+  console.log("Received frame info");
   if (isOldAnalyse(frameMeasures.analyseStartingTime)) {
     debug(() => `Analyse is too old for url ${frameMeasures.url} , time = ${frameMeasures.analyseStartingTime}`);
     return;
@@ -123,8 +124,9 @@ function MeasuresAcquisition(rules) {
   this.getMeasures = () => measures;
 
   this.aggregateFrameMeasures = function (frameMeasures) {
-
+console.log("Process frame info");
     measures.domSize += frameMeasures.domSize;
+console.log("Dome size= "+ measures.domSize);
     computeEcoIndexMeasures(measures);
 
     if (analyseBestPractices) {

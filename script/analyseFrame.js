@@ -12,18 +12,27 @@
 function start_analyse() {
   const analyseStartingTime = Date.now();
   const dom_size = document.getElementsByTagName("*").length;
+console.log("GITA DOM Size = " + dom_size);
   let pageAnalysis;
 
   if (analyseBestPractices) {
     // test with http://www.wickham43.net/flashvideo.php
     const pluginsNumber = getPluginsNumber();
+  console.log("GITA : Plugin done");
     const printStyleSheetsNumber = getPrintStyleSheetsNumber();
+  console.log("GITA : Print done");
     const inlineStyleSheetsNumber = getInlineStyleSheetsNumber();
+  console.log("GITA : inline css done ");
     const emptySrcTagNumber = getEmptySrcTagNumber();
+  console.log("GITA : empty src done");
     const inlineJsScript = getInlineJsScript();
+  console.log("GITA : empty js done");
     const inlineJsScriptsNumber = getInlineJsScriptsNumber();
+  console.log("GITA : inline js done");
     const imagesResizedInBrowser = getImagesResizedInBrowser();
+  console.log("GITA : resize image  done");
     const cssFontFace = getCssFontFace();
+  console.log("GITA : font done");
 
 
     pageAnalysis = {
@@ -47,6 +56,7 @@ function start_analyse() {
   }
 
   chrome.runtime.sendMessage(pageAnalysis);
+console.log("GITA : Message send");
 }
 
 
@@ -125,7 +135,7 @@ function getCssFontFace() {
 
         // If the rule is not a CSSFont one, skip it
         if (!(cssRule instanceof CSSFontFaceRule)) return fonts;
-
+ 
         // Get the custom font family
         const fontFamily = cssRule.style.getPropertyValue('font-family').replace(/^"|"$/g, '');
         if (!fonts.has(fontFamily)) fonts.add(fontFamily);
@@ -135,6 +145,8 @@ function getCssFontFace() {
       }, fonts);
     } catch (err) {
       // Accessing sheet.cssRules will throw a security error if the CSS is loaded from another domain
+      console.log("GREENIT-ANALYSIS ERROR ," err.name+ " = " + err.message);
+      console.log("GREENIT-ANALYSIS ERROR " + err.stack);
       if (err.name !== 'SecurityError') throw err;
     }
     return fonts;
