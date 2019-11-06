@@ -51,20 +51,20 @@ function Rules() {
   }
 
   function pluginsRule() {
-    this.isRespected = true;
+    this.complianceLevel = 'A';
     this.id = "plugins";
     this.comment = chrome.i18n.getMessage("rule_Plugins_DefaultComment");
     this.detailComment = "";
 
     this.check = function (measures) {
       if (measures.pluginsNumber > 0) {
-        this.isRespected = false;
+        this.complianceLevel = 'C';
         this.comment = chrome.i18n.getMessage("rule_Plugins_Comment", String(measures.pluginsNumber));
       }
     }
   }
   function styleSheetsRule() {
-    this.isRespected = true;
+    this.complianceLevel = 'A';
     this.id = "styleSheets";
     this.comment = chrome.i18n.getMessage("rule_StyleSheets_DefaultComment");
     this.detailComment = "";
@@ -80,42 +80,43 @@ function Rules() {
         }
       });
       if (styleSheets.length > 2) {
-        this.isRespected = false;
+        if (styleSheets.length === 3) this.complianceLevel = 'B';
+        else this.complianceLevel = 'C';
         this.comment = chrome.i18n.getMessage("rule_StyleSheets_Comment", String(styleSheets.length));
       }
     }
   }
 
   function printStyleSheetsRule() {
-    this.isRespected = false;
+    this.complianceLevel = 'C';
     this.id = "printStyleSheets";
     this.comment = chrome.i18n.getMessage("rule_PrintStyleSheet_DefaultComment");
     this.detailComment = "";
 
     this.check = function (measures) {
       if (measures.printStyleSheetsNumber > 0) {
-        this.isRespected = true;
+        this.complianceLevel = 'A';
         this.comment = chrome.i18n.getMessage("rule_PrintStyleSheet_Comment", String(measures.printStyleSheetsNumber));
       }
     }
   }
 
   function externalizeCssRule() {
-    this.isRespected = true;
+    this.complianceLevel = 'A';
     this.id = "externalizeCss";
     this.comment = chrome.i18n.getMessage("rule_ExternalizeCss_DefaultComment");
     this.detailComment = "";
 
     this.check = function (measures) {
       if (measures.inlineStyleSheetsNumber > 0) {
-        this.isRespected = false;
+        this.complianceLevel = 'C';
         this.comment = chrome.i18n.getMessage("rule_ExternalizeCss_Comment", String(measures.inlineStyleSheetsNumber));
       }
     }
   }
 
   function minifiedCssRule() {
-    this.isRespected = true;
+    this.complianceLevel = 'A';
     this.id = "minifiedCss";
     this.comment = chrome.i18n.getMessage("rule_MinifiedCss_DefaultComment");
     this.detailComment = "";
@@ -127,8 +128,8 @@ function Rules() {
       });
       if (measures.totalCss > 0) {
         const percentMinifiedCss = measures.minifiedCssNumber / measures.totalCss * 100;
-        if (percentMinifiedCss < 95) this.isRespected = false;
-        else this.isRespected = true;
+        if (percentMinifiedCss < 95) this.complianceLevel = 'C';
+        else this.complianceLevel = 'A';
         this.comment = chrome.i18n.getMessage("rule_MinifiedCss_Comment",
           Math.round(percentMinifiedCss) + " % ("
           + measures.minifiedCssNumber + "/" + measures.totalCss + ")");
@@ -137,21 +138,21 @@ function Rules() {
   }
 
   function emptySrcTagRule() {
-    this.isRespected = true;
+    this.complianceLevel = 'A';
     this.id = "emptySrcTag";
     this.comment = chrome.i18n.getMessage("rule_EmptySrcTag_DefaultComment");
     this.detailComment = "";
 
     this.check = function (measures) {
       if (measures.emptySrcTagNumber > 0) {
-        this.isRespected = false;
+        this.complianceLevel = 'C';
         this.comment = chrome.i18n.getMessage("rule_EmptySrcTag_Comment", String(measures.emptySrcTagNumber));
       }
     }
   }
 
   function jsValidateRule() {
-    this.isRespected = true;
+    this.complianceLevel = 'A';
     this.id = "jsValidate";
     this.comment = chrome.i18n.getMessage("rule_JsValidate_DefaultComment");
     this.detailComment = "";
@@ -164,21 +165,21 @@ function Rules() {
         errors += value;
       });
       if (errors > 0) {
-        this.isRespected = false;
+        this.complianceLevel = 'C';
         this.comment = chrome.i18n.getMessage("rule_JsValidate_Comment", String(errors));
       }
     }
   }
 
   function externalizeJsRule() {
-    this.isRespected = true;
+    this.complianceLevel = 'A';
     this.id = "externalizeJs";
     this.comment = chrome.i18n.getMessage("rule_ExternalizeJs_DefaultComment");
     this.detailComment = "";
 
     this.check = function (measures) {
       if (measures.inlineJsScriptsNumber > 0) {
-        if (measures.inlineJsScriptsNumber > 1) this.isRespected = false;
+        if (measures.inlineJsScriptsNumber > 1) this.complianceLevel = 'C';
         this.comment = chrome.i18n.getMessage("rule_ExternalizeJs_Comment", String(measures.inlineJsScriptsNumber));
 
       }
@@ -186,7 +187,7 @@ function Rules() {
   }
 
   function minifiedJsRule() {
-    this.isRespected = true;
+    this.complianceLevel = 'A';
     this.id = "minifiedJs";
     this.comment = chrome.i18n.getMessage("rule_MinifiedJs_DefaultComment");
     this.detailComment = "";
@@ -198,8 +199,8 @@ function Rules() {
       });
       if (measures.totalJs > 0) {
         const percentMinifiedJs = measures.minifiedJsNumber / measures.totalJs * 100;
-        if (percentMinifiedJs < 95) this.isRespected = false;
-        else this.isRespected = true;
+        if (percentMinifiedJs < 95) this.complianceLevel = 'C';
+        else this.complianceLevel = 'A';
 
         this.comment = chrome.i18n.getMessage("rule_MinifiedJs_Comment",
           Math.round(percentMinifiedJs) + " % ("
@@ -210,7 +211,7 @@ function Rules() {
   }
 
   function httpRequestsRule() {
-    this.isRespected = true;
+    this.complianceLevel = 'A';
     this.id = "httpRequests";
     this.comment = "";
     this.detailComment = "";
@@ -219,13 +220,13 @@ function Rules() {
       if (measures.entries.length) measures.entries.forEach(entry => {
         this.detailComment += entry.request.url + "<br>";
       });
-      if (measures.nbRequest > 26) this.isRespected = false;
+      if (measures.nbRequest > 26) this.complianceLevel = 'C';
       this.comment = chrome.i18n.getMessage("rule_HttpRequests_Comment", String(measures.nbRequest));
     }
   }
 
   function domainsNumberRule() {
-    this.isRespected = true;
+    this.complianceLevel = 'A';
     this.id = "domainsNumber";
     this.comment = "";
     this.detailComment = "";
@@ -238,7 +239,11 @@ function Rules() {
           domains.push(domain);
         }
       });
-      if (domains.length > 2) this.isRespected = false;
+      if (domains.length > 2) 
+      {
+        if (domains.length ===3) this.complianceLevel ='B';
+        else this.complianceLevel = 'C';
+      }
       domains.forEach(domain => {
         this.detailComment += domain + "<br>";
       });
@@ -249,7 +254,7 @@ function Rules() {
 
 
   function addExpiresOrCacheControlHeadersRule() {
-    this.isRespected = true;
+    this.complianceLevel = 'A';
     this.id = "addExpiresOrCacheControlHeaders";
     this.comment = "";
     this.detailComment = "";
@@ -271,8 +276,12 @@ function Rules() {
         const cacheHeaderRatio = staticResourcesNumberWithCacheHeaders / staticResourcesNumber * 100;
         //debug(() => `static resources ${staticResourcesNumber}`);
         //debug(() => `static resources with cache header ${staticResourcesNumberWithCacheHeaders}`);
-        if (cacheHeaderRatio < 95) this.isRespected = false;
-        else this.isRespected = true;
+        if (cacheHeaderRatio < 95) 
+        {
+          if (staticResourcesNumber - staticResourcesNumberWithCacheHeaders ===1) this.complianceLevel = 'B'
+          else this.complianceLevel = 'C';
+        }
+        else this.complianceLevel = 'A';
         this.comment = chrome.i18n.getMessage("rule_AddExpiresOrCacheControlHeaders_Comment",
           Math.round(cacheHeaderRatio) + " % (" +
           staticResourcesNumberWithCacheHeaders +
@@ -282,7 +291,7 @@ function Rules() {
   }
 
   function useETagsRule() {
-    this.isRespected = true;
+    this.complianceLevel = 'A';
     this.id = "useETags";
     this.comment = "";
     this.detailComment = "";
@@ -303,10 +312,12 @@ function Rules() {
       });
       if (staticResourcesNumber > 0) {
         const eTagsRatio = staticResourcesNumberWithETags / staticResourcesNumber * 100;
-        //debug(() => `static resources ${staticResourcesNumber}`);
-        //debug(() => `static resources with ETags ${staticResourcesNumberWithETags}`);
-        if (eTagsRatio < 95) this.isRespected = false;
-        else this.isRespected = true;
+        if (eTagsRatio < 95) 
+        {
+          if (staticResourcesNumber - staticResourcesNumberWithETags ===1) this.complianceLevel = 'B'
+          else this.complianceLevel = 'C';
+        }
+        else this.complianceLevel = 'A';
         this.comment = chrome.i18n.getMessage("rule_UseETags_Comment",
           Math.round(eTagsRatio) + " % (" +
           staticResourcesNumberWithETags + "/" +
@@ -318,7 +329,7 @@ function Rules() {
 
 
   function compressHttpRule() {
-    this.isRespected = true;
+    this.complianceLevel = 'A';
     this.id = "compressHttp";
     this.comment = "";
     this.detailComment = "";
@@ -343,7 +354,8 @@ function Rules() {
         const compressRatio = compressibleResourcesNumberCompressed / compressibleResourcesNumber * 100;
         //debug(() => `compressible resources ${compressibleResourcesNumber}`);
         //debug(() => `compressible resources compressed ${compressibleResourcesNumberCompressed}`);
-        this.isRespected = (compressRatio >= 95);
+        if (compressRatio >= 95) this.complianceLevel = 'A';
+        else this.complianceLevel = 'C';
         this.comment = chrome.i18n.getMessage("rule_CompressHttp_Comment",
           Math.round(compressRatio) + " % (" +
           compressibleResourcesNumberCompressed + "/" +
@@ -354,7 +366,7 @@ function Rules() {
 
 
   function dontResizeImageInBrowserRule() {
-    this.isRespected = true;
+    this.complianceLevel = 'A';
     this.id = "dontResizeImageInBrowser";
     this.comment = "";
     this.detailComment = "";
@@ -366,13 +378,13 @@ function Rules() {
         this.detailComment += `${entry} <br>`;
       });
       this.imagesResizedInBrowserNumber += measures.imagesResizedInBrowser.length
-      if (this.imagesResizedInBrowserNumber > 0) this.isRespected = false;
+      if (this.imagesResizedInBrowserNumber > 0) this.complianceLevel = 'C';
       this.comment = chrome.i18n.getMessage("rule_DontResizeImageInBrowser_Comment", String(this.imagesResizedInBrowserNumber));
     }
   }
 
   function useStandardTypefacesRule() {
-    this.isRespected = true;
+    this.complianceLevel = 'A';
     this.id = "useStandardTypefaces";
     this.comment = chrome.i18n.getMessage("rule_UseStandardTypefaces_DefaultComment");
     this.detailComment = "";
@@ -387,14 +399,14 @@ function Rules() {
       });
 
       if (this.cssFontFace.length > 0) {
-        this.isRespected = false;
+        this.complianceLevel = 'C';
         this.comment = chrome.i18n.getMessage("rule_UseStandardTypefaces_Comment", String(this.cssFontFace.length));
       }
     }
   }
 
   function maxCookiesLengthRule() {
-    this.isRespected = true;
+    this.complianceLevel = 'A';
     this.id = "maxCookiesLength";
     this.comment = chrome.i18n.getMessage("rule_MaxCookiesLength_DefaultComment");
     this.detailComment = "";
@@ -419,13 +431,15 @@ function Rules() {
       });
       if (maxCookiesLength !== 0) {
         this.comment = chrome.i18n.getMessage("rule_MaxCookiesLength_Comment", String(maxCookiesLength));
-        if (maxCookiesLength > 512) this.isRespected = false;
+        if (maxCookiesLength > 512) this.complianceLevel = 'B';
+        if (maxCookiesLength > 1024) this.complianceLevel = 'C';
+       
       }
     }
   }
 
   function noCookieForStaticRessourcesRule() {
-    this.isRespected = true;
+    this.complianceLevel = 'A';
     this.id = "noCookieForStaticRessources";
     this.comment = chrome.i18n.getMessage("rule_NoCookieForStaticRessources_DefaultComment");
     this.detailComment = "";
@@ -436,7 +450,7 @@ function Rules() {
         if (isStaticRessource(entry) && (getCookiesLength(entry)>0))
         {
           nbRessourcesStaticWithCookie++;
-          this.isRespected= false;
+          this.complianceLevel= 'C';
           this.detailComment += entry.request.url + " has cookie <br>";
         }
       });
@@ -447,7 +461,7 @@ function Rules() {
   }
 
   function noRedirectRule() {
-    this.isRespected = true;
+    this.complianceLevel = 'A';
     this.id = "noRedirect";
     this.comment = "";
     this.detailComment = "";
@@ -462,20 +476,20 @@ function Rules() {
           }
         }
       });
-      if (redirectNumber > 0) this.isRespected = false;
+      if (redirectNumber > 0) this.complianceLevel = 'C';
       this.comment = chrome.i18n.getMessage("rule_NoRedirect_Comment", String(redirectNumber));
     }
   }
 
   function optimizeBitmapImagesRule() {
-    this.isRespected = true;
+    this.complianceLevel = 'A';
     this.id = "optimizeBitmapImages";
     this.comment = "";
     this.detailComment = "";
-    this.nbImagesToOptimize = 0;
 
     this.check = function (measures) {
       let nbImagesToOptimize = 0;
+      let sizeToOptimize = 0;
       if (measures.entries) measures.entries.forEach(entry => {
         if (entry.response) {
           const imageType = getImageTypeFromResource(entry);
@@ -489,10 +503,12 @@ function Rules() {
             myImage.onload = function () {
               if (!isImageResolutionOptimized(this.width * this.height,this.size,imageType)) {
                 nbImagesToOptimize++;
+                sizeToOptimize += this.size;
                 this.rule.detailComment += this.src + " , " + Math.round(this.size/1000) + "Kb , " + this.width + "x" + this.height + "<br>";
               }
               if (nbImagesToOptimize > 0) {
-                this.rule.isRespected = false;
+                if (sizeToOptimize<100000) this.rule.complianceLevel ='B';
+                else this.rule.complianceLevel = 'C';
                 this.rule.comment = chrome.i18n.getMessage("rule_OptimizeBitmapImages_Comment", String(nbImagesToOptimize));
                 showEcoRuleOnUI(this.rule);
               }

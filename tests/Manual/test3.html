@@ -1,0 +1,66 @@
+<html>
+<head>
+ <link rel="stylesheet" type="text/css"  href="test1.css"> </link>
+ <link rel="stylesheet" type="text/css"  href="test2.css"> </link>
+ <link rel="stylesheet" type="text/css"  href="test3.css"> </link>
+ <script src=""></script>
+      <style type="text/css"> 
+.button {
+    background-color: #008CBA; /* Blue */
+    border: none;
+    color: white;
+    padding: 1px 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+	border-radius: 4px;
+	transition-duration: 0.4s;
+	width="100px";
+}
+
+.button:hover {
+    background-color: #0070A0; 
+}
+
+@font-face {
+  font-family: specificFont;
+  src: url(sansation_light.woff);
+}
+
+@font-face {
+  font-family: specificFont2;
+  src: url(test.woff);
+}
+</style>
+</head>
+<body>
+    <img src="test.png" height="100" width="100" ></img>
+    <br/>
+TEST
+
+Shoud find : <br>
+0 plugin found  <br>
+0 print StyleSheet <br>
+1 inline stylesheet <br>
+66% 2/3 minified stylesheet <br>
+3 src empty tag  <br>
+1 Javascript Error <br>
+1 inline script <br>
+33% (1/3) minified script <br>
+1 image resize in browser <br>
+2 custom font <br>
+<img src =""> </img>
+<script>
+console.log("");
+</script>
+<script src="script_error.js"></script>
+
+<!-- Should not analyse this script and throw error as it is not js valide--> 
+<script type="application/ld+json">
+  {"publisher": {"url": "https://www.liberation.fr", "logo": {"url": "https://statics.liberation.fr/newsite/images/logo-libe-meta.png", "width": "131", "@type": "ImageObject", "height": "60"}, "@type": "Organization", "name": "Lib\u00e9ration"}, "description": "Et si le record de long\u00e9vit\u00e9 de Jeanne Calment \u00e9tait une supercherie ? Des chercheurs russes ont conclu \u00e0 un incroyable tour de passe-passe entre la Fran\u00e7aise et sa fille, provoquant int\u00e9r\u00eat et controverse dans la communaut\u00e9 scientifique.", "author": [{"url": "https://www.liberation.fr/auteur/13090-liberation", "@type": "Person", "name": " LIBERATION"}], "headline": "La long\u00e9vit\u00e9 de Jeanne Calment mise en doute par des scientifiques russes", "image": {"url": "https://medias.liberation.fr/photo/1183776-jeanne-calment-le-21-fevrier-1997-a-arles-dans-sa-maison-de-retraite.jpg?modified_at=1546262254", "width": 915, "@type": "ImageObject", "height": 629}, "datePublished": "2018-12-31T12:25:31", "keywords": "Jeanne Calment,Agence France-Presse,France,G\u00e9rontologie,Fran\u00e7ais,Recherche,INED,Famille,Supercentenaire,Arles,D\u00e9mographie,Doyenn\u00e9,Pleur\u00e9sie,Cigarette,Agusta A.119 Koala,Sarah Knauss,Ann\u00e9es 1930,Passe-passe,Soci\u00e9t\u00e9 imp\u00e9riale des naturalistes de Moscou,Probabilit\u00e9,Identit\u00e9,Michel Vauzelle,Chocolat,Mort,Rente viag\u00e8re,Usurpation d'identit\u00e9,Livre Guinness des records,Belgique,D\u00e9mence,Universit\u00e9 catholique de Louvain,M\u00e9decin,ADN,Mod\u00e9lisation,Fonctionnaire,Math\u00e9matiques,Autopsie,Dieu,\u00c9tats-Unis,Universit\u00e9 de Moscou,Carte d'identit\u00e9,Marie Robine", "@type": "NewsArticle", "mainEntityOfPage": {"@id": "https://www.liberation.fr/france/2018/12/31/la-longevite-de-jeanne-calment-mise-en-doute-par-des-scientifiques-russes_1700478", "@type": "URL"}, "@context": "http://schema.org", "dateCreated": "2018-12-31T12:25:31", "dateModified": "2018-12-31T13:16:13"}
+</script>
+
+
+</body>
+</html>

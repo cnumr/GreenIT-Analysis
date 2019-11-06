@@ -152,6 +152,10 @@ describe("utils.js", function () {
       expect(testFrame.isResourceCompressed(resource)).toEqual(true);
     });
 
+    it(" content encoding is compress  should return true", function () {
+      const resource = { response: { content: { size: 2000 }, status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "compress" }, { name: "content-type", value: "image/bmp" }, { name: "toto", value: "test" }] } };
+      expect(testFrame.isResourceCompressed(resource)).toEqual(true);
+    });
 
     it(" content encoding is TEST  should return false", function () {
       const resource = { response: { content: { size: 2000 }, status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "TEST" }, { name: "content-type", value: "image/bmp" }, { name: "toto", value: "test" }] } };

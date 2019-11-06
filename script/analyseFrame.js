@@ -145,7 +145,7 @@ function getCssFontFace() {
       }, fonts);
     } catch (err) {
       // Accessing sheet.cssRules will throw a security error if the CSS is loaded from another domain
-      console.log("GREENIT-ANALYSIS ERROR ," err.name+ " = " + err.message);
+      console.log("GREENIT-ANALYSIS ERROR ," + err.name+ " = " + err.message);
       console.log("GREENIT-ANALYSIS ERROR " + err.stack);
       if (err.name !== 'SecurityError') throw err;
     }
