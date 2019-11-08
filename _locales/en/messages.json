@@ -345,11 +345,14 @@
     "description": "Optimize bitmap images"
   },
   "rule_OptimizeBitmapImages_Comment": {
-    "message": "$NB_IMAGES$ image(s)shoud probably be optimized",
+    "message": "$NB_IMAGES$ image(s)shoud probably be optimize, minimum gain estimated: $MIN_GAINS$ Kb",
     "description": "Number of images to optimize",
     "placeholders": {
       "NB_IMAGES": {
         "content": "$1"
+      },
+      "MIN_GAINS": {
+        "content": "$2"
       }
     }
   },

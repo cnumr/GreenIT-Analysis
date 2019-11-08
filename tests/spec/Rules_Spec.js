@@ -19,7 +19,6 @@ describe("rules.js", function () {
 
 
 
-
   describe("#pluginsRule", function () {
 
     beforeEach(function () {

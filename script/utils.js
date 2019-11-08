@@ -295,15 +295,20 @@ function getImageTypeFromResource(resource) {
 }
 
 
-function isImageResolutionOptimized(pixelsNumber,imageSize,imageType)
+function getMinOptimisationGainsForImage(pixelsNumber,imageSize,imageType)
 {
-  if (imageSize>500000) return false;
-  if (imageSize <2000 ) return true;
-  if ((imageType==="jpeg")||(imageSize>50000))
-  {
-    if (pixelsNumber/imageSize<5) return false;
-  }
-  return true;
+  // difficult to get good compression when image is small , images less than 10Kb are considered optimized
+  if (imageSize <10000 ) return 0;
+
+  // image png or gif < 50Kb  are considered optimized (used for transparency not supported in jpeg format)
+  if ((imageSize <50000) && ((imageType==='png')||(imageType==='gif')))  return 0;
+
+  const imgMaxSize = pixelsNumber/5; 
+
+  // image > 500Kb are too big for web site , there are considered never optimized 
+  if (imageSize>500000) return Math.max(imageSize-500000,imageSize - imgMaxSize);
+
+  return Math.max(0,imageSize - imgMaxSize);
 }
 
 function debug(lazyString) {

@@ -489,7 +489,7 @@ function Rules() {
 
     this.check = function (measures) {
       let nbImagesToOptimize = 0;
-      let sizeToOptimize = 0;
+      let totalMinGains = 0;
       if (measures.entries) measures.entries.forEach(entry => {
         if (entry.response) {
           const imageType = getImageTypeFromResource(entry);
@@ -501,15 +501,18 @@ function Rules() {
             
             myImage.size = entry.response.content.size;
             myImage.onload = function () {
-              if (!isImageResolutionOptimized(this.width * this.height,this.size,imageType)) {
+
+              const minGains = getMinOptimisationGainsForImage(this.width * this.height,this.size,imageType);
+ console.log("Analyse img resolution= " + this.width*this.height + ",size = "+ this.size + ", min estimated gain = " + minGains);             
+              if (minGains>0) {
                 nbImagesToOptimize++;
-                sizeToOptimize += this.size;
-                this.rule.detailComment += this.src + " , " + Math.round(this.size/1000) + "Kb , " + this.width + "x" + this.height + "<br>";
+                totalMinGains += minGains;
+                this.rule.detailComment += this.src + " , " + Math.round(this.size/1000) + "Kb , " + this.width + "x" + this.height + ", possible to gain " +  Math.round(minGains/1000) +"Kb <br>";
               }
               if (nbImagesToOptimize > 0) {
-                if (sizeToOptimize<100000) this.rule.complianceLevel ='B';
+                if (totalMinGains<50000) this.rule.complianceLevel ='B';
                 else this.rule.complianceLevel = 'C';
-                this.rule.comment = chrome.i18n.getMessage("rule_OptimizeBitmapImages_Comment", String(nbImagesToOptimize));
+                this.rule.comment = chrome.i18n.getMessage("rule_OptimizeBitmapImages_Comment", [String(nbImagesToOptimize),String(Math.round(totalMinGains/1000))]);
                 showEcoRuleOnUI(this.rule);
               }
             }

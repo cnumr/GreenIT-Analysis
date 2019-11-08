@@ -406,49 +406,40 @@ describe("utils.js", function () {
     afterEach(function () {
     });
   });
-  describe("#function isImageResolutionOptimized", function() {
+  describe("#function getMinOptimisationGainsForImage", function() {
     
     beforeEach(function() {	
     });
 	
-    it(" image png size 700000 should return false", function() {
-      expect(isImageResolutionOptimized(1000,700000,"png")).toEqual(false);
+    it(" image png , pixels=5000000 and size=700000  should return 200000", function() {
+      expect(getMinOptimisationGainsForImage(5000000,700000,"png")).toEqual(200000);
     });
-    it(" image bmp size 800000 should return false", function() {
-      expect(isImageResolutionOptimized(1000,800000,"bmp")).toEqual(false);
+    it(" image bmp , pixels=100000 size 30000 should return 10000", function() {
+      expect(getMinOptimisationGainsForImage(100000,30000,"bmp")).toEqual(10000);
     });
-    it(" image png size 1000 should return true", function() {
-      expect(isImageResolutionOptimized(1000,1000,"png")).toEqual(true);
+    it(" image png size 1000 should return 0", function() {
+      expect(getMinOptimisationGainsForImage(1000,1000,"png")).toEqual(0);
     });
-    it(" image png size 10000 should return true", function() {
-      expect(isImageResolutionOptimized(1000,1000,"png")).toEqual(true);
+    it(" image png pixels=200000 size 20000 should return 0", function() {
+      expect(getMinOptimisationGainsForImage(200000,20000,"png")).toEqual(0);
     });
-    it(" image jpeg size 1500 should return true", function() {
-      expect(isImageResolutionOptimized(1000,1500,"jpeg")).toEqual(true);
+    it(" image jpeg size 1500 should return 0", function() {
+      expect(getMinOptimisationGainsForImage(1000,1500,"jpeg")).toEqual(0);
     });
-    it(" image png pixel=200000 size=100000 should return false", function() {
-      expect(isImageResolutionOptimized(200000,100000,"png")).toEqual(false);
+    it(" image png pixel=200000 size=100000 should return 60000", function() {
+      expect(getMinOptimisationGainsForImage(200000,100000,"png")).toEqual(60000);
     });
-    it(" image tiff pixel=200000 size=100000 should return false", function() {
-      expect(isImageResolutionOptimized(200000,100000,"tiff")).toEqual(false);
-    });
-    it(" image png pixel=400000 size=100000 should return false", function() {
-      expect(isImageResolutionOptimized(400000,100000,"png")).toEqual(false);
+    it(" image tiff pixel=200000 size=100000 should return 60000", function() {
+      expect(getMinOptimisationGainsForImage(200000,100000,"tiff")).toEqual(60000);
     });
     it(" image jpeg pixel=400000 size=100000 should return false", function() {
-      expect(isImageResolutionOptimized(400000,100000,"jpeg")).toEqual(false);
+      expect(getMinOptimisationGainsForImage(400000,100000,"jpeg")).toEqual(20000);
     });
-    it(" image png pixel=400001 size=80000 should return true", function() {
-      expect(isImageResolutionOptimized(400001,80000,"png")).toEqual(true);
+    it(" image jpeg pixel=10000 size=1000 should return 0", function() {
+      expect(getMinOptimisationGainsForImage(10000,1000,"jpeg")).toEqual(0);
     });
-    it(" image jpeg pixel=400001 size=80000 should return true", function() {
-      expect(isImageResolutionOptimized(400001,80000,"jpeg")).toEqual(true);
-    });
-    it(" image jpeg pixel=10000 size=1000 should return true", function() {
-      expect(isImageResolutionOptimized(10000,1000,"jpeg")).toEqual(true);
-    });
-    it(" image jpeg pixel=20000 size=10000 should return false", function() {
-      expect(isImageResolutionOptimized(20000,10000,"jpeg")).toEqual(false);
+    it(" image jpeg pixel=20000 size=10000 should return 6000", function() {
+      expect(getMinOptimisationGainsForImage(20000,10000,"jpeg")).toEqual(6000);
     });
     afterEach(function() {
     });
