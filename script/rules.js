@@ -446,16 +446,20 @@ function Rules() {
 
     this.check = function (measures) {
       let nbRessourcesStaticWithCookie = 0;
+      let totalCookiesSize = 0;
       if (measures.entries.length) measures.entries.forEach(entry => {
-        if (isStaticRessource(entry) && (getCookiesLength(entry)>0))
+        const cookiesLength = getCookiesLength(entry);
+        if (isStaticRessource(entry) && (cookiesLength>0))
         {
           nbRessourcesStaticWithCookie++;
-          this.complianceLevel= 'C';
-          this.detailComment += entry.request.url + " has cookie <br>";
+          totalCookiesSize+=cookiesLength + 7; // 7 is size for the header name "cookie:"
+          this.detailComment += entry.request.url + " has cookie <br> ";
         }
       });
       if (nbRessourcesStaticWithCookie > 0) {
-        this.comment = chrome.i18n.getMessage("rule_NoCookieForStaticRessources_Comment", String(nbRessourcesStaticWithCookie));
+        if (totalCookiesSize >2000) this.complianceLevel= 'C';
+        else this.complianceLevel= 'B';
+        this.comment = chrome.i18n.getMessage("rule_NoCookieForStaticRessources_Comment", [String(nbRessourcesStaticWithCookie),String(Math.round(totalCookiesSize/100)/10)]);
       }
     }
   }
@@ -507,7 +511,7 @@ function Rules() {
               if (minGains>0) {
                 nbImagesToOptimize++;
                 totalMinGains += minGains;
-                this.rule.detailComment += this.src + " , " + Math.round(this.size/1000) + "Kb , " + this.width + "x" + this.height + ", possible to gain " +  Math.round(minGains/1000) +"Kb <br>";
+                this.rule.detailComment += this.src + " , " + Math.round(this.size/1000) + "KB , " + this.width + "x" + this.height + ", possible to gain " +  Math.round(minGains/1000) +"KB <br>";
               }
               if (nbImagesToOptimize > 0) {
                 if (totalMinGains<50000) this.rule.complianceLevel ='B';

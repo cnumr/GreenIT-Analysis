@@ -311,11 +311,14 @@
     "description": "No cookie"
   },
   "rule_NoCookieForStaticRessources_Comment": {
-    "message": "$NB$ static ressource(s) with cookie",
+    "message": "$NB$ static ressource(s) with cookie (Total of $TOTAL_SIZE$KB)",
     "description": "Number of static ressources with cookie ",
     "placeholders": {
       "NB": {
         "content": "$1"
+      },
+      "TOTAL_SIZE": {
+        "content": "$2"
       }
     }
   },
