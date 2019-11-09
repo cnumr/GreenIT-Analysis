@@ -18,17 +18,11 @@ console.log("GITA DOM Size = " + dom_size);
   if (analyseBestPractices) {
     // test with http://www.wickham43.net/flashvideo.php
     const pluginsNumber = getPluginsNumber();
-  console.log("GITA : Plugin done");
     const printStyleSheetsNumber = getPrintStyleSheetsNumber();
-  console.log("GITA : Print done");
     const inlineStyleSheetsNumber = getInlineStyleSheetsNumber();
-  console.log("GITA : inline css done ");
     const emptySrcTagNumber = getEmptySrcTagNumber();
-  console.log("GITA : empty src done");
     const inlineJsScript = getInlineJsScript();
-  console.log("GITA : empty js done");
     const inlineJsScriptsNumber = getInlineJsScriptsNumber();
-  console.log("GITA : inline js done");
     const imagesResizedInBrowser = getImagesResizedInBrowser();
   console.log("GITA : resize image  done");
     const cssFontFace = getCssFontFace();

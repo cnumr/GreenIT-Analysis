@@ -76,8 +76,8 @@
     "description": "Link for help in the menu frame"
   },
   "pageSize": {
-    "message": "Page Size (Kb) ",
-    "description": "Page Size(Kb) ."
+    "message": "Page Size (KB) ",
+    "description": "Page Size(KB) ."
   },
   "pluginTitle": {
     "message": "EcoIndex Plugin ",
@@ -345,7 +345,7 @@
     "description": "Optimize bitmap images"
   },
   "rule_OptimizeBitmapImages_Comment": {
-    "message": "$NB_IMAGES$ image(s)shoud probably be optimize, minimum gain estimated: $MIN_GAINS$ Kb",
+    "message": "$NB_IMAGES$ image(s)shoud probably be optimize, minimum gain estimated: $MIN_GAINS$ KB",
     "description": "Number of images to optimize",
     "placeholders": {
       "NB_IMAGES": {
