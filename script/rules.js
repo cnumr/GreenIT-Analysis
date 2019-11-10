@@ -354,8 +354,12 @@ function Rules() {
         const compressRatio = compressibleResourcesNumberCompressed / compressibleResourcesNumber * 100;
         //debug(() => `compressible resources ${compressibleResourcesNumber}`);
         //debug(() => `compressible resources compressed ${compressibleResourcesNumberCompressed}`);
-        if (compressRatio >= 95) this.complianceLevel = 'A';
-        else this.complianceLevel = 'C';
+        if (compressRatio < 95) 
+        {
+          if (compressibleResourcesNumber - compressibleResourcesNumberCompressed ===1) this.complianceLevel = 'B'
+          else this.complianceLevel = 'C';
+        }
+        else this.complianceLevel = 'A';
         this.comment = chrome.i18n.getMessage("rule_CompressHttp_Comment",
           Math.round(compressRatio) + " % (" +
           compressibleResourcesNumberCompressed + "/" +

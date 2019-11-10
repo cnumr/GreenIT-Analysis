@@ -1111,6 +1111,28 @@ describe("rules.js", function () {
 
     });
 
+
+    it(" 1 static ressources not compressed, it should return B", function () {
+      let rules = new Rules();
+      const measures = {
+        entries:
+          [{
+            request: { url: "test" },
+            response:
+            {
+              content: { size: 200 },
+              status: 200, statusText: "", httpVersion: "http/2.0", headers:
+                [
+                  { name: "content-type", value: "text/css" }]
+            }
+          }]
+      };
+      let rule = rules.getRule("compressHttp");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('B');
+    });
+
+
     it(" 1 static ressources compressed, it should return A", function () {
       let rules = new Rules();
       const measures = {
@@ -1119,7 +1141,7 @@ describe("rules.js", function () {
             request: { url: "test" },
             response:
             {
-              content: {size:200},
+              content: { size: 200 },
               status: 200, statusText: "", httpVersion: "http/2.0", headers:
                 [{ name: 'content-encoding', value: "gzip" },
                 { name: "content-type", value: "text/css" }]
@@ -1131,15 +1153,24 @@ describe("rules.js", function () {
       expect(rule.complianceLevel).toEqual('A');
     });
 
-    it(" 1 static ressources not compressed, it should return C", function () {
+    it("2 static ressources not compressed, it should return C", function () {
       let rules = new Rules();
       const measures = {
         entries:
           [{
-            request: { url: "test" },
+            request: { url: "test2" },
             response:
             {
-              content: {size:200},
+              content: { size: 200 },
+              status: 200, statusText: "", httpVersion: "http/2.0", headers:
+                [{ name: "content-type", value: "text/css" }]
+            }
+          },
+          {
+            request: { url: "test3" },
+            response:
+            {
+              content: { size: 200 },
               status: 200, statusText: "", httpVersion: "http/2.0", headers:
                 [{ name: "content-type", value: "text/css" }]
             }
@@ -1158,7 +1189,7 @@ describe("rules.js", function () {
             request: { url: "test" },
             response:
             {
-              content: {size:200},
+              content: { size: 200 },
               status: 200, statusText: "", httpVersion: "http/2.0", headers:
                 [{ name: 'content-encoding', value: "gzip" },
                 { name: "content-type", value: "text/css" }]
@@ -1168,7 +1199,7 @@ describe("rules.js", function () {
             request: { url: "test2" },
             response:
             {
-              content: {size:200},
+              content: { size: 200 },
               status: 200, statusText: "", httpVersion: "http/2.0", headers:
                 [{ name: 'content-encoding', value: "gzip" },
                 { name: "content-type", value: "text/css" }]
@@ -1178,7 +1209,7 @@ describe("rules.js", function () {
             request: { url: "test3" },
             response:
             {
-              content: {size:200},
+              content: { size: 200 },
               status: 200, statusText: "", httpVersion: "http/2.0", headers:
                 [{ name: 'content-encoding', value: "gzip" },
                 { name: "content-type", value: "text/css" }]
@@ -1190,7 +1221,7 @@ describe("rules.js", function () {
       expect(rule.complianceLevel).toEqual('A');
     });
 
-    it(" 3 static ressources compressed, it should return C", function () {
+    it(" 2 static ressources compressed and one not, it should return B", function () {
       let rules = new Rules();
       const measures = {
         entries:
@@ -1198,7 +1229,7 @@ describe("rules.js", function () {
             request: { url: "test" },
             response:
             {
-              content: {size:200},
+              content: { size: 200 },
               status: 200, statusText: "", httpVersion: "http/2.0", headers:
                 [{ name: "content-type", value: "text/css" }]
             }
@@ -1207,7 +1238,7 @@ describe("rules.js", function () {
             request: { url: "test2" },
             response:
             {
-              content: {size:200},
+              content: { size: 200 },
               status: 200, statusText: "", httpVersion: "http/2.0", headers:
                 [{ name: 'content-encoding', value: "gzip" },
                 { name: "content-type", value: "text/css" }]
@@ -1217,7 +1248,45 @@ describe("rules.js", function () {
             request: { url: "test3" },
             response:
             {
-              content: {size:200},
+              content: { size: 200 },
+              status: 200, statusText: "", httpVersion: "http/2.0", headers:
+                [{ name: 'content-encoding', value: "gzip" },
+                { name: "content-type", value: "text/css" }]
+            }
+          }]
+      };
+      let rule = rules.getRule("compressHttp");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('B');
+    });
+
+    it(" 1 static ressource compressed and two not, it should return C", function () {
+      let rules = new Rules();
+      const measures = {
+        entries:
+          [{
+            request: { url: "test" },
+            response:
+            {
+              content: { size: 200 },
+              status: 200, statusText: "", httpVersion: "http/2.0", headers:
+                [{ name: "content-type", value: "text/css" }]
+            }
+          },
+          {
+            request: { url: "test2" },
+            response:
+            {
+              content: { size: 200 },
+              status: 200, statusText: "", httpVersion: "http/2.0", headers:
+                [{ name: "content-type", value: "text/css" }]
+            }
+          },
+          {
+            request: { url: "test3" },
+            response:
+            {
+              content: { size: 200 },
               status: 200, statusText: "", httpVersion: "http/2.0", headers:
                 [{ name: 'content-encoding', value: "gzip" },
                 { name: "content-type", value: "text/css" }]
@@ -1237,7 +1306,7 @@ describe("rules.js", function () {
             request: { url: "test" },
             response:
             {
-              content: {size:200},
+              content: { size: 200 },
               status: 200, statusText: "", httpVersion: "http/2.0", headers:
                 [{ name: "content-type", value: "text/css" }]
             }
@@ -1248,7 +1317,7 @@ describe("rules.js", function () {
           request: { url: "test2" },
           response:
           {
-            content: {size:200},
+            content: { size: 200 },
             status: 200, statusText: "", httpVersion: "http/2.0", headers:
               [{ name: 'content-encoding', value: "gzip" },
               { name: "content-type", value: "text/css" }]
@@ -1261,7 +1330,7 @@ describe("rules.js", function () {
       expect(rule.complianceLevel).toEqual('A');
     });
 
-    it(" 16 static ressources with  15 ressources compressed, it should return C", function () {
+    it(" 16 static ressources with  15 ressources compressed, it should return B", function () {
       let rules = new Rules();
       const measures = {
         entries:
@@ -1269,7 +1338,7 @@ describe("rules.js", function () {
             request: { url: "test" },
             response:
             {
-              content: {size:200},
+              content: { size: 200 },
               status: 200, statusText: "", httpVersion: "http/2.0", headers:
                 [{ name: "content-type", value: "text/css" }]
             }
@@ -1280,7 +1349,7 @@ describe("rules.js", function () {
           request: { url: "test2" },
           response:
           {
-            content: {size:200},
+            content: { size: 200 },
             status: 200, statusText: "", httpVersion: "http/2.0", headers:
               [{ name: 'content-encoding', value: "gzip" },
               { name: "content-type", value: "text/css" }]
@@ -1290,7 +1359,7 @@ describe("rules.js", function () {
       }
       let rule = rules.getRule("compressHttp");
       rule.check(measures);
-      expect(rule.complianceLevel).toEqual('C');
+      expect(rule.complianceLevel).toEqual('B');
     });
   });
 
@@ -1435,7 +1504,7 @@ describe("rules.js", function () {
       rule.check(measures);
       expect(rule.complianceLevel).toEqual('A');
     });
-    it(" 1 static ressource ,  one cookie, it should return C", function () {
+    it(" 1 static ressource ,  one small cookie, it should return B", function () {
       let rules = new Rules();
       const measures = {
         entries:
@@ -1446,17 +1515,35 @@ describe("rules.js", function () {
       };
       let rule = rules.getRule("noCookieForStaticRessources");
       rule.check(measures);
-      expect(rule.complianceLevel).toEqual('C');
+      expect(rule.complianceLevel).toEqual('B');
     });
-    it(" 4 static ressources ,  2 cookie, it should return C", function () {
+    it(" 4 static ressources ,  2 cookie with small size, it should return B", function () {
       let rules = new Rules();
       const measures = {
         entries:
           [
-            { request: { url: "http://test", headers: [{ name: 'cookie', value: 'test' }] },response: { headers: [{ name: 'content-type', value: 'text/css' }] } },
-            { request: { url: "http://testa", headers: [{ name: 'cookie', value: 'test' }] },response: { headers: [{ name: 'content-type', value: 'text/css' }] } },
-            { request: { url: "http://testb", headers: [{ name: 'test', value: 'test' }] },response: { headers: [{ name: 'content-type', value: 'text/css' }] } },
-            { request: { url: "http://testc", headers: [{ name: 'test', value: 'test' }] },response: { headers: [{ name: 'content-type', value: 'text/css' }] } },
+            { request: { url: "http://test", headers: [{ name: 'cookie', value: 'test' }] }, response: { headers: [{ name: 'content-type', value: 'text/css' }] } },
+            { request: { url: "http://testa", headers: [{ name: 'cookie', value: 'test' }] }, response: { headers: [{ name: 'content-type', value: 'text/css' }] } },
+            { request: { url: "http://testb", headers: [{ name: 'test', value: 'test' }] }, response: { headers: [{ name: 'content-type', value: 'text/css' }] } },
+            { request: { url: "http://testc", headers: [{ name: 'test', value: 'test' }] }, response: { headers: [{ name: 'content-type', value: 'text/css' }] } },
+          ]
+      };
+      let rule = rules.getRule("noCookieForStaticRessources");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('B');
+    });
+
+    it(" 4 static ressources ,  2 cookie with total size > 2000 , it should return C", function () {
+      let rules = new Rules();
+      let bigCookie = "";
+      for (let i = 0; i < 100; i++) bigCookie += "0123456789"
+      const measures = {
+        entries:
+          [
+            { request: { url: "http://test", headers: [{ name: 'cookie', value: bigCookie }] }, response: { headers: [{ name: 'content-type', value: 'text/css' }] } },
+            { request: { url: "http://testa", headers: [{ name: 'cookie', value: bigCookie }] }, response: { headers: [{ name: 'content-type', value: 'text/css' }] } },
+            { request: { url: "http://testb", headers: [{ name: 'test', value: 'test' }] }, response: { headers: [{ name: 'content-type', value: 'text/css' }] } },
+            { request: { url: "http://testc", headers: [{ name: 'test', value: 'test' }] }, response: { headers: [{ name: 'content-type', value: 'text/css' }] } },
           ]
       };
       let rule = rules.getRule("noCookieForStaticRessources");
@@ -1471,8 +1558,8 @@ describe("rules.js", function () {
       const measures = {
         entries:
           [
-            { request: { url: "http://test", headers: [{ name: 'cookie', value: 'test' }]},response: { headers: [{ name: 'content-type', value: 'application/json' }] } },
-            { request: { url: "http://testa", headers: [{ name: 'cookie', value: 'test' }]},response: { headers: [{ name: 'content-type', value: 'text/html' }] } }
+            { request: { url: "http://test", headers: [{ name: 'cookie', value: 'test' }] }, response: { headers: [{ name: 'content-type', value: 'application/json' }] } },
+            { request: { url: "http://testa", headers: [{ name: 'cookie', value: 'test' }] }, response: { headers: [{ name: 'content-type', value: 'text/html' }] } }
           ]
       };
 
@@ -1499,7 +1586,7 @@ describe("rules.js", function () {
             request: { url: "test" },
             response:
             {
-              status:200, statusText: "", httpVersion: "http/2.0", headers:
+              status: 200, statusText: "", httpVersion: "http/2.0", headers:
                 [{ name: "content-encoding", value: "gzip" }]
             }
           }]
@@ -1517,7 +1604,7 @@ describe("rules.js", function () {
             request: { url: "test" },
             response:
             {
-              status:301, statusText: "", httpVersion: "http/2.0", headers:
+              status: 301, statusText: "", httpVersion: "http/2.0", headers:
                 [{ name: "content-encoding", value: "gzip" }]
             }
           }]
@@ -1536,7 +1623,7 @@ describe("rules.js", function () {
             request: { url: "test" },
             response:
             {
-              status:301, statusText: "", httpVersion: "http/2.0", headers:
+              status: 301, statusText: "", httpVersion: "http/2.0", headers:
                 [{ name: "content-encoding", value: "gzip" }]
             }
           },
@@ -1544,7 +1631,7 @@ describe("rules.js", function () {
             request: { url: "test2" },
             response:
             {
-              status:307, statusText: "", httpVersion: "http/2.0", headers:
+              status: 307, statusText: "", httpVersion: "http/2.0", headers:
                 [{ name: "content-encoding", value: "gzip" }]
             }
           }]
