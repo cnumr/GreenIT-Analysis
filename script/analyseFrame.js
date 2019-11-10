@@ -12,7 +12,6 @@
 function start_analyse() {
   const analyseStartingTime = Date.now();
   const dom_size = document.getElementsByTagName("*").length;
-console.log("GITA DOM Size = " + dom_size);
   let pageAnalysis;
 
   if (analyseBestPractices) {
@@ -24,9 +23,7 @@ console.log("GITA DOM Size = " + dom_size);
     const inlineJsScript = getInlineJsScript();
     const inlineJsScriptsNumber = getInlineJsScriptsNumber();
     const imagesResizedInBrowser = getImagesResizedInBrowser();
-  console.log("GITA : resize image  done");
     const cssFontFace = getCssFontFace();
-  console.log("GITA : font done");
 
 
     pageAnalysis = {
@@ -50,7 +47,7 @@ console.log("GITA DOM Size = " + dom_size);
   }
 
   chrome.runtime.sendMessage(pageAnalysis);
-console.log("GITA : Message send");
+
 }
 
 
