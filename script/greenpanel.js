@@ -178,7 +178,6 @@ console.log("Dome size= "+ measures.domSize);
       if (entries.length) {
         measures.nbRequest = entries.length;
         entries.forEach(entry => {
-
           // If chromium : 
           // _transferSize represent the real data volume transfert 
           // while content.size represent the size of the page which is uncompress
@@ -189,7 +188,7 @@ console.log("Dome size= "+ measures.domSize);
           else {
             // In firefox , entry.response.content.size can sometimes be undefined 
             if (entry.response.content.size) measures.responsesSize += entry.response.content.size;
-            debug(() => `entry size = ${entry.response.content.size} , responseSize = ${measures.responsesSize}`);
+            //debug(() => `entry size = ${entry.response.content.size} , responseSize = ${measures.responsesSize}`);
           }
         });
         if (analyseBestPractices) {

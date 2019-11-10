@@ -75,9 +75,15 @@ function getInlineStyleSheetsNumber() {
   let styleSheetsArray = Array.from(document.styleSheets);
   let inlineStyleSheetsNumber = 0;
   styleSheetsArray.forEach(styleSheet => {
-    if (!styleSheet.href) inlineStyleSheetsNumber++;
+    try {
+      if (!styleSheet.href) inlineStyleSheetsNumber++;
+    }
+    catch (err) {
+      console.log("GREENIT-ANALYSIS ERROR ," + err.name + " = " + err.message);
+      console.log("GREENIT-ANALYSIS ERROR " + err.stack);
+    }  
   });
-  return inlineStyleSheetsNumber;
+return inlineStyleSheetsNumber;
 }
 
 
@@ -106,10 +112,9 @@ function getImagesResizedInBrowser() {
   let imgArray = Array.from(document.querySelectorAll('img'));
   let imagesResized = [];
   imgArray.forEach(img => {
-    if (img.clientWidth < img.naturalWidth || img.clientHeight < img.naturalHeight) 
-    {
+    if (img.clientWidth < img.naturalWidth || img.clientHeight < img.naturalHeight) {
       // Images of one pixel are some times used ... , we exclude them
-      if (img.naturalWidth > 1)  imagesResized.push(img.src);
+      if (img.naturalWidth > 1) imagesResized.push(img.src);
     }
   });
   return imagesResized;
@@ -126,7 +131,7 @@ function getCssFontFace() {
 
         // If the rule is not a CSSFont one, skip it
         if (!(cssRule instanceof CSSFontFaceRule)) return fonts;
- 
+
         // Get the custom font family
         const fontFamily = cssRule.style.getPropertyValue('font-family').replace(/^"|"$/g, '');
         if (!fonts.has(fontFamily)) fonts.add(fontFamily);
@@ -136,9 +141,9 @@ function getCssFontFace() {
       }, fonts);
     } catch (err) {
       // Accessing sheet.cssRules will throw a security error if the CSS is loaded from another domain
-      console.log("GREENIT-ANALYSIS ERROR ," + err.name+ " = " + err.message);
+      console.log("GREENIT-ANALYSIS ERROR ," + err.name + " = " + err.message);
       console.log("GREENIT-ANALYSIS ERROR " + err.stack);
-      if (err.name !== 'SecurityError') throw err;
+      //if (err.name !== 'SecurityError') throw err;
     }
     return fonts;
   }, new Set());
