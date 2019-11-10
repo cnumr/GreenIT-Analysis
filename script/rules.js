@@ -511,8 +511,7 @@ function Rules() {
             myImage.onload = function () {
 
               const minGains = getMinOptimisationGainsForImage(this.width * this.height,this.size,imageType);
- console.log("Analyse img resolution= " + this.width*this.height + ",size = "+ this.size + ", min estimated gain = " + minGains);             
-              if (minGains>0) {
+              if (minGains>500) { // exclude small gain 
                 nbImagesToOptimize++;
                 totalMinGains += minGains;
                 this.rule.detailComment += this.src + " , " + Math.round(this.size/1000) + "KB , " + this.width + "x" + this.height + ", possible to gain " +  Math.round(minGains/1000) +"KB <br>";

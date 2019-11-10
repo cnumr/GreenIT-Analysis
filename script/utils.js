@@ -297,13 +297,14 @@ function getImageTypeFromResource(resource) {
 
 function getMinOptimisationGainsForImage(pixelsNumber,imageSize,imageType)
 {
+  
   // difficult to get good compression when image is small , images less than 10Kb are considered optimized
   if (imageSize <10000 ) return 0;
 
   // image png or gif < 50Kb  are considered optimized (used for transparency not supported in jpeg format)
   if ((imageSize <50000) && ((imageType==='png')||(imageType==='gif')))  return 0;
 
-  const imgMaxSize = pixelsNumber/5; 
+  let imgMaxSize = Math.max(pixelsNumber/5,10000); //  difficult to get under 10Kb 
 
   // image > 500Kb are too big for web site , there are considered never optimized 
   if (imageSize>500000) return Math.max(imageSize-500000,imageSize - imgMaxSize);

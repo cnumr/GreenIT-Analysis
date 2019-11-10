@@ -438,8 +438,8 @@ describe("utils.js", function () {
     it(" image jpeg pixel=10000 size=1000 should return 0", function() {
       expect(getMinOptimisationGainsForImage(10000,1000,"jpeg")).toEqual(0);
     });
-    it(" image jpeg pixel=20000 size=10000 should return 6000", function() {
-      expect(getMinOptimisationGainsForImage(20000,10000,"jpeg")).toEqual(6000);
+    it(" image jpeg pixel=20000 size=11000 should return 1000 (optimize can not go under 10K)", function() {
+      expect(getMinOptimisationGainsForImage(20000,11000,"jpeg")).toEqual(1000);
     });
     afterEach(function() {
     });

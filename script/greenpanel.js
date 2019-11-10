@@ -87,6 +87,7 @@ function MeasuresAcquisition(rules) {
 
   let measures;
   let localRules = rules;
+  let nbGetHarTry=0;
 
   this.initializeMeasures = () => {
     measures = {
@@ -157,17 +158,24 @@ console.log("Dome size= "+ measures.domSize);
   getNetworkMeasure = () => {
     chrome.devtools.network.getHAR((har) => {
 
+      console.log("Start network measure..." );
       // only account for network traffic, filtering resources embedded through data urls
       let entries = har.entries.filter(entry => isNetworkResource(entry));
 
       // Get the "mother" url 
       if (entries.length > 0) measures.url = entries[0].request.url;
+      else 
+      {
+        // Bug with firefox  when we first get har.entries when starting the plugin , we need to ask again to have it 
+        if (nbGetHarTry<1) {
+          debug(() => 'No entries, try again to get HAR in 1s') ;
+          nbGetHarTry++;
+          setTimeout(getNetworkMeasure,1000);
+          }
+      }
 
       measures.entries = entries;
       if (entries.length) {
-
-
-
         measures.nbRequest = entries.length;
         entries.forEach(entry => {
 
@@ -179,8 +187,9 @@ console.log("Dome size= "+ measures.domSize);
             measures.responsesSizeUncompress += entry.response.content.size;
           }
           else {
-            measures.responsesSize += entry.response.content.size;
-            // debug(() => `entry size = ${entry.response.content.size} , responseSize = ${measures.responsesSize}`);
+            // In firefox , entry.response.content.size can sometimes be undefined 
+            if (entry.response.content.size) measures.responsesSize += entry.response.content.size;
+            debug(() => `entry size = ${entry.response.content.size} , responseSize = ${measures.responsesSize}`);
           }
         });
         if (analyseBestPractices) {
