@@ -23,6 +23,7 @@ function Rules() {
   rules.set("useETags", new useETagsRule());
   rules.set("compressHttp", new compressHttpRule());
   rules.set("dontResizeImageInBrowser", new dontResizeImageInBrowserRule());
+  rules.set("imageDownloadedNotDisplayed", new imageDownloadedNotDisplayedRule());
   rules.set("useStandardTypefaces", new useStandardTypefacesRule());
   rules.set("maxCookiesLength", new maxCookiesLengthRule());
   rules.set("noRedirect", new noRedirectRule());
@@ -383,13 +384,16 @@ function Rules() {
       if (entry.naturalWidth- entry.clientWidth < 2) return false;
       if (entry.naturalHeight- entry.clientHeight < 2) return false;
 
+      // If picture is 0x0 it meens it's not visible on the ui , see imageDownloadedNotDisplayed
+      if (entry.clientWidth===0) return false;
+
       return true;
     }
 
     this.check = function (measures) {
       measures.imagesResizedInBrowser.forEach(entry => {
         if (!imgAnalysed.has(entry.src)&&isRevelant(entry)) { // Do not count two times the same picture
-          this.detailComment += `${entry.src} , Size : ${entry.naturalWidth}x${entry.naturalHeight} , Size in browser : ${entry.clientWidth}x${entry.clientHeight}<br>`;
+          this.detailComment += `${entry.src} , is resized from ${entry.naturalWidth}x${entry.naturalHeight} to ${entry.clientWidth}x${entry.clientHeight}<br>`;
           imgAnalysed.set(entry.src);
           this.imagesResizedInBrowserNumber += 1;
         }
@@ -398,6 +402,36 @@ function Rules() {
       this.comment = chrome.i18n.getMessage("rule_DontResizeImageInBrowser_Comment", String(this.imagesResizedInBrowserNumber));
     }
   }
+
+  function imageDownloadedNotDisplayedRule() {
+    this.complianceLevel = 'A';
+    this.id = "imageDownloadedNotDisplayed";
+    this.comment = "";
+    this.detailComment = "";
+    this.imageDownloadedNotDisplayedNumber = 0;
+    let imgAnalysed = new Map();
+
+    function isRevelant(entry)
+    {
+      // Very small images could be download even if not display  as it may be icons 
+      if (entry.naturalWidth*entry.naturalHeight<10000) return false;
+      if (entry.clientWidth===0&&entry.clientHeight===0) return true;
+      return false;
+    }
+
+    this.check = function (measures) {
+      measures.imagesResizedInBrowser.forEach(entry => {
+        if (!imgAnalysed.has(entry.src)&&isRevelant(entry)) { // Do not count two times the same picture
+          this.detailComment += `${entry.src} , with size ${entry.naturalWidth}x${entry.naturalHeight} is not display <br>`;
+          imgAnalysed.set(entry.src);
+          this.imageDownloadedNotDisplayedNumber += 1;
+        }
+      });
+      if (this.imageDownloadedNotDisplayedNumber > 0) this.complianceLevel = 'C';
+      this.comment = chrome.i18n.getMessage("rule_ImageDownloadedNotDisplayed_Comment", String(this.imageDownloadedNotDisplayedNumber));
+    }
+  }
+
 
   function useStandardTypefacesRule() {
     this.complianceLevel = 'A';

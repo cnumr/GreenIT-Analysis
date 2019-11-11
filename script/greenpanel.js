@@ -149,6 +149,7 @@ console.log("Dome size= "+ measures.domSize);
       rules.checkRule('externalizeCss', measures);
       rules.checkRule('externalizeJs', measures);
       rules.checkRule('dontResizeImageInBrowser', measures);
+      rules.checkRule('imageDownloadedNotDisplayed', measures);
       rules.checkRule('useStandardTypefaces', measures);
     }
   }

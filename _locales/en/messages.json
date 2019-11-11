@@ -235,6 +235,23 @@
       }
     }
   },
+  "rule_ImageDownloadedNotDisplayed": {
+    "message": "Do not download image in browser until there are needed",
+    "description": "Do not download image in browser until there are needed"
+  },
+  "rule_ImageDownloadedNotDisplayed_DetailDescription": {
+    "message": "Except for icons, uploading images that will not necessarily be visible consumes resources unnecessarily",
+    "description": "Do not download image in browser until there are needed "
+  },
+  "rule_ImageDownloadedNotDisplayed_Comment": {
+    "message": "$NB$ image(s) downloaded but not displayed",
+    "description": "Number of image(s) downloaded but not displayed",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_MaxCookiesLength": {
     "message": "Max cookies length(<512 Bytes )",
     "description": "Max cookies length(<512B)"

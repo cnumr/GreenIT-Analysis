@@ -235,6 +235,23 @@
       }
     }
   },
+  "rule_ImageDownloadedNotDisplayed": {
+    "message": "Ne télécharger pas les images avant d'en avoir besoin",
+    "description": "Do not download image in browser until there are needed"
+  },
+  "rule_ImageDownloadedNotDisplayed_DetailDescription": {
+    "message": "Sauf pour les icones, télécharger des images qui ne seront pas nécessairement visibles consomme inutilement des ressources",
+    "description": "Do not download image in browser until there are needed "
+  },
+  "rule_ImageDownloadedNotDisplayed_Comment": {
+    "message": "$NB$ image(s) téléchargée(s) mais non affichée(s) dans la page ",
+    "description": "Number of image(s) downloaded but not displayed",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_JsValidate": {
     "message": "Valider le javascript",
     "description": "Validate js"
