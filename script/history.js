@@ -49,8 +49,11 @@ function view_history() {
 * Add a new history line on the UI 
 **/
 function appendLine(result_date, url, nbRequest, responsesSize, domSize, greenhouseGasesEmission, waterConsumption, ecoIndex, grade) {
-	var date = new Date(result_date);
-	var html = "<td>" + date.toLocaleDateString() + " " + date.toLocaleTimeString() + "</td>";
+	const date = new Date(result_date);
+
+
+
+	let html = "<td>" + date.toLocaleDateString() + " " + date.toLocaleTimeString() + "</td>";
 	html = html + "<td>" + url + "</td>";
 	html = html + "<td>" + nbRequest + "</td>";
 	html = html + "<td>" + responsesSize + "</td>";

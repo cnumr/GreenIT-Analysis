@@ -239,9 +239,8 @@ function Rules() {
           domains.push(domain);
         }
       });
-      if (domains.length > 2) 
-      {
-        if (domains.length ===3) this.complianceLevel ='B';
+      if (domains.length > 2) {
+        if (domains.length === 3) this.complianceLevel = 'B';
         else this.complianceLevel = 'C';
       }
       domains.forEach(domain => {
@@ -276,9 +275,8 @@ function Rules() {
         const cacheHeaderRatio = staticResourcesNumberWithCacheHeaders / staticResourcesNumber * 100;
         //debug(() => `static resources ${staticResourcesNumber}`);
         //debug(() => `static resources with cache header ${staticResourcesNumberWithCacheHeaders}`);
-        if (cacheHeaderRatio < 95) 
-        {
-          if (staticResourcesNumber - staticResourcesNumberWithCacheHeaders ===1) this.complianceLevel = 'B'
+        if (cacheHeaderRatio < 95) {
+          if (staticResourcesNumber - staticResourcesNumberWithCacheHeaders === 1) this.complianceLevel = 'B'
           else this.complianceLevel = 'C';
         }
         else this.complianceLevel = 'A';
@@ -312,9 +310,8 @@ function Rules() {
       });
       if (staticResourcesNumber > 0) {
         const eTagsRatio = staticResourcesNumberWithETags / staticResourcesNumber * 100;
-        if (eTagsRatio < 95) 
-        {
-          if (staticResourcesNumber - staticResourcesNumberWithETags ===1) this.complianceLevel = 'B'
+        if (eTagsRatio < 95) {
+          if (staticResourcesNumber - staticResourcesNumberWithETags === 1) this.complianceLevel = 'B'
           else this.complianceLevel = 'C';
         }
         else this.complianceLevel = 'A';
@@ -354,9 +351,8 @@ function Rules() {
         const compressRatio = compressibleResourcesNumberCompressed / compressibleResourcesNumber * 100;
         //debug(() => `compressible resources ${compressibleResourcesNumber}`);
         //debug(() => `compressible resources compressed ${compressibleResourcesNumberCompressed}`);
-        if (compressRatio < 95) 
-        {
-          if (compressibleResourcesNumber - compressibleResourcesNumberCompressed ===1) this.complianceLevel = 'B'
+        if (compressRatio < 95) {
+          if (compressibleResourcesNumber - compressibleResourcesNumberCompressed === 1) this.complianceLevel = 'B'
           else this.complianceLevel = 'C';
         }
         else this.complianceLevel = 'A';
@@ -375,13 +371,29 @@ function Rules() {
     this.comment = "";
     this.detailComment = "";
     this.imagesResizedInBrowserNumber = 0;
+    let imgAnalysed = new Map();
+
+    function isRevelant(entry)
+    {
+      // exclude svg
+      if (entry.src.endsWith(".svg")) return false;
+      if (entry.src.includes(".svg?")) return false;
+      
+      // difference of 1 pixel is not relevant 
+      if (entry.naturalWidth- entry.clientWidth < 2) return false;
+      if (entry.naturalHeight- entry.clientHeight < 2) return false;
+
+      return true;
+    }
 
     this.check = function (measures) {
-
       measures.imagesResizedInBrowser.forEach(entry => {
-        this.detailComment += `${entry} <br>`;
+        if (!imgAnalysed.has(entry.src)&&isRevelant(entry)) { // Do not count two times the same picture
+          this.detailComment += `${entry.src} , Size : ${entry.naturalWidth}x${entry.naturalHeight} , Size in browser : ${entry.clientWidth}x${entry.clientHeight}<br>`;
+          imgAnalysed.set(entry.src);
+          this.imagesResizedInBrowserNumber += 1;
+        }
       });
-      this.imagesResizedInBrowserNumber += measures.imagesResizedInBrowser.length
       if (this.imagesResizedInBrowserNumber > 0) this.complianceLevel = 'C';
       this.comment = chrome.i18n.getMessage("rule_DontResizeImageInBrowser_Comment", String(this.imagesResizedInBrowserNumber));
     }
@@ -437,7 +449,7 @@ function Rules() {
         this.comment = chrome.i18n.getMessage("rule_MaxCookiesLength_Comment", String(maxCookiesLength));
         if (maxCookiesLength > 512) this.complianceLevel = 'B';
         if (maxCookiesLength > 1024) this.complianceLevel = 'C';
-       
+
       }
     }
   }
@@ -453,17 +465,16 @@ function Rules() {
       let totalCookiesSize = 0;
       if (measures.entries.length) measures.entries.forEach(entry => {
         const cookiesLength = getCookiesLength(entry);
-        if (isStaticRessource(entry) && (cookiesLength>0))
-        {
+        if (isStaticRessource(entry) && (cookiesLength > 0)) {
           nbRessourcesStaticWithCookie++;
-          totalCookiesSize+=cookiesLength + 7; // 7 is size for the header name "cookie:"
+          totalCookiesSize += cookiesLength + 7; // 7 is size for the header name "cookie:"
           this.detailComment += entry.request.url + " has cookie <br> ";
         }
       });
       if (nbRessourcesStaticWithCookie > 0) {
-        if (totalCookiesSize >2000) this.complianceLevel= 'C';
-        else this.complianceLevel= 'B';
-        this.comment = chrome.i18n.getMessage("rule_NoCookieForStaticRessources_Comment", [String(nbRessourcesStaticWithCookie),String(Math.round(totalCookiesSize/100)/10)]);
+        if (totalCookiesSize > 2000) this.complianceLevel = 'C';
+        else this.complianceLevel = 'B';
+        this.comment = chrome.i18n.getMessage("rule_NoCookieForStaticRessources_Comment", [String(nbRessourcesStaticWithCookie), String(Math.round(totalCookiesSize / 100) / 10)]);
       }
     }
   }
@@ -506,20 +517,20 @@ function Rules() {
             myImage.src = entry.request.url;
             // needed to access object in the function after
             myImage.rule = this;
-            
+
             myImage.size = entry.response.content.size;
             myImage.onload = function () {
 
-              const minGains = getMinOptimisationGainsForImage(this.width * this.height,this.size,imageType);
-              if (minGains>500) { // exclude small gain 
+              const minGains = getMinOptimisationGainsForImage(this.width * this.height, this.size, imageType);
+              if (minGains > 500) { // exclude small gain 
                 nbImagesToOptimize++;
                 totalMinGains += minGains;
-                this.rule.detailComment += this.src + " , " + Math.round(this.size/1000) + "KB , " + this.width + "x" + this.height + ", possible to gain " +  Math.round(minGains/1000) +"KB <br>";
+                this.rule.detailComment += this.src + " , " + Math.round(this.size / 1000) + "KB , " + this.width + "x" + this.height + ", possible to gain " + Math.round(minGains / 1000) + "KB <br>";
               }
               if (nbImagesToOptimize > 0) {
-                if (totalMinGains<50000) this.rule.complianceLevel ='B';
+                if (totalMinGains < 50000) this.rule.complianceLevel = 'B';
                 else this.rule.complianceLevel = 'C';
-                this.rule.comment = chrome.i18n.getMessage("rule_OptimizeBitmapImages_Comment", [String(nbImagesToOptimize),String(Math.round(totalMinGains/1000))]);
+                this.rule.comment = chrome.i18n.getMessage("rule_OptimizeBitmapImages_Comment", [String(nbImagesToOptimize), String(Math.round(totalMinGains / 1000))]);
                 showEcoRuleOnUI(this.rule);
               }
             }

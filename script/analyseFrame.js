@@ -109,12 +109,22 @@ function getInlineJsScriptsNumber() {
 
 
 function getImagesResizedInBrowser() {
-  let imgArray = Array.from(document.querySelectorAll('img'));
+  const imgArray = Array.from(document.querySelectorAll('img'));
   let imagesResized = [];
   imgArray.forEach(img => {
     if (img.clientWidth < img.naturalWidth || img.clientHeight < img.naturalHeight) {
       // Images of one pixel are some times used ... , we exclude them
-      if (img.naturalWidth > 1) imagesResized.push(img.src);
+      if (img.naturalWidth > 1) 
+      {
+        const imageMeasures = {
+          "src":img.src,
+          "clientWidth":img.clientWidth,
+          "clientHeight":img.clientHeight,
+          "naturalWidth":img.naturalWidth,
+          "naturalHeight":img.naturalHeight
+        }
+        imagesResized.push(imageMeasures);
+      }
     }
   });
   return imagesResized;
