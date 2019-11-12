@@ -444,5 +444,49 @@ describe("utils.js", function () {
     afterEach(function() {
     });
   });
+
+  describe("#function isSvgUrl", function() {
+    
+    beforeEach(function() {	
+    });
+	
+    it(" /test/test.svg should return true ", function() {
+      expect(isSvgUrl("/test/test.svg")).toEqual(true);
+    });
+    it(" /test/test.svg?dkjshfdjshfjk should return true ", function() {
+      expect(isSvgUrl("/test/test.svg?dkjshfdjshfjk")).toEqual(true);
+    });
+    it(" /test/test.png should return false ", function() {
+      expect(isSvgUrl("/test/test.png")).toEqual(false);
+    });
+
+    afterEach(function() {
+    });
+  });
+
+  describe("#function isSvgOptimized", function() {
+    
+    beforeEach(function() {	
+    });
+    
+    it(" if file < 1KB   should return true", function() {
+      const svg = "  <svg>  </svg>"
+      expect(isSvgOptimized(svg)).toEqual(true);
+    });
+    it(" if file > 1KB and no spaces inside before xml tags, should return true ", function() {
+      let svg ="";
+      for(let i=0;i<100;i++) svg+= "<test></test>";
+      expect(isSvgOptimized(svg)).toEqual(true);
+    });
+    it(" if file > 1KB and spaces inside before xml tags, should return false ", function() {
+      let svg ="";
+      for(let i=0;i<100;i++) svg+= " <test></test>";
+      expect(isSvgOptimized(svg)).toEqual(false);
+    });
+
+    afterEach(function() {
+    });
+  });
+
 });
 

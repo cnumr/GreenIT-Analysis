@@ -34,6 +34,7 @@ function Rules() {
     rules.set("jsValidate", new jsValidateRule());
     rules.set("minifiedCss", new minifiedCssRule());
     rules.set("minifiedJs", new minifiedJsRule());
+    rules.set("optimizeSvg", new optimizeSvgRule());
   }
 
   this.checkRule = function (rule, measures) {
@@ -83,8 +84,6 @@ function Rules() {
       }
     }
   }
-
-
 
   function compressHttpRule() {
     this.complianceLevel = 'A';
@@ -150,7 +149,7 @@ function Rules() {
       this.comment = chrome.i18n.getMessage("rule_DomainsNumber_Comment", String(domains.length));
     }
   }
-  
+
   function dontResizeImageInBrowserRule() {
     this.complianceLevel = 'A';
     this.id = "dontResizeImageInBrowser";
@@ -161,8 +160,7 @@ function Rules() {
 
     function isRevelant(entry) {
       // exclude svg
-      if (entry.src.endsWith(".svg")) return false;
-      if (entry.src.includes(".svg?")) return false;
+      if (isSvgUrl(entry.src)) return false;
 
       // difference of 1 pixel is not relevant 
       if (entry.naturalWidth - entry.clientWidth < 2) return false;
@@ -457,6 +455,27 @@ function Rules() {
         }
       });
 
+    }
+  }
+
+  function optimizeSvgRule() {
+    this.complianceLevel = 'A';
+    this.id = "optimizeSvg";
+    this.comment = chrome.i18n.getMessage("rule_OptimizeSvg_DefaultComment");
+    this.detailComment = "";
+    let totalSizeToOptimize = 0;
+
+    this.check = function (measures) {
+      this.detailComment = "";
+      measures.svgShouldBeOptimized.forEach(svg => {
+        this.detailComment += `${svg.url} should be optimized ( ${Math.round(svg.size/100)/10}KB)  <br>`;
+        totalSizeToOptimize += svg.size
+      });
+      if (measures.svgShouldBeOptimized.length > 0) {
+        if (totalSizeToOptimize<20000) this.complianceLevel = 'B';
+        else this.complianceLevel = 'C';
+        this.comment = chrome.i18n.getMessage("rule_OptimizeSvg_Comment",String(measures.svgShouldBeOptimized.length));
+      }
     }
   }
 

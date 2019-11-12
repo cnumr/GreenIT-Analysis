@@ -67,6 +67,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       font-size: 10px;
+      text-align: left;
     }
 
     table {
@@ -124,9 +125,9 @@
             <th data-i18n="greenhouseGasesEmission"> </th>
           </tr>
           <tr>
-            <td id="ecoIndex" style="text-align:left"></td>
-            <td id="waterConsumption" style="text-align:left"></td>
-            <td id="greenhouseGasesEmission" style="text-align:left"></td>
+            <td id="ecoIndex"></td>
+            <td id="waterConsumption"></td>
+            <td id="greenhouseGasesEmission"></td>
           </tr>
         </tbody>
       </table>
@@ -140,9 +141,9 @@
             <th data-i18n="domSize"> </th>
           </tr>
           <tr>
-            <td id="requestNumber" style="text-align:left"></td>
-            <td id="responsesSize" style="text-align:left"></td>
-            <td id="domSize" style="text-align:left"></td>
+            <td id="requestNumber"></td>
+            <td id="responsesSize"></td>
+            <td id="domSize"></td>
           </tr>
         </tbody>
       </table>
@@ -528,6 +529,26 @@
               <p id="optimizeBitmapImages_DetailCommentText" class="bestPracticeDetailComment"> </p>
             </td>
           </tr>
+
+          <tr>
+              <td>
+                <a href="#" id="optimizeSvg_Detail" class="bestPracticeLink" data-i18n="rule_OptimizeSvg"></a>
+              </td>
+              </td>
+              <td style="width:30px"><img id="optimizeSvg_status" src="icons/OK.png"></td>
+              <td> <span id="optimizeSvg_comment"> </span> <a href="#" id="optimizeSvg_DetailComment"
+                  class="detailCommentLink" hidden>.....</a> </td>
+            </tr>
+            <tr id="optimizeSvg_DetailTextRow" hidden>
+              <td colspan="3">
+                <p class="bestPracticeDetail" data-i18n="rule_OptimizeSvg_DetailDescription"> </p>
+              </td>
+            </tr>
+            <tr id="optimizeSvg_DetailCommentTextRow" hidden>
+              <td colspan="3">
+                <p id="optimizeSvg_DetailCommentText" class="bestPracticeDetailComment"> </p>
+              </td>
+            </tr>
         </tbody>
       </table>
     </div>

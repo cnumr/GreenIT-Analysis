@@ -24,6 +24,7 @@ function initPanel() {
     setUnsupportedRuleAnalyse("minifiedJs");
     setUnsupportedRuleAnalyse("jsValidate");
     setUnsupportedRuleAnalyse("minifiedCss");
+    setUnsupportedRuleAnalyse("optimizeSvg");
   }
   initUI();
 }
@@ -86,7 +87,7 @@ function MeasuresAcquisition(rules) {
 
   let measures;
   let localRules = rules;
-  let nbGetHarTry=0;
+  let nbGetHarTry = 0;
 
   this.initializeMeasures = () => {
     measures = {
@@ -111,6 +112,7 @@ function MeasuresAcquisition(rules) {
       "minifiedJsNumber": 0,
       "jsShouldBeMinified": [],
       "totalJs": 0,
+      "svgShouldBeOptimized": [],
       "imagesResizedInBrowser": [],
       "cssFontFace": []
     };
@@ -124,9 +126,7 @@ function MeasuresAcquisition(rules) {
   this.getMeasures = () => measures;
 
   this.aggregateFrameMeasures = function (frameMeasures) {
-console.log("Process frame info");
     measures.domSize += frameMeasures.domSize;
-console.log("Dome size= "+ measures.domSize);
     computeEcoIndexMeasures(measures);
 
     if (analyseBestPractices) {
@@ -158,20 +158,19 @@ console.log("Dome size= "+ measures.domSize);
   const getNetworkMeasure = () => {
     chrome.devtools.network.getHAR((har) => {
 
-      console.log("Start network measure..." );
+      console.log("Start network measure...");
       // only account for network traffic, filtering resources embedded through data urls
       let entries = har.entries.filter(entry => isNetworkResource(entry));
 
       // Get the "mother" url 
       if (entries.length > 0) measures.url = entries[0].request.url;
-      else 
-      {
+      else {
         // Bug with firefox  when we first get har.entries when starting the plugin , we need to ask again to have it 
-        if (nbGetHarTry<1) {
-          debug(() => 'No entries, try again to get HAR in 1s') ;
+        if (nbGetHarTry < 1) {
+          debug(() => 'No entries, try again to get HAR in 1s');
           nbGetHarTry++;
-          setTimeout(getNetworkMeasure,1000);
-          }
+          setTimeout(getNetworkMeasure, 1000);
+        }
       }
 
       measures.entries = entries;
@@ -214,7 +213,7 @@ console.log("Dome size= "+ measures.domSize);
     if (chrome.devtools.inspectedWindow.getResources) chrome.devtools.inspectedWindow.getResources((resources) => {
       resources.forEach(resource => {
         if (resource.url.startsWith("file") || resource.url.startsWith("http")) {
-          if ((resource.type === 'script') || (resource.type === 'stylesheet')) {
+          if ((resource.type === 'script') || (resource.type === 'stylesheet') || (resource.type === 'image')) {
             let resourceAnalyser = new ResourceAnalyser(resource);
             resourceAnalyser.analyse();
           }
@@ -233,12 +232,15 @@ console.log("Dome size= "+ measures.domSize);
 
     this.analyseJs = (code) => {
       // exclude from analyse the injected script 
-      if (resourceToAnalyse.type === 'script')
+      console.log("Resource = " + JSON.stringify(resource));
+      if (resourceToAnalyse.type === 'script') {
         if (!resourceToAnalyse.url.includes("script/analyseFrame.js")) {
           analyseJsCode(code, resourceToAnalyse.url);
           analyseMinifiedJs(code, resourceToAnalyse.url);
         }
-      if (resourceToAnalyse.type === 'stylesheet') analyseMinifiedCss(code, resourceToAnalyse.url);
+      }
+      else if (resourceToAnalyse.type === 'stylesheet') analyseMinifiedCss(code, resourceToAnalyse.url);
+      else if ((resourceToAnalyse.type === 'image') && isSvgUrl(resourceToAnalyse.url)) analyseSvg(code, resourceToAnalyse.url);
       refreshUI();
     }
   }
@@ -264,6 +266,17 @@ console.log("Dome size= "+ measures.domSize);
       localRules.checkRule("jsValidate", measures);
       refreshUI();
     }
+  }
+
+  function analyseSvg(code, url) {
+    console.log("analyse svg : " + url);
+    if (!isSvgOptimized(window.atob(code)))  // code is in base64 , decode base64 data with atob
+    {
+      const svg = {url:url,size:code.length}
+      measures.svgShouldBeOptimized.push(svg);
+      localRules.checkRule("optimizeSvg", measures);
+    }
+    
   }
 }
 

@@ -397,6 +397,27 @@
       }
     }
   },
+  "rule_OptimizeSvg": {
+    "message": "Optimiser les images svg",
+    "description": "Optimize svg images"
+  },
+  "rule_OptimizeSvg_DefaultComment": {
+    "message": "Pas de svg à optimiser",
+    "description": "No svg to optimized"
+  },
+  "rule_OptimizeSvg_DetailDescription": {
+    "message": "Optimizer les images svg  .... ",
+    "description": "Optimize svg images"
+  },
+  "rule_OptimizeSvg_Comment": {
+    "message": "$NB_IMAGES$ image(s) à optimiser",
+    "description": "Number of images to optimize",
+    "placeholders": {
+      "NB_IMAGES": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_Plugins": {
     "message": "Ne pas utiliser de plugins",
     "description": "Do not use plugins"

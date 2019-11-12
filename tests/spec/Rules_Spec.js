@@ -1346,6 +1346,82 @@ describe("rules.js", function () {
     });
   });
 
+  describe("#optimizeSvgRule", function () {
+
+    beforeEach(function () {
+
+    });
+
+    it(" no svg image , it should return A", function () {
+      let rules = new Rules();
+      const measures = {
+        svgShouldBeOptimized:
+          [
+          ]
+      };
+      let rule = rules.getRule("optimizeSvg");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('A');
+    });
+
+    it(" 1 svg image  , total < 20Kb , it should return B", function () {
+      let rules = new Rules();
+      const measures = {
+        svgShouldBeOptimized:
+          [
+            { url:"test.svg", size :10000}
+          ]
+      };
+      let rule = rules.getRule("optimizeSvg");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('B');
+    });
+
+    it(" 1 svg image  , total > 20Kb , it should return C", function () {
+      let rules = new Rules();
+      const measures = {
+        svgShouldBeOptimized:
+          [
+            { url:"test.svg", size :20001}
+          ]
+      };
+      let rule = rules.getRule("optimizeSvg");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('C');
+    });
+
+    it(" 2 svg image  , total < 20Kb , it should return B", function () {
+      let rules = new Rules();
+      const measures = {
+        svgShouldBeOptimized:
+          [
+            { url:"test.svg", size :10000},{ url:"test2.svg", size :1000}
+          ]
+      };
+      let rule = rules.getRule("optimizeSvg");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('B');
+    });
+
+
+    it(" 2 svg image  , total > 20Kb , it should return C", function () {
+      let rules = new Rules();
+      const measures = {
+        svgShouldBeOptimized:
+          [
+            { url:"test.svg", size :10000},{ url:"test2.svg", size :10005}
+          ]
+      };
+      let rule = rules.getRule("optimizeSvg");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('C');
+    });
+
+    afterEach(function () {
+    });
+
+  });
+
   describe("#pluginsRule", function () {
 
     beforeEach(function () {

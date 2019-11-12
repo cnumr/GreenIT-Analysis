@@ -305,8 +305,22 @@ function getMinOptimisationGainsForImage(pixelsNumber,imageSize,imageType)
   return Math.max(0,imageSize - imgMaxSize);
 }
 
+function isSvgUrl(url)
+{
+  if (url.endsWith(".svg")) return true;
+  if (url.includes(".svg?")) return true;
+  return false;
+}
+
+function isSvgOptimized(svgImage) {
+  if (svgImage.length < 1000) return true; // do not consider image < 1KB 
+  if (svgImage.search(" <")===-1) return true;
+  return false;
+}
+
 function debug(lazyString) {
   if (!DEBUG) return;
   const message = typeof lazyString === 'function' ? lazyString() : lazyString;
   console.log(`GreenIT-Analysis [DEBUG] ${message}\n`);
 }
+
