@@ -381,6 +381,10 @@
     "message": "Optimiser les images bitmap",
     "description": "Optimize bitmap images"
   },
+  "rule_OptimizeBitmapImages_DefaultComment": {
+    "message": "Pas d'images bitmap à optimiser",
+    "description": "No bitmap image to optimize"
+  },
   "rule_OptimizeBitmapImages_DetailDescription": {
     "message": "Choisissez une résolution adaptée .... ",
     "description": "Optimize bitmap images"

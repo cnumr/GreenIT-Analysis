@@ -360,6 +360,10 @@
     "message": "Optimize bitmap images",
     "description": "Optimize bitmap images"
   },
+  "rule_OptimizeBitmapImages_DefaultComment": {
+    "message": "No bitmap image to optimize",
+    "description": "No bitmap image to optimize"
+  },
   "rule_OptimizeBitmapImages_DetailDescription": {
     "message": "Choose the good resolution for image .... ",
     "description": "Optimize bitmap images"

@@ -419,7 +419,7 @@ function Rules() {
   function optimizeBitmapImagesRule() {
     this.complianceLevel = 'A';
     this.id = "optimizeBitmapImages";
-    this.comment = "";
+    this.comment = chrome.i18n.getMessage("rule_OptimizeBitmapImages_DefaultComment");
     this.detailComment = "";
 
     this.check = function (measures) {
