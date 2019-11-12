@@ -27,7 +27,7 @@ function Rules() {
   rules.set("styleSheets", new styleSheetsRule());
   rules.set("useETags", new useETagsRule());
   rules.set("useStandardTypefaces", new useStandardTypefacesRule());
-  
+
   // if method chrome.devtools.inspectedWindow.getResources is not implemented (ex: firefox)
   // These rules cannot be computed
   if (chrome.devtools.inspectedWindow.getResources) {
@@ -84,31 +84,7 @@ function Rules() {
     }
   }
 
-  function domainsNumberRule() {
-    this.complianceLevel = 'A';
-    this.id = "domainsNumber";
-    this.comment = "";
-    this.detailComment = "";
 
-    this.check = function (measures) {
-      let domains = [];
-      if (measures.entries.length) measures.entries.forEach(entry => {
-        let domain = getDomainFromUrl(entry.request.url);
-        if (domains.indexOf(domain) === -1) {
-          domains.push(domain);
-        }
-      });
-      if (domains.length > 2) {
-        if (domains.length === 3) this.complianceLevel = 'B';
-        else this.complianceLevel = 'C';
-      }
-      domains.forEach(domain => {
-        this.detailComment += domain + "<br>";
-      });
-
-      this.comment = chrome.i18n.getMessage("rule_DomainsNumber_Comment", String(domains.length));
-    }
-  }
 
   function compressHttpRule() {
     this.complianceLevel = 'A';
@@ -149,6 +125,32 @@ function Rules() {
     }
   }
 
+  function domainsNumberRule() {
+    this.complianceLevel = 'A';
+    this.id = "domainsNumber";
+    this.comment = "";
+    this.detailComment = "";
+
+    this.check = function (measures) {
+      let domains = [];
+      if (measures.entries.length) measures.entries.forEach(entry => {
+        let domain = getDomainFromUrl(entry.request.url);
+        if (domains.indexOf(domain) === -1) {
+          domains.push(domain);
+        }
+      });
+      if (domains.length > 2) {
+        if (domains.length === 3) this.complianceLevel = 'B';
+        else this.complianceLevel = 'C';
+      }
+      domains.forEach(domain => {
+        this.detailComment += domain + "<br>";
+      });
+
+      this.comment = chrome.i18n.getMessage("rule_DomainsNumber_Comment", String(domains.length));
+    }
+  }
+  
   function dontResizeImageInBrowserRule() {
     this.complianceLevel = 'A';
     this.id = "dontResizeImageInBrowser";

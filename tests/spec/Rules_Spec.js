@@ -613,6 +613,196 @@ describe("rules.js", function () {
     });
   });
 
+  describe("#dontResizeImageInBrowserRule", function () {
+
+    beforeEach(function () {
+
+    });
+
+    it(" no image , it should return A", function () {
+      let rules = new Rules();
+      const measures = {
+        imagesResizedInBrowser:
+          [
+          ]
+      };
+      let rule = rules.getRule("dontResizeImageInBrowser");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('A');
+    });
+
+    it(" 1 image not resized, it should return A", function () {
+      let rules = new Rules();
+      const measures = {
+        imagesResizedInBrowser:
+          [
+            { src:"test.jpg", naturalWidth :120,naturalHeight:200,clientWidth:120,clientHeight:200}
+          ]
+      };
+      let rule = rules.getRule("dontResizeImageInBrowser");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('A');
+    });
+
+
+    it(" 1 image svg (test.svg) resized, it should return A", function () {
+      let rules = new Rules();
+      const measures = {
+        imagesResizedInBrowser:
+          [
+            { src:"test.svg", naturalWidth :120,naturalHeight:200,clientWidth:1000,clientHeight:2000}
+          ]
+      };
+      let rule = rules.getRule("dontResizeImageInBrowser");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('A');
+    });
+
+    it(" 1 image svg (test.svg?params=test) resized, it should return A", function () {
+      let rules = new Rules();
+      const measures = {
+        imagesResizedInBrowser:
+          [
+            { src:"test.svg?params=test", naturalWidth :120,naturalHeight:200,clientWidth:1000,clientHeight:2000}
+          ]
+      };
+      let rule = rules.getRule("dontResizeImageInBrowser");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('A');
+    });
+
+    it(" 1 image resized with one pixel less, it should return A", function () {
+      let rules = new Rules();
+      const measures = {
+        imagesResizedInBrowser:
+          [
+            { src:"test.jpg", naturalWidth :120,naturalHeight:200,clientWidth:119,clientHeight:200}
+          ]
+      };
+      let rule = rules.getRule("dontResizeImageInBrowser");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('A');
+    });
+
+    it(" image not visible (Width=0 and height=0), it should return A", function () {
+      let rules = new Rules();
+      const measures = {
+        imagesResizedInBrowser:
+          [
+            { src:"test.jpg", naturalWidth :10,naturalHeight:20,clientWidth:0,clientHeight:0}
+          ]
+      };
+      let rule = rules.getRule("dontResizeImageInBrowser");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('A');
+    });
+
+    it(" 1 image resized , it should return C", function () {
+      let rules = new Rules();
+      const measures = {
+        imagesResizedInBrowser:
+          [
+            { src:"test.jpg", naturalWidth :10,naturalHeight:20,clientWidth:5,clientHeight:10}
+          ]
+      };
+      let rule = rules.getRule("dontResizeImageInBrowser");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('C');
+    });
+
+    it(" 1 image resized and one not resized, it should return C", function () {
+      let rules = new Rules();
+      const measures = {
+        imagesResizedInBrowser:
+          [
+            { src:"test.jpg", naturalWidth :10,naturalHeight:20,clientWidth:5,clientHeight:10},
+            { src:"test2.jpg", naturalWidth :10,naturalHeight:20,clientWidth:10,clientHeight:20}
+          ]
+      };
+      let rule = rules.getRule("dontResizeImageInBrowser");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('C');
+    });
+
+    afterEach(function () {
+    });
+  });
+
+  describe("#imageDownloadedNotDisplayedRule", function () {
+
+    beforeEach(function () {
+
+    });
+
+    it(" no image , it should return A", function () {
+      let rules = new Rules();
+      const measures = {
+        imagesResizedInBrowser:
+          [
+          ]
+      };
+      let rule = rules.getRule("imageDownloadedNotDisplayed");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('A');
+    });
+
+    it(" 1 image 120x200 displayed , it should return A", function () {
+      let rules = new Rules();
+      const measures = {
+        imagesResizedInBrowser:
+          [
+            { src:"test.jpg", naturalWidth :120,naturalHeight:200,clientWidth:120,clientHeight:200}
+          ]
+      };
+      let rule = rules.getRule("imageDownloadedNotDisplayed");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('A');
+    });
+
+    it(" 1 image 50x100 not displayed, it should return A as it is a too small image ", function () {
+      let rules = new Rules();
+      const measures = {
+        imagesResizedInBrowser:
+          [
+            { src:"test.jpg", naturalWidth :50,naturalHeight:100,clientWidth:20,clientHeight:40}
+          ]
+      };
+      let rule = rules.getRule("imageDownloadedNotDisplayed");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('A');
+    });
+
+    it(" 1 image 120x200 not displayed (with 0x0 size), it should return C", function () {
+      let rules = new Rules();
+      const measures = {
+        imagesResizedInBrowser:
+          [
+            { src:"test.jpg", naturalWidth :120,naturalHeight:200,clientWidth:0,clientHeight:0}
+          ]
+      };
+      let rule = rules.getRule("imageDownloadedNotDisplayed");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('C');
+    });
+
+    it(" 1 image not displayed and one displayed, it should return C", function () {
+      let rules = new Rules();
+      const measures = {
+        imagesResizedInBrowser:
+          [
+            { src:"test.jpg", naturalWidth :120,naturalHeight:200,clientWidth:0,clientHeight:0},
+            { src:"test2.jpg", naturalWidth :120,naturalHeight:200,clientWidth:10,clientHeight:10}
+          ]
+      };
+      let rule = rules.getRule("imageDownloadedNotDisplayed");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('C');
+    });
+
+    afterEach(function () {
+    });
+  });
+
   describe("#emptySrcTagRule", function () {
 
     beforeEach(function () {
