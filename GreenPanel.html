@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 
 <head>
+  <title> GreenIT Analysis Panel</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -91,7 +92,7 @@
 </head>
 
 <body>
-  <center>
+  <div style="text-align:center">
     <div class="container-fluid">
 
 
@@ -123,9 +124,9 @@
             <th data-i18n="greenhouseGasesEmission"> </th>
           </tr>
           <tr>
-            <td id="ecoIndex"></td>
-            <td id="waterConsumption"></td>
-            <td id="greenhouseGasesEmission"></td>
+            <td id="ecoIndex" style="text-align:left"></td>
+            <td id="waterConsumption" style="text-align:left"></td>
+            <td id="greenhouseGasesEmission" style="text-align:left"></td>
           </tr>
         </tbody>
       </table>
@@ -139,9 +140,9 @@
             <th data-i18n="domSize"> </th>
           </tr>
           <tr>
-            <td id="requestNumber"></td>
-            <td id="responsesSize"></td>
-            <td id="domSize"></td>
+            <td id="requestNumber" style="text-align:left"></td>
+            <td id="responsesSize" style="text-align:left"></td>
+            <td id="domSize" style="text-align:left"></td>
           </tr>
         </tbody>
       </table>
@@ -529,11 +530,8 @@
           </tr>
         </tbody>
       </table>
-
     </div>
-
-
-  </center>
+  </div>
   <script type="text/javascript" src="script/ui.js"> </script>
   <script type="text/javascript" src="script/greenpanel.js"> </script>
   <script type="text/javascript" src="script/ecoIndex.js"> </script>

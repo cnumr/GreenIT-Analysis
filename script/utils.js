@@ -169,12 +169,7 @@ function hasValidCacheHeaders(resource) {
   // debug(() => `Cache headers gathered: ${JSON.stringify(cache)}`);
 
   if (cache.CacheControl) {
-    if ((/(no-cache)|(no-store)|(max-age\s*=\s*0)/i).test(cache.CacheControl)) {
-      //debug(() => `Cache-Control header indicate a non cacheable resource: ${cache.CacheControl}`);
-      isValid = false;
-    } else {
-      isValid = true;
-    }
+    if (!(/(no-cache)|(no-store)|(max-age\s*=\s*0)/i).test(cache.CacheControl)) isValid = true;
   }
 
   if (cache.Expires) {
@@ -237,7 +232,7 @@ function countChar(char, str) {
 function isMinified(scriptContent) {
 
   if (!scriptContent) return true;
-  if (scriptContent.length === 0) returntrue;
+  if (scriptContent.length === 0) return true;
   const total = scriptContent.length - 1;
   const semicolons = countChar(';', scriptContent);
   const linebreaks = countChar('\n', scriptContent);
@@ -247,9 +242,7 @@ function isMinified(scriptContent) {
   // javascript code is minified if, on average:
   //  - there is more than one semicolon by line
   //  - and there are more than 100 characters by line
-  const isMinified = semicolons / linebreaks > 1 && linebreaks / total < 0.01;
-
-  return isMinified;
+ return semicolons / linebreaks > 1 && linebreaks / total < 0.01;
 
 }
 

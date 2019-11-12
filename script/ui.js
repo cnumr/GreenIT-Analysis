@@ -57,7 +57,7 @@ function refreshUI() {
   document.getElementById("greenhouseGasesEmission").innerHTML = measures.greenhouseGasesEmission;
   if (analyseBestPractices) {
     document.getElementById("bestPracticesView").hidden = false;
-    rules.getAllRules().forEach(showEcoRuleOnUI);
+    currentRules.getAllRules().forEach(showEcoRuleOnUI);
   }
   else document.getElementById("bestPracticesView").hidden = true;
 }

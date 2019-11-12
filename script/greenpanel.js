@@ -8,10 +8,9 @@
  */
 
 let backgroundPageConnection;
-let rules;
+let currentRules;
 let lastAnalyseStartingTime = 0;
 let measuresAcquisition;
-let url = "";
 let analyseBestPractices = false;
 
 initPanel();
@@ -49,7 +48,7 @@ function handleResponseFromBackground(frameMeasures) {
 }
 
 
-function isOldAnalyse(startingTime) { return (startingTime < lastAnalyseStartingTime) };
+function isOldAnalyse(startingTime) { return (startingTime < lastAnalyseStartingTime) }
 
 function computeEcoIndexMeasures(measures) {
   measures.ecoIndex = computeEcoIndex(measures.domSize, measures.nbRequest, Math.round(measures.responsesSize / 1000));
@@ -69,8 +68,8 @@ function launchAnalyse() {
   }
   lastAnalyseStartingTime = now;
   debug(() => `Starting new analyse , time = ${lastAnalyseStartingTime}`);
-  rules = new Rules();
-  measuresAcquisition = new MeasuresAcquisition(rules);
+  currentRules = new Rules();
+  measuresAcquisition = new MeasuresAcquisition(currentRules);
   measuresAcquisition.initializeMeasures();
 
   // Launch analyse via injection of a script in each frame of the current tab
@@ -142,21 +141,21 @@ console.log("Dome size= "+ measures.domSize);
       measures.imagesResizedInBrowser = frameMeasures.imagesResizedInBrowser;
       measures.cssFontFace = frameMeasures.cssFontFace;
 
-      rules.checkRule('plugins', measures);
-      rules.checkRule('printStyleSheets', measures);
-      rules.checkRule('emptySrcTag', measures);
-      if (chrome.devtools.inspectedWindow.getResources) rules.checkRule('jsValidate', measures);
-      rules.checkRule('externalizeCss', measures);
-      rules.checkRule('externalizeJs', measures);
-      rules.checkRule('dontResizeImageInBrowser', measures);
-      rules.checkRule('imageDownloadedNotDisplayed', measures);
-      rules.checkRule('useStandardTypefaces', measures);
+      localRules.checkRule('plugins', measures);
+      localRules.checkRule('printStyleSheets', measures);
+      localRules.checkRule('emptySrcTag', measures);
+      if (chrome.devtools.inspectedWindow.getResources) localRules.checkRule('jsValidate', measures);
+      localRules.checkRule('externalizeCss', measures);
+      localRules.checkRule('externalizeJs', measures);
+      localRules.checkRule('dontResizeImageInBrowser', measures);
+      localRules.checkRule('imageDownloadedNotDisplayed', measures);
+      localRules.checkRule('useStandardTypefaces', measures);
     }
   }
 
 
 
-  getNetworkMeasure = () => {
+  const getNetworkMeasure = () => {
     chrome.devtools.network.getHAR((har) => {
 
       console.log("Start network measure..." );
@@ -262,7 +261,7 @@ console.log("Dome size= "+ measures.domSize);
     let errorNumber = computeNumberOfErrorsInJSCode(code, url);
     if (errorNumber > 0) {
       measures.jsErrors.set(url, errorNumber);
-      rules.checkRule("jsValidate", measures);
+      localRules.checkRule("jsValidate", measures);
       refreshUI();
     }
   }
