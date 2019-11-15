@@ -908,13 +908,22 @@ describe("rules.js", function () {
       expect(rule.complianceLevel).toEqual('A');
     });
 
-    it(" 27 http requests, it should return C", function () {
+    it(" 27 http requests, it should return B", function () {
       let rules = new Rules();
       const measures = { nbRequest: 27, entries: [] };
       let rule = rules.getRule("httpRequests");
       rule.check(measures);
+      expect(rule.complianceLevel).toEqual('B');
+    });
+
+    it(" 41 http requests, it should return C", function () {
+      let rules = new Rules();
+      const measures = { nbRequest: 41, entries: [] };
+      let rule = rules.getRule("httpRequests");
+      rule.check(measures);
       expect(rule.complianceLevel).toEqual('C');
     });
+
 
     afterEach(function () {
     });
