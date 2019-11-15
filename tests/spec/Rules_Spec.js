@@ -1054,61 +1054,56 @@ describe("rules.js", function () {
     beforeEach(function () {
 
     });
-    it(" 0 css of 10 shoud be minified, it should return A", function () {
+    it(" 100% css minified, it should return A", function () {
       let rules = new Rules();
       const measures = {
         cssShouldBeMinified: [],
         minifiedCssNumber: 10,
-        totalCss: 10
+        totalCss: 10,
+        minifiedCssSize: 100,
+        totalCssSize: 100
       };
       let rule = rules.getRule("minifiedCss");
       rule.check(measures);
       expect(rule.complianceLevel).toEqual('A');
     });
 
-    it(" 2 css of 100 shoud be minified, it should return A", function () {
+    it(" 96% css minified, it should return A", function () {
       let rules = new Rules();
       const measures = {
         cssShouldBeMinified: ["test.css", "test2.css"],
         minifiedCssNumber: 98,
-        totalCss: 100
+        totalCss: 10,
+        minifiedCssSize: 96,
+        totalCssSize: 100
       };
       let rule = rules.getRule("minifiedCss");
       rule.check(measures);
       expect(rule.complianceLevel).toEqual('A');
     });
 
-    it(" 2 css of 10 shoud be minified, it should return C", function () {
+    it(" 94% css minified, it should return B", function () {
       let rules = new Rules();
       const measures = {
         cssShouldBeMinified: ["test.css", "test2.css"],
         minifiedCssNumber: 8,
-        totalCss: 10
+        totalCss: 10,
+        minifiedCssSize: 940,
+        totalCssSize: 1000
       };
       let rule = rules.getRule("minifiedCss");
       rule.check(measures);
-      expect(rule.complianceLevel).toEqual('C');
+      expect(rule.complianceLevel).toEqual('B');
     });
 
-    it(" 0 css of 0 shoud be minified, it should return A", function () {
+    it(" 88% css minified, it should return C", function () {
       let rules = new Rules();
       const measures = {
-        cssShouldBeMinified: [],
-        minifiedCssNumber: 0,
-        totalCss: 0
-      };
-      let rule = rules.getRule("minifiedCss");
-      rule.check(measures);
-      expect(rule.complianceLevel).toEqual('A');
-    });
-
-
-    it(" 1 css of 9 shoud be minified, it should return C", function () {
-      let rules = new Rules();
-      const measures = {
-        cssShouldBeMinified: [],
-        minifiedCssNumber: 9,
-        totalCss: 10
+        cssShouldBeMinified: ["test.css", "test2.css"],
+        minifiedCssNumber: 8,
+        totalCss: 10,
+        minifiedCssSize: 880,
+        totalCssSize: 1000
       };
       let rule = rules.getRule("minifiedCss");
       rule.check(measures);
@@ -1124,66 +1119,62 @@ describe("rules.js", function () {
     beforeEach(function () {
 
     });
-    it(" 0 js of 10 shoud be minified, it should return A", function () {
+    it(" 100% is  minified, it should return A", function () {
       let rules = new Rules();
       const measures = {
         jsShouldBeMinified: [],
         minifiedJsNumber: 10,
-        totalJs: 10
+        totalJs: 10,
+        minifiedJsSize: 100,
+        totalJsSize: 100
       };
       let rule = rules.getRule("minifiedJs");
       rule.check(measures);
       expect(rule.complianceLevel).toEqual('A');
     });
 
-    it(" 2 js of 100 shoud be minified, it should return A", function () {
+    it(" 96% is minified, it should return A", function () {
       let rules = new Rules();
       const measures = {
         jsShouldBeMinified: ["test.js", "test2.js"],
         minifiedJsNumber: 98,
-        totalJs: 100
+        totalJs: 100,
+        minifiedJsSize: 9600,
+        totalJsSize: 10000
       };
       let rule = rules.getRule("minifiedJs");
       rule.check(measures);
       expect(rule.complianceLevel).toEqual('A');
     });
 
-    it(" 2 js of 10 shoud be minified, it should return C", function () {
+    it(" 92% is minified, it should return B", function () {
       let rules = new Rules();
       const measures = {
         jsShouldBeMinified: ["test.js", "test2.js"],
         minifiedJsNumber: 8,
-        totalJs: 10
+        totalJs: 10,
+        minifiedJsSize: 9200,
+        totalJsSize: 10000
+      };
+      let rule = rules.getRule("minifiedJs");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('B');
+    });
+
+    it(" 88% is minified, it should return C", function () {
+      let rules = new Rules();
+      const measures = {
+        jsShouldBeMinified: ["test.js", "test2.js"],
+        minifiedJsNumber: 8,
+        totalJs: 10,
+        minifiedJsSize: 88000,
+        totalJsSize: 100000
       };
       let rule = rules.getRule("minifiedJs");
       rule.check(measures);
       expect(rule.complianceLevel).toEqual('C');
     });
 
-    it(" 0 js of 0 shoud be minified, it should return A", function () {
-      let rules = new Rules();
-      const measures = {
-        jsShouldBeMinified: [],
-        minifiedJsNumber: 0,
-        totalJs: 0
-      };
-      let rule = rules.getRule("minifiedJs");
-      rule.check(measures);
-      expect(rule.complianceLevel).toEqual('A');
-    });
-
-
-    it(" 1 js of 9 shoud be minified, it should return C", function () {
-      let rules = new Rules();
-      const measures = {
-        jsShouldBeMinified: [],
-        minifiedJsNumber: 9,
-        totalJs: 10
-      };
-      let rule = rules.getRule("minifiedJs");
-      rule.check(measures);
-      expect(rule.complianceLevel).toEqual('C');
-    });
   });
 
   describe("#noCookieForStaticRessourcesRule", function () {

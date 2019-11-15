@@ -336,11 +336,12 @@ function Rules() {
         this.detailComment += `${url} should be minified <br>`;
       });
       if (measures.totalCss > 0) {
-        const percentMinifiedCss = measures.minifiedCssNumber / measures.totalCss * 100;
-        if (percentMinifiedCss < 95) this.complianceLevel = 'C';
-        else this.complianceLevel = 'A';
+        const percentMinifiedCss = measures.minifiedCssSize / measures.totalCssSize * 100;
+        this.complianceLevel = 'A';
+        if (percentMinifiedCss < 90) this.complianceLevel = 'C';
+        else if (percentMinifiedCss < 95) this.complianceLevel = 'B'; 
         this.comment = chrome.i18n.getMessage("rule_MinifiedCss_Comment",
-          Math.round(percentMinifiedCss) + " % ("
+          Math.round(percentMinifiedCss*10)/10 + " % ("
           + measures.minifiedCssNumber + "/" + measures.totalCss + ")");
       }
     }
@@ -358,12 +359,12 @@ function Rules() {
         this.detailComment += `${url} should be minified <br>`;
       });
       if (measures.totalJs > 0) {
-        const percentMinifiedJs = measures.minifiedJsNumber / measures.totalJs * 100;
-        if (percentMinifiedJs < 95) this.complianceLevel = 'C';
-        else this.complianceLevel = 'A';
-
+        const percentMinifiedJs = measures.minifiedJsSize / measures.totalJsSize * 100;
+        this.complianceLevel = 'A';
+        if (percentMinifiedJs < 90) this.complianceLevel = 'C';
+        else if (percentMinifiedJs < 95) this.complianceLevel = 'B'; 
         this.comment = chrome.i18n.getMessage("rule_MinifiedJs_Comment",
-          Math.round(percentMinifiedJs) + " % ("
+          Math.round(percentMinifiedJs*10)/10 + " % ("
           + measures.minifiedJsNumber
           + "/" + measures.totalJs + ")");
       }

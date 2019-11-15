@@ -103,12 +103,16 @@ function MeasuresAcquisition(rules) {
       "printStyleSheetsNumber": 0,
       "inlineStyleSheetsNumber": 0,
       "minifiedCssNumber": 0,
+      "minifiedCssSize": 0,
+      "totalCssSize": 0,
       "cssShouldBeMinified": [],
       "totalCss": 0,
       "emptySrcTagNumber": 0,
       "jsErrors": new Map(),
       "inlineJsScriptsNumber": 0,
       "minifiedJsNumber": 0,
+      "minifiedJsSize": 0,
+      "totalJsSize": 0,
       "jsShouldBeMinified": [],
       "totalJs": 0,
       "svgShouldBeOptimized": [],
@@ -242,14 +246,22 @@ function MeasuresAcquisition(rules) {
 
   function analyseMinifiedJs(code, url) {
     measures.totalJs++;
-    if (isMinified(code)) measures.minifiedJsNumber++;
+    measures.totalJsSize += code.length;
+    if (isMinified(code)) {
+      measures.minifiedJsNumber++;
+      measures.minifiedJsSize += code.length;
+    }
     else measures.jsShouldBeMinified.push(url);
     localRules.checkRule("minifiedJs", measures);
   }
 
   function analyseMinifiedCss(code, url) {
     measures.totalCss++;
-    if (isMinified(code)) measures.minifiedCssNumber++;
+    measures.totalCssSize += code.length;
+    if (isMinified(code)) {
+      measures.minifiedCssNumber++;
+      measures.minifiedCssSize += code.length;
+    }
     else measures.cssShouldBeMinified.push(url);
     localRules.checkRule("minifiedCss", measures);
   }
@@ -267,11 +279,11 @@ function MeasuresAcquisition(rules) {
     console.log("analyse svg : " + url);
     if (!isSvgOptimized(window.atob(code)))  // code is in base64 , decode base64 data with atob
     {
-      const svg = {url:url,size:code.length}
+      const svg = { url: url, size: code.length }
       measures.svgShouldBeOptimized.push(svg);
       localRules.checkRule("optimizeSvg", measures);
     }
-    
+
   }
 }
 
