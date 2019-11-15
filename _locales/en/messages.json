@@ -236,8 +236,8 @@
     }
   },
   "rule_ImageDownloadedNotDisplayed": {
-    "message": "Do not download image in browser until there are needed",
-    "description": "Do not download image in browser until there are needed"
+    "message": "Do not download unecessary image",
+    "description": "Do not download unecessary image"
   },
   "rule_ImageDownloadedNotDisplayed_DetailDescription": {
     "message": "Except for icons, uploading images that will not necessarily be visible consumes resources unnecessarily",
