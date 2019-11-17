@@ -56,31 +56,28 @@ function Rules() {
     this.detailComment = "";
 
     this.check = function (measures) {
-      let staticResourcesNumber = 0;
-      let staticResourcesNumberWithCacheHeaders = 0;
+      let staticResourcesSize = 0;
+      let staticResourcesWithCache =0;
+
       if (measures.entries.length) measures.entries.forEach(entry => {
         if (isStaticRessource(entry)) {
-          staticResourcesNumber++;
+          staticResourcesSize += entry.response.content.size;
           if (hasValidCacheHeaders(entry)) {
-            staticResourcesNumberWithCacheHeaders++;
+            staticResourcesWithCache+=entry.response.content.size;
           }
-          else this.detailComment += `resource ${entry.request.url} is not cached <br>`;
+          else this.detailComment += `resource ${entry.request.url} ${Math.round(entry.response.content.size/100)/10}KB is not cached <br>`;
         }
       });
 
-      if (staticResourcesNumber > 0) {
-        const cacheHeaderRatio = staticResourcesNumberWithCacheHeaders / staticResourcesNumber * 100;
-        //debug(() => `static resources ${staticResourcesNumber}`);
-        //debug(() => `static resources with cache header ${staticResourcesNumberWithCacheHeaders}`);
+      if (staticResourcesSize > 0) {
+        const cacheHeaderRatio = staticResourcesWithCache / staticResourcesSize * 100;
         if (cacheHeaderRatio < 95) {
-          if (staticResourcesNumber - staticResourcesNumberWithCacheHeaders === 1) this.complianceLevel = 'B'
-          else this.complianceLevel = 'C';
+          if (cacheHeaderRatio < 90) this.complianceLevel = 'C'
+          else this.complianceLevel = 'B';
         }
         else this.complianceLevel = 'A';
         this.comment = chrome.i18n.getMessage("rule_AddExpiresOrCacheControlHeaders_Comment",
-          Math.round(cacheHeaderRatio) + " % (" +
-          staticResourcesNumberWithCacheHeaders +
-          "/" + staticResourcesNumber + ")");
+          String(Math.round(cacheHeaderRatio*10)/10) + "%");
       }
     }
   }
@@ -92,34 +89,26 @@ function Rules() {
     this.detailComment = "";
 
     this.check = function (measures) {
-
-      let compressibleResourcesNumber = 0;
-      let compressibleResourcesNumberCompressed = 0;
+      let compressibleResourcesSize = 0;
+      let compressibleResourcesCompressedSize =0;
       if (measures.entries.length) measures.entries.forEach(entry => {
         if (isCompressibleResource(entry)) {
-          compressibleResourcesNumber++;
+          compressibleResourcesSize+= entry.response.content.size;
           if (isResourceCompressed(entry)) {
-            compressibleResourcesNumberCompressed++;
-            //this.detailComment +=`resource ${entry.request.url} is compressed <br>`;
+            compressibleResourcesCompressedSize+= entry.response.content.size;
           }
-          else this.detailComment += `resource ${entry.request.url} is not compressed <br> `;
+          else this.detailComment += `resource ${entry.request.url} ${Math.round(entry.response.content.size/100)/10}KB is not compressed <br> `;
         }
       });
-
-
-      if (compressibleResourcesNumber > 0) {
-        const compressRatio = compressibleResourcesNumberCompressed / compressibleResourcesNumber * 100;
-        //debug(() => `compressible resources ${compressibleResourcesNumber}`);
-        //debug(() => `compressible resources compressed ${compressibleResourcesNumberCompressed}`);
+      if (compressibleResourcesSize > 0) {
+        const compressRatio = compressibleResourcesCompressedSize / compressibleResourcesSize * 100;
         if (compressRatio < 95) {
-          if (compressibleResourcesNumber - compressibleResourcesNumberCompressed === 1) this.complianceLevel = 'B'
-          else this.complianceLevel = 'C';
+          if (compressRatio < 90) this.complianceLevel = 'C'
+          else this.complianceLevel = 'B';
         }
         else this.complianceLevel = 'A';
         this.comment = chrome.i18n.getMessage("rule_CompressHttp_Comment",
-          Math.round(compressRatio) + " % (" +
-          compressibleResourcesNumberCompressed + "/" +
-          compressibleResourcesNumber + ")");
+        String(Math.round(compressRatio*10)/10) + "%");
       }
     }
   }
@@ -342,8 +331,7 @@ function Rules() {
         if (percentMinifiedCss < 90) this.complianceLevel = 'C';
         else if (percentMinifiedCss < 95) this.complianceLevel = 'B';
         this.comment = chrome.i18n.getMessage("rule_MinifiedCss_Comment",
-          Math.round(percentMinifiedCss * 10) / 10 + " % ("
-          + measures.minifiedCssNumber + "/" + measures.totalCss + ")");
+          String(Math.round(percentMinifiedCss * 10) / 10));
       }
     }
   }
@@ -365,9 +353,7 @@ function Rules() {
         if (percentMinifiedJs < 90) this.complianceLevel = 'C';
         else if (percentMinifiedJs < 95) this.complianceLevel = 'B';
         this.comment = chrome.i18n.getMessage("rule_MinifiedJs_Comment",
-          Math.round(percentMinifiedJs * 10) / 10 + " % ("
-          + measures.minifiedJsNumber
-          + "/" + measures.totalJs + ")");
+          String(Math.round(percentMinifiedJs * 10) / 10));
       }
     }
   }
@@ -541,29 +527,27 @@ function Rules() {
 
     this.check = function (measures) {
 
-      let staticResourcesNumber = 0;
-      let staticResourcesNumberWithETags = 0;
+      let staticResourcesSize = 0;
+      let staticResourcesWithETagsSize =0;
 
       if (measures.entries.length) measures.entries.forEach(entry => {
         if (isStaticRessource(entry)) {
-          staticResourcesNumber++;
+          staticResourcesSize+= entry.response.content.size ;
           if (isRessourceUsingETag(entry)) {
-            staticResourcesNumberWithETags++;
+            staticResourcesWithETagsSize+=entry.response.content.size;
           }
-          else this.detailComment += `resource ${entry.request.url} is not using ETags <br>`;
+          else this.detailComment += `resource ${entry.request.url} ${Math.round(entry.response.content.size/100)/10}KB is not using ETags <br>`;
         }
       });
-      if (staticResourcesNumber > 0) {
-        const eTagsRatio = staticResourcesNumberWithETags / staticResourcesNumber * 100;
+      if (staticResourcesSize > 0) {
+        const eTagsRatio = staticResourcesWithETagsSize / staticResourcesSize * 100;
         if (eTagsRatio < 95) {
-          if (staticResourcesNumber - staticResourcesNumberWithETags === 1) this.complianceLevel = 'B'
-          else this.complianceLevel = 'C';
+          if (eTagsRatio < 90) this.complianceLevel = 'C'
+          else this.complianceLevel = 'B';
         }
         else this.complianceLevel = 'A';
         this.comment = chrome.i18n.getMessage("rule_UseETags_Comment",
-          Math.round(eTagsRatio) + " % (" +
-          staticResourcesNumberWithETags + "/" +
-          staticResourcesNumber + ")");
+          Math.round(eTagsRatio*10)/10 + "%");
       }
     }
   }

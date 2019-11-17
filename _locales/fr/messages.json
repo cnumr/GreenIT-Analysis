@@ -307,7 +307,7 @@
     "description": "No css found"
   },
   "rule_MinifiedCss_Comment": {
-    "message": "$NB$ css minifiées",
+    "message": "$NB$% css minifiées",
     "description": "Percentage of minified stylesheet ",
     "placeholders": {
       "NB": {
@@ -328,7 +328,7 @@
     "description": "No js found"
   },
   "rule_MinifiedJs_Comment": {
-    "message": "$NB$ js minifié",
+    "message": "$NB$% js minifié",
     "description": "Percentage of minified javascript ",
     "placeholders": {
       "NB": {
