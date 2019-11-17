@@ -34,24 +34,28 @@
   font-family: specificFont2;
   src: url(test.woff);
 }
+
+p {
+  font-family: specificFont2;
+}
 </style>
 </head>
 <body>
     <img src="test.png" height="100" width="100"></img>
     <br/>
-TEST
+<p>TEST</p>
 
 Shoud find : <br>
 1 plugin found (in iframe) <br>
 1 print StyleSheet <br>
 1 inline stylesheet <br>
-66% 2/3 minified stylesheet <br>
+97,4% (2/3) minified stylesheet <br>
 4 src empty tag (one in the iframe) <br>
 2 Javascript Error (one in iframe) <br>
 1 inline script <br>
-33% (1/3) minified script <br>
+98,7% (1/3) minified script <br>
 1 image resize in browser <br>
-2 custom font <br>
+1 custom font (11KB) <br>
 <img src =""> </img>
 <iframe src="frame.html"></iframe>
 <script>
