@@ -142,7 +142,7 @@ function MeasuresAcquisition(rules) {
       if (measures.inlineJsScriptsNumber < frameMeasures.inlineJsScriptsNumber) measures.inlineJsScriptsNumber = frameMeasures.inlineJsScriptsNumber;
 
       measures.imagesResizedInBrowser = frameMeasures.imagesResizedInBrowser;
-      measures.cssFontFace = frameMeasures.cssFontFace;
+     // measures.cssFontFace = frameMeasures.cssFontFace;
 
       localRules.checkRule('plugins', measures);
       localRules.checkRule('printStyleSheets', measures);
@@ -152,7 +152,6 @@ function MeasuresAcquisition(rules) {
       localRules.checkRule('externalizeJs', measures);
       localRules.checkRule('dontResizeImageInBrowser', measures);
       localRules.checkRule('imageDownloadedNotDisplayed', measures);
-      localRules.checkRule('useStandardTypefaces', measures);
     }
   }
 
@@ -177,9 +176,13 @@ function MeasuresAcquisition(rules) {
       }
 
       measures.entries = entries;
+      measures.dataEntries = har.entries.filter(entry => isDataResource(entry)); // embeded data urls
+
       if (entries.length) {
         measures.nbRequest = entries.length;
         entries.forEach(entry => {
+
+         
           // If chromium : 
           // _transferSize represent the real data volume transfert 
           // while content.size represent the size of the page which is uncompress
@@ -204,6 +207,7 @@ function MeasuresAcquisition(rules) {
           localRules.checkRule("noCookieForStaticRessources", measures);
           localRules.checkRule("noRedirect", measures);
           localRules.checkRule("optimizeBitmapImages", measures);
+          localRules.checkRule('useStandardTypefaces', measures);
         }
         computeEcoIndexMeasures(measures);
         refreshUI();

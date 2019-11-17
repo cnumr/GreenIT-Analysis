@@ -141,7 +141,6 @@ function getCssFontFace() {
 
         // If the rule is not a CSSFont one, skip it
         if (!(cssRule instanceof CSSFontFaceRule)) return fonts;
-
         // Get the custom font family
         const fontFamily = cssRule.style.getPropertyValue('font-family').replace(/^"|"$/g, '');
         if (!fonts.has(fontFamily)) fonts.add(fontFamily);

@@ -74,6 +74,51 @@ describe("utils.js", function () {
     });
   });
 
+
+  describe("#function isFontRessource", function () {
+
+    beforeEach(function () {
+    });
+
+    it("application/font-woff is font , should return true ", function () {
+      const resource = { response: { status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "application/font-woff" }, { name: "toto", value: "test" }] } };
+      expect(testFrame.isFontResource(resource)).toEqual(true);
+    });
+
+    it(" application/font-woff2 is font, should return true", function () {
+      const resource = { response: { status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "application/font-woff" }, { name: "toto", value: "test" }] } };
+      expect(testFrame.isFontResource(resource)).toEqual(true);
+    });
+
+    it(" test/css is not font , should return false", function () {
+      const resource = { request: {url : "http://test/"} , response: { status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "text/css" }, { name: "toto", value: "test" }] } };
+      expect(testFrame.isFontResource(resource)).toEqual(false);
+    });
+
+    it(" text/plain is not font if extension file  is not woff or woff 2 , should return false", function () {
+      const resource = {request: {url : "http://test/test.bmp"} , response: { status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "text/plain" }, { name: "toto", value: "test" }] } };
+      expect(testFrame.isFontResource(resource)).toEqual(false);
+    });
+
+    it(" text/plain is  font if extension file  is woff, should return true", function () {
+      const resource = {request: {url : "http://test/test.woff"} , response: { status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "text/plain" }, { name: "toto", value: "test" }] } };
+      expect(testFrame.isFontResource(resource)).toEqual(true);
+    });
+
+    it(" text/plain is  font if extension file  is woff2, should return true", function () {
+      const resource = {request: {url : "http://test/test.woff2?test"} , response: { status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "text/plain" }, { name: "toto", value: "test" }] } };
+      expect(testFrame.isFontResource(resource)).toEqual(true);
+    });
+
+    it(" no content type is  font if extension file  is woff2, should return true", function () {
+      const resource = {request: {url : "http://test/test.woff2?test"} , response: { status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "toto", value: "test" }] } };
+      expect(testFrame.isFontResource(resource)).toEqual(true);
+    });
+
+    afterEach(function () {
+    });
+  });
+
   describe("#function hasValidCacheHeaders", function () {
 
     beforeEach(function () {

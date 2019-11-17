@@ -56,9 +56,11 @@ const font = [
   /^application\/x-font-ttf(;|$)/i,
   /^application\/x-font-opentype(;|$)/i,
   /^application\/font-woff(;|$)/i,
+  /^application\/x-font-woff(;|$)/i,
   /^application\/font-woff2(;|$)/i,
   /^application\/vnd.ms-fontobject(;|$)/i,
   /^application\/font-sfnt(;|$)/i,
+  /^font\/woff2(;|$)/i,
 ].concat(compressibleFont);
 
 const manifest = [
@@ -126,7 +128,7 @@ const httpCompressionTokens = [
   'pack200-gzip',
 ];
 
-const httpRedirectCodes = [301,302,303,307];
+const httpRedirectCodes = [301, 302, 303, 307];
 
 // utils for cache rule 
 function isStaticRessource(resource) {
@@ -134,6 +136,20 @@ function isStaticRessource(resource) {
   return staticResources.some(value => value.test(contentType));
 }
 
+function isFontResource(resource) {
+  const contentType = getResponseHeaderFromResource(resource, "content-type");
+  if (font.some(value => value.test(contentType))) return true;
+  // if not check url , because sometimes content-type is set to text/plain 
+  if (contentType === "text/plain" || contentType==="" || contentType =="application/octet-stream") {
+    const url = resource.request.url;
+    if (url.endsWith(".woff")) return true;
+    if (url.endsWith(".woff2")) return true;
+    if (url.includes(".woff?")) return true;
+    if (url.includes(".woff2?")) return true;
+    if (url.includes(".woff2.json")) return true;
+  }
+  return false;
+}
 
 function getHeaderWithName(headers, headerName) {
   let headerValue = "";
@@ -242,16 +258,24 @@ function isMinified(scriptContent) {
   // javascript code is minified if, on average:
   //  - there is more than one semicolon by line
   //  - and there are more than 100 characters by line
- return semicolons / linebreaks > 1 && linebreaks / total < 0.01;
+  return semicolons / linebreaks > 1 && linebreaks / total < 0.01;
 
+}
+
+/**
+ * Detect network resources (data urls embedded in page is not network resource)
+ *  Test with request.url as  request.httpVersion === "data"  does not work with old chrome version (example v55)
+ */
+function isNetworkResource(harEntry) {
+  return !(harEntry.request.url.startsWith("data"));
 }
 
 /**
  * Detect non-network resources (data urls embedded in page)
  *  Test with request.url as  request.httpVersion === "data"  does not work with old chrome version (example v55)
  */
-function isNetworkResource(harEntry) {
-  return !(harEntry.request.url.startsWith("data"));
+function isDataResource(harEntry) {
+  return (harEntry.request.url.startsWith("data"));
 }
 
 function computeNumberOfErrorsInJSCode(code, url) {
@@ -271,42 +295,39 @@ function computeNumberOfErrorsInJSCode(code, url) {
   return errorNumber;
 }
 
-function isHttpRedirectCode(code)
-{
-  return httpRedirectCodes.some(value => value===code);
+function isHttpRedirectCode(code) {
+  return httpRedirectCodes.some(value => value === code);
 }
 
 
 function getImageTypeFromResource(resource) {
   const contentType = getResponseHeaderFromResource(resource, "content-type");
-  if (contentType==="image/png") return "png";
-  if (contentType==="image/jpeg") return "jpeg";
-  if (contentType==="image/gif") return "gif";
-  if (contentType==="image/bmp") return "bmp";
-  if (contentType==="image/tiff") return "tiff";
+  if (contentType === "image/png") return "png";
+  if (contentType === "image/jpeg") return "jpeg";
+  if (contentType === "image/gif") return "gif";
+  if (contentType === "image/bmp") return "bmp";
+  if (contentType === "image/tiff") return "tiff";
   return "";
 }
 
 
-function getMinOptimisationGainsForImage(pixelsNumber,imageSize,imageType)
-{
-  
+function getMinOptimisationGainsForImage(pixelsNumber, imageSize, imageType) {
+
   // difficult to get good compression when image is small , images less than 10Kb are considered optimized
-  if (imageSize <10000 ) return 0;
+  if (imageSize < 10000) return 0;
 
   // image png or gif < 50Kb  are considered optimized (used for transparency not supported in jpeg format)
-  if ((imageSize <50000) && ((imageType==='png')||(imageType==='gif')))  return 0;
+  if ((imageSize < 50000) && ((imageType === 'png') || (imageType === 'gif'))) return 0;
 
-  let imgMaxSize = Math.max(pixelsNumber/5,10000); //  difficult to get under 10Kb 
+  let imgMaxSize = Math.max(pixelsNumber / 5, 10000); //  difficult to get under 10Kb 
 
   // image > 500Kb are too big for web site , there are considered never optimized 
-  if (imageSize>500000) return Math.max(imageSize-500000,imageSize - imgMaxSize);
+  if (imageSize > 500000) return Math.max(imageSize - 500000, imageSize - imgMaxSize);
 
-  return Math.max(0,imageSize - imgMaxSize);
+  return Math.max(0, imageSize - imgMaxSize);
 }
 
-function isSvgUrl(url)
-{
+function isSvgUrl(url) {
   if (url.endsWith(".svg")) return true;
   if (url.includes(".svg?")) return true;
   return false;
@@ -314,7 +335,7 @@ function isSvgUrl(url)
 
 function isSvgOptimized(svgImage) {
   if (svgImage.length < 1000) return true; // do not consider image < 1KB 
-  if (svgImage.search(" <")===-1) return true;
+  if (svgImage.search(" <") === -1) return true;
   return false;
 }
 

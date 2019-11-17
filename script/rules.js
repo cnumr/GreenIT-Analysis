@@ -340,9 +340,9 @@ function Rules() {
         const percentMinifiedCss = measures.minifiedCssSize / measures.totalCssSize * 100;
         this.complianceLevel = 'A';
         if (percentMinifiedCss < 90) this.complianceLevel = 'C';
-        else if (percentMinifiedCss < 95) this.complianceLevel = 'B'; 
+        else if (percentMinifiedCss < 95) this.complianceLevel = 'B';
         this.comment = chrome.i18n.getMessage("rule_MinifiedCss_Comment",
-          Math.round(percentMinifiedCss*10)/10 + " % ("
+          Math.round(percentMinifiedCss * 10) / 10 + " % ("
           + measures.minifiedCssNumber + "/" + measures.totalCss + ")");
       }
     }
@@ -363,9 +363,9 @@ function Rules() {
         const percentMinifiedJs = measures.minifiedJsSize / measures.totalJsSize * 100;
         this.complianceLevel = 'A';
         if (percentMinifiedJs < 90) this.complianceLevel = 'C';
-        else if (percentMinifiedJs < 95) this.complianceLevel = 'B'; 
+        else if (percentMinifiedJs < 95) this.complianceLevel = 'B';
         this.comment = chrome.i18n.getMessage("rule_MinifiedJs_Comment",
-          Math.round(percentMinifiedJs*10)/10 + " % ("
+          Math.round(percentMinifiedJs * 10) / 10 + " % ("
           + measures.minifiedJsNumber
           + "/" + measures.totalJs + ")");
       }
@@ -470,13 +470,13 @@ function Rules() {
     this.check = function (measures) {
       this.detailComment = "";
       measures.svgShouldBeOptimized.forEach(svg => {
-        this.detailComment += `${svg.url} should be optimized ( ${Math.round(svg.size/100)/10}KB)  <br>`;
+        this.detailComment += `${svg.url} should be optimized ( ${Math.round(svg.size / 100) / 10}KB)  <br>`;
         totalSizeToOptimize += svg.size
       });
       if (measures.svgShouldBeOptimized.length > 0) {
-        if (totalSizeToOptimize<20000) this.complianceLevel = 'B';
+        if (totalSizeToOptimize < 20000) this.complianceLevel = 'B';
         else this.complianceLevel = 'C';
-        this.comment = chrome.i18n.getMessage("rule_OptimizeSvg_Comment",String(measures.svgShouldBeOptimized.length));
+        this.comment = chrome.i18n.getMessage("rule_OptimizeSvg_Comment", String(measures.svgShouldBeOptimized.length));
       }
     }
   }
@@ -573,20 +573,26 @@ function Rules() {
     this.id = "useStandardTypefaces";
     this.comment = chrome.i18n.getMessage("rule_UseStandardTypefaces_DefaultComment");
     this.detailComment = "";
-    this.cssFontFace = [];
 
     this.check = function (measures) {
-      measures.cssFontFace.forEach(font => {
-        if (this.cssFontFace.indexOf(font) === -1) {
-          this.cssFontFace.push(font);
-          this.detailComment += `${font} <br>`;
+      let totalFontsSize = 0;
+      if (measures.entries.length) measures.entries.forEach(entry => {
+        if (isFontResource(entry)) {         
+          totalFontsSize += entry.response.content.size;
+          this.detailComment += entry.request.url + " " + Math.round(entry.response.content.size / 1000) + "KB <br>";
         }
       });
-
-      if (this.cssFontFace.length > 0) {
-        this.complianceLevel = 'C';
-        this.comment = chrome.i18n.getMessage("rule_UseStandardTypefaces_Comment", String(this.cssFontFace.length));
-      }
+      if (measures.dataEntries.length) measures.dataEntries.forEach(entry => {
+        if (isFontResource(entry)) {
+          totalFontsSize += entry.response.content.size;
+          url_toshow = entry.request.url;
+          if (url_toshow.length>80) url_toshow = url_toshow.substring(0,80) + "...";
+          this.detailComment += url_toshow + " " + Math.round(entry.response.content.size / 1000) + "KB <br>";
+        }
+      });
+      if (totalFontsSize > 10000) this.complianceLevel = 'C';
+      else if (totalFontsSize > 0) this.complianceLevel = 'B';
+      if (totalFontsSize > 0) this.comment = chrome.i18n.getMessage("rule_UseStandardTypefaces_Comment", String(Math.round(totalFontsSize / 1000)));
     }
   }
 }

@@ -1881,27 +1881,120 @@ describe("rules.js", function () {
 
     it(" 0 specific font, it should return A", function () {
       let rules = new Rules();
-      const measures = { cssFontFace: [] };
+      const measures = {
+        entries:
+          [{
+            request: { url: "test" },
+            response:
+            {
+              status: 200, statusText: "", httpVersion: "http/2.0", headers:
+                [{ name: 'test', value: "test" },
+                { name: "content-type", value: "text/css" }]
+            }
+          }]
+      };
       let rule = rules.getRule("useStandardTypefaces");
       rule.check(measures);
       expect(rule.complianceLevel).toEqual('A');
     });
 
-    it(" 1 specific font, it should return C", function () {
+
+
+
+    it(" 1 specific font file with size < 10KB  should return  B", function () {
       let rules = new Rules();
-      const measures = { cssFontFace: ["test"] };
+      const measures = {
+        entries:
+          [{
+            request: { url: "test" },
+            response:
+            {
+              content : {size : 1000}, status: 200, statusText: "", httpVersion: "http/2.0", headers:
+                [{ name: 'test', value: "test" },
+                { name: "content-type", value: "application/font-woff" }]
+            }
+          }]
+      };
+      let rule = rules.getRule("useStandardTypefaces");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('B');
+    });
+
+    it(" 2 specific font files  with size < 10KB  should return  B", function () {
+      let rules = new Rules();
+      const measures = {
+        entries:
+          [{
+            request: { url: "test" },
+            response:
+            {
+              content : {size : 1000}, status: 200, statusText: "", httpVersion: "http/2.0", headers:
+                [{ name: 'test', value: "test" },
+                { name: "content-type", value: "application/font-woff" }]
+            }
+          },
+          {
+            request: { url: "test2" },
+            response:
+            {
+              content : {size : 2000}, status: 200, statusText: "", httpVersion: "http/2.0", headers:
+                [{ name: 'test', value: "test" },
+                { name: "content-type", value: "application/font-woff" }]
+            }
+          }]
+      };
+      let rule = rules.getRule("useStandardTypefaces");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('B');
+    });
+
+    it(" 1 specific font file  with size > 10KB  should return  C", function () {
+      let rules = new Rules();
+      const measures = {
+        entries:
+          [{
+            request: { url: "test" },
+            response:
+            {
+              content : {size : 100000}, status: 200, statusText: "", httpVersion: "http/2.0", headers:
+                [{ name: 'test', value: "test" },
+                { name: "content-type", value: "application/font-woff" }]
+            }
+          }]
+      };
       let rule = rules.getRule("useStandardTypefaces");
       rule.check(measures);
       expect(rule.complianceLevel).toEqual('C');
     });
 
-    it(" 5 specific font, it should return C", function () {
+    it(" 2 specific font files  with size > 10KB  should return  C", function () {
       let rules = new Rules();
-      const measures = { cssFontFace: ["test", "t2", "t3", "t4", "t5"] };
+      const measures = {
+        entries:
+          [{
+            request: { url: "test" },
+            response:
+            {
+              content : {size : 10000}, status: 200, statusText: "", httpVersion: "http/2.0", headers:
+                [{ name: 'test', value: "test" },
+                { name: "content-type", value: "application/font-woff" }]
+            }
+          },
+          {
+            request: { url: "test2" },
+            response:
+            {
+              content : {size : 20000}, status: 200, statusText: "", httpVersion: "http/2.0", headers:
+                [{ name: 'test', value: "test" },
+                { name: "content-type", value: "application/font-woff" }]
+            }
+          }]
+      };
       let rule = rules.getRule("useStandardTypefaces");
       rule.check(measures);
       expect(rule.complianceLevel).toEqual('C');
     });
+
     afterEach(function () {
     });
   });
