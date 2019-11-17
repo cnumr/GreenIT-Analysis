@@ -142,7 +142,7 @@ function MeasuresAcquisition(rules) {
       if (measures.inlineJsScriptsNumber < frameMeasures.inlineJsScriptsNumber) measures.inlineJsScriptsNumber = frameMeasures.inlineJsScriptsNumber;
 
       measures.imagesResizedInBrowser = frameMeasures.imagesResizedInBrowser;
-     // measures.cssFontFace = frameMeasures.cssFontFace;
+
 
       localRules.checkRule('plugins', measures);
       localRules.checkRule('printStyleSheets', measures);

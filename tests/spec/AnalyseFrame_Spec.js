@@ -112,22 +112,7 @@ describe("analyseFrame.js", function() {
     afterEach(function() {
     });
   });
-
-  describe("#function getCssFontFaceRuleNumber()", function() {
  
-    beforeEach(function() {	
-    });
-	
-    it(" should return 2", function() {
-      expect(testFrame.getCssFontFace().length).toEqual(2);
-    });
-
-    afterEach(function() {
-    });
-  });
-
-
-  
 
   
 });

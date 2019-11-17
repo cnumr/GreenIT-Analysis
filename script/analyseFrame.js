@@ -23,7 +23,6 @@ function start_analyse() {
     const inlineJsScript = getInlineJsScript();
     const inlineJsScriptsNumber = getInlineJsScriptsNumber();
     const imagesResizedInBrowser = getImagesResizedInBrowser();
-    const cssFontFace = getCssFontFace();
 
 
     pageAnalysis = {
@@ -37,7 +36,6 @@ function start_analyse() {
       "inlineJsScript": inlineJsScript,
       "inlineJsScriptsNumber": inlineJsScriptsNumber,
       "imagesResizedInBrowser": imagesResizedInBrowser,
-      "cssFontFace": cssFontFace,
     }
   }
   else pageAnalysis = {
@@ -131,31 +129,4 @@ function getImagesResizedInBrowser() {
 }
 
 
-function getCssFontFace() {
-
-  let fontList = Array.from(document.styleSheets).reduce((fonts, sheet) => {
-    try {
-
-      // Need to check if sheet.cssRules is defined for old version of chromium 
-      if (sheet.cssRules) Array.from(sheet.cssRules).reduce((fonts, cssRule) => {
-
-        // If the rule is not a CSSFont one, skip it
-        if (!(cssRule instanceof CSSFontFaceRule)) return fonts;
-        // Get the custom font family
-        const fontFamily = cssRule.style.getPropertyValue('font-family').replace(/^"|"$/g, '');
-        if (!fonts.has(fontFamily)) fonts.add(fontFamily);
-
-        return fonts;
-
-      }, fonts);
-    } catch (err) {
-      // Accessing sheet.cssRules will throw a security error if the CSS is loaded from another domain
-      console.log("GREENIT-ANALYSIS ERROR ," + err.name + " = " + err.message);
-      console.log("GREENIT-ANALYSIS ERROR " + err.stack);
-      //if (err.name !== 'SecurityError') throw err;
-    }
-    return fonts;
-  }, new Set());
-  return Array.from(fontList);
-}
 start_analyse();
