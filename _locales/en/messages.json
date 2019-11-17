@@ -240,7 +240,7 @@
     "description": "Do not download unecessary image"
   },
   "rule_ImageDownloadedNotDisplayed_DetailDescription": {
-    "message": "Except for icons, uploading images that will not necessarily be visible consumes resources unnecessarily",
+    "message": "Downloading images that will not necessarily be visible consumes resources unnecessarily. For example, images that are displayed only after a user action.",
     "description": "Do not download image in browser until there are needed "
   },
   "rule_ImageDownloadedNotDisplayed_Comment": {
@@ -320,7 +320,7 @@
     "description": "No cookie for static ressources"
   },
   "rule_NoCookieForStaticRessources_DetailDescription": {
-    "message": "No cookie for static ressources ...",
+    "message": "For static resources, a cookie is useless, so it consumes unnecessarily bandwidth.To avoid this, we can use a different domain for static resources or restrict the scope of cookies created",
     "description": "No cookie for static ressources"
   },
   "rule_NoCookieForStaticRessources_DefaultComment": {
@@ -344,7 +344,7 @@
     "description": "Avoid redirect"
   },
   "rule_NoRedirect_DetailDescription": {
-    "message": "Redirect use unecessary ressources",
+    "message": "Redirections should be avoided as much as possible as they slow down response and drain resources unnecessarily.",
     "description": "Avoir redirect"
   },
   "rule_NoRedirect_Comment": {
@@ -365,7 +365,7 @@
     "description": "No bitmap image to optimize"
   },
   "rule_OptimizeBitmapImages_DetailDescription": {
-    "message": "Choose the good resolution for image .... ",
+    "message": "Bitmap images often constitute most of the bytes downloaded, just ahead of the CSS and JavaScript libraries. Optimizing them thus has a considerable impact on the bandwidth consumed.",
     "description": "Optimize bitmap images"
   },
   "rule_OptimizeBitmapImages_Comment": {
@@ -389,7 +389,7 @@
     "description": "No svg to optimized"
   },
   "rule_OptimizeSvg_DetailDescription": {
-    "message": "Optimize svg  images .... ",
+    "message": "Svg images are less heavy than bitmap images, nevertheless they can be optimized and minified via tools (for example, svgo)",
     "description": "Optimize svg images"
   },
   "rule_OptimizeSvg_Comment": {

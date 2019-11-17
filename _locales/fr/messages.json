@@ -236,11 +236,11 @@
     }
   },
   "rule_ImageDownloadedNotDisplayed": {
-    "message": "Ne télécharger pas les images inutilement",
+    "message": "Ne télécharger pas des images inutilement",
     "description": "Do not download unecessary image"
   },
   "rule_ImageDownloadedNotDisplayed_DetailDescription": {
-    "message": "Sauf pour les icones, télécharger des images qui ne seront pas nécessairement visibles consomme inutilement des ressources",
+    "message": "Télécharger des images qui ne seront pas nécessairement visibles consomme inutilement des ressources. Il s'agit par exemple d'images qui sont affichées uniquement suite à une action utilisateur.",
     "description": "Do not download image in browser until there are needed "
   },
   "rule_ImageDownloadedNotDisplayed_Comment": {
@@ -341,7 +341,7 @@
     "description": "No cookie for static ressources"
   },
   "rule_NoCookieForStaticRessources_DetailDescription": {
-    "message": "Pas de cookie pour les ressources statiques ...",
+    "message": "Pour les ressources statiques, un cookie est inutile, cela consomme donc inutilement de la bande passante. Pour éviter cela, on peut utiliser un domaine différent pour les ressources statiques ou restreindre la portée des cookies crées",
     "description": "No cookie for static ressources"
   },
   "rule_NoCookieForStaticRessources_DefaultComment": {
@@ -365,8 +365,8 @@
     "description": "Avoid redirect"
   },
   "rule_NoRedirect_DetailDescription": {
-    "message": "Les redirections consomment inutilement des ressources",
-    "description": "Avoir redirect"
+    "message": "Les redirections doivent être évitées autant que possible car elles ralentissent la réponse et consomment inutilement des ressources.",
+    "description": "Avoid redirect"
   },
   "rule_NoRedirect_Comment": {
     "message": "$NB_REDIRECT$ redirection(s)",
@@ -386,7 +386,7 @@
     "description": "No bitmap image to optimize"
   },
   "rule_OptimizeBitmapImages_DetailDescription": {
-    "message": "Choisissez une résolution adaptée .... ",
+    "message": "Les images bitmap constituent souvent la plupart des octets téléchargés, juste devant les bibliothèques CSS et JavaScript. Leur optimisation a donc un impact considérable sur la bande passante consommée.",
     "description": "Optimize bitmap images"
   },
   "rule_OptimizeBitmapImages_Comment": {
@@ -410,7 +410,7 @@
     "description": "No svg to optimized"
   },
   "rule_OptimizeSvg_DetailDescription": {
-    "message": "Optimizer les images svg  .... ",
+    "message": "Les images svg sont moins lourdes que les images bitmap, elles peuvent cependant être optimisées et minifiées via des outils (par exemple svgo)",
     "description": "Optimize svg images"
   },
   "rule_OptimizeSvg_Comment": {
