@@ -1,7 +1,5 @@
 
 describe("utils.js", function () {
-  const testFrame = window.frames["testFrame"].contentWindow;
-
 
   describe("#function getResponseHeaderFromResource", function () {
 
@@ -10,17 +8,17 @@ describe("utils.js", function () {
 
     it(" should return text/css", function () {
       const resource = { response: { status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "text/css" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.getResponseHeaderFromResource(resource, "content-type")).toEqual('text/css');
+      expect(getResponseHeaderFromResource(resource, "content-type")).toEqual('text/css');
     });
 
     it(" should return gzip", function () {
       const resource = { response: { status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "text/css" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.getResponseHeaderFromResource(resource, "content-encoding")).toEqual('gzip');
+      expect(getResponseHeaderFromResource(resource, "content-encoding")).toEqual('gzip');
     });
 
     it(" should return an empty string", function () {
       const resource = { response: { status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "text/css" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.getResponseHeaderFromResource(resource, "inexistant-header")).toEqual('');
+      expect(getResponseHeaderFromResource(resource, "inexistant-header")).toEqual('');
     });
     afterEach(function () {
     });
@@ -34,17 +32,17 @@ describe("utils.js", function () {
 
     it(" should return 0", function () {
       const resource = { request: { httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "text/css" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.getCookiesLength(resource)).toEqual(0);
+      expect(getCookiesLength(resource)).toEqual(0);
     });
 
     it(" should return 5", function () {
       const resource = { request: { httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "cookie", value: "12345" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.getCookiesLength(resource)).toEqual(5);
+      expect(getCookiesLength(resource)).toEqual(5);
     });
 
     it(" should return 10", function () {
       const resource = { request: { httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "Cookie", value: "123456789y" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.getCookiesLength(resource)).toEqual(10);
+      expect(getCookiesLength(resource)).toEqual(10);
     });
     afterEach(function () {
     });
@@ -58,17 +56,17 @@ describe("utils.js", function () {
 
     it(" text/css is static , should return true ", function () {
       const resource = { response: { status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "text/css" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.isStaticRessource(resource)).toEqual(true);
+      expect(isStaticRessource(resource)).toEqual(true);
     });
 
     it(" image/bmp is static , should return true", function () {
       const resource = { response: { status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "image/bmp" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.isStaticRessource(resource)).toEqual(true);
+      expect(isStaticRessource(resource)).toEqual(true);
     });
 
     it(" test/test is unknown , should return false", function () {
       const resource = { response: { status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "test/test" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.isStaticRessource(resource)).toEqual(false);
+      expect(isStaticRessource(resource)).toEqual(false);
     });
     afterEach(function () {
     });
@@ -82,37 +80,37 @@ describe("utils.js", function () {
 
     it("application/font-woff is font , should return true ", function () {
       const resource = { response: { status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "application/font-woff" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.isFontResource(resource)).toEqual(true);
+      expect(isFontResource(resource)).toEqual(true);
     });
 
     it(" application/font-woff2 is font, should return true", function () {
       const resource = { response: { status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "application/font-woff" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.isFontResource(resource)).toEqual(true);
+      expect(isFontResource(resource)).toEqual(true);
     });
 
     it(" test/css is not font , should return false", function () {
       const resource = { request: {url : "http://test/"} , response: { status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "text/css" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.isFontResource(resource)).toEqual(false);
+      expect(isFontResource(resource)).toEqual(false);
     });
 
     it(" text/plain is not font if extension file  is not woff or woff 2 , should return false", function () {
       const resource = {request: {url : "http://test/test.bmp"} , response: { status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "text/plain" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.isFontResource(resource)).toEqual(false);
+      expect(isFontResource(resource)).toEqual(false);
     });
 
     it(" text/plain is  font if extension file  is woff, should return true", function () {
       const resource = {request: {url : "http://test/test.woff"} , response: { status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "text/plain" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.isFontResource(resource)).toEqual(true);
+      expect(isFontResource(resource)).toEqual(true);
     });
 
     it(" text/plain is  font if extension file  is woff2, should return true", function () {
       const resource = {request: {url : "http://test/test.woff2?test"} , response: { status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "text/plain" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.isFontResource(resource)).toEqual(true);
+      expect(isFontResource(resource)).toEqual(true);
     });
 
     it(" no content type is  font if extension file  is woff2, should return true", function () {
       const resource = {request: {url : "http://test/test.woff2?test"} , response: { status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.isFontResource(resource)).toEqual(true);
+      expect(isFontResource(resource)).toEqual(true);
     });
 
     afterEach(function () {
@@ -126,33 +124,33 @@ describe("utils.js", function () {
 
     it(" no cache header, should return false ", function () {
       const resource = { response: { status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "text/css" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.hasValidCacheHeaders(resource)).toEqual(false);
+      expect(hasValidCacheHeaders(resource)).toEqual(false);
     });
 
     it(" Cache-Control=no-cache  , should return false", function () {
       const resource = { response: { headers: [{ name: 'Cache-Control', value: "no-cache" }, { name: "content-encoding", value: "gzip" }, { name: "content-type", value: "image/bmp" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.hasValidCacheHeaders(resource)).toEqual(false);
+      expect(hasValidCacheHeaders(resource)).toEqual(false);
     });
 
     it(" Cache-Control=no-store , should return false", function () {
       const resource = { response: { headers: [{ name: 'Cache-Control', value: "no-store" }, { name: "content-encoding", value: "gzip" }, { name: "content-type", value: "test/test" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.hasValidCacheHeaders(resource)).toEqual(false);
+      expect(hasValidCacheHeaders(resource)).toEqual(false);
     });
 
 
     it(" Cache expires in 2001, should return false", function () {
       const resource = { response: { headers: [{ name: 'Cache-Control', value: "test" }, { name: 'Expires', value: "Fri, 05 Jan 2001 18:09:48 GMT" }, { name: "content-encoding", value: "gzip" }, { name: "content-type", value: "test/test" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.hasValidCacheHeaders(resource)).toEqual(false);
+      expect(hasValidCacheHeaders(resource)).toEqual(false);
     });
 
     it(" Cache expires in 2099, should return true", function () {
       const resource = { response: { headers: [{ name: 'Cache-Control', value: "test" }, { name: 'Expires', value: "Mon, 05 Jan 2099 18:09:48 GMT" }, { name: "content-encoding", value: "gzip" }, { name: "content-type", value: "test/test" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.hasValidCacheHeaders(resource)).toEqual(true);
+      expect(hasValidCacheHeaders(resource)).toEqual(true);
     });
 
     it(" Date after Expires , shoud return false ", function () {
       const resource = { response: { headers: [{ name: 'Cache-Control', value: "test" }, { "name": "Date", "value": "Mon, 05 Jan 2099 18:33:56 GMT" }, { name: 'Expires', value: "Mon, 05 Jan 2099 18:09:48 GMT" }, { name: "content-encoding", value: "gzip" }, { name: "content-type", value: "test/test" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.hasValidCacheHeaders(resource)).toEqual(false);
+      expect(hasValidCacheHeaders(resource)).toEqual(false);
     });
 
     afterEach(function () {
@@ -166,17 +164,17 @@ describe("utils.js", function () {
 
     it(" size is <= 150  should return false ", function () {
       const resource = { response: { content: { size: 120 }, status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "text/css" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.isCompressibleResource(resource)).toEqual(false);
+      expect(isCompressibleResource(resource)).toEqual(false);
     });
 
     it(" image/bmp is compressible , should return true", function () {
       const resource = { response: { content: { size: 2000 }, status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "image/bmp" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.isCompressibleResource(resource)).toEqual(true);
+      expect(isCompressibleResource(resource)).toEqual(true);
     });
 
     it(" type test/test is unknown , should return false", function () {
       const resource = { response: { content: { size: 2000 }, status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "test/test" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.isCompressibleResource(resource)).toEqual(false);
+      expect(isCompressibleResource(resource)).toEqual(false);
     });
     afterEach(function () {
     });
@@ -189,27 +187,27 @@ describe("utils.js", function () {
 
     it(" content encoding is gzip  should return true", function () {
       const resource = { response: { content: { size: 120 }, status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "text/css" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.isResourceCompressed(resource)).toEqual(true);
+      expect(isResourceCompressed(resource)).toEqual(true);
     });
 
     it(" content encoding is GZIP  should return true", function () {
       const resource = { response: { content: { size: 2000 }, status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "GZIP" }, { name: "content-type", value: "image/bmp" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.isResourceCompressed(resource)).toEqual(true);
+      expect(isResourceCompressed(resource)).toEqual(true);
     });
 
     it(" content encoding is compress  should return true", function () {
       const resource = { response: { content: { size: 2000 }, status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "compress" }, { name: "content-type", value: "image/bmp" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.isResourceCompressed(resource)).toEqual(true);
+      expect(isResourceCompressed(resource)).toEqual(true);
     });
 
     it(" content encoding is TEST  should return false", function () {
       const resource = { response: { content: { size: 2000 }, status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "TEST" }, { name: "content-type", value: "image/bmp" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.isResourceCompressed(resource)).toEqual(false);
+      expect(isResourceCompressed(resource)).toEqual(false);
     });
 
     it(" content encoding is not present , should return false", function () {
       const resource = { response: { content: { size: 2000 }, status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-type", value: "test/test" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.isResourceCompressed(resource)).toEqual(false);
+      expect(isResourceCompressed(resource)).toEqual(false);
     });
     afterEach(function () {
     });
@@ -223,17 +221,17 @@ describe("utils.js", function () {
 
     it(" using etag, should return true", function () {
       const resource = { response: { content: { size: 120 }, status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "text/css" }, { name: "ETag", value: "test" }] } };
-      expect(testFrame.isRessourceUsingETag(resource)).toEqual(true);
+      expect(isRessourceUsingETag(resource)).toEqual(true);
     });
 
     it(" using etag, should return true", function () {
       const resource = { response: { content: { size: 120 }, status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "gzip" }, { name: "content-type", value: "text/css" }, { name: "etag", value: "test" }] } };
-      expect(testFrame.isRessourceUsingETag(resource)).toEqual(true);
+      expect(isRessourceUsingETag(resource)).toEqual(true);
     });
 
     it(" not using etag , should return false", function () {
       const resource = { response: { content: { size: 2000 }, status: 200, statusText: "", httpVersion: "http/2.0", headers: [{ name: "content-encoding", value: "GZIP" }, { name: "content-type", value: "image/bmp" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.isRessourceUsingETag(resource)).toEqual(false);
+      expect(isRessourceUsingETag(resource)).toEqual(false);
     });
     afterEach(function () {
     });
@@ -246,43 +244,43 @@ describe("utils.js", function () {
     });
 
     it(" http://test should return test", function () {
-      expect(testFrame.getDomainFromUrl("http://test")).toEqual("test");
+      expect(getDomainFromUrl("http://test")).toEqual("test");
     });
 
     it(" http://test:8080 should return test", function () {
-      expect(testFrame.getDomainFromUrl("http://test:8080")).toEqual("test");
+      expect(getDomainFromUrl("http://test:8080")).toEqual("test");
     });
 
     it(" http://test/test should return test", function () {
-      expect(testFrame.getDomainFromUrl("http://test")).toEqual("test");
+      expect(getDomainFromUrl("http://test")).toEqual("test");
     });
 
     it(" https://test.com should return test.com", function () {
-      expect(testFrame.getDomainFromUrl("http://test.com")).toEqual("test.com");
+      expect(getDomainFromUrl("http://test.com")).toEqual("test.com");
     });
 
     it(" http://test.com/test.com should return test.com", function () {
-      expect(testFrame.getDomainFromUrl("http://test.com/test.com")).toEqual("test.com");
+      expect(getDomainFromUrl("http://test.com/test.com")).toEqual("test.com");
     });
 
     it(" ftp://test.com/test.com should return test.com", function () {
-      expect(testFrame.getDomainFromUrl("ftp://test.com/test.com")).toEqual("test.com");
+      expect(getDomainFromUrl("ftp://test.com/test.com")).toEqual("test.com");
     });
 
     it(" http://test.com/a/b/c should return test.com", function () {
-      expect(testFrame.getDomainFromUrl("http://test.com/a/b/c")).toEqual("test.com");
+      expect(getDomainFromUrl("http://test.com/a/b/c")).toEqual("test.com");
     });
 
     it(" http:/test.com/a/b/c should return empty string", function () {
-      expect(testFrame.getDomainFromUrl("http:/test.com/a/b/c")).toEqual("");
+      expect(getDomainFromUrl("http:/test.com/a/b/c")).toEqual("");
     });
 
     it(" http:/test.com:100/a/b/c should return empty string", function () {
-      expect(testFrame.getDomainFromUrl("http:/test.com:100/a/b/c")).toEqual("");
+      expect(getDomainFromUrl("http:/test.com:100/a/b/c")).toEqual("");
     });
 
     it(" http://test.com:100/a/b/c should return test.com", function () {
-      expect(testFrame.getDomainFromUrl("http://test.com:100/a/b/c")).toEqual("test.com");
+      expect(getDomainFromUrl("http://test.com:100/a/b/c")).toEqual("test.com");
     });
 
 
@@ -296,26 +294,26 @@ describe("utils.js", function () {
     });
 
     it(" 2 a in aeat ", function () {
-      expect(testFrame.countChar('a', "aeat")).toEqual(2);
+      expect(countChar('a', "aeat")).toEqual(2);
     });
 
     it(" 2 a in aeatAA ", function () {
-      expect(testFrame.countChar('a', "aeatAA")).toEqual(2);
+      expect(countChar('a', "aeatAA")).toEqual(2);
     });
 
     it(" 0 a in AeBt ", function () {
-      expect(testFrame.countChar('a', "AeBt")).toEqual(0);
+      expect(countChar('a', "AeBt")).toEqual(0);
     });
 
     it(" 10 Z in ZZZZZZZZZZaaaaaaaaaaaaaaaaaaaaaaaaaaa ", function () {
-      expect(testFrame.countChar('Z', "ZZZZZZZZZZaaaaaaaaaaaaaaaaaaaaaaaaaaa")).toEqual(10);
+      expect(countChar('Z', "ZZZZZZZZZZaaaaaaaaaaaaaaaaaaaaaaaaaaa")).toEqual(10);
     });
 
     it(" 3 ( in ())(kdfhf()) ", function () {
-      expect(testFrame.countChar('(', "())(kdfhf())")).toEqual(3);
+      expect(countChar('(', "())(kdfhf())")).toEqual(3);
     });
     it(" 0 % in AeBt ", function () {
-      expect(testFrame.countChar('%', "AeBt")).toEqual(0);
+      expect(countChar('%', "AeBt")).toEqual(0);
     });
 
     afterEach(function () {
@@ -330,12 +328,12 @@ describe("utils.js", function () {
     });
 
     it("\" var test=0;\n test++ ; \n windows.open(test)\"  is not minified", function () {
-      expect(testFrame.isMinified("var test=0;\n test++ ; \n windows.open(test)")).toEqual(false);
+      expect(isMinified("var test=0;\n test++ ; \n windows.open(test)")).toEqual(false);
     });
 
 
     it("\"" + minifiedJS + "\"  is minified", function () {
-      expect(testFrame.isMinified(minifiedJS)).toEqual(true);
+      expect(isMinified(minifiedJS)).toEqual(true);
     });
 
     afterEach(function () {
@@ -350,11 +348,11 @@ describe("utils.js", function () {
     });
 
     it("var test=0; is correct javascript, shoud return 0", function () {
-      expect(testFrame.computeNumberOfErrorsInJSCode("var test=0;", "test")).toEqual(0);
+      expect(computeNumberOfErrorsInJSCode("var test=0;", "test")).toEqual(0);
     });
 
     it("var test=0 t; is not correct javascript, shoud return 1", function () {
-      expect(testFrame.computeNumberOfErrorsInJSCode("var test=0 t;", "test")).toEqual(1);
+      expect(computeNumberOfErrorsInJSCode("var test=0 t;", "test")).toEqual(1);
     });
 
     afterEach(function () {
@@ -369,12 +367,12 @@ describe("utils.js", function () {
 
     it("url is http:// should return true ", function () {
       const resource = { request: { url: "http://test", headers: [{ name: "content-encoding", value: "gzip" }, { name: "cookie", value: "12345" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.isNetworkResource(resource)).toEqual(true);
+      expect(isNetworkResource(resource)).toEqual(true);
     });
 
     it("url is data: should return false ", function () {
       const resource = { request: { url: "data:test", headers: [{ name: "content-encoding", value: "gzip" }, { name: "cookie", value: "12345" }, { name: "toto", value: "test" }] } };
-      expect(testFrame.isNetworkResource(resource)).toEqual(false);
+      expect(isNetworkResource(resource)).toEqual(false);
     });
 
     afterEach(function () {
@@ -422,31 +420,31 @@ describe("utils.js", function () {
 
     it("no content type , should return an empty String", function () {
       const resource = { response: { url: "http://test", headers: [{ name: "content-encoding", value: "gzip" },{ name: "toto", value: "test" }] } };
-      expect(testFrame.getImageTypeFromResource(resource)).toEqual("");
+      expect(getImageTypeFromResource(resource)).toEqual("");
     });
     it("content type is not an image type , should return an empty String ", function () {
       const resource = { response: { url: "http://test", headers: [{ name: "content-type", value: "test" }, { name: "cookie", value: "12345" }] } };
-      expect(testFrame.getImageTypeFromResource(resource)).toEqual("");
+      expect(getImageTypeFromResource(resource)).toEqual("");
     });
     it("content type is image/png, should return png", function () {
       const resource = { response: { url: "http://test", headers: [{ name: "content-type", value: "image/png" },{ name: "toto", value: "test" }] } };
-      expect(testFrame.getImageTypeFromResource(resource)).toEqual("png");
+      expect(getImageTypeFromResource(resource)).toEqual("png");
     });
     it("content type is image/jpg, should return jpeg", function () {
       const resource = { response: { url: "http://test", headers: [{ name: "content-type", value: "image/jpeg" },{ name: "toto", value: "test" }] } };
-      expect(testFrame.getImageTypeFromResource(resource)).toEqual("jpeg");
+      expect(getImageTypeFromResource(resource)).toEqual("jpeg");
     });
     it("content type is image/gif, should return gif", function () {
       const resource = { response: { url: "http://test", headers: [{ name: "content-type", value: "image/gif" },{ name: "toto", value: "test" }] } };
-      expect(testFrame.getImageTypeFromResource(resource)).toEqual("gif");
+      expect(getImageTypeFromResource(resource)).toEqual("gif");
     });
     it("content type is image/bmp, should return bmp", function () {
       const resource = { response: { url: "http://test", headers: [{ name: "content-type", value: "image/bmp" },{ name: "toto", value: "test" }] } };
-      expect(testFrame.getImageTypeFromResource(resource)).toEqual("bmp");
+      expect(getImageTypeFromResource(resource)).toEqual("bmp");
     });
     it("content type is image/tiff, should return tiff", function () {
       const resource = { response: { url: "http://test", headers: [{ name: "content-type", value: "image/tiff" },{ name: "toto", value: "test" }] } };
-      expect(testFrame.getImageTypeFromResource(resource)).toEqual("tiff");
+      expect(getImageTypeFromResource(resource)).toEqual("tiff");
     });
     afterEach(function () {
     });

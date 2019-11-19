@@ -105,7 +105,7 @@
     }
   },
   "rule_CompressHttp": {
-    "message": "Ressources compressées (>= 95%) ",
+    "message": "Compresser les ressources (>= 95%) ",
     "description": "Compress ressources "
   },
   "rule_CompressHttp_DetailDescription": {

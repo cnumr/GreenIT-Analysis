@@ -13,6 +13,9 @@ function initUI() {
   document.getElementById('helpButton').addEventListener('click', (e) => viewHelp());
   document.getElementById('analyseBestPracticesCheckBox').addEventListener('click', (e) => setAnalyseBestPractices());
 
+  // Set best practices
+  rulesManager.getRulesId().forEach(loadHTMLBestPractice);
+
   // Set a listener for each plus button (detail best practice )
   let links = document.getElementsByClassName("bestPracticeLink");
   for (var i = 0; i < links.length; i++) {
@@ -36,7 +39,47 @@ function initUI() {
   }
 }
 
+function loadHTMLBestPractice(ruleId) {
+  let html = "";
+  html += "<td>";
+  html += "<a href=\"#\" id=\"" + ruleId + "_Detail\" class=\"bestPracticeLink\">";
+  html += chrome.i18n.getMessage("rule_" + ruleId);
+  html += "</a>";
+  html += "</td>";
+  html += "<td style=\"width:30px\"> <img id=\"" + ruleId + "_status\" src=\"icons/OK.png\"></td>";
+  html += "<td> <span id=\"" + ruleId + "_comment\"> </span> <a href=\"#\" id=\"" + ruleId + "_DetailComment\" class=\"detailCommentLink\" hidden>.....</a> </td>";
+
+  var newTR = document.createElement("tr");
+  newTR.innerHTML = html;
+  document.getElementById("bestPracticesTable").appendChild(newTR);
+
+
+  html = "";
+  html += "<td colspan=\"3\">";
+  html += "<p class=\"bestPracticeDetail\">" + chrome.i18n.getMessage("rule_" + ruleId + "_DetailDescription"); "</p>";
+  html += "</td>";
+
+  newTR = document.createElement("tr");
+  newTR.id = ruleId + "_DetailTextRow";
+  newTR.hidden = true;
+  newTR.innerHTML = html;
+  document.getElementById("bestPracticesTable").appendChild(newTR);
+
+  html = "";
+  html += "<td colspan=\"3\">";
+  html += "<p id=\"" + ruleId + "_DetailCommentText\" class=\"bestPracticeDetailComment\"> </p>";
+  html += "</td>";
+
+  newTR = document.createElement("tr");
+  newTR.id = ruleId + "_DetailCommentTextRow";
+  newTR.hidden = true;
+  newTR.innerHTML = html;
+  document.getElementById("bestPracticesTable").appendChild(newTR);
+
+}
+
 function setUnsupportedRuleAnalyse(ruleId) {
+  console.log("ruleId=" + ruleId);
   document.getElementById(ruleId + "_status").src = "";
   document.getElementById(ruleId + "_comment").innerHTML = chrome.i18n.getMessage("unsupportedRuleAnalyse");
 }
@@ -57,7 +100,7 @@ function refreshUI() {
   document.getElementById("greenhouseGasesEmission").innerHTML = measures.greenhouseGasesEmission;
   if (analyseBestPractices) {
     document.getElementById("bestPracticesView").hidden = false;
-    currentRules.getAllRules().forEach(showEcoRuleOnUI);
+    currentRulesChecker.getAllRules().forEach(showEcoRuleOnUI);
   }
   else document.getElementById("bestPracticesView").hidden = true;
 }
@@ -117,7 +160,7 @@ function setAnalyseBestPractices() {
 }
 
 function switchElementVisibiliy(id) {
-
+  console.log("switch "+ id);
   if (document.getElementById(id).hidden) document.getElementById(id).hidden = false;
   else document.getElementById(id).hidden = true;
 

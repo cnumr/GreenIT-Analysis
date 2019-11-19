@@ -22,14 +22,59 @@
 <body>
 
 <iframe id='testFrame' src="test_page.html" hidden > </iframe>
+
+<script>
+
+  // MOCKING 
+  chrome.i18n = new function () {
+    this.getMessage = function () {
+      return "test";
+    }
+  };
+
+  chrome.devtools = new function () {
+    this.inspectedWindow = new function () {
+      this.getResources = function () {
+        return true;
+      }
+    }
+  }
+  // END MOCKING
+
+</script>
+
 <script src="spec/AnalyseFrame_Spec.js"></script>
 <script src="spec/Utils_Spec.js"></script>
 <script src="spec/EcoIndex_Spec.js"></script>
+<script src="spec/Rules_Spec.js"></script> 
 <script src="../script/require.js"></script>
+<script src="../script/rulesManager.js"></script>
+<script src="../script/rules/AddExpiresOrCacheControlHeaders.js"> </script>
+<script src="../script/rules/CompressHttp.js"> </script>
+<script src="../script/rules/DomainsNumber.js"> </script>
+<script src="../script/rules/DontResizeImageInBrowser.js"> </script>
+<script src="../script/rules/EmptySrcTag.js"> </script>
+<script src="../script/rules/ExternalizeCss.js"> </script>
+<script src="../script/rules/ExternalizeJs.js"> </script>
+<script src="../script/rules/HttpRequests.js"> </script>
+<script src="../script/rules/ImageDownloadedNotDisplayed.js"> </script>
+<script src="../script/rules/JsValidate.js"> </script>
+<script src="../script/rules/MaxCookiesLength.js"> </script>
+<script src="../script/rules/MinifiedCss.js"> </script>
+<script src="../script/rules/MinifiedJs.js"> </script>
+<script src="../script/rules/NoCookieForStaticRessources.js"> </script>
+<script src="../script/rules/NoRedirect.js"> </script>
+<script src="../script/rules/OptimizeBitmapImages.js"> </script>
+<script src="../script/rules/OptimizeSvg.js"> </script>
+<script src="../script/rules/Plugins.js"> </script>
+<script src="../script/rules/PrintStyleSheet.js"> </script>
+<script src="../script/rules/StyleSheets.js"> </script>
+<script src="../script/rules/UseETags.js"> </script>
+<script src="../script/rules/UseStandardTypefaces.js"> </script>
 <script src="../script/rules.js"></script>
 <script src="../script/utils.js"></script>
-<script src="../script/rules.js"></script>
-<script src="spec/Rules_Spec.js"></script>
+<script src="../script/ecoIndex.js"> </script> 
+
 
 
 </body>

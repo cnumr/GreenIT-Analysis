@@ -8,25 +8,18 @@
  */
 
 let backgroundPageConnection;
-let currentRules;
+let currentRulesChecker;
 let lastAnalyseStartingTime = 0;
 let measuresAcquisition;
 let analyseBestPractices = false;
 
 initPanel();
 
-function initPanel() {
+function initPanel() {  
   openBackgroundPageConnection();
-
-  // if method chrome.devtools.inspectedWindow.getResources is not implemented (ex: firefox)
-  // These rules cannot be computed
-  if (!chrome.devtools.inspectedWindow.getResources) {
-    setUnsupportedRuleAnalyse("minifiedJs");
-    setUnsupportedRuleAnalyse("jsValidate");
-    setUnsupportedRuleAnalyse("minifiedCss");
-    setUnsupportedRuleAnalyse("optimizeSvg");
-  }
   initUI();
+  let notCompatibleRules = rulesManager.getRulesNotCompatibleWithCurrentBrowser();
+  notCompatibleRules.forEach(rule => setUnsupportedRuleAnalyse(rule));
 }
 
 function openBackgroundPageConnection() {
@@ -68,8 +61,8 @@ function launchAnalyse() {
   }
   lastAnalyseStartingTime = now;
   debug(() => `Starting new analyse , time = ${lastAnalyseStartingTime}`);
-  currentRules = new Rules();
-  measuresAcquisition = new MeasuresAcquisition(currentRules);
+  currentRulesChecker = rulesManager.getNewRulesChecker();
+  measuresAcquisition = new MeasuresAcquisition(currentRulesChecker);
   measuresAcquisition.initializeMeasures();
 
   // Launch analyse via injection of a script in each frame of the current tab
@@ -85,7 +78,7 @@ function launchAnalyse() {
 function MeasuresAcquisition(rules) {
 
   let measures;
-  let localRules = rules;
+  let localRulesChecker = rules;
   let nbGetHarTry = 0;
 
   this.initializeMeasures = () => {
@@ -102,22 +95,9 @@ function MeasuresAcquisition(rules) {
       "pluginsNumber": 0,
       "printStyleSheetsNumber": 0,
       "inlineStyleSheetsNumber": 0,
-      "minifiedCssNumber": 0,
-      "minifiedCssSize": 0,
-      "totalCssSize": 0,
-      "cssShouldBeMinified": [],
-      "totalCss": 0,
       "emptySrcTagNumber": 0,
-      "jsErrors": new Map(),
       "inlineJsScriptsNumber": 0,
-      "minifiedJsNumber": 0,
-      "minifiedJsSize": 0,
-      "totalJsSize": 0,
-      "jsShouldBeMinified": [],
-      "totalJs": 0,
-      "svgShouldBeOptimized": [],
-      "imagesResizedInBrowser": [],
-      "cssFontFace": []
+      "imagesResizedInBrowser": []
     };
   }
 
@@ -138,20 +118,20 @@ function MeasuresAcquisition(rules) {
       measures.printStyleSheetsNumber += frameMeasures.printStyleSheetsNumber;
       if (measures.inlineStyleSheetsNumber < frameMeasures.inlineStyleSheetsNumber) measures.inlineStyleSheetsNumber = frameMeasures.inlineStyleSheetsNumber;
       measures.emptySrcTagNumber += frameMeasures.emptySrcTagNumber;
-      if ((frameMeasures.inlineJsScript.length > 0) && (chrome.devtools.inspectedWindow.getResources)) analyseJsCode(frameMeasures.inlineJsScript, "inline");
+      if ((frameMeasures.inlineJsScript.length > 0) && (chrome.devtools.inspectedWindow.getResources)) {
+        const resourceContent = { 
+          url:"inline js",
+          type:"script",
+          content:frameMeasures.inlineJsScript
+        }
+        localRulesChecker.sendEvent('resourceContentReceived',measures,resourceContent);
+      }
       if (measures.inlineJsScriptsNumber < frameMeasures.inlineJsScriptsNumber) measures.inlineJsScriptsNumber = frameMeasures.inlineJsScriptsNumber;
 
       measures.imagesResizedInBrowser = frameMeasures.imagesResizedInBrowser;
 
+      localRulesChecker.sendEvent('frameMeasuresReceived',measures);
 
-      localRules.checkRule('plugins', measures);
-      localRules.checkRule('printStyleSheets', measures);
-      localRules.checkRule('emptySrcTag', measures);
-      if (chrome.devtools.inspectedWindow.getResources) localRules.checkRule('jsValidate', measures);
-      localRules.checkRule('externalizeCss', measures);
-      localRules.checkRule('externalizeJs', measures);
-      localRules.checkRule('dontResizeImageInBrowser', measures);
-      localRules.checkRule('imageDownloadedNotDisplayed', measures);
     }
   }
 
@@ -196,19 +176,8 @@ function MeasuresAcquisition(rules) {
             //debug(() => `entry size = ${entry.response.content.size} , responseSize = ${measures.responsesSize}`);
           }
         });
-        if (analyseBestPractices) {
-          localRules.checkRule("styleSheets", measures);
-          localRules.checkRule("httpRequests", measures);
-          localRules.checkRule("domainsNumber", measures);
-          localRules.checkRule("addExpiresOrCacheControlHeaders", measures);
-          localRules.checkRule("useETags", measures);
-          localRules.checkRule("compressHttp", measures);
-          localRules.checkRule("maxCookiesLength", measures);
-          localRules.checkRule("noCookieForStaticRessources", measures);
-          localRules.checkRule("noRedirect", measures);
-          localRules.checkRule("optimizeBitmapImages", measures);
-          localRules.checkRule('useStandardTypefaces', measures);
-        }
+        if (analyseBestPractices) localRulesChecker.sendEvent('harReceived',measures);
+
         computeEcoIndexMeasures(measures);
         refreshUI();
       }
@@ -231,64 +200,23 @@ function MeasuresAcquisition(rules) {
   function ResourceAnalyser(resource) {
     let resourceToAnalyse = resource;
 
-    this.analyse = () => resourceToAnalyse.getContent(this.analyseJs);
+    this.analyse = () => resourceToAnalyse.getContent(this.analyseContent);
 
-    this.analyseJs = (code) => {
+    this.analyseContent = (code) => {
       // exclude from analyse the injected script 
-      console.log("Resource = " + JSON.stringify(resource));
-      if (resourceToAnalyse.type === 'script') {
-        if (!resourceToAnalyse.url.includes("script/analyseFrame.js")) {
-          analyseJsCode(code, resourceToAnalyse.url);
-          analyseMinifiedJs(code, resourceToAnalyse.url);
-        }
-      }
-      else if (resourceToAnalyse.type === 'stylesheet') analyseMinifiedCss(code, resourceToAnalyse.url);
-      else if ((resourceToAnalyse.type === 'image') && isSvgUrl(resourceToAnalyse.url)) analyseSvg(code, resourceToAnalyse.url);
+      if ((resourceToAnalyse.type === 'script') && (resourceToAnalyse.url.includes("script/analyseFrame.js"))) return;
+
+      let resourceContent = {
+        url: resourceToAnalyse.url,
+        type : resourceToAnalyse.type,
+        content: code
+      };
+      localRulesChecker.sendEvent('resourceContentReceived',measures,resourceContent);
+      
       refreshUI();
     }
   }
 
-  function analyseMinifiedJs(code, url) {
-    measures.totalJs++;
-    measures.totalJsSize += code.length;
-    if (isMinified(code)) {
-      measures.minifiedJsNumber++;
-      measures.minifiedJsSize += code.length;
-    }
-    else measures.jsShouldBeMinified.push(url);
-    localRules.checkRule("minifiedJs", measures);
-  }
-
-  function analyseMinifiedCss(code, url) {
-    measures.totalCss++;
-    measures.totalCssSize += code.length;
-    if (isMinified(code)) {
-      measures.minifiedCssNumber++;
-      measures.minifiedCssSize += code.length;
-    }
-    else measures.cssShouldBeMinified.push(url);
-    localRules.checkRule("minifiedCss", measures);
-  }
-
-  function analyseJsCode(code, url) {
-    let errorNumber = computeNumberOfErrorsInJSCode(code, url);
-    if (errorNumber > 0) {
-      measures.jsErrors.set(url, errorNumber);
-      localRules.checkRule("jsValidate", measures);
-      refreshUI();
-    }
-  }
-
-  function analyseSvg(code, url) {
-    console.log("analyse svg : " + url);
-    if (!isSvgOptimized(window.atob(code)))  // code is in base64 , decode base64 data with atob
-    {
-      const svg = { url: url, size: code.length }
-      measures.svgShouldBeOptimized.push(svg);
-      localRules.checkRule("optimizeSvg", measures);
-    }
-
-  }
 }
 
 /**
