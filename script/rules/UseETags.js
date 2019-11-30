@@ -15,7 +15,7 @@ rulesManager.registerRule({
           if (isRessourceUsingETag(entry)) {
             staticResourcesWithETagsSize += entry.response.content.size;
           }
-          else this.detailComment += `resource ${entry.request.url} ${Math.round(entry.response.content.size / 100) / 10}KB is not using ETags <br>`;
+          else this.detailComment +=chrome.i18n.getMessage("rule_UseETags_DetailComment",`${entry.request.url} ${Math.round(entry.response.content.size / 100) / 10}`) + '<br>';
         }
       });
       if (staticResourcesSize > 0) {

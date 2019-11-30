@@ -21,7 +21,7 @@ rulesManager.registerRule({
     check: function (measures) {
         measures.imagesResizedInBrowser.forEach(entry => {
             if (!this.imgAnalysed.has(entry.src) && this.isRevelant(entry)) { // Do not count two times the same picture
-                this.detailComment += `${entry.src} , with size ${entry.naturalWidth}x${entry.naturalHeight} is not display <br>`;
+                this.detailComment += chrome.i18n.getMessage("rule_ImageDownloadedNotDisplayed_DetailComment",[entry.src,`${entry.naturalWidth}x${entry.naturalHeight}`]) + '<br>';
                 this.imgAnalysed.set(entry.src);
                 this.imageDownloadedNotDisplayedNumber += 1;
             }

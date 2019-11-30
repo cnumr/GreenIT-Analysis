@@ -28,7 +28,7 @@ rulesManager.registerRule({
     check: function (measures) {
         measures.imagesResizedInBrowser.forEach(entry => {
             if (!this.imgAnalysed.has(entry.src) && this.isRevelant(entry)) { // Do not count two times the same picture
-                this.detailComment += `${entry.src} , is resized from ${entry.naturalWidth}x${entry.naturalHeight} to ${entry.clientWidth}x${entry.clientHeight}<br>`;
+                this.detailComment += chrome.i18n.getMessage("rule_DontResizeImageInBrowser_DetailComment",[entry.src,`${entry.naturalWidth}x${entry.naturalHeight}`,`${entry.clientWidth}x${entry.clientHeight}`]) + '<br>';
                 this.imgAnalysed.set(entry.src);
                 this.imagesResizedInBrowserNumber += 1;
             }

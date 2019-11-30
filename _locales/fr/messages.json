@@ -104,6 +104,15 @@
       }
     }
   },
+  "rule_AddExpiresOrCacheControlHeaders_DetailComment": {
+    "message": "$resource$Ko n'a pas d'Expires ou Cache-Control header",
+    "description": "KB has no expires or cache-control header",
+    "placeholders": {
+      "resource": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_CompressHttp": {
     "message": "Compresser les ressources (>= 95%) ",
     "description": "Compress ressources "
@@ -117,6 +126,15 @@
     "description": "Percentage of resources compressed",
     "placeholders": {
       "PERCENT": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_CompressHttp_DetailComment": {
+    "message": "$RESOURCE$Ko n'est pas compressé",
+    "description": "is not compressed",
+    "placeholders": {
+      "RESOURCE": {
         "content": "$1"
       }
     }
@@ -152,6 +170,21 @@
     "placeholders": {
       "NB": {
         "content": "$1"
+      }
+    }
+  },
+  "rule_DontResizeImageInBrowser_DetailComment": {
+    "message": "$IMAGE$ est redimensionnée de $NATURAL_SIZE$ à $CLIENT_SIZE$",
+    "description": "Image(s) resized from natural size to client size browser found",
+    "placeholders": {
+      "IMAGE": {
+        "content": "$1"
+      },
+      "NATURAL_SIZE": {
+        "content": "$2"
+      },
+      "CLIENT_SIZE": {
+        "content": "$3"
       }
     }
   },
@@ -252,6 +285,18 @@
       }
     }
   },
+  "rule_ImageDownloadedNotDisplayed_DetailComment": {
+    "message": "$IMAGE$ de taille $SIZE$ n'est pas affichée",
+    "description": "Image(s) with size XxX is not display",
+    "placeholders": {
+      "IMAGE": {
+        "content": "$1"
+      },
+      "SIZE": {
+        "content": "$2"
+      }
+    }
+  },
   "rule_JsValidate": {
     "message": "Valider le javascript",
     "description": "Validate js"
@@ -294,6 +339,18 @@
       }
     }
   },
+  "rule_MaxCookiesLength_DetailComment": {
+    "message": "Cookie de longueur $COOKIE_LENGTH$ pour le domaine $DOMAIN$",
+    "description": "Cookie length x for domain y ",
+    "placeholders": {
+      "COOKIE_LENGTH": {
+        "content": "$1"
+      },
+      "DOMAIN": {
+        "content": "$2"
+      }
+    }
+  },
   "rule_MinifiedCss": {
     "message": "Minifier les css (>= 95%)",
     "description": "Minified css (>= 95%)"
@@ -311,6 +368,15 @@
     "description": "Percentage of minified stylesheet ",
     "placeholders": {
       "NB": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_MinifiedCss_DetailComment": {
+    "message": "$CSS$ devrait être minifié",
+    "description": "Css x should be minified",
+    "placeholders": {
+      "CSS": {
         "content": "$1"
       }
     }
@@ -336,6 +402,15 @@
       }
     }
   },
+  "rule_MinifiedJs_DetailComment": {
+    "message": "$JS$ devrait être minifié",
+    "description": "Js x should be minified",
+    "placeholders": {
+      "JS": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_NoCookieForStaticRessources": {
     "message": "Pas de cookie pour les ressources statiques",
     "description": "No cookie for static ressources"
@@ -357,6 +432,15 @@
       },
       "TOTAL_SIZE": {
         "content": "$2"
+      }
+    }
+  },
+  "rule_NoCookieForStaticRessources_DetailComment": {
+    "message": "$RESOURCE$ a un(des) cookie(s)",
+    "description": "Resource x has cookie(s)",
+    "placeholders": {
+      "RESOURCE": {
+        "content": "$1"
       }
     }
   },
@@ -401,6 +485,21 @@
       }
     }
   },
+  "rule_OptimizeBitmapImages_DetailComment": {
+    "message": "$IMAGE$Ko $SIZE$, possibilité de gagner $GAIN$Ko",
+    "description": "Image x size, possible to gain yKB",
+    "placeholders": {
+      "IMAGE": {
+        "content": "$1"
+      },
+      "SIZE": {
+        "content": "$2"
+      },
+      "GAIN": {
+        "content": "$3"
+      }
+    }
+  },
   "rule_OptimizeSvg": {
     "message": "Optimiser les images svg",
     "description": "Optimize svg images"
@@ -419,6 +518,18 @@
     "placeholders": {
       "NB_IMAGES": {
         "content": "$1"
+      }
+    }
+  },
+  "rule_OptimizeSvg_DetailComment": {
+    "message": "$IMAGE$ pourrait être optimisée ($SIZE$Ko)",
+    "description": "Image should be oprimized (SIZE KB)",
+    "placeholders": {
+      "IMAGE": {
+        "content": "$1"
+      },
+      "SIZE": {
+        "content": "$2"
       }
     }
   },
@@ -500,6 +611,15 @@
     "description": "Percentage of resources with ETags",
     "placeholders": {
       "PERCENT": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_UseETags_DetailComment": {
+    "message": "$RESOURCE$Ko n'utilise pas d'ETags",
+    "description": "Resource is not using ETags",
+    "placeholders": {
+      "RESOURCE": {
         "content": "$1"
       }
     }

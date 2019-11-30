@@ -13,7 +13,7 @@ rulesManager.registerRule({
                 if (isResourceCompressed(entry)) {
                     compressibleResourcesCompressedSize += entry.response.content.size;
                 }
-                else this.detailComment += `resource ${entry.request.url} ${Math.round(entry.response.content.size / 100) / 10}KB is not compressed <br> `;
+                else this.detailComment += chrome.i18n.getMessage("rule_CompressHttp_DetailComment",`${entry.request.url} ${Math.round(entry.response.content.size / 100) / 10}`) + '<br>';
             }
         });
         if (compressibleResourcesSize > 0) {

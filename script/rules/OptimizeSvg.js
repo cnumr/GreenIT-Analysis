@@ -10,7 +10,7 @@ rulesManager.registerRule({
       if ((resourceContent.type === 'image') && isSvgUrl(resourceContent.url)) {
         if (!isSvgOptimized(window.atob(resourceContent.content)))  // code is in base64 , decode base64 data with atob
         {
-          this.detailComment += `${resourceContent.url} should be optimized ( ${Math.round(resourceContent.content.length / 100) / 10}KB)  <br>`;
+          this.detailComment += chrome.i18n.getMessage("rule_OptimizeSvg_detailComment",[resourceContent.url,String(Math.round(resourceContent.content.length / 100) / 10)]) + '<br>';
           this.totalSizeToOptimize += resourceContent.content.length;
           this.totalResourcesToOptimize++;
         }

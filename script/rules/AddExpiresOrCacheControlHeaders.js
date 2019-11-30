@@ -14,7 +14,7 @@ rulesManager.registerRule({
                 if (hasValidCacheHeaders(entry)) {
                     staticResourcesWithCache += entry.response.content.size;
                 }
-                else this.detailComment += `resource ${entry.request.url} ${Math.round(entry.response.content.size / 100) / 10}KB is not cached <br>`;
+                else this.detailComment += chrome.i18n.getMessage("rule_AddExpiresOrCacheControlHeaders_DetailComment",`${entry.request.url} ${Math.round(entry.response.content.size / 100) / 10}`) + '<br>';
             }
         });
 

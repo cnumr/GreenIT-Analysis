@@ -9,7 +9,7 @@ rulesManager.registerRule({
     check: function (measures, resourceContent) {
         if (resourceContent.type === "stylesheet") {
             this.totalCssSize += resourceContent.content.length;
-            if (!isMinified(resourceContent.content)) this.detailComment += `${resourceContent.url} should be minified <br>`;
+            if (!isMinified(resourceContent.content)) this.detailComment += chrome.i18n.getMessage("rule_MinifiedCss_DetailComment",resourceContent.url) + '<br>';
             else this.minifiedCssSize += resourceContent.content.length;
             const percentMinifiedCss = this.minifiedCssSize / this.totalCssSize * 100;
             this.complianceLevel = 'A';

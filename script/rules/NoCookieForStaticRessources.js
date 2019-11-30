@@ -12,7 +12,7 @@ rulesManager.registerRule({
         if (isStaticRessource(entry) && (cookiesLength > 0)) {
           nbRessourcesStaticWithCookie++;
           totalCookiesSize += cookiesLength + 7; // 7 is size for the header name "cookie:"
-          this.detailComment += entry.request.url + " has cookie <br> ";
+          this.detailComment += chrome.i18n.getMessage("rule_NoCookieForStaticRessources_DetailComment",entry.request.url) + "<br> ";
         }
       });
       if (nbRessourcesStaticWithCookie > 0) {

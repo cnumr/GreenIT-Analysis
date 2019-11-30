@@ -9,7 +9,6 @@ rulesManager.registerRule({
         let domains = new Map();
         if (measures.entries.length) measures.entries.forEach(entry => {
             const cookiesLength = getCookiesLength(entry);
-
             if (cookiesLength !== 0) {
                 let domain = getDomainFromUrl(entry.request.url);
                 if (domains.has(domain)) {
@@ -20,13 +19,12 @@ rulesManager.registerRule({
             }
         });
         domains.forEach((value, key) => {
-            this.detailComment += `COOKIE LENGTH = ${value} for domain ${key} <br>`;
+            this.detailComment += chrome.i18n.getMessage("rule_MaxCookiesLength_DetailComment",[value,key]) + '<br>' ;
         });
         if (maxCookiesLength !== 0) {
             this.comment = chrome.i18n.getMessage("rule_MaxCookiesLength_Comment", String(maxCookiesLength));
             if (maxCookiesLength > 512) this.complianceLevel = 'B';
             if (maxCookiesLength > 1024) this.complianceLevel = 'C';
-
         }
     }
 }, "harReceived");

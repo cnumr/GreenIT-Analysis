@@ -9,7 +9,7 @@ rulesManager.registerRule({
     check: function (measures, resourceContent) {
         if (resourceContent.type === "script") {
             this.totalJsSize += resourceContent.content.length;
-            if (!isMinified(resourceContent.content)) this.detailComment += `${resourceContent.url} should be minified <br>`;
+            if (!isMinified(resourceContent.content)) this.detailComment += chrome.i18n.getMessage("rule_MinifiedJs_DetailComment",resourceContent.url) + '<br>';
             else this.minifiedJsSize += resourceContent.content.length;
             const percentMinifiedJs = this.minifiedJsSize / this.totalJsSize * 100;
             this.complianceLevel = 'A';
