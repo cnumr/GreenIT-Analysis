@@ -554,6 +554,27 @@
       }
     }
   },
+  "rule_SocialNetworkButton": {
+    "message": "Do not use standarts social button",
+    "description": "Do not use standarts social button"
+  },
+  "rule_SocialNetworkButton_DetailDescription": {
+    "message": "Social Network like Facebook , Twiter,Pinterest gives plugins to install on web page to get a share button and a like counter. These plugins consume unnecessary resources , it's better to put direct links",
+    "description": "Do not use standarts social button"
+  },
+  "rule_SocialNetworkButton_DefaultComment": {
+    "message": "No standart social network button found",
+    "description": "No standart social network button found "
+  },
+  "rule_SocialNetworkButton_Comment": {
+    "message": "$NB_STANDARTBUTTON$ standart(s) social button(s) found",
+    "description": "Number of standart social network button",
+    "placeholders": {
+      "NB_STANDARTBUTTON": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_StyleSheets": {
     "message": "Limit Stylesheet files (<3)",
     "description": "Limit Stylesheet files"

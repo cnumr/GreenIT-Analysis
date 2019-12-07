@@ -577,6 +577,27 @@
       }
     }
   },
+  "rule_SocialNetworkButton": {
+    "message": "N'utilisez pas les boutons standards des réseaux sociaux",
+    "description": "Do not use standarts social button"
+  },
+  "rule_SocialNetworkButton_DetailDescription": {
+    "message": "LEs réseaux sociaux tels que  Facebook, Twiter, Pinterest, etc. fournissent des plugins à installer sur une page WEB pour y afficher un bouton partager et un compteur de j'aime. Ces plugins consomme des ressources inutilement, il est mieux de mettre des liens directs",
+    "description": "Do not use standarts social button"
+  },
+  "rule_SocialNetworkButton_DefaultComment": {
+    "message": "Pas de bouton standard de social network trouvé",
+    "description": "No standart social network button found "
+  },
+  "rule_SocialNetworkButton_Comment": {
+    "message": "$NB_STANDARTBUTTON$ bouton(s) standart(s) trouvé(s)",
+    "description": "Number of standart social network button",
+    "placeholders": {
+      "NB_STANDARTBUTTON": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_StyleSheets": {
     "message": "Limiter le nombre de fichiers css (<3) ",
     "description": "Limit Stylesheet files"
