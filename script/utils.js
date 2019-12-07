@@ -21,7 +21,7 @@ const DEBUG = true;
 
 requirejs.config({
   //By default load any module IDs from script
-  baseUrl: 'script',
+  baseUrl: 'script/externalLibs',
 });
 
 // Load module require.js
