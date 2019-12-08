@@ -575,6 +575,15 @@
       }
     }
   },
+  "rule_SocialNetworkButton_detailComment": {
+    "message": "A script from $SOCIAL_NETWORK$ has been found",
+    "description": "Import of social network script",
+    "placeholders": {
+      "SOCIAL_NETWORK": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_StyleSheets": {
     "message": "Limit Stylesheet files (<3)",
     "description": "Limit Stylesheet files"

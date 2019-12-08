@@ -597,7 +597,17 @@
         "content": "$1"
       }
     }
+  }, 
+  "rule_SocialNetworkButton_detailComment": {
+    "message": "Un script $SOCIAL_NETWORK$ a été trouvé",
+    "description": "Import of social network script",
+    "placeholders": {
+      "SOCIAL_NETWORK": {
+        "content": "$1"
+      }
+    }
   },
+
   "rule_StyleSheets": {
     "message": "Limiter le nombre de fichiers css (<3) ",
     "description": "Limit Stylesheet files"
