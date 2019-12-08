@@ -353,6 +353,9 @@ function getOfficialSocialButtonFormUrl(url)
   if (url.includes("platform.linkedin.com/in.js")) return "linkedin"; 
   if (url.includes("assets.pinterest.com/js/pinit.js")) return "pinterest";
   if (url.includes("connect.facebook.net") && url.includes("sdk.js")) return "facebook"; 
+  if (url.includes("platform-api.sharethis.com/js/sharethis.js")) return "sharethis.com (mutliple social network) ";
+  if (url.includes("s7.addthis.com/js/300/addthis_widget.js")) return "addthis.com (mutliple social network) ";
+  if (url.includes("static.addtoany.com/menu/page.js")) return "addtoany.com (mutliple social network) ";
   return "";
 }
 
@@ -361,4 +364,3 @@ function debug(lazyString) {
   const message = typeof lazyString === 'function' ? lazyString() : lazyString;
   console.log(`GreenIT-Analysis [DEBUG] ${message}\n`);
 }
-

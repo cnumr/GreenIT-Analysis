@@ -251,6 +251,23 @@
       }
     }
   },
+  "rule_HttpError": {
+    "message": "Avoid HTTP request errors",
+    "description": "Avoid HTTP errors"
+  },
+  "rule_HttpError_DetailDescription": {
+    "message": "Requests with HTTP errors consume resources unnecessarily.",
+    "description": "Avoid HTTP errors"
+  },
+  "rule_HttpError_Comment": {
+    "message": "$NB_HTTP_ERRORS$ HTTP error(s)",
+    "description": "Number of http errors",
+    "placeholders": {
+      "NB_HTTP_ERRORS": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_HttpRequests": {
     "message": "Limit the number of HTTP requests (<27)",
     "description": "Limit the number of HTTP requests"

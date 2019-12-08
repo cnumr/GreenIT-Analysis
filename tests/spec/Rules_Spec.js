@@ -746,6 +746,96 @@ describe("rules.js", function () {
     });
   });
 
+  describe("#HttpErrorRule", function () {
+
+    beforeEach(function () {
+    });
+
+    it(" 2 http requests with no error, it should return A", function () {
+      let rulesChecker = rulesManager.getNewRulesChecker();
+      const measures = {
+        entries:
+          [{
+            request: { url: "test" },
+            response:
+            {
+              status: 301, statusText: "", httpVersion: "http/2.0", headers:
+                [{ name: "content-encoding", value: "gzip" }]
+            }
+          },
+          {
+            request: { url: "test2" },
+            response:
+            {
+              status: 200, statusText: "", httpVersion: "http/2.0", headers:
+                [{ name: "content-encoding", value: "gzip" }]
+            }
+          }]
+      };
+      let rule = rulesChecker.getRule("HttpError");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('A');
+    });
+
+    it(" 2 http requests with one error, it should return C", function () {
+      let rulesChecker = rulesManager.getNewRulesChecker();
+      const measures = {
+        entries:
+          [{
+            request: { url: "test" },
+            response:
+            {
+              status: 404, statusText: "", httpVersion: "http/2.0", headers:
+                [{ name: "content-encoding", value: "gzip" }]
+            }
+          },
+          {
+            request: { url: "test2" },
+            response:
+            {
+              status: 200, statusText: "", httpVersion: "http/2.0", headers:
+                [{ name: "content-encoding", value: "gzip" }]
+            }
+          }]
+      };
+      let rule = rulesChecker.getRule("HttpError");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('C');
+    });
+
+
+    it(" 2 http requests with one error, it should return C", function () {
+      let rulesChecker = rulesManager.getNewRulesChecker();
+      const measures = {
+        entries:
+          [{
+            request: { url: "test" },
+            response:
+            {
+              status: 500, statusText: "", httpVersion: "http/2.0", headers:
+                [{ name: "content-encoding", value: "gzip" }]
+            }
+          },
+          {
+            request: { url: "test2" },
+            response:
+            {
+              status: 200, statusText: "", httpVersion: "http/2.0", headers:
+                [{ name: "content-encoding", value: "gzip" }]
+            }
+          }]
+      };
+      let rule = rulesChecker.getRule("HttpError");
+      rule.check(measures);
+      expect(rule.complianceLevel).toEqual('C');
+    });
+
+    afterEach(function () {
+    });
+  });
+
+
+
   describe("#HttpRequestsRule", function () {
 
     beforeEach(function () {

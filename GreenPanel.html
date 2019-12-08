@@ -65,14 +65,21 @@
     td {
       border: 1px solid white;
       overflow: hidden;
+      padding : 2.2pt;
       text-overflow: ellipsis;
       font-size: 10px;
       text-align: left;
     }
 
+    .center-td {
+      text-align: center;
+    }
+
     table {
       border-collapse: collapse;
       table-layout: fixed;
+      width: 95%;
+      margin: auto;
     }
 
     .bestPracticeLink {
@@ -87,6 +94,17 @@
       font-size: 10px;
       line-height: 5px;
     }
+
+    .line {
+    width: 90%;
+    margin: auto;
+    color: rgba(0, 0, 0, 0);
+    line-height: 1px;
+    background-color: rgb(216, 221, 215);
+    margin-top: 1px;
+    margin-bottom: 10px;
+  }
+
   </style>
 
 </head>
@@ -103,50 +121,52 @@
 
       <br />
 
-      <div data-i18n="activateBestPracticeAnalysisCheckbox">
-        <input type="checkbox" class="btn btn-primary btn-sm" id="analyseBestPracticesCheckBox"></input>
+      <div data-i18n="activateBestPracticeAnalysisCheckbox" style="font-size:10pt;">
+        <input type="checkbox"  id="analyseBestPracticesCheckBox"></input>
       </div>
 
 
     </div>
-    <script type="text/javascript" data-main="script/utils.js" src="script/require.js"> </script>
+ 
 
     <div id="ecoIndexView" hidden>
 
       <H4> EcoIndex <span id="grade"></span>
       </H4>
 
-      <table class="table table-condensed">
+      <table class="mytable">
         <tbody>
           <tr>
-            <th data-i18n="ecoIndex"></th>
-            <th data-i18n="waterConsumption"></th>
-            <th data-i18n="greenhouseGasesEmission"> </th>
+            <th data-i18n="ecoIndex" class="center-td"></th>
+            <th data-i18n="waterConsumption" class="center-td"></th>
+            <th data-i18n="greenhouseGasesEmission" class="center-td"> </th>
           </tr>
           <tr>
-            <td id="ecoIndex"></td>
-            <td id="waterConsumption"></td>
-            <td id="greenhouseGasesEmission"></td>
+            <td id="ecoIndex" class="center-td"></td>
+            <td id="waterConsumption" class="center-td"></td>
+            <td id="greenhouseGasesEmission" class="center-td" ></td>
           </tr>
         </tbody>
       </table>
+      <div class="line">.</div>
 
-
-      <table class="table table-condensed">
+      <table>
         <tbody>
           <tr>
-            <th data-i18n="requestNumber"> </th>
-            <th data-i18n="pageSize"> </th>
-            <th data-i18n="domSize"> </th>
+            <th data-i18n="requestNumber" class="center-td"> </th>
+            <th data-i18n="pageSize" class="center-td"> </th>
+            <th data-i18n="domSize" class="center-td"> </th>
           </tr>
           <tr>
-            <td id="requestNumber"></td>
-            <td id="responsesSize"></td>
-            <td id="domSize"></td>
+            <td id="requestNumber" class="center-td"></td>
+            <td id="responsesSize" class="center-td"></td>
+            <td id="domSize" class="center-td"></td>
           </tr>
         </tbody>
       </table>
+      <div class="line"> </div>
     </div>
+
     <div id="bestPracticesView" hidden>
       <H4 data-i18n="bestPractices"></H4>
 
@@ -159,8 +179,7 @@
   <script src="script/externalLibs/require.js"> </script>
   <script src="script/utils.js"> </script>
   <script src="script/rulesManager.js"> </script>
-  <script src="script/rules.js"> </script>  
-  <script src="script/rules/SocialNetworkButton.js"></script>
+  <script src="script/rules.js"> </script>
   <script src="script/rules/AddExpiresOrCacheControlHeaders.js"></script>
   <script src="script/rules/CompressHttp.js"></script>
   <script src="script/rules/DomainsNumber.js"></script>
@@ -168,6 +187,7 @@
   <script src="script/rules/EmptySrcTag.js"></script>
   <script src="script/rules/ExternalizeCss.js"></script>
   <script src="script/rules/ExternalizeJs.js"></script>
+  <script src="script/rules/HttpError.js"></script>
   <script src="script/rules/HttpRequests.js"></script>
   <script src="script/rules/ImageDownloadedNotDisplayed.js"></script>
   <script src="script/rules/JsValidate.js"></script>
@@ -180,6 +200,7 @@
   <script src="script/rules/OptimizeSvg.js"> </script>
   <script src="script/rules/Plugins.js"> </script>
   <script src="script/rules/PrintStyleSheet.js"> </script>
+  <script src="script/rules/SocialNetworkButton.js"></script>
   <script src="script/rules/StyleSheets.js"> </script>
   <script src="script/rules/UseETags.js"> </script>
   <script src="script/rules/UseStandardTypefaces.js"> </script>

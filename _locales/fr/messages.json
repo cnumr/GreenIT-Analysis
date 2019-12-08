@@ -251,6 +251,23 @@
       }
     }
   },
+  "rule_HttpError": {
+    "message": "Eviter les requêtes en erreur",
+    "description": "Avoid HTTP errors"
+  },
+  "rule_HttpError_DetailDescription": {
+    "message": "Les requêtes en erreurs consomment inutilement des ressources.",
+    "description": "Avoid HTTP errors"
+  },
+  "rule_HttpError_Comment": {
+    "message": "$NB_HTTP_ERRORS$ erreur(s) HTTP",
+    "description": "Number of http errors",
+    "placeholders": {
+      "NB_HTTP_ERRORS": {
+        "content": "$1"
+      }
+    }
+  },
   "rule_HttpRequests": {
     "message": "Limiter le nombre de requêtes HTTP (<27)",
     "description": "Limit the number of HTTP requests"
@@ -586,7 +603,7 @@
     "description": "Do not use standarts social button"
   },
   "rule_SocialNetworkButton_DefaultComment": {
-    "message": "Pas de bouton standard de social network trouvé",
+    "message": "Pas de bouton standard de réseau sociale trouvé",
     "description": "No standart social network button found "
   },
   "rule_SocialNetworkButton_Comment": {
