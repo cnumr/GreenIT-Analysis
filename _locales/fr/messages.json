@@ -603,7 +603,7 @@
     "description": "Do not use standarts social button"
   },
   "rule_SocialNetworkButton_DefaultComment": {
-    "message": "Pas de bouton standard de réseau sociale trouvé",
+    "message": "Pas de bouton standard de réseau social trouvé",
     "description": "No standart social network button found "
   },
   "rule_SocialNetworkButton_Comment": {
