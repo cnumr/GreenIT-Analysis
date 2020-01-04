@@ -596,11 +596,11 @@
   },
   "rule_SocialNetworkButton": {
     "message": "N'utilisez pas les boutons standards des réseaux sociaux",
-    "description": "Do not use standarts social button"
+    "description": "Do not use standarts social buttons"
   },
   "rule_SocialNetworkButton_DetailDescription": {
-    "message": "LEs réseaux sociaux tels que  Facebook, Twiter, Pinterest, etc. fournissent des plugins à installer sur une page WEB pour y afficher un bouton partager et un compteur de j'aime. Ces plugins consomme des ressources inutilement, il est mieux de mettre des liens directs",
-    "description": "Do not use standarts social button"
+    "message": "Les réseaux sociaux tels que  Facebook, Twiter, Pinterest, etc. fournissent des plugins à installer sur une page WEB pour y afficher un bouton partager et un compteur de j'aime. Ces plugins consomme des ressources inutilement, il est mieux de mettre des liens directs",
+    "description": "Do not use standarts social buttons"
   },
   "rule_SocialNetworkButton_DefaultComment": {
     "message": "Pas de bouton standard de réseau social trouvé",
