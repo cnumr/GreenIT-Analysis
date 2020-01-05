@@ -6,17 +6,34 @@
 TEST
 
 Shoud find : <br>
-0 plugin found  <br>
-0 stylesheet max per frame<br>
-0 print StyleSheet <br>
-0 inline stylesheet <br>
-0 minified stylesheet <br>
-0 src empty tag (one in the iframe) <br>
-0 Javascript Error <br>
-0 inline script <br>
-0 minified script <br>
-0 image resize in browser <br>
-0 custom font <br>
+
+
+
+Add expires or cache-control headers (>= 95%)	--> OK  <br>
+Compress ressources (>= 95%)	--> OK	<br>
+Limit the number of domains (<3)	--> OK	1 domain(s) found ..... <br>
+Don't resize image in browser	--> OK	0 image(s) resized in browser found <br>
+Avoid empty src tag	--> OK	No empty src tags found <br>
+Externalize css	--> OK	No inline stylesheet found <br>
+Externalize js	--> OK	No inline JavaScript <br>
+Avoid HTTP request errors --> OK		0 HTTP error(s) <br>
+Limit the number of HTTP requests (<27)	--> OK	1 HTTP request(s) ..... <br>
+Do not download unecessary image	--> OK	0 image(s) downloaded but not displayed <br>
+Validate js	--> OK	Javascript validate <br>
+Max cookies length(<512 Bytes )	--> OK	No cookies <br>
+Minified css (>= 95%)	--> OK	No css found <br>
+Minified js (>= 95%)	--> OK	No js found <br>
+No cookie for static ressources	--> OK	No cookie <br>
+Avoid redirect	--> OK	0 redirect <br>
+Optimize bitmap images --> OK		No bitmap image to optimize <br>
+Optimize svg images	--> OK	No svg to optimize <br>
+Do not use plugins	--> OK	No plugin found <br>
+Provide print stylesheet --> OK		No print stylesheet found <br>
+Do not use standarts social button --> OK		No standart social network button found <br>
+Limit Stylesheet files (<3)	--> OK	Not more that 2 stylesheets found <br>
+Use ETags (>= 95%)	--> OK	<br>
+Use Standard Typefaces	--> OK	No custom fonts found <br>
+
 
 </body>
 </html>
