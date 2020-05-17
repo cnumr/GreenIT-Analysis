@@ -1,4 +1,8 @@
 {
+  "mainTitle": {
+    "message": "GreenIT Analysis",
+    "description": "Main Title of the plugin"
+  },
   "activateBestPracticeAnalysisCheckbox": {
     "message": "Activer l'analyse des bonnes pratiques",
     "description": "Title for activateBestPracticeAnalysisCheckbox"
@@ -614,7 +618,7 @@
         "content": "$1"
       }
     }
-  }, 
+  },
   "rule_SocialNetworkButton_detailComment": {
     "message": "Un script $SOCIAL_NETWORK$ a été trouvé",
     "description": "Import of social network script",

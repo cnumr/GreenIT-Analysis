@@ -1,4 +1,8 @@
 {
+  "mainTitle": {
+    "message": "GreenIT Analysis",
+    "description": "Main Title of the plugin"
+  },
   "activateBestPracticeAnalysisCheckbox": {
     "message": "Activate best practices analysis",
     "description": "Title for activateBestPracticeAnalysisCheckbox"
