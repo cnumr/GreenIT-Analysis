@@ -1,2 +1,4 @@
 .scannerwork
 .vscode
+*.iml
+.idea/

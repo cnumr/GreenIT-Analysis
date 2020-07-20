@@ -65,12 +65,22 @@ function RulesManager() {
       if (eventListener) {
         eventListener.forEach(ruleID => {
           this.checkRule(ruleID, measures, resource);
+          this.manageExport(ruleID, measures);
         });
       }
     }
 
     this.checkRule = function (rule, measures, resource) {
       rules.get(rule).check(measures, resource);
+    }
+
+    this.manageExport = function (rule, measures) {
+      let myRule = rules.get(rule); 
+      measures.bestPracticeDetails[rule] = {};
+      measures.bestPracticeDetails[rule].comment = myRule.comment;
+      measures.bestPracticeDetails[rule].detailComment = myRule.detailComment;
+      measures.bestPracticeDetails[rule].complianceLevel = myRule.complianceLevel;
+      measures.bestPracticeDetails[rule].specificMeasures = myRule.getSpecificMeasures();
     }
 
     this.getRule = function (rule) {
