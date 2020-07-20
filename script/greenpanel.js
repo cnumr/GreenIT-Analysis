@@ -107,7 +107,8 @@ function MeasuresAcquisition(rules) {
       "inlineStyleSheetsNumber": 0,
       "emptySrcTagNumber": 0,
       "inlineJsScriptsNumber": 0,
-      "imagesResizedInBrowser": []
+      "imagesResizedInBrowser": [],
+      "bestPracticeDetails": {}
     };
   }
 

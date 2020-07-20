@@ -1,12 +1,18 @@
-rulesManager.registerRule({
+rulesManager.registerRule(createOptimizeBitmapImagesRule(), "harReceived");
+
+
+function createOptimizeBitmapImagesRule(){
+  return {
     complianceLevel: 'A',
     id: "OptimizeBitmapImages",
     comment: chrome.i18n.getMessage("rule_OptimizeBitmapImages_DefaultComment"),
     detailComment: "",
-  
+    specificMeasures :{
+      nbImagesToOptimize : 0,
+      totalMinGains : 0
+    },
+
     check: function (measures) {
-      let nbImagesToOptimize = 0;
-      let totalMinGains = 0;
       if (measures.entries) measures.entries.forEach(entry => {
         if (entry.response) {
           const imageType = getImageTypeFromResource(entry);
@@ -21,19 +27,24 @@ rulesManager.registerRule({
   
               const minGains = getMinOptimisationGainsForImage(this.width * this.height, this.size, imageType);
               if (minGains > 500) { // exclude small gain 
-                nbImagesToOptimize++;
-                totalMinGains += minGains;
+                this.rule.specificMeasures.nbImagesToOptimize++;
+                this.rule.specificMeasures.totalMinGains += minGains;
                 this.rule.detailComment += chrome.i18n.getMessage("rule_OptimizeBitmapImages_DetailComment", [this.src + " , " + Math.round(this.size / 1000),this.width + "x" + this.height,String(Math.round(minGains / 1000))]) + "<br>";
               }
-              if (nbImagesToOptimize > 0) {
-                if (totalMinGains < 50000) this.rule.complianceLevel = 'B';
+              if (this.rule.specificMeasures.nbImagesToOptimize > 0) {
+                if (this.rule.specificMeasures.totalMinGains < 50000) this.rule.complianceLevel = 'B';
                 else this.rule.complianceLevel = 'C';
-                this.rule.comment = chrome.i18n.getMessage("rule_OptimizeBitmapImages_Comment", [String(nbImagesToOptimize), String(Math.round(totalMinGains / 1000))]);
+                this.rule.comment = chrome.i18n.getMessage("rule_OptimizeBitmapImages_Comment", [String(this.rule.specificMeasures.nbImagesToOptimize), String(Math.round(this.rule.specificMeasures.totalMinGains / 1000))]);
                 showEcoRuleOnUI(this.rule);
               }
             }
           }
         }
       });
+    },
+
+    getSpecificMeasures: function () {
+        return this.specificMeasures;
     }
-  }, "harReceived");
+  }
+}

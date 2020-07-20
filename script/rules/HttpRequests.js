@@ -1,15 +1,27 @@
-rulesManager.registerRule({
-    complianceLevel: 'A',
-    id: "HttpRequests",
-    comment: "",
-    detailComment: "",
+rulesManager.registerRule(createHttpRequestsRule(), "harReceived");
 
-    check: function (measures) {
-        if (measures.entries.length) measures.entries.forEach(entry => {
-            this.detailComment += entry.request.url + "<br>";
-        });
-        if (measures.nbRequest > 40) this.complianceLevel = 'C';
-        else if (measures.nbRequest > 26) this.complianceLevel = 'B';
-        this.comment = chrome.i18n.getMessage("rule_HttpRequests_Comment", String(measures.nbRequest));
+function createHttpRequestsRule() {
+    return {
+        complianceLevel: 'A',
+        id: "HttpRequests",
+        comment: "",
+        detailComment: "",
+        specificMeasures: {
+            nbRequest: 0
+        },
+
+        check: function (measures) {
+            this.specificMeasures.nbRequest = measures.nbRequest
+            if (measures.entries.length) measures.entries.forEach(entry => {
+                this.detailComment += entry.request.url + "<br>";
+            });
+            if (this.specificMeasures.nbRequest > 40) this.complianceLevel = 'C';
+            else if (this.specificMeasures.nbRequest > 26) this.complianceLevel = 'B';
+            this.comment = chrome.i18n.getMessage("rule_HttpRequests_Comment", String(this.specificMeasures.nbRequest));
+        },
+
+        getSpecificMeasures: function () {
+            return this.specificMeasures;
+        }
     }
-}, "harReceived");
+}
