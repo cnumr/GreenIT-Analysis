@@ -105,6 +105,11 @@
     margin-bottom: 10px;
   }
 
+  .greenit-actions-toolbar li {
+    display: inline;
+    list-style: none;
+  }
+
   </style>
 
 </head>
@@ -112,12 +117,20 @@
 <body>
   <div style="text-align:center">
     <div class="container-fluid">
-
-
-      <a href="#" id="launchAnalyse" class="btn btn-primary btn-sm" data-i18n="launchAnalyseButton"></a>
-      <a href="#" id="saveAnalyse" class="btn btn-primary btn-sm" data-i18n="saveAnalyseButton"></a>
-      <a href="#" id="viewHistory" class="btn btn-primary btn-sm" data-i18n="historyButton"></a>
-      <a href="#" id="helpButton" class="btn btn-primary btn-sm" data-i18n="helpButton"></a>
+      <ul class="greenit-actions-toolbar">
+        <li>
+          <button id="launchAnalyse" class="btn btn-primary btn-sm" data-i18n="launchAnalyseButton"></button>
+        </li>
+        <li>
+          <button id="saveAnalyse" class="btn btn-primary btn-sm" data-i18n="saveAnalyseButton"></button>
+        </li>
+        <li>
+          <button id="viewHistory" class="btn btn-primary btn-sm" data-i18n="historyButton"></button>
+        </li>
+        <li>
+          <button id="helpButton" class="btn btn-primary btn-sm" data-i18n="helpButton"></button>
+        </li>
+      </ul> 
 
       <br />
 
