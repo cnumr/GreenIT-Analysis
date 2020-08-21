@@ -71,10 +71,6 @@
       text-align: left;
     }
 
-    .center-td {
-      text-align: center;
-    }
-
     table {
       border-collapse: collapse;
       table-layout: fixed;
@@ -149,43 +145,45 @@
       <H4> EcoIndex <span id="grade"></span>
       </H4>
 
-      <table class="mytable">
+      <table class="table">
+        <thead>
+          <tr>
+            <th data-i18n="ecoIndex" class="text-center"></th>
+            <th data-i18n="waterConsumption" class="text-center"></th>
+            <th data-i18n="greenhouseGasesEmission" class="text-center"> </th>
+          </tr>
+        </thead>
         <tbody>
           <tr>
-            <th data-i18n="ecoIndex" class="center-td"></th>
-            <th data-i18n="waterConsumption" class="center-td"></th>
-            <th data-i18n="greenhouseGasesEmission" class="center-td"> </th>
-          </tr>
-          <tr>
-            <td id="ecoIndex" class="center-td"></td>
-            <td id="waterConsumption" class="center-td"></td>
-            <td id="greenhouseGasesEmission" class="center-td" ></td>
+            <td id="ecoIndex" class="text-center"></td>
+            <td id="waterConsumption" class="text-center"></td>
+            <td id="greenhouseGasesEmission" class="text-center" ></td>
           </tr>
         </tbody>
       </table>
-      <div class="line">.</div>
 
-      <table>
+      <table class="table">
+        <thead>
+          <tr>
+            <th data-i18n="requestNumber" class="text-center"> </th>
+            <th data-i18n="pageSize" class="text-center"> </th>
+            <th data-i18n="domSize" class="text-center"> </th>
+          </tr>
+        </thead>
         <tbody>
           <tr>
-            <th data-i18n="requestNumber" class="center-td"> </th>
-            <th data-i18n="pageSize" class="center-td"> </th>
-            <th data-i18n="domSize" class="center-td"> </th>
-          </tr>
-          <tr>
-            <td id="requestNumber" class="center-td"></td>
-            <td id="responsesSize" class="center-td"></td>
-            <td id="domSize" class="center-td"></td>
+            <td id="requestNumber" class="text-center"></td>
+            <td id="responsesSize" class="text-center"></td>
+            <td id="domSize" class="text-center"></td>
           </tr>
         </tbody>
       </table>
-      <div class="line"> </div>
     </div>
 
     <div id="bestPracticesView" hidden>
       <H4 data-i18n="bestPractices"></H4>
 
-      <table>
+      <table class="table">
         <tbody id="bestPracticesTable">
         </tbody>
       </table>
