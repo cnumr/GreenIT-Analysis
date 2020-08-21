@@ -55,7 +55,7 @@ function loadHTMLBestPractice(ruleId) {
   html += chrome.i18n.getMessage("rule_" + ruleId);
   html += "</a>";
   html += "</td>";
-  html += "<td style=\"width:30px\"> <img id=\"" + ruleId + "_status\" src=\"icons/OK.png\"></td>";
+  html += "<td style=\"width:30px\"> <img id=\"" + ruleId + "_status\" src=\"icons/A.png\"></td>";
   html += "<td> <span id=\"" + ruleId + "_comment\"> </span> <a href=\"#\" id=\"" + ruleId + "_DetailComment\" class=\"detailCommentLink\" hidden>.....</a> </td>";
 
   var newTR = document.createElement("tr");
