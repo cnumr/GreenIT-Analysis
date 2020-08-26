@@ -705,5 +705,341 @@
   "waterConsumption": {
     "message": "Water Consumption (cl)",
     "description": "Water Consumption (cl)"
+  },
+  "rule_SetTimeout": {
+    "message": "Do not use String in SetTimeout Function",
+    "description": "Do not use String in SetTimeout Function"
+  },
+  "rule_SetTimeout_DetailDescription": {
+    "message": "Avoid using String in SetTimeout Function",
+    "description": "Do not use string in SetTimeout"
+  },
+  "rule_SetTimeout_DefaultComment": {
+    "message": "No SetTimeout with String found",
+    "description": "No SetTimeout with String found"
+  },
+  "rule_SetTimeout_Comment": {
+    "message": "$NB_SetTimeout$ SetTimeout with String found",
+    "description": "Number of plugin found",
+    "placeholders": {
+      "NB_SetTimeout": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_InstantVisualChanges": {
+    "message": "Avoid fade in/fade out JavaScript effects in sliders",
+    "description": "Avoid fade in/fade out JavaScript effects in sliders"
+  },
+  "rule_InstantVisualChanges_DetailDescription": {
+    "message": "Avoid fade in/fade out JavaScript effects in sliders",
+    "description": "Avoid fade in/fade out JavaScript effects in sliders"
+  },
+  "rule_InstantVisualChanges_DefaultComment": {
+    "message": "No fade in/fade out found",
+    "description": "No fade in/fade out found"
+  },
+  "rule_InstantVisualChanges_Comment": {
+    "message": "$NB_InstantVisualChanges$ fade in/fade out found",
+    "description": "Number of Instant Visual changes (fade in/fade out) found",
+    "placeholders": {
+      "NB_InstantVisualChanges": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_Flash": {
+    "message": "Do not use Flash",
+    "description": "Do not use Flash"
+  },
+  "rule_Flash_DetailDescription": {
+    "message": "Avoid using Flash (Flash Player, Java and Silverlight virtual machines, etc.) because they can be a heavy drain on resources (CPU and RAM). Favor standard technology such as HTML5 and ECMAScript",
+    "description": "Do not use Flash"
+  },
+  "rule_Flash_DefaultComment": {
+    "message": "No Flash found",
+    "description": "No Flash found"
+  },
+  "rule_Flash_Comment": {
+    "message": "$NB_FLASH$ Flash found",
+    "description": "Number of Flash found",
+    "placeholders": {
+      "NB_FLASH": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_CompressCSS": {
+    "message": "Limit the number and compress CSS files",
+    "description": "Limit the number of CSS files and compress them"
+  },
+  "rule_CompressCSS_DetailDescription": {
+    "message": "Limit the number of CSS to avoid multiplying HTTP requests. If multiple style sheets are used on all pages of the site, concatenate them into a single file. It is also possible to configure the HTTP server to reduce the size of the style sheets by compressing them",
+    "description": "Limit the number and compress CSS files"
+  },
+  "rule_CompressCSS_DefaultComment": {
+    "message": "Limit the number and compress CSS files",
+    "description": "Limit the number and compress CSS files"
+  },
+  "rule_CompressCSS_Comment": {
+    "message": "Uncompressed CSS files found",
+    "description": "Number of uncompressed CSS found",
+    "placeholders": {
+      "NB_COMPRESSCSS": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_IncrementOperator": {
+    "message": "Use ++i instead of i++",
+    "description": "Use ++i instead of i++"
+  },
+  "rule_IncrementOperator_DetailDescription": {
+    "message": "Use ++i instead of i++",
+    "description": "Use ++i instead of i++"
+  },
+  "rule_IncrementOperator_DefaultComment": {
+    "message": "Use ++i instead of i++",
+    "description": "Use ++i instead of i++"
+  },
+  "rule_IncrementOperator_Comment": {
+    "message": "Use ++i instead of i++",
+    "description": "Use ++i instead of i++",
+    "placeholders": {
+      "NB_INCREMENTOPERATOR": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_PrimitiveOperators": {
+    "message": "Use Primitive operators",
+    "description": "Avoid using methods for basic operations"
+  },
+  "rule_PrimitiveOperators_DetailDescription": {
+    "message": "Use Primitive operators",
+    "description": "Avoid using methods for basic operations"
+  },
+  "rule_PrimitiveOperators_DefaultComment": {
+    "message": "Use Primitive operators",
+    "description": "Avoid using methods for basic operations"
+  },
+  "rule_PrimitiveOperators_Comment": {
+    "message": "Use Primitive operators",
+    "description": "Avoid using methods for basic operations",
+    "placeholders": {
+      "NB_PRIMITIVEOPERATORS": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_SingleQuotes": {
+    "message": "Use single quotes instead of double quotes",
+    "description": "Use single quotes instead of double quotes"
+  },
+  "rule_SingleQuotes_DetailDescription": {
+    "message": "Use single quotes instead of double quotes",
+    "description": "Use single quotes instead of double quotes"
+  },
+  "rule_SingleQuotes_DefaultComment": {
+    "message": "Use single quotes instead of double quotes",
+    "description": "Use single quotes instead of double quotes"
+  },
+  "rule_SingleQuotes_Comment": {
+    "message": "Use single quotes instead of double quotes",
+    "description": "Use single quotes instead of double quotes",
+    "placeholders": {
+      "NB_SINGLEQUOTES": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_CacheFavicon": {
+    "message": "Cache the favicon.ico",
+    "description": ""
+  },
+  "rule_CacheFavicon_DetailDescription": {
+    "message": "The favicon.ico is the small image that is very often displayed in the address bar,next to the URL of the site. Not only must its weight be optimized, but it must be present in cache.",
+    "description": "Cache the favicon.ico"
+  },
+  "rule_CacheFavicon_DefaultComment": {
+    "message": "The favicon.ico is cached",
+    "description": "The favicon.ico is cached"
+  },
+  "rule_CacheFavicon_Comment": {
+    "message": "Favicon.ico is not cached",
+    "description": "Cache the favicon.ico",
+    "placeholders": {
+      "NB_CACHEFAVICON": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_CSSPrint": {
+    "message": "Provide CSS Print",
+    "description": ""
+  },
+  "rule_CSSPrint_DetailDescription": {
+    "message": "In addition to the benefits for the user, this style sheet reduces the number of pages printed, and therefore indirectly minimizes the website’s ecological footprint. It should be as streamlined as possible and employ an ink-light typeface e.g. Century Gothic. Also consider hiding the header, footer, menu and sidebar, as well as deleting all images except those needed for content.This print style sheet makes for a cleaner print by trimming down what is displayed on the screen.",
+    "description": "Provide CSS Print"
+  },
+  "rule_CSSPrint_DefaultComment": {
+    "message": "No CSS Print provided",
+    "description": "No CSS Print provided"
+  },
+  "rule_CSSPrint_Comment": {
+    "message": "CSS Print found",
+    "description": "CSS Print found",
+    "placeholders": {
+      "NB_CSSPRINT": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_AvoidForInLoop": {
+    "message": "Avoid using for..in loop",
+    "description": "Avoid using for..in loop"
+  },
+  "rule_AvoidForInLoop_DetailDescription": {
+    "message": "The loop for…In is more sophisticated than the basic loop, as it duplicates the elements of a list before starting the listing. It is therefore generally more costeffective to use a simple loop when the collection is well mastered.",
+    "description": "Avoid using for..in loop"
+  },
+  "rule_AvoidForInLoop_DefaultComment": {
+    "message": "No for..in loops used",
+    "description": "No for..in loops used"
+  },
+  "rule_AvoidForInLoop_Comment": {
+    "message": "For..in loops used",
+    "description": "Avoid using for..in loop",
+    "placeholders": {
+      "NB_FORINLOOP": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_GetMethod": {
+    "message": "Use GET Method instead of POST Method",
+    "description": ""
+  },
+  "rule_GetMethod_DetailDescription": {
+    "message": "Use GET Method instead of POST Method",
+    "description": "POST queries use two TCP connections (one for the header, the other for the data to be transferred), while HTTP queries in GET use only one. The latter therefore guarantee a saving in number of TCP connections."
+  },
+  "rule_GetMethod_DefaultComment": {
+    "message": "Use GET Method instead of POST Method",
+    "description": "Use GET Method instead of POST Method"
+  },
+  "rule_GetMethod_Comment": {
+    "message": "Use GET Method instead of POST Method",
+    "description": "Use GET Method instead of POST Method",
+    "placeholders": {
+      "NB_GETMETHOD": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_NoFunctionInFor": {
+    "message": "Do not call a function in the declaration of a for loop",
+    "description": ""
+  },
+  "rule_NoFunctionInFor_DetailDescription": {
+    "message": "Do not call a function in the declaration of a loop of type for, in order to avoid that the function is called at each iteration of the loop.",
+    "description": "Do not call a function in the declaration of a loop of type for"
+  },
+  "rule_NoFunctionInFor_DefaultComment": {
+    "message": "No function found inside for loop",
+    "description": "No function found inside for loop"
+  },
+  "rule_NoFunctionInFor_Comment": {
+    "message": "Function found inside for loop",
+    "description": "Do not call a function in the declaration of a loop of type for",
+    "placeholders": {
+      "NB_NOFUNCTIONINFOR": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_PromoteStaticPage": {
+    "message": "Promote static pages",
+    "description": "Promote static pages"
+  },
+  "rule_PromoteStaticPage_DetailDescription": {
+    "message": "Prefer static pages built outside the CMS. This will save CPU cycles, bandwidth, and electricity consumption.",
+    "description": "Promote static pages"
+  },
+  "rule_PromoteStaticPage_DefaultComment": {
+    "message": "",
+    "description": ""
+  },
+  "rule_PromoteStaticPage_Comment": {
+    "message": "Ajax calls found",
+    "description": "Ajax calls found",
+    "placeholders": {
+      "NB_CACHEFAVICON": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_AbbreviatedCSS": {
+    "message": "Use abbreviated CSS",
+    "description": ""
+  },
+  "rule_AbbreviatedCSS_DetailDescription": {
+    "message": "Use abbreviated CSS ratings to reduce the weight of the style sheet.",
+    "description": "Use abbreviated CSS"
+  },
+  "rule_AbbreviatedCSS_DefaultComment": {
+    "message": "Abbreviated CSS used",
+    "description": "Abbreviated CSS used"
+  },
+  "rule_AbbreviatedCSS_Comment": {
+    "message": "Abbreviated CSS not used",
+    "description": "Abbreviated CSS not used",
+    "placeholders": {
+      "NB_ABBREVIATEDCSS": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_SimilarCSS": {
+    "message": "Group Similar CSS",
+    "description": ""
+  },
+  "rule_SimilarCSS_DetailDescription": {
+    "message": "When several elements of the DOM (Document Object Model) have common CSS properties, report them together in the same style sheet. This method reduces the weight of the CSS.",
+    "description": "Group Similar CSS"
+  },
+  "rule_SimilarCSS_DefaultComment": {
+    "message": "",
+    "description": ""
+  },
+  "rule_SimilarCSS_Comment": {
+    "message": "Similar CSS not grouped together",
+    "description": "Similar CSS not grouped together",
+    "placeholders": {
+      "NB_CACHEFAVICON": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_ExpensiveAnimations": {
+    "message": "Use will-change  to hints browsers how an element is expected to change",
+    "description": "The will-change instruction lets the browser know that an animation it is able"
+  },
+  "rule_ExpensiveAnimations_DetailDescription": {
+    "message": "Use will-change  to hints browsers how an element is expected to change",
+    "description": "The will-change instruction lets the browser know that an animation it is able"
+  },
+  "rule_ExpensiveAnimations_DefaultComment": {
+    "message": "Use will-change  to hints browsers how an element is expected to change",
+    "description": "The will-change instruction lets the browser know that an animation it is able"
+  },
+  "rule_ExpensiveAnimations_Comment": {
+    "message": "will-change property missing for expensive animations",
+    "description": "will-change not present for expensive animations",
+    "placeholders": {
+      "NB_ExpensiveAnimations": {
+        "content": "$1"
+      }
+    }
   }
 }
