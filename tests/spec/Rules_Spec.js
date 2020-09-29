@@ -2234,4 +2234,222 @@ describe("rules.js", function () {
     afterEach(function () {
     });
   });
+
+  describe("#AvoidForInLoop", function () {
+
+    beforeEach(function () {
+
+    });
+
+    it(" resource is not js, it should return A", function () {
+      let rule = rulesManager.getNewRulesChecker().getRule("AvoidForInLoop");
+      let content="";
+      content+= "for (i in test){console.log('test');}";
+      const resourceContent = {
+        type:"stylesheet",
+        url:"test.css",
+        content:content
+      };
+      rule.check("",resourceContent);
+      expect(rule.complianceLevel).toEqual('A');
+    });
+
+
+    it(" for in loop >0 , it should return C", function () {
+      let rule = rulesManager.getNewRulesChecker().getRule("AvoidForInLoop");
+      let content="";
+      content+= "for(i in test){console.log('test');}";
+      const resourceContent = {
+        type:"script",
+        url:"test.js",
+        content:content
+      };
+      rule.check("",resourceContent);
+      expect(rule.complianceLevel).toEqual('C');
+    });
+
+    it(" for in loop = 0  , it should return A", function () {
+      let rule = rulesManager.getNewRulesChecker().getRule("AvoidForInLoop");
+      let content="";
+      content+= "for(i=0;i<n;i++){console.log('test');}";
+      const resourceContent = {
+        type:"script",
+        url:"test.js",
+        content:content
+      };
+      rule.check("",resourceContent);
+      expect(rule.complianceLevel).toEqual('A');
+    });
+
+
+    afterEach(function () {
+    });
+  });
+
+  describe("#NoFunctionInFor", function () {
+
+    beforeEach(function () {
+
+    });
+
+    it(" resource is not js, it should return A", function () {
+      let rule = rulesManager.getNewRulesChecker().getRule("NoFunctionInFor");
+      let content="";
+      content+= "for (i in test){console.log('test');}";
+      const resourceContent = {
+        type:"stylesheet",
+        url:"test.css",
+        content:content
+      };
+      rule.check("",resourceContent);
+      expect(rule.complianceLevel).toEqual('A');
+    });
+
+
+    it(" If function in for loop >0 , it should return C", function () {
+      let rule = rulesManager.getNewRulesChecker().getRule("NoFunctionInFor");
+      let content="";
+      content+= "for(i=0;i<getmin();i++){a=a+1;}";
+      const resourceContent = {
+        type:"script",
+        url:"test.js",
+        content:content
+      };
+      rule.check("",resourceContent);
+      expect(rule.complianceLevel).toEqual('C');
+    });
+
+    it(" If function in for loop = 0  , it should return A", function () {
+      let rule = rulesManager.getNewRulesChecker().getRule("NoFunctionInFor");
+      let content="";
+      content+= "for(i=0;i<n;i++){a=a+1;}";
+      const resourceContent = {
+        type:"script",
+        url:"test.js",
+        content:content
+      };
+      rule.check("",resourceContent);
+      expect(rule.complianceLevel).toEqual('A');
+    });
+
+
+    afterEach(function () {
+    });
+  });
+
+  describe("#SimilarCSS", function () {
+
+    beforeEach(function () {
+
+    });
+
+    it(" resource is not css, it should return A", function () {
+      let rule = rulesManager.getNewRulesChecker().getRule("SimilarCSS");
+      let content="";
+      content+= "for (i in test){console.log('test');}";
+      const resourceContent = {
+        type:"script",
+        url:"test.css",
+        content:content
+      };
+      rule.check("",resourceContent);
+      expect(rule.complianceLevel).toEqual('A');
+    });
+
+
+    it(" If count of ungrouped CSS >0 , it should return C", function () {
+      let rule = rulesManager.getNewRulesChecker().getRule("SimilarCSS");
+      let content="";
+      content+= "h1 {\n" +
+          "background-color: gray\n" +
+          "color: navy, color\n" +
+          "}\n" +
+          "h2 {\n" +
+          "background-color: gray\n" +
+          "color: navy, color\n" +
+          "}\n" +
+          "h3 {\n" +
+          "background-color: gray\n" +
+          "color: navy, color\n" +
+          "}  ";
+      const resourceContent = {
+        type:"stylesheet",
+        url:"test.css",
+        content:content
+      };
+      rule.check("",resourceContent);
+      expect(rule.complianceLevel).toEqual('C');
+    });
+
+    it(" If count of ungrouped CSS = 0  , it should return A", function () {
+      let rule = rulesManager.getNewRulesChecker().getRule("SimilarCSS");
+      let content="";
+      content+= "h1, h2, h3 {\n" +
+          "background-color: gray\n" +
+          "color: navy, color\n" +
+          "} ";
+      const resourceContent = {
+        type:"stylesheet",
+        url:"test.css",
+        content:content
+      };
+      rule.check("",resourceContent);
+      expect(rule.complianceLevel).toEqual('A');
+    });
+
+
+    afterEach(function () {
+    });
+  });
+
+  describe("#AbbreviatedCSS", function () {
+
+    beforeEach(function () {
+
+    });
+
+    it(" resource is not css, it should return A", function () {
+      let rule = rulesManager.getNewRulesChecker().getRule("AbbreviatedCSS");
+      let content="";
+      content+= "for (i in test){console.log('test');}";
+      const resourceContent = {
+        type:"script",
+        url:"test.css",
+        content:content
+      };
+      rule.check("",resourceContent);
+      expect(rule.complianceLevel).toEqual('A');
+    });
+
+
+    it(" If count of ungrouped CSS >0 , it should return C", function () {
+      let rule = rulesManager.getNewRulesChecker().getRule("AbbreviatedCSS");
+      let content="";
+      content+= "margin -top:1em;margin -right:0;margin -bottom:2em;margin -left:0.5em;";
+      const resourceContent = {
+        type:"stylesheet",
+        url:"test.css",
+        content:content
+      };
+      rule.check("",resourceContent);
+      expect(rule.complianceLevel).toEqual('C');
+    });
+
+    it(" If count of ungrouped CSS = 0  , it should return A", function () {
+      let rule = rulesManager.getNewRulesChecker().getRule("AbbreviatedCSS");
+      let content="";
+      content+= "margin:1em 0 2em 0.5em;";
+      const resourceContent = {
+        type:"stylesheet",
+        url:"test.css",
+        content:content
+      };
+      rule.check("",resourceContent);
+      expect(rule.complianceLevel).toEqual('A');
+    });
+
+
+    afterEach(function () {
+    });
+  });
 });
