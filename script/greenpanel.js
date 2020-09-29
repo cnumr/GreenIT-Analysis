@@ -106,23 +106,7 @@ function MeasuresAcquisition(rules) {
       "inlineStyleSheetsNumber": 0,
       "emptySrcTagNumber": 0,
       "inlineJsScriptsNumber": 0,
-      "imagesResizedInBrowser": [],
-      "setTimeoutCount":0,
-      "instantVisualChanges":0,
-      "flashNumber": 0,
-      "compressCSS": 0,
-      "incrementOperatorNumber": 0,
-      "nonPrimitiveOperatorNumber": 0,
-      "singleQuotesNumber": 0,
-      "cacheFaviconNumber":0,
-      "cssPrintNumber":0,
-      "similarCSSNumber":0,
-      "forInLoopNumber":0,
-      "getMethodNumber":0,
-      "functionInForNumber":0,
-      "ajaxMethodNumber": 0,
-      "abbreviatedCSSNumber":0,
-      "expensiveAnimations":0
+      "imagesResizedInBrowser": []
     };
   }
 
@@ -139,22 +123,6 @@ function MeasuresAcquisition(rules) {
 
     if (analyseBestPractices) {
       measures.pluginsNumber += frameMeasures.pluginsNumber;
-      measures.setTimeoutCount+=frameMeasures.setTimeoutCount;
-      measures.instantVisualChanges+=frameMeasures.instantVisualChanges;
-      measures.flashNumber += frameMeasures.flashNumber;
-      measures.compressCSS += frameMeasures.compressCSS;
-      measures.incrementOperatorNumber += frameMeasures.incrementOperatorNumber;
-      measures.nonPrimitiveOperatorNumber += frameMeasures.nonPrimitiveOperatorNumber;
-      measures.singleQuotesNumber += frameMeasures.singleQuotesNumber;
-      measures.cacheFaviconNumber += frameMeasures.cacheFaviconNumber;
-      measures.cssPrintNumber += frameMeasures.cssPrintNumber;
-      measures.forInLoopNumber += frameMeasures.forInLoopNumber;
-      measures.getMethodNumber += frameMeasures.getMethodNumber;
-      measures.functionInForNumber += frameMeasures.functionInForNumber;
-      measures.ajaxMethodNumber += frameMeasures.ajaxMethodNumber;
-      measures.abbreviatedCSSNumber += frameMeasures.abbreviatedCSSNumber;
-      measures.similarCSSNumber += frameMeasures.similarCSSNumber;
-      measures.expensiveAnimations+=frameMeasures.expensiveAnimations;
 
       measures.printStyleSheetsNumber += frameMeasures.printStyleSheetsNumber;
       if (measures.inlineStyleSheetsNumber < frameMeasures.inlineStyleSheetsNumber) measures.inlineStyleSheetsNumber = frameMeasures.inlineStyleSheetsNumber;
