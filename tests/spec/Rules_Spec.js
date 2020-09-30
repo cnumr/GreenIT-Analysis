@@ -2425,7 +2425,7 @@ describe("rules.js", function () {
     it(" If count of ungrouped CSS >0 , it should return C", function () {
       let rule = rulesManager.getNewRulesChecker().getRule("AbbreviatedCSS");
       let content="";
-      content+= "margin -top:1em;margin -right:0;margin -bottom:2em;margin -left:0.5em;";
+      content+= "{margin -top:1em;margin -right:0;margin -bottom:2em;margin -left:0.5em;}";
       const resourceContent = {
         type:"stylesheet",
         url:"test.css",
@@ -2438,7 +2438,7 @@ describe("rules.js", function () {
     it(" If count of ungrouped CSS = 0  , it should return A", function () {
       let rule = rulesManager.getNewRulesChecker().getRule("AbbreviatedCSS");
       let content="";
-      content+= "margin:1em 0 2em 0.5em;";
+      content+= "{margin:1em 0 2em 0.5em;}";
       const resourceContent = {
         type:"stylesheet",
         url:"test.css",
