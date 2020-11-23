@@ -31,7 +31,7 @@ const q_req= computeQuantile(quantiles_req,req);
 const q_size= computeQuantile(quantiles_size,size);
 
 
-return Math.round(100 - 5 * (3*q_dom + 2*q_req + q_size)/6);
+return 100 - 5 * (3*q_dom + 2*q_req + q_size)/6;
 }
 
 function computeQuantile(quantiles,value)
@@ -57,11 +57,11 @@ return "G";
 
 function computeGreenhouseGasesEmissionfromEcoIndex(ecoIndex)
 {
-	return (Math.round(100 * (2 + 2 * (50 - ecoIndex) / 100)) / 100);
+	return Math.round(2 + 2 * (50 - ecoIndex) / 100, 2);
 }
 
 function computeWaterConsumptionfromEcoIndex(ecoIndex)
 {
-	return (Math.round(100 * (3 + 3 * (50 - ecoIndex) / 100)) / 100);
+	return Math.round(3 + 3 * (50 - ecoIndex) / 100, 2);
 }
 
