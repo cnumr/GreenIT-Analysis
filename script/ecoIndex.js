@@ -57,11 +57,11 @@ return "G";
 
 function computeGreenhouseGasesEmissionfromEcoIndex(ecoIndex)
 {
-	return Math.round(2 + 2 * (50 - ecoIndex) / 100, 2);
+	return (2 + 2 * (50 - ecoIndex) / 100).toFixed(2);
 }
 
 function computeWaterConsumptionfromEcoIndex(ecoIndex)
 {
-	return Math.round(3 + 3 * (50 - ecoIndex) / 100, 2);
+	return (3 + 3 * (50 - ecoIndex) / 100).toFixed(2);
 }
 

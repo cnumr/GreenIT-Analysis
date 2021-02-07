@@ -54,7 +54,7 @@ function isOldAnalyse(startingTime) { return (startingTime < lastAnalyseStarting
 
 function computeEcoIndexMeasures(measures) {
   const rawEcoIndex = computeEcoIndex(measures.domSize, measures.nbRequest, Math.round(measures.responsesSize / 1000));
-  measures.ecoIndex = Math.round(rawEcoIndex, 2);
+  measures.ecoIndex = rawEcoIndex.toFixed(2);
   measures.waterConsumption = computeWaterConsumptionfromEcoIndex(rawEcoIndex);
   measures.greenhouseGasesEmission = computeGreenhouseGasesEmissionfromEcoIndex(rawEcoIndex);
   measures.grade = getEcoIndexGrade(rawEcoIndex);
