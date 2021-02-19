@@ -35,7 +35,7 @@ async function analyse_core(options) {
             const LOGIN_YAML_FILE = path.resolve(options.login);
             let loginInfos;
             try {
-                YAML.parse(fs.readFileSync(LOGIN_YAML_FILE).toString());
+                loginInfos = YAML.parse(fs.readFileSync(LOGIN_YAML_FILE).toString());
             } catch (error) {
                 throw ` --login : "${LOGIN_YAML_FILE}" is not a valid YAML file.`
             }
