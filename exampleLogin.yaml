@@ -1,0 +1,7 @@
+url: "https://url/login"
+fields:
+  - selector: '#usernameFieldId'
+    value: username
+  - selector: '#passwordFieldId'
+    value: password
+loginButtonSelector: '#loginButtonId'

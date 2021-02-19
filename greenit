@@ -1,0 +1,71 @@
+#!/usr/bin/env node
+"use strict";
+const yargs = require('yargs/yargs')
+const { hideBin } = require('yargs/helpers')
+
+yargs(hideBin(process.argv))
+  .command('analyse [yaml_input_file] [xlsx_output_file]', 'Run the analysis', (yargs) => {
+    yargs
+      .positional('yaml_input_file', {
+        describe: 'YAML file path listing all URL',
+        default: "url.yaml"
+      })
+      .positional('xlsx_output_file', {
+        describe: 'Output file path',
+        default: "results.xlsx"
+      })
+      .option('timeout', {
+        alias: 't',
+        type: 'number',
+        description: 'Timout for an analysis of a URL in ms',
+        default: 180000
+      })
+      .option('retry', {
+        alias: 'r',
+        type: 'number',
+        description: 'Number of retry when an analysis of a URL fail',
+        default: 2
+      })
+      .option('max_tab', {
+        type: 'number',
+        description: 'Number of concurrent analysis',
+        default: 40
+      })
+      .option('worst_pages', {
+        type: 'number',
+        description: 'Number of displayed worst pages',
+        default: 5
+      })
+      .option('worst_rules', {
+        type: 'number',
+        description: 'Number of displayed worst rules',
+        default: 5
+      })
+      .option('login', {
+        type: 'string',
+        alias:'l',
+        description: 'Path to YAML file with login informations'
+      })
+  }, (argv) => {
+      require("./commands/analyse.js")(argv)
+  })
+  .command('parseSitemap <sitemap_url> [yaml_output_file]', 'Parse sitemap to a YAML file', (yargs) => {
+    yargs
+      .positional('sitemap_url', {
+        describe: 'URL to the sitemap.xml file',
+      })
+      .positional('yaml_output_file', {
+        describe: 'Output file path',
+        default: "url.yaml"
+      })
+  }, (argv) => {
+    require("./commands/sitemapParser.js")(argv)
+  })
+  .option('ci', {
+    type: 'boolean',
+    description: 'Disable progress bar to work with GitLab CI'
+  })
+  .strict()
+  .demandCommand()
+  .help()
+  .argv

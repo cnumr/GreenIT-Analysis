@@ -1,0 +1,29 @@
+{
+  "name": "greenit-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "greenit": "greenit"
+  },
+  "scripts": {
+    "postinstall": "node builder.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node builder.js",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concat-files": "^0.1.1",
+    "exceljs": "^4.2.0",
+    "glob": "^7.1.6",
+    "progress": "^2.0.3",
+    "puppeteer": "^5.5.0",
+    "puppeteer-har": "^1.1.2",
+    "sitemapper": "^3.1.12",
+    "yaml": "^1.10.0",
+    "yargs": "^16.2.0"
+  },
+  "devDependencies": {}
+}
