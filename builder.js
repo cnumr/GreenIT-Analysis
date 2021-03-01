@@ -8,7 +8,7 @@ if (!fs.existsSync(DIR)){
     fs.mkdirSync(DIR);
 }
 
-rules = glob.sync('./greenit-core/rules/*.js')
+const rules = glob.sync('./greenit-core/rules/*.js')
  
 //One script to analyse them all
 concat([

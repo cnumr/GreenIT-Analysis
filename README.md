@@ -15,6 +15,7 @@ Cette application est basée sur l'extension Chrome GreenIT-Analysis (https://gi
     - [Flags](#flags)
   - [`parseSitemap <sitemap_url> [yaml_output_file]`](#parsesitemap-sitemap_url-yaml_output_file)
   - [Flags généraux](#flags-généraux)
+- [Usage](#usage)
 
 # Principe de l'outil
 Cet outil simule l'exécution de l'extension sur les pages spécifiées ouvertes dans Chromium en passant par Puppeteer pour récuperer les résultats.
@@ -31,7 +32,7 @@ Pour utiliser l'outil, un fichier YAML listant toutes les URL à analyser est n�
 ### Prérequis
  - Node.js
 
-### Installation
+### Installation 
 1. `npm install`
 2. `npm link`
 3. `greenit <command>`
@@ -88,3 +89,6 @@ Pour utiliser l'outil, un fichier YAML listant toutes les URL à analyser est n�
 
 - `--ci` : Log de façon traditionnelle pour assurer la compatibilité avec les environements CI.
 
+# Usage
+
+Cet outil fait appel à une API ne permettant pas son utilisation à des fins commerciales.

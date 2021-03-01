@@ -2,6 +2,7 @@ const ExcelJS = require('exceljs');
 const fs = require('fs');
 const path = require('path');
 const ProgressBar = require('progress');
+const axios = require('axios')
 
 // keep track of worst pages based on ecoIndex
 function worstPagesHandler(number){
@@ -40,7 +41,11 @@ async function create_XLSX_report(fileList,options){
     //Nb of displayed worst rules
     const WORST_RULES = options.worst_rules;
 
+    const DEVICE = options.device;
+
     let handleWorstPages = worstPagesHandler(WORST_PAGES);
+
+    //initialise progress bar
     let progressBar;
     if (!options.ci){
         progressBar = new ProgressBar(' Create report        [:bar] :percent     Remaining: :etas     Time: :elapseds', {
@@ -57,20 +62,20 @@ async function create_XLSX_report(fileList,options){
 
     let wb = new ExcelJS.Workbook();
     //Creating the recap page
-    let ws = wb.addWorksheet('Global Report');
-    let eco = 0;
+    let globalSheet = wb.addWorksheet('Global Report');
+    let eco = 0; //future average
     let err = [];
     let hostname;
     let worstPages = [];
     let bestPracticesTotal= {};
     //Creating one report sheet per file
     fileList.forEach((file)=>{
-        const ws_name = file.name;
+        const sheet_name = file.name;
         let obj = JSON.parse(fs.readFileSync(file.path).toString());
         if (!hostname) hostname = obj.url.split('/')[2]
-        //console.log(ws_name);
+        //console.log(sheet_name);
         //handle potential failed analyse
-        obj.nb = parseInt(ws_name);
+        obj.nb = parseInt(sheet_name);
         if (obj.success) {
             eco += obj.ecoIndex;
             handleWorstPages(obj,worstPages);
@@ -82,7 +87,7 @@ async function create_XLSX_report(fileList,options){
             err.push({"nb":obj.nb,"url":obj.url,"grade":obj.grade,"ecoIndex":obj.ecoIndex})
         }
         // Prepare data
-        let ws_data = [
+        let sheet_data = [
             [ "URL", obj.url],
             [ "Grade", obj.grade],
             [ "EcoIndex", obj.ecoIndex],
@@ -99,18 +104,18 @@ async function create_XLSX_report(fileList,options){
             [ "Nombre de requêtes", obj.nbRequest],
 
         ];
-        ws_data.push([],["Image retaillée dans le navigateur :"])
+        sheet_data.push([],["Image retaillée dans le navigateur :"])
         for (let elem in obj.imagesResizedInBrowser) {
-            ws_data.push([obj.imagesResizedInBrowser[elem].src])
+            sheet_data.push([obj.imagesResizedInBrowser[elem].src])
         }
-        ws_data.push([],["Best practices :"])
+        sheet_data.push([],["Best practices :"])
         for (let key in obj.bestPractices) {
-            ws_data.push([key,obj.bestPractices[key].complianceLevel || 'A' ])
+            sheet_data.push([key,obj.bestPractices[key].complianceLevel || 'A' ])
         }
         //Create sheet
-        let ws = wb.addWorksheet(ws_name);
-        ws.addRows(ws_data)
-        ws.getCell("B2").fill = {
+        let sheet = wb.addWorksheet(sheet_name);
+        sheet.addRows(sheet_data)
+        sheet.getCell("B2").fill = {
             type: 'pattern',
             pattern:'solid',
             fgColor:{argb: getGradeColor(obj.grade) } 
@@ -119,12 +124,15 @@ async function create_XLSX_report(fileList,options){
     })
     //Add info the the recap sheet
     //Prepare data
+    const isMobile = (await axios.get('http://ip-api.com/json/?fields=mobile')).data.mobile //get connection type
     const date = new Date();
-    eco = (fileList.length-err.length != 0)? Math.round(eco / (fileList.length-err.length)) : "No data";
+    eco = (fileList.length-err.length != 0)? Math.round(eco / (fileList.length-err.length)) : "No data"; //Average EcoIndex
     let grade = getEcoIndexGrade(eco)
-    let ws_data = [
+    let globalSheet_data = [
         [ "Date", `${("0" + date.getDate()).slice(-2)}/${("0" + (date.getMonth()+ 1)).slice(-2)}/${date.getFullYear()}`],
         [ "Hostname", hostname],
+        [ "Plateforme", DEVICE],
+        [ "Connexion", (isMobile)? "Mobile":"Filaire"],
         [ "Grade", grade],
         [ "EcoIndex", eco],
         [ "Nombre de pages", fileList.length],
@@ -135,19 +143,19 @@ async function create_XLSX_report(fileList,options){
         [ "Erreurs d'analyse :"],
     ];
     err.forEach(element => {
-        ws_data.push([element.nb,element.url])
+        globalSheet_data.push([element.nb,element.url])
     });
-    ws_data.push([],["Pages prioritaires:"])
+    globalSheet_data.push([],["Pages prioritaires:"])
     worstPages.forEach((element)=>{
-        ws_data.push([element.nb,element.url,"Grade",element.grade,"EcoIndex",element.ecoIndex])
+        globalSheet_data.push([element.nb,element.url,"Grade",element.grade,"EcoIndex",element.ecoIndex])
     })
-    ws_data.push([],["Règles à appliquer :"])
+    globalSheet_data.push([],["Règles à appliquer :"])
     handleWorstRule(bestPracticesTotal,WORST_RULES).forEach( (elem) => {
-        ws_data.push([elem.name])
+        globalSheet_data.push([elem.name])
     });
     //add data to the recap sheet
-    ws.addRows(ws_data);
-    ws.getCell("B3").fill = {
+    globalSheet.addRows(globalSheet_data);
+    globalSheet.getCell("B5").fill = {
         type: 'pattern',
         pattern:'solid',
         fgColor:{argb: getGradeColor(grade) } 

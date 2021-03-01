@@ -2,21 +2,30 @@ const PuppeteerHar = require('puppeteer-har');
 const fs = require('fs')
 const path = require('path');
 const ProgressBar = require('progress');
+const sizes = require('../sizes.js');
+
 
 //Path to the url file
-const SUBRESULTS_DIRECTORY = path.resolve('results');
+const SUBRESULTS_DIRECTORY = path.join(__dirname,'results');
 
 
 //Analyse a webpage
-async function analyseURL(browser, url, timeout, tabId, nbTry= 0) {
+async function analyseURL(browser, url, options) {
     let result = {};
+
+    const TIMEOUT = options.timeout
+    const TAB_ID = options.tabId
+    const TRY_NB =  options.tryNb || 1
+    const DEVICE = options.device || "desktop"
+
     try {
         const page = await browser.newPage();
+        await page.setViewport(sizes[DEVICE]);
         //get har file
         const pptrHar = new PuppeteerHar(page);
         await pptrHar.start();
         //go to ulr
-        await page.goto(url, {timeout : timeout});
+        await page.goto(url, {timeout : TIMEOUT});
         let harObj = await pptrHar.stop();
         //get ressources
         const client = await page.target().createCDPSession();
@@ -26,7 +35,7 @@ async function analyseURL(browser, url, timeout, tabId, nbTry= 0) {
         //get rid of chrome.i18n.getMessage not declared
         await page.evaluate(x=>(chrome = { "i18n" : {"getMessage" : function () {return undefined}}}));
         //add script, get run, then remove it to not interfere with the analysis
-        let script = await page.addScriptTag({ path: './dist/bundle.js'});
+        let script = await page.addScriptTag({ path: path.join(__dirname,'../dist/bundle.js')});
         await script.evaluate(x=>(x.remove()));
         //pass node object to browser
         await page.evaluate(x=>(har = x), harObj.log);
@@ -35,30 +44,32 @@ async function analyseURL(browser, url, timeout, tabId, nbTry= 0) {
         //launch analyse
         result = await page.evaluate(()=>(launchAnalyse()));
         page.close();
-        ressourceTree = null;
         result.success = true;
     } catch (error) {
-        //console.log(error);
         result.url = url;
         result.success = false;
     }
-    result.try = nbTry + 1;
-    result.tabId = tabId;
+    result.tryNb = TRY_NB;
+    result.tabId = TAB_ID;
     return result;
-};
+}
 
+//handle login
 async function login(browser,loginInformations) {
+    //use the tab that opens with the browser
     const page = (await browser.pages())[0];
-
+    //go to login page
     await page.goto(loginInformations.url)
-
+    //ensure page is loaded
     await page.waitForSelector(loginInformations.loginButtonSelector);
-
+    //complete fields
     for (let index = 0; index < loginInformations.fields.length; index++) {
         let field = loginInformations.fields[index]
         await page.type(field.selector, field.value)  
     }
-    await page.click(loginInformations.loginButtonSelector)
+    //click login button
+    await page.click(loginInformations.loginButtonSelector);
+    //make sure to not wait for the full authentification procedure
     await page.waitForNavigation();
 }
 
@@ -70,14 +81,17 @@ async function createJsonReports(browser, urlTable, options) {
     const MAX_TAB = options.max_tab;
     //Nb of retry before dropping analysis
     const RETRY = options.retry;
+    //Device to emulate
+    const DEVICE = options.device;
 
+    //initialise progress bar
     let progressBar;
     if (!options.ci){
         progressBar = new ProgressBar(' Analysing            [:bar] :percent     Remaining: :etas     Time: :elapseds', {
             complete: '=',
             incomplete: ' ',
             width: 40,
-            total: urlTable.length+1
+            total: urlTable.length+2
         });
         progressBar.tick();
     } else {
@@ -102,17 +116,26 @@ async function createJsonReports(browser, urlTable, options) {
         fs.rmdirSync(SUBRESULTS_DIRECTORY, { recursive: true });
     }
     fs.mkdirSync(SUBRESULTS_DIRECTORY);
-
     //Asynchronous analysis with MAX_TAB open simultaneously to json
-    for (let i = 0; i < MAX_TAB && index < urlTable.length - 1; i++) {
-        asyncFunctions.push(analyseURL(browser,urlTable[index],TIMEOUT,i));
+    for (let i = 0; i < MAX_TAB && index < urlTable.length; i++) {
+        asyncFunctions.push(analyseURL(browser,urlTable[index],{
+            device: DEVICE,
+            timeout:TIMEOUT,
+            tabId: i
+        }));
         index++;
         //console.log(`Start of analysis #${index}/${urlTable.length}`)
     }
+
     while (asyncFunctions.length != 0) {
         results = await Promise.race(asyncFunctions);
-        if (!results.success && results.try <= RETRY) {
-            asyncFunctions.splice(convert[results.tabId],1,analyseURL(browser,results.url,TIMEOUT,results.tabId,results.try+1)); // convert is NEEDED, varialbe size array
+        if (!results.success && results.tryNb <= RETRY) {
+            asyncFunctions.splice(convert[results.tabId],1,analyseURL(browser,results.url,{
+                device: DEVICE,
+                timeout:TIMEOUT,
+                tabId: results.tabId,
+                tryNb: results.tryNb + 1
+            })); // convert is NEEDED, varialbe size array
         }else{
             let filePath = path.resolve(SUBRESULTS_DIRECTORY,`${resultId}.json`)
             writeList.push(fs.promises.writeFile(filePath, JSON.stringify(results)));
@@ -130,16 +153,25 @@ async function createJsonReports(browser, urlTable, options) {
                     convert[i] = convert[i]-1;
                 }
             } else {
-                asyncFunctions.splice(results.tabId,1,analyseURL(browser,urlTable[index],TIMEOUT,results.tabId)); // No need for convert, fixed size array
+                asyncFunctions.splice(results.tabId,1,analyseURL(browser,urlTable[index],{
+                    device: DEVICE,
+                    timeout:TIMEOUT,
+                    tabId: results.tabId
+                })); // No need for convert, fixed size array
                 index++;
                 //console.log(`Start of analysis #${index}/${urlTable.length}`)
             }
         }
     }
-    //close browser
 
+    //wait for all file to be written
     await Promise.all(writeList);
     //results to xlsx file
+    if (progressBar){
+        progressBar.tick()
+    } else {
+        console.log("Analyse done");
+    }
     return fileList
 }
 

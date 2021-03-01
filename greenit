@@ -2,6 +2,7 @@
 "use strict";
 const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers')
+const sizes = require('./sizes.js');
 
 yargs(hideBin(process.argv))
   .command('analyse [yaml_input_file] [xlsx_output_file]', 'Run the analysis', (yargs) => {
@@ -45,6 +46,12 @@ yargs(hideBin(process.argv))
         type: 'string',
         alias:'l',
         description: 'Path to YAML file with login informations'
+      })
+      .option('device', {
+        alias:'d',
+        description: 'Hardware to simulate',
+        choices:Object.keys(sizes),
+        default: "desktop"
       })
   }, (argv) => {
       require("./commands/analyse.js")(argv)
