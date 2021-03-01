@@ -56,7 +56,7 @@ Pour utiliser l'outil, un fichier YAML listant toutes les URL à analyser est n�
 
 ## `analyse [yaml_input_file] [xlsx_output_file]`
 
-- `yaml_input_file` : Chemin vers le fichier YAML listant toutes les URL à analyser. (Valeur par défaut : url.yaml)
+- `yaml_input_file` : Chemin vers le fichier YAML listant toutes les URL à analyser. (Valeur par défaut : "url.yaml")
 - `xlsx_output_file` : Chemin pour le fichier de sortie. (Valeur par défaut : "results.xlsx")
 
 ### Flags
@@ -80,7 +80,7 @@ Pour utiliser l'outil, un fichier YAML listant toutes les URL à analyser est n�
   ```
   Plus d'informations sur les selectors : https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors
 
-- `--device , -d` : Emulation du terminal d'affichage. (Valeur par défaut : desktop)
+- `--device , -d` : Emulation du terminal d'affichage. (Valeur par défaut : "desktop")
   
   Choix:
   - desktop
@@ -93,7 +93,7 @@ Pour utiliser l'outil, un fichier YAML listant toutes les URL à analyser est n�
 ## `parseSitemap <sitemap_url> [yaml_output_file]`
 
 - `sitemap_url` : URL de la sitemap à transformer.
-- `yaml_output_file` : Chemin pour le fichier de sortie. (Valeur par défaut : url.yaml )
+- `yaml_output_file` : Chemin pour le fichier de sortie. (Valeur par défaut : "url.yaml")
 
 ## Flags généraux
 
