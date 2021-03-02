@@ -4,6 +4,9 @@ const path = require('path');
 const ProgressBar = require('progress');
 const axios = require('axios')
 
+//Path to the url file
+const SUBRESULTS_DIRECTORY = path.join(__dirname,'../results');
+
 // keep track of worst pages based on ecoIndex
 function worstPagesHandler(number){
     return (obj,table) => {
@@ -11,7 +14,13 @@ function worstPagesHandler(number){
         for (index = 0; index < table.length; index++) {
             if (obj.ecoIndex < table[index].ecoIndex) break;
         }
-        table.splice(index,0,obj);
+        let addObj = {
+            nb : obj.nb,
+            url : obj.url,
+            grade : obj.grade,
+            ecoIndex : obj.ecoIndex
+        }
+        table.splice(index,0,addObj);
         if (table.length > number) table.pop();
         return table;
     }
@@ -23,19 +32,16 @@ function handleWorstRule(bestPracticesTotal,number){
     for (let key in bestPracticesTotal) {
         table.push({"name" : key, "total" : bestPracticesTotal[key]})
     }
-    return table.sort((a,b)=> (a.total - b.total)).slice(0,number);
+    return table.sort((a,b)=> (a.total - b.total)).slice(0,number).map((obj)=>obj.name);
 }
 
-//create xlsx report for all the analysed pages and recap on the first sheet
-async function create_XLSX_report(fileList,options){
+async function create_global_report(reports,options){
     //Timeout for an analysis
     const TIMEOUT = options.timeout || "No data";
     //Concurent tab
     const MAX_TAB = options.max_tab || "No data";
     //Nb of retry before dropping analysis
     const RETRY = options.retry || "No data";
-    //Path of the output file
-    const OUTPUT_FILE = path.resolve(options.xlsx_output_file);
     //Nb of displayed worst pages
     const WORST_PAGES = options.worst_pages;
     //Nb of displayed worst rules
@@ -44,6 +50,95 @@ async function create_XLSX_report(fileList,options){
     const DEVICE = options.device;
 
     let handleWorstPages = worstPagesHandler(WORST_PAGES);
+
+    //initialise progress bar
+    let progressBar;
+    if (!options.ci){
+        progressBar = new ProgressBar(' Create JSON report   [:bar] :percent     Remaining: :etas     Time: :elapseds', {
+            complete: '=',
+            incomplete: ' ',
+            width: 40,
+            total: reports.length+2
+        });
+        progressBar.tick()
+    } else {
+        console.log('Creating report ...');
+    }
+
+    let eco = 0; //future average
+    let err = [];
+    let hostname;
+    let worstPages = [];
+    let bestPracticesTotal= {};
+    //Creating one report sheet per file
+    reports.forEach((file)=>{
+        let obj = JSON.parse(fs.readFileSync(file.path).toString());
+        if (!hostname) hostname = obj.url.split('/')[2]
+        obj.nb = parseInt(file.name);
+        //handle potential failed analyse
+        if (obj.success) {
+            eco += obj.ecoIndex;
+            handleWorstPages(obj,worstPages);
+            for (let key in obj.bestPractices) {
+                bestPracticesTotal[key] = bestPracticesTotal[key] || 0
+                bestPracticesTotal[key] += getGradeEcoIndex(obj.bestPractices[key].complianceLevel || "A")
+            }
+        } else{
+            err.push({
+            nb : obj.nb,
+            url : obj.url,
+            grade : obj.grade,
+            ecoIndex : obj.ecoIndex
+            })
+        }
+        if (progressBar) progressBar.tick()
+    })
+    //Add info the the recap sheet
+    //Prepare data
+    const isMobile = (await axios.get('http://ip-api.com/json/?fields=mobile')).data.mobile //get connection type
+    const date = new Date();
+    eco = (reports.length-err.length != 0)? Math.round(eco / (reports.length-err.length)) : "No data"; //Average EcoIndex
+    let grade = getEcoIndexGrade(eco)
+    let globalSheet_data = {
+        date : `${("0" + date.getDate()).slice(-2)}/${("0" + (date.getMonth()+ 1)).slice(-2)}/${date.getFullYear()}`,
+        hostname : hostname,
+        device : DEVICE,
+        connection : (isMobile)? "Mobile":"Filaire",
+        grade : grade,
+        ecoIndex : eco,
+        nbPages : reports.length,
+        timeout : parseInt(TIMEOUT),
+        maxTab : parseInt(MAX_TAB),
+        retry : parseInt(RETRY),
+        errors : err,
+        worstPages : worstPages,
+        worstRules : handleWorstRule(bestPracticesTotal,WORST_RULES)
+    };
+    
+    if (progressBar) progressBar.tick()
+    //save report
+    let filePath = path.join(SUBRESULTS_DIRECTORY,"globalReport.json");
+    try {
+        fs.writeFileSync(filePath, JSON.stringify(globalSheet_data))
+    } catch (error) {
+        throw ` xlsx_output_file : Path "${filePath}" cannot be reached.`
+    }
+    return {
+        globalReport : {
+            name: "Global Report",
+            path: filePath
+        },
+        reports
+    }
+}
+
+//create xlsx report for all the analysed pages and recap on the first sheet
+async function create_XLSX_report(reportObject,options){
+    //Path of the output file
+    const OUTPUT_FILE = path.resolve(options.xlsx_output_file);
+
+    const fileList = reportObject.reports;
+    const globalReport = reportObject.globalReport;
 
     //initialise progress bar
     let progressBar;
@@ -62,30 +157,48 @@ async function create_XLSX_report(fileList,options){
 
     let wb = new ExcelJS.Workbook();
     //Creating the recap page
-    let globalSheet = wb.addWorksheet('Global Report');
-    let eco = 0; //future average
-    let err = [];
-    let hostname;
-    let worstPages = [];
-    let bestPracticesTotal= {};
+    let globalSheet = wb.addWorksheet(globalReport.name);
+    let globalReport_data = JSON.parse(fs.readFileSync(globalReport.path).toString());
+    let globalSheet_data = [
+        [ "Date", globalReport_data.date],
+        [ "Hostname", globalReport_data.hostname],
+        [ "Plateforme", globalReport_data.device],
+        [ "Connexion", globalReport_data.connection],
+        [ "Grade", globalReport_data.grade],
+        [ "EcoIndex", globalReport_data.ecoIndex],
+        [ "Nombre de pages", globalReport_data.nbPages],
+        [ "Timeout", globalReport_data.timeout],
+        [ "Nombre d'analyses concurrentes", globalReport_data.maxTab],
+        [ "Nombre d'essais supplémentaires en cas d'échec", globalReport_data.retry],
+        [ "Nombre d'erreurs d'analyse", globalReport_data.errors.length],
+        [ "Erreurs d'analyse :"],
+    ];
+    globalReport_data.errors.forEach(element => {
+        globalSheet_data.push([element.nb,element.url])
+    });
+    globalSheet_data.push([],["Pages prioritaires:"])
+    globalReport_data.worstPages.forEach((element)=>{
+        globalSheet_data.push([element.nb,element.url,"Grade",element.grade,"EcoIndex",element.ecoIndex])
+    })
+    globalSheet_data.push([],["Règles à appliquer :"])
+    globalReport_data.worstRules.forEach( (elem) => {
+        globalSheet_data.push([elem])
+    });
+    //add data to the recap sheet
+    globalSheet.addRows(globalSheet_data);
+    globalSheet.getCell("B5").fill = {
+        type: 'pattern',
+        pattern:'solid',
+        fgColor:{argb: getGradeColor(globalReport_data.grade) } 
+    }
+
+    if (progressBar) progressBar.tick()
+
     //Creating one report sheet per file
     fileList.forEach((file)=>{
         const sheet_name = file.name;
         let obj = JSON.parse(fs.readFileSync(file.path).toString());
-        if (!hostname) hostname = obj.url.split('/')[2]
-        //console.log(sheet_name);
-        //handle potential failed analyse
-        obj.nb = parseInt(sheet_name);
-        if (obj.success) {
-            eco += obj.ecoIndex;
-            handleWorstPages(obj,worstPages);
-            for (let key in obj.bestPractices) {
-                bestPracticesTotal[key] = bestPracticesTotal[key] || 0
-                bestPracticesTotal[key] += getGradeEcoIndex(obj.bestPractices[key].complianceLevel || "A")
-            }
-        } else{
-            err.push({"nb":obj.nb,"url":obj.url,"grade":obj.grade,"ecoIndex":obj.ecoIndex})
-        }
+
         // Prepare data
         let sheet_data = [
             [ "URL", obj.url],
@@ -122,45 +235,6 @@ async function create_XLSX_report(fileList,options){
         }
         if (progressBar) progressBar.tick()
     })
-    //Add info the the recap sheet
-    //Prepare data
-    const isMobile = (await axios.get('http://ip-api.com/json/?fields=mobile')).data.mobile //get connection type
-    const date = new Date();
-    eco = (fileList.length-err.length != 0)? Math.round(eco / (fileList.length-err.length)) : "No data"; //Average EcoIndex
-    let grade = getEcoIndexGrade(eco)
-    let globalSheet_data = [
-        [ "Date", `${("0" + date.getDate()).slice(-2)}/${("0" + (date.getMonth()+ 1)).slice(-2)}/${date.getFullYear()}`],
-        [ "Hostname", hostname],
-        [ "Plateforme", DEVICE],
-        [ "Connexion", (isMobile)? "Mobile":"Filaire"],
-        [ "Grade", grade],
-        [ "EcoIndex", eco],
-        [ "Nombre de pages", fileList.length],
-        [ "Timeout", parseInt(TIMEOUT)],
-        [ "Nombre d'analyses concurrentes", parseInt(MAX_TAB)],
-        [ "Nombre d'essais supplémentaires en cas d'échec", parseInt(RETRY)],
-        [ "Nombre d'erreurs d'analyse", err.length],
-        [ "Erreurs d'analyse :"],
-    ];
-    err.forEach(element => {
-        globalSheet_data.push([element.nb,element.url])
-    });
-    globalSheet_data.push([],["Pages prioritaires:"])
-    worstPages.forEach((element)=>{
-        globalSheet_data.push([element.nb,element.url,"Grade",element.grade,"EcoIndex",element.ecoIndex])
-    })
-    globalSheet_data.push([],["Règles à appliquer :"])
-    handleWorstRule(bestPracticesTotal,WORST_RULES).forEach( (elem) => {
-        globalSheet_data.push([elem.name])
-    });
-    //add data to the recap sheet
-    globalSheet.addRows(globalSheet_data);
-    globalSheet.getCell("B5").fill = {
-        type: 'pattern',
-        pattern:'solid',
-        fgColor:{argb: getGradeColor(grade) } 
-    }
-    if (progressBar) progressBar.tick()
     //save report
     try {
         await wb.xlsx.writeFile(OUTPUT_FILE);
@@ -203,5 +277,6 @@ function getGradeColor(grade){
 }
 
 module.exports = {
+    create_global_report,
     create_XLSX_report
 }

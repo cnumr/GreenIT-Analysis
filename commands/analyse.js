@@ -4,7 +4,8 @@ const path = require('path');
 const puppeteer = require('puppeteer');
 const createJsonReports = require('../cli-core/analyis.js').createJsonReports;
 const login = require('../cli-core/analyis.js').login;
-const create_XLSX_report = require('../cli-core/xlsx.js').create_XLSX_report;
+const create_global_report = require('../cli-core/report.js').create_global_report;
+const create_XLSX_report = require('../cli-core/report.js').create_XLSX_report;
 //launch core
 async function analyse_core(options) {
     const URL_YAML_FILE = path.resolve(options.yaml_input_file);
@@ -29,7 +30,7 @@ async function analyse_core(options) {
         ]
     });
     //handle analyse
-    let fileList;
+    let reports;
     try {
         //handle login
         if (options.login){
@@ -44,7 +45,7 @@ async function analyse_core(options) {
             await login(browser, loginInfos)
         }
         //analyse
-        fileList = await createJsonReports(browser, urlTable, options);
+        reports = await createJsonReports(browser, urlTable, options);
     } finally {
         //close browser
         let pages = await browser.pages();
@@ -52,7 +53,8 @@ async function analyse_core(options) {
         await browser.close()
     }
     //create report
-    await create_XLSX_report(fileList, options)
+    let reportObj = await create_global_report(reports, options);
+    await create_XLSX_report(reportObj, options)
 }
 
 //export method that handle error

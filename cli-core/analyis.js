@@ -6,7 +6,7 @@ const sizes = require('../sizes.js');
 
 
 //Path to the url file
-const SUBRESULTS_DIRECTORY = path.join(__dirname,'results');
+const SUBRESULTS_DIRECTORY = path.join(__dirname,'../results');
 
 
 //Analyse a webpage
@@ -102,7 +102,7 @@ async function createJsonReports(browser, urlTable, options) {
     let results;
     let resultId = 1;
     let index = 0
-    let fileList = [];
+    let reports = [];
     let writeList = [];
 
     let convert = [];
@@ -139,7 +139,7 @@ async function createJsonReports(browser, urlTable, options) {
         }else{
             let filePath = path.resolve(SUBRESULTS_DIRECTORY,`${resultId}.json`)
             writeList.push(fs.promises.writeFile(filePath, JSON.stringify(results)));
-            fileList.push({name:`${resultId}`, path: filePath});
+            reports.push({name:`${resultId}`, path: filePath});
             //console.log(`End of an analysis (${resultId}/${urlTable.length}). Results will be saved in ${filePath}`);
             if (progressBar){
                 progressBar.tick()
@@ -172,7 +172,7 @@ async function createJsonReports(browser, urlTable, options) {
     } else {
         console.log("Analyse done");
     }
-    return fileList
+    return reports
 }
 
 module.exports = {
