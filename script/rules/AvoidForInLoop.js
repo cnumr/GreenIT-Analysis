@@ -4,7 +4,7 @@ rulesManager.registerRule({
     comment: chrome.i18n.getMessage("rule_AvoidForInLoop_DefaultComment"),
     count:0,
     detailComment: "",
-  
+
     check: function (measures,resourceContent) {
         if (resourceContent.type === "script") {
             let count=getForInLoop(resourceContent.content);
@@ -17,17 +17,19 @@ rulesManager.registerRule({
             }
         }
     }
-  }, "resourceContentReceived");
+}, "resourceContentReceived");
 
 
 function getForInLoop(JSResponses)
 {
     let count = 0;
-    let responses=JSResponses;
-    let result=responses;
-    if(result.match(/for\s*\(.* in .*\)/g))
+    // let result=JSResponses;
+    let result=JSResponses.replace(/(\/\*[\w\'\s\r\n\*]*\*\/)|(\/\/[\w\s\']*)|(\<![\-\-\s\w\>\/]*\>)/g,"");
+    let mat1=result.match(/for\s*\(.* in .*\)/g);
+    mat1=mat1?mat1:[];
+    if(mat1)
     {
-        ++count;
+        count=mat1.length;
 
     }
     return count;

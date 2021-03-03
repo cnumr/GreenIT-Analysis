@@ -26,7 +26,8 @@ function getSimilarCSS(CSSResponses)
     let repeatedCSS;
     let CSSlen = 0;
     let re;
-    let responses=CSSResponses;
+    // let responses=CSSResponses;
+    let responses=CSSResponses.replace(/(\/\*[\w\'\s\r\n\*]*\*\/)|(\/\/[\w\s\']*)|(\<![\-\-\s\w\>\/]*\>)/g,"");
     let result=null;
     result=responses;
     result = result.replace(/(\r\n|\n|\r)/gm,"");
@@ -42,7 +43,6 @@ function getSimilarCSS(CSSResponses)
         if(repeatedCSS && repeatedCSS.length>1)
         {
             count++;
-            break;
         }
     }
     return count;

@@ -13,7 +13,7 @@ rulesManager.registerRule({
                 this.count+=count;
                 this.complianceLevel = 'C';
                 this.comment = chrome.i18n.getMessage("rule_NoFunctionInFor_Comment", String(this.count));
-                this.detailComment += (`URL ${resourceContent.url} has ${count} function(s) in for loop <br>`);
+                this.detailComment += (`URL ${resourceContent.url} has function(s) in for loop <br>`);
             }
         }
     }
@@ -23,10 +23,10 @@ rulesManager.registerRule({
 function getFunctionInFor(JSResponses)
 {
     let count = 0;
-    let responses=JSResponses;
+    let responses=JSResponses.replace(/(\/\*[\w\'\s\r\n\*]*\*\/)|(\/\/[\w\s\']*)|(\<![\-\-\s\w\>\/]*\>)/g,"");;
     let result=null;
     result=responses;
-    if(result.match(/for\s*(.*;.*\(.*\).*;.*).*/g) || result.match(/for\s*(.*\(.*\).*;.*.*;).*/g))
+    if(result.match(/for\s*(.*;.*\(.*\).*;.*).*/g) || result.match(/for\s*(.*;.*;.*\(.*\).).*/g))
     {
         ++count;
 
