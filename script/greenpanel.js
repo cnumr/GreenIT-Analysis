@@ -53,10 +53,11 @@ function handleResponseFromBackground(frameMeasures) {
 function isOldAnalyse(startingTime) { return (startingTime < lastAnalyseStartingTime) }
 
 function computeEcoIndexMeasures(measures) {
-  measures.ecoIndex = computeEcoIndex(measures.domSize, measures.nbRequest, Math.round(measures.responsesSize / 1000));
-  measures.waterConsumption = computeWaterConsumptionfromEcoIndex(measures.ecoIndex);
-  measures.greenhouseGasesEmission = computeGreenhouseGasesEmissionfromEcoIndex(measures.ecoIndex);
-  measures.grade = getEcoIndexGrade(measures.ecoIndex);
+  const rawEcoIndex = computeEcoIndex(measures.domSize, measures.nbRequest, Math.round(measures.responsesSize / 1000));
+  measures.ecoIndex = rawEcoIndex.toFixed(2);
+  measures.waterConsumption = computeWaterConsumptionfromEcoIndex(rawEcoIndex);
+  measures.greenhouseGasesEmission = computeGreenhouseGasesEmissionfromEcoIndex(rawEcoIndex);
+  measures.grade = getEcoIndexGrade(rawEcoIndex);
 }
 
 
