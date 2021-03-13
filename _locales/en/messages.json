@@ -705,5 +705,153 @@
   "waterConsumption": {
     "message": "Water Consumption (cl)",
     "description": "Water Consumption (cl)"
+  },
+  "rule_SetTimeout": {
+    "message": "Do not use String in SetTimeout Function",
+    "description": "Do not use String in SetTimeout Function"
+  },
+  "rule_SetTimeout_DetailDescription": {
+    "message": "Avoid using String in SetTimeout Function",
+    "description": "Do not use string in SetTimeout"
+  },
+  "rule_SetTimeout_DefaultComment": {
+    "message": "No SetTimeout with String found",
+    "description": "No SetTimeout with String found"
+  },
+  "rule_SetTimeout_Comment": {
+    "message": "$NB_SetTimeout$ SetTimeout with String found",
+    "description": "Number of plugin found",
+    "placeholders": {
+      "NB_SetTimeout": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_Flash": {
+    "message": "Do not use Flash",
+    "description": "Do not use Flash"
+  },
+  "rule_Flash_DetailDescription": {
+    "message": "Avoid using Flash (Flash Player, Java and Silverlight virtual machines, etc.) because they can be a heavy drain on resources (CPU and RAM). Favor standard technology such as HTML5 and ECMAScript",
+    "description": "Do not use Flash"
+  },
+  "rule_Flash_DefaultComment": {
+    "message": "No Flash found",
+    "description": "No Flash found"
+  },
+  "rule_Flash_Comment": {
+    "message": "$NB_FLASH$ Flash found",
+    "description": "Number of Flash found",
+    "placeholders": {
+      "NB_FLASH": {
+        "content": "$1"
+      }
+    }
+  },
+
+  "rule_GetMethod": {
+    "message": "Use GET Method instead of POST Method",
+    "description": ""
+  },
+  "rule_GetMethod_DetailDescription": {
+    "message": "Use GET Method instead of POST Method",
+    "description": "POST queries use two TCP connections (one for the header, the other for the data to be transferred), while HTTP queries in GET use only one. The latter therefore guarantee a saving in number of TCP connections."
+  },
+  "rule_GetMethod_DefaultComment": {
+    "message": "Use GET Method instead of POST Method",
+    "description": "Use GET Method instead of POST Method"
+  },
+  "rule_GetMethod_Comment": {
+    "message": "Use GET Method instead of POST Method",
+    "description": "Use GET Method instead of POST Method",
+    "placeholders": {
+      "NB_GETMETHOD": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_AvoidForInLoop": {
+    "message": "Avoid using for..in loop",
+    "description": "Avoid using for..in loop"
+  },
+  "rule_AvoidForInLoop_DetailDescription": {
+    "message": "The loop for…In is more sophisticated than the basic loop, as it duplicates the elements of a list before starting the listing. It is therefore generally more costeffective to use a simple loop when the collection is well mastered.",
+    "description": "Avoid using for..in loop"
+  },
+  "rule_AvoidForInLoop_DefaultComment": {
+    "message": "No for..in loops used",
+    "description": "No for..in loops used"
+  },
+  "rule_AvoidForInLoop_Comment": {
+    "message": "For..in loops used",
+    "description": "Avoid using for..in loop",
+    "placeholders": {
+      "NB_FORINLOOP": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_NoFunctionInFor": {
+    "message": "Do not call a function in the declaration of a for loop",
+    "description": ""
+  },
+  "rule_NoFunctionInFor_DetailDescription": {
+    "message": "Do not call a function in the declaration of a loop of type for, in order to avoid that the function is called at each iteration of the loop.",
+    "description": "Do not call a function in the declaration of a loop of type for"
+  },
+  "rule_NoFunctionInFor_DefaultComment": {
+    "message": "No function found inside for loop",
+    "description": "No function found inside for loop"
+  },
+  "rule_NoFunctionInFor_Comment": {
+    "message": "Function found inside for loop",
+    "description": "Do not call a function in the declaration of a loop of type for",
+    "placeholders": {
+      "NB_NOFUNCTIONINFOR": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_AbbreviatedCSS": {
+    "message": "Use abbreviated CSS",
+    "description": ""
+  },
+  "rule_AbbreviatedCSS_DetailDescription": {
+    "message": "Use abbreviated CSS ratings to reduce the weight of the style sheet.",
+    "description": "Use abbreviated CSS"
+  },
+  "rule_AbbreviatedCSS_DefaultComment": {
+    "message": "Abbreviated CSS used",
+    "description": "Abbreviated CSS used"
+  },
+  "rule_AbbreviatedCSS_Comment": {
+    "message": "Abbreviated CSS not used",
+    "description": "Abbreviated CSS not used",
+    "placeholders": {
+      "NB_ABBREVIATEDCSS": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_SimilarCSS": {
+    "message": "Group Similar CSS",
+    "description": ""
+  },
+  "rule_SimilarCSS_DetailDescription": {
+    "message": "When several elements of the DOM (Document Object Model) have common CSS properties, report them together in the same style sheet. This method reduces the weight of the CSS.",
+    "description": "Group Similar CSS"
+  },
+  "rule_SimilarCSS_DefaultComment": {
+    "message": "Similar CSS Grouped",
+    "description": "Similar CSS Grouped"
+  },
+  "rule_SimilarCSS_Comment": {
+    "message": "Similar CSS not grouped together",
+    "description": "Similar CSS not grouped together",
+    "placeholders": {
+      "NB_CACHEFAVICON": {
+        "content": "$1"
+      }
+    }
   }
 }

@@ -30,6 +30,7 @@ function start_analyse() {
     const inlineJsScript = getInlineJsScript();
     const inlineJsScriptsNumber = getInlineJsScriptsNumber();
     const imagesResizedInBrowser = getImagesResizedInBrowser();
+    const flashNumber = getFlashNumber();
 
 
     pageAnalysis = {
@@ -43,6 +44,8 @@ function start_analyse() {
       "inlineJsScript": inlineJsScript,
       "inlineJsScriptsNumber": inlineJsScriptsNumber,
       "imagesResizedInBrowser": imagesResizedInBrowser,
+      "flashNumber": flashNumber
+
     }
   }
   else pageAnalysis = {
@@ -55,6 +58,31 @@ function start_analyse() {
 
 }
 
+
+function getFlashNumber() {
+  let flash=0;
+  let x = document.querySelectorAll('embed');
+  let len = x.length;
+  for(let i=0;i< len;i++)
+  {
+    let n = x[i].src;
+    if(String(n).match("swf"))
+    {
+      flash = 1;
+      break;
+    }
+  }
+  let flashObject = document.querySelectorAll('script');
+  len = flashObject.length;
+  for(let i=0;i<len;i++)
+  {
+    if(flashObject[i].src.match("swfobject.js"))
+    {
+      flash=1;
+    }
+  }
+  return flash;
+}
 
 
 function getPluginsNumber() {
@@ -134,6 +162,18 @@ function getImagesResizedInBrowser() {
   });
   return imagesResized;
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 start_analyse();
