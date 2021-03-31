@@ -38,7 +38,7 @@ function computeQuantile(quantiles,value)
 {
 for (let i=1;i<quantiles.length;i++)
 	{
-	if (value<quantiles[i]) return (i + (value-quantiles[i-1])/(quantiles[i] -quantiles[i-1]));
+	if (value<quantiles[i]) return ((value-quantiles[i-1])/(quantiles[i] -quantiles[i-1]));
 	}
 return quantiles.length;
 }
