@@ -12,6 +12,8 @@ function createSocialNetworkButtonRule() {
         },
 
         check: function (measures) {
+            this.specificMeasures.nbSocialNetworkButton = 0;
+            this.specificMeasures.socialNetworks = [];
             if (measures.entries.length) measures.entries.forEach(entry => {
                 const officalSocialButton = getOfficialSocialButtonFormUrl(entry.request.url);
                 if (officalSocialButton.length > 0) {

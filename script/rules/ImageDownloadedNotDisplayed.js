@@ -14,6 +14,7 @@ function createImageDownloadedNotDisplayedRule() {
         // need to get a new map , otherwise it's share between instance
         initialize: function () {
             this.specificMeasures.imgAnalysed = new Map();
+            this.specificMeasures.imageDownloadedNotDisplayedNumber = 0;
         },
 
         isRevelant: function (entry) {

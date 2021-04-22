@@ -13,6 +13,8 @@ function createOptimizeBitmapImagesRule(){
     },
 
     check: function (measures) {
+      this.specificMeasures.nbImagesToOptimize = 0;
+      this.specificMeasures.totalMinGains =0;
       if (measures.entries) measures.entries.forEach(entry => {
         if (entry.response) {
           const imageType = getImageTypeFromResource(entry);

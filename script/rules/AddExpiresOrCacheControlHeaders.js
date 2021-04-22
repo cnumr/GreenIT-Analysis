@@ -13,6 +13,8 @@ function createAddExpiresOrCacheControlHeadersRule() {
 
         check: function (measures) {
 
+            this.specificMeasures.staticResourcesSize =0;
+            this.specificMeasures.staticResourcesWithCache =0;
             if (measures.entries.length) measures.entries.forEach(entry => {
                 if (isStaticRessource(entry)) {
                     this.specificMeasures.staticResourcesSize += entry.response.content.size;

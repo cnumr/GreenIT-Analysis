@@ -11,6 +11,7 @@ function createUseStandardTypefacesRule() {
         },
 
         check: function (measures) {
+            this.specificMeasures.totalFontsSize = 0;
             if (measures.entries.length) measures.entries.forEach(entry => {
                 if (isFontResource(entry) && (entry.response.content.size > 0)) {
                     this.specificMeasures.totalFontsSize += entry.response.content.size;

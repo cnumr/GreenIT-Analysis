@@ -12,6 +12,8 @@ function createUseETagsRule() {
         },
 
         check: function (measures) {
+            this.specificMeasures.staticResourcesWithETagsSize = 0;
+            this.specificMeasures.staticResourcesSize = 0;
             if (measures.entries.length) measures.entries.forEach(entry => {
                 if (isStaticRessource(entry)) {
                     this.specificMeasures.staticResourcesSize += entry.response.content.size;

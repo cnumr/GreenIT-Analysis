@@ -11,6 +11,7 @@ function createHttpErrorRule() {
         },
 
         check: function (measures) {
+            this.specificMeasures.errorNumber = 0;
             if (measures.entries.length) measures.entries.forEach(entry => {
                 if (entry.response) {
                     if (entry.response.status >=400  ) {

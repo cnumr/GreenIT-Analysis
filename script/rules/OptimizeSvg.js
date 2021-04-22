@@ -27,6 +27,11 @@ function createOptimizeSvgRule() {
             }
         },
 
+        initialize: function() {
+            this.specificMeasures.totalSizeToOptimize = 0;
+            this.specificMeasures.totalResourcesToOptimize =0;
+        },
+        
         getSpecificMeasures: function () {
             return this.specificMeasures;
         }

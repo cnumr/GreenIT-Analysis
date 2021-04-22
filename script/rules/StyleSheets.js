@@ -11,6 +11,7 @@ function createStyleSheetsRule() {
         },
 
         check: function (measures) {
+            this.specificMeasures.styleSheets =[];
             if (measures.entries.length) measures.entries.forEach(entry => {
                 if (getResponseHeaderFromResource(entry, "content-type").toLowerCase().includes('text/css')) {
                     if (this.specificMeasures.styleSheets.indexOf(entry.request.url) === -1) {

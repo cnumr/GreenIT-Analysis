@@ -32,6 +32,10 @@ function createMaxCookiesLengthRule() {
             }
         },
 
+        initialize: function() {
+            this.specificMeasures.maxCookiesLength = 0;
+        },
+
         getSpecificMeasures: function () {
             return this.specificMeasures;
         }

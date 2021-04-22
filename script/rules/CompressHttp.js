@@ -12,6 +12,8 @@ function createCompressHttpRule() {
         },
 
         check: function (measures) {
+            this.specificMeasures.compressibleResourcesSize = 0;
+            this.specificMeasures.compressibleResourcesCompressedSize = 0;
             if (measures.entries.length) measures.entries.forEach(entry => {
                 if (isCompressibleResource(entry)) {
                     this.specificMeasures.compressibleResourcesSize += entry.response.content.size;

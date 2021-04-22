@@ -23,6 +23,10 @@ function createJsValidateRule() {
                 }
             }
         },
+        initialize: function() {
+            this.specificMeasures.errors = 0;
+            this.specificMeasures.totalJsSize =0;
+        },
 
         getSpecificMeasures: function () {
             return this.specificMeasures;

@@ -11,9 +11,10 @@ function createDontResizeImageInBrowserRule() {
     },
         imgAnalysed: new Map(),
 
-            // need to get a new map , otherwise it's share between instance
-            initialize: function () {
+    // need to get a new map , otherwise it's share between instance
+    initialize: function () {
         this.imgAnalysed = new Map();
+        this.specificMeasures.imagesResizedInBrowserNumber = 0;
     },
 
         isRevelant: function (entry) {

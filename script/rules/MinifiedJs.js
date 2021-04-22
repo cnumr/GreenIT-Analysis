@@ -24,6 +24,11 @@ function createMinifiedJsRule() {
         }
     },
 
+    initialize: function() {
+        this.specificMeasures.totalJsSize = 0;
+        this.specificMeasures.minifiedJsSize =0;
+    },
+
     getSpecificMeasures: function () {
         return this.specificMeasures;
     }

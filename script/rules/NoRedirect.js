@@ -11,6 +11,7 @@ function createNoRedirectRule() {
         },
 
         check: function (measures) {
+            this.specificMeasures.redirectNumber =0;
             if (measures.entries.length) measures.entries.forEach(entry => {
                 if (entry.response) {
                     if (isHttpRedirectCode(entry.response.status)) {

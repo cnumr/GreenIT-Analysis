@@ -11,6 +11,7 @@ function createDomainsNumberRule() {
         },
 
         check: function (measures) {
+            this.specificMeasures.domains = [];
             if (measures.entries.length) measures.entries.forEach(entry => {
                 let domain = getDomainFromUrl(entry.request.url);
                 if (this.specificMeasures.domains.indexOf(domain) === -1) {

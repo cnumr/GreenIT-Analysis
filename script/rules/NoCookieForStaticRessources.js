@@ -12,6 +12,8 @@ function createNoCookieForStaticRessourcesRule() {
         },
 
         check: function (measures) {
+            this.specificMeasures.nbRessourcesStaticWithCookie = 0;
+            this.specificMeasures.totalCookiesSize =0;
             if (measures.entries.length) measures.entries.forEach(entry => {
                 const cookiesLength = getCookiesLength(entry);
                 if (isStaticRessource(entry) && (cookiesLength > 0)) {
