@@ -41,6 +41,10 @@ Si vous utilisez l'extension sur firefox ESR:
 * vous devez aller dans l'onglet réseau lorsque vous avez ouvert le panel développeur(F12) avant d'aller sur la page à analyser (cela permet d'activer l'analyse des flux au sein du navigateur).
 * il peut arriver que  la taille du dom soit à 0, vous devez dans ce cas fermer le panel developpeur et recommencer. 
 
+### Particularité lié à Chrome
+
+Si vous utilisez l'extension avec chrome et que vous avez coché l'option "bloquer les cookies tiers", la fonction de sauvegarde de analyses ne pourra pas fonctionner (cf. https://github.com/cnumr/GreenIT-Analysis/issues/30)
+
 ### Permissions de l'extension 
 
 Pour fonctionner, l'extension utilise les permissions suivantes : 
