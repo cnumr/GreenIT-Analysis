@@ -54,18 +54,20 @@ function RulesManager() {
     let rules = new Map();
     rulesChecker.forEach((ruleChecker, ruleId) => {
       let ruleCheckerInstance = Object.create(ruleChecker)
-      // for certains rules need an initalization , method not implemented in all rules
+      // for certain rules need an initialization , method not implemented in all rules
       if (ruleCheckerInstance.initialize) ruleCheckerInstance.initialize();
       rules.set(ruleId, ruleCheckerInstance);
     });
 
     this.sendEvent = function (event, measures, resource) {
 
-      eventListener = eventListeners.get(event);
+      const eventListener = eventListeners.get(event);
       if (eventListener) {
         eventListener.forEach(ruleID => {
           this.checkRule(ruleID, measures, resource);
-          this.manageExport(ruleID, measures);
+
+        // not used yet , see https://github.com/cnumr/GreenIT-Analysis/pull/22
+        //  this.manageExport(ruleID, measures); 
         });
       }
     }
