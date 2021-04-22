@@ -18,7 +18,7 @@
 
 function start_analyse() {
   const analyseStartingTime = Date.now();
-  const dom_size = document.getElementsByTagName("*").length;
+  const dom_size = getDomSizeWithoutSvg();
   let pageAnalysis;
 
   if (analyseBestPractices) {
@@ -53,6 +53,25 @@ function start_analyse() {
 
   chrome.runtime.sendMessage(pageAnalysis);
 
+}
+
+
+function getDomSizeWithoutSvg(){
+  let dom_size = document.getElementsByTagName("*").length;
+  const svgElements = document.getElementsByTagName("svg");
+  for (let i = 0 ; i< svgElements.length ; i++) {
+    dom_size -= getNbChilds(svgElements[i])-1;
+  }
+  return dom_size;
+}
+
+function getNbChilds(element) {
+  if (element.nodeType === Node.TEXT_NODE) return 0;
+  let nb_elements =1;
+  for (let i = 0 ; i< element.childNodes.length ; i++) {
+    nb_elements+= getNbChilds(element.childNodes[i]);
+  }
+  return nb_elements;
 }
 
 
