@@ -7,28 +7,28 @@ describe("ecoIndex.js", function() {
     });
 	
     it(" 100 , 100 ,100 should return 67", function() {
-      expect(computeEcoIndex(100,100,100)).toEqual(67);
+      expect(Math.round(computeEcoIndex(100,100,100))).toEqual(67);
     });
 
     it(" 100 , 100 ,1000 should return 62", function() {
-      expect(computeEcoIndex(100,100,1000)).toEqual(62);
+      expect(Math.round(computeEcoIndex(100,100,1000))).toEqual(62);
     });
 
     it(" 100 , 100 ,10000 should return 53", function() {
-      expect(computeEcoIndex(100,100,10000)).toEqual(53);
+      expect(Math.round(computeEcoIndex(100,100,10000))).toEqual(53);
     });
 
     it(" 200 , 200 ,10000 should return 53", function() {
-      expect(computeEcoIndex(200,200,10000)).toEqual(41);
+      expect(Math.round(computeEcoIndex(200,200,10000))).toEqual(41);
     });
 
 
     it(" 2355 , 267 ,2493 should return 5", function() {
-      expect(computeEcoIndex(2355,267,2493)).toEqual(5);
+      expect(Math.round(computeEcoIndex(2355,267,2493))).toEqual(5);
     });
 
     it(" 240 , 20 ,331 should return 78", function() {
-      expect(computeEcoIndex(240,20,331)).toEqual(78);
+      expect(Math.round(computeEcoIndex(240,20,331))).toEqual(78);
     });
 
     afterEach(function() {
@@ -79,19 +79,19 @@ describe("ecoIndex.js", function() {
     });
 	
     it(" 2 should return 2.96", function() {
-      expect(computeGreenhouseGasesEmissionfromEcoIndex(2)).toEqual(2.96);
+      expect(computeGreenhouseGasesEmissionfromEcoIndex(2)).toEqual("2.96");
     });
 
-    it(" 10 should return 2.8", function() {
-      expect(computeGreenhouseGasesEmissionfromEcoIndex(10)).toEqual(2.8);
+    it(" 10 should return 2.80", function() {
+      expect(computeGreenhouseGasesEmissionfromEcoIndex(10)).toEqual("2.80");
     });
 
-    it(" 50 should return 2", function() {
-      expect(computeGreenhouseGasesEmissionfromEcoIndex(50)).toEqual(2);
+    it(" 50 should return 2.00", function() {
+      expect(computeGreenhouseGasesEmissionfromEcoIndex(50)).toEqual("2.00");
     });
 
-    it(" 70 should return 1.6", function() {
-      expect(computeGreenhouseGasesEmissionfromEcoIndex(70)).toEqual(1.6);
+    it(" 70 should return 1.60", function() {
+      expect(computeGreenhouseGasesEmissionfromEcoIndex(70)).toEqual("1.60");
     });
 
     afterEach(function() {
@@ -105,19 +105,19 @@ describe("ecoIndex.js", function() {
     });
 	
     it(" 2 should return 4.44", function() {
-      expect(computeWaterConsumptionfromEcoIndex(2)).toEqual(4.44);
+      expect(computeWaterConsumptionfromEcoIndex(2)).toEqual("4.44");
     });
 
-    it(" 10 should return 4.2", function() {
-      expect(computeWaterConsumptionfromEcoIndex(10)).toEqual(4.2);
+    it(" 10 should return 4.20", function() {
+      expect(computeWaterConsumptionfromEcoIndex(10)).toEqual("4.20");
     });
 
-    it(" 50 should return 3", function() {
-      expect(computeWaterConsumptionfromEcoIndex(50)).toEqual(3);
+    it(" 50 should return 3.00", function() {
+      expect(computeWaterConsumptionfromEcoIndex(50)).toEqual("3.00");
     });
 
-    it(" 70 should return 2.4", function() {
-      expect(computeWaterConsumptionfromEcoIndex(70)).toEqual(2.4);
+    it(" 70 should return 2.40", function() {
+      expect(computeWaterConsumptionfromEcoIndex(70)).toEqual("2.40");
     });
 
     afterEach(function() {
