@@ -51,15 +51,21 @@
     <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
 </svg> 
    
-<!-- svg  be take for one element in dom  -->
+<!-- svg  be take for one element in dom , test nested svg tag  -->
 <svg height="100" width="100">
+    <svg x="10">
     <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
     <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
     <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
-    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
-    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
-    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
-    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
+    </svg>
+    <SVG>
+        <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
+        <SVG>
+            <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
+        </SVG>
+        <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
+        <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
+    </SVG>
 </svg> 
 
 
