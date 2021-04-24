@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2019  didierfred@gmail.com 
+ *  Copyright (C) 2019 - 2022  didierfred@gmail.com 
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -14,6 +14,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 
 let quantiles_dom = [0, 47, 75, 159, 233, 298, 358, 417, 476, 537, 603, 674, 753, 843, 949, 1076, 1237, 1459, 1801, 2479, 594601];
 let quantiles_req = [0, 2, 15, 25, 34, 42, 49, 56, 63, 70, 78, 86, 95, 105, 117, 130, 147, 170, 205, 281, 3920];
@@ -30,7 +31,6 @@ const q_dom= computeQuantile(quantiles_dom,dom);
 const q_req= computeQuantile(quantiles_req,req);
 const q_size= computeQuantile(quantiles_size,size);
 
-
 return 100 - 5 * (3*q_dom + 2*q_req + q_size)/6;
 }
 
@@ -38,20 +38,20 @@ function computeQuantile(quantiles,value)
 {
 for (let i=1;i<quantiles.length;i++)
 	{
-	if (value<quantiles[i]) return (i + (value-quantiles[i-1])/(quantiles[i] -quantiles[i-1]));
+	if (value<quantiles[i]) return (i -1 + (value-quantiles[i-1])/(quantiles[i] -quantiles[i-1]));
 	}
-return quantiles.length;
+return quantiles.length -1;
 }
 
 
 function getEcoIndexGrade(ecoIndex)
 {
-if (ecoIndex > 75) return "A";
-if (ecoIndex > 65) return "B";
-if (ecoIndex > 50) return "C";
-if (ecoIndex > 35) return "D";
-if (ecoIndex > 20) return "E";
-if (ecoIndex > 5) return "F";
+if (ecoIndex > 80) return "A";
+if (ecoIndex > 70) return "B";
+if (ecoIndex > 55) return "C";
+if (ecoIndex > 40) return "D";
+if (ecoIndex > 25) return "E";
+if (ecoIndex > 10) return "F";
 return "G";
 }
 
