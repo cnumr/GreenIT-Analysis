@@ -6,30 +6,39 @@ describe("ecoIndex.js", function() {
     beforeEach(function() {	
     });
 	
-    it(" 100 , 100 ,100 should return 67", function() {
-      expect(Math.round(computeEcoIndex(100,100,100))).toEqual(67);
+    it(" 100 , 100 ,100 should return 72", function() {
+      expect(Math.round(computeEcoIndex(100,100,100))).toEqual(72);
     });
 
-    it(" 100 , 100 ,1000 should return 62", function() {
-      expect(Math.round(computeEcoIndex(100,100,1000))).toEqual(62);
+    it(" 100 , 100 ,1000 should return 67", function() {
+      expect(Math.round(computeEcoIndex(100,100,1000))).toEqual(67);
     });
 
-    it(" 100 , 100 ,10000 should return 53", function() {
-      expect(Math.round(computeEcoIndex(100,100,10000))).toEqual(53);
+    it(" 100 , 100 ,10000 should return 58", function() {
+      expect(Math.round(computeEcoIndex(100,100,10000))).toEqual(58);
     });
 
-    it(" 200 , 200 ,10000 should return 53", function() {
-      expect(Math.round(computeEcoIndex(200,200,10000))).toEqual(41);
+    it(" 200 , 200 ,10000 should return 46", function() {
+      expect(Math.round(computeEcoIndex(200,200,10000))).toEqual(46);
     });
 
 
-    it(" 2355 , 267 ,2493 should return 5", function() {
-      expect(Math.round(computeEcoIndex(2355,267,2493))).toEqual(5);
+    it(" 2355 , 267 ,2493 should return 10", function() {
+      expect(Math.round(computeEcoIndex(2355,267,2493))).toEqual(10);
     });
 
-    it(" 240 , 20 ,331 should return 78", function() {
-      expect(Math.round(computeEcoIndex(240,20,331))).toEqual(78);
+    it(" 240 , 20 ,331 should return 83", function() {
+      expect(Math.round(computeEcoIndex(240,20,331))).toEqual(83);
     });
+
+    it(" 6000 , 4000 ,300000 should return 0", function() {
+      expect(Math.round(computeEcoIndex(600000,4000,300000))).toEqual(0);
+    });
+
+    it(" 0 , 0 , 0 should return 100", function() {
+      expect(Math.round(computeEcoIndex(0,0,0))).toEqual(100);
+    });
+
 
     afterEach(function() {
     });
@@ -44,24 +53,24 @@ describe("ecoIndex.js", function() {
       expect(getEcoIndexGrade(2)).toEqual("G");
     });
 
-    it(" 10 should return F ", function() {
-      expect(getEcoIndexGrade(10)).toEqual("F");
+    it(" 15 should return F ", function() {
+      expect(getEcoIndexGrade(15)).toEqual("F");
     });
 
-    it(" 25 should return E ", function() {
-      expect(getEcoIndexGrade(25)).toEqual("E");
+    it(" 30 should return E ", function() {
+      expect(getEcoIndexGrade(30)).toEqual("E");
     });
 
-    it(" 40 should return D ", function() {
-      expect(getEcoIndexGrade(40)).toEqual("D");
+    it(" 45 should return D ", function() {
+      expect(getEcoIndexGrade(45)).toEqual("D");
     });
 
-    it(" 50.2 should return C ", function() {
-      expect(getEcoIndexGrade(50.2)).toEqual("C");
+    it(" 55.2 should return C ", function() {
+      expect(getEcoIndexGrade(55.2)).toEqual("C");
     });
 
-    it(" 75 should return B ", function() {
-      expect(getEcoIndexGrade(75)).toEqual("B");
+    it(" 80 should return B ", function() {
+      expect(getEcoIndexGrade(80)).toEqual("B");
     });
 
     it(" 100 should return A ", function() {
