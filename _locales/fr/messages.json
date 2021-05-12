@@ -12,7 +12,7 @@
     "description": "Clear Browser Cache Button"
   },
   "csvColumnsLabel": {
-    "message": "Date;Url;Nombre requêtes;Taille(kb);Taille du dom;GES;Eau;ecoIndex;Note",
+    "message": "Date;Url;Nombre requêtes;Taille(kb);Taille du dom;GES (gCO2e);Eau (cl);ecoIndex;Note",
     "description": "csvColumnsLabel"
   },
   "date": {
