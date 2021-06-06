@@ -52,6 +52,10 @@ Pour fonctionner, l'extension utilise les permissions suivantes :
 * activeTab, tabs : utilisée pour afficher la page des analyses sauvegardées et pour accéder aux contenus des pages pour l'analyse 
 * <all_urls> : utilisée pour accéder aux Urls pour l'analyse
 
+### Confidentialité 
+
+L'analyse est effectuée en local et le résulat est stocké dans l'espace de stockage du navigateur lorsque l'utilisateur choisit d'enregister l'analyse. Le plugin ne fait aucune connexion réseau et donc aucune donnée n'est envoyé sur le réseau. 
+
 ## Tests
 Pour utiliser directement l'extension avec les modifications effectuées localement :   
 * Aller dans les paramètres de Chrome > Plus d'outils > Extensions. Activer le Mode Développeur. 
