@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2019  didierfred@gmail.com 
+ *  Copyright (C) 2019-2021  didierfred@gmail.com 
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -17,6 +17,7 @@
 
 function initUI() {
   document.getElementById('launchAnalyse').addEventListener('click', (e) => launchAnalyse());
+  document.getElementById('clearBrowserCache').addEventListener('click', (e) => clearBrowserCache());
   document.getElementById('saveAnalyse').addEventListener('click', (e) => storeAnalysisInHistory());
   document.getElementById('viewHistory').addEventListener('click', (e) => viewHistory());
   document.getElementById('helpButton').addEventListener('click', (e) => viewHelp());
@@ -133,7 +134,6 @@ function showEcoRuleOnUI(rule) {
 
   }
 }
-
 
 function viewHistory() {
   if (chrome.tabs) chrome.tabs.query({ currentWindow: true }, loadHistoryTab);

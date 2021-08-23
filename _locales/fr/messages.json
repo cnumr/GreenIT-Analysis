@@ -7,6 +7,10 @@
     "message": "Bonnes pratiques",
     "description": "Title for best practice"
   },
+  "clearBrowserCacheButton": {
+    "message": "Vider le cache navigateur",
+    "description": "Clear Browser Cache Button"
+  },
   "csvColumnsLabel": {
     "message": "Date;Url;Nombre requêtes;Taille(kb);Taille du dom;GES;Eau;ecoIndex;Note",
     "description": "csvColumnsLabel"
@@ -68,7 +72,7 @@
     "description": "Launch Analysis"
   },
   "menuText": {
-    "message": "GreenIT Analysis est installé et accessible via le panneau développeur (F12) ",
+    "message": "GreenIT Analysis V2.2.0 est installé et accessible via le panneau développeur (F12) ",
     "description": "Text when you click on the plugin's icone"
   },
   "menuMoreInformation": {

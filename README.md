@@ -1,4 +1,4 @@
-# GreenIT-Analysis 
+# GreenIT-Analysis (V2.2.0)
 
 
 GreenIT-Analysis est une extension pour navigateur qui vous permet de quantifier les impacts environnementaux d'un parcours utilisateur complet, même derrière un firewall et / ou une authentification applicative. L'outil vérifie également l'utilisation de bonnes pratiques visant à diminuer ces impacts.
@@ -24,7 +24,7 @@ Pour avoir une analyse des bonnes pratiques, il faut cocher la case "Activer l'a
 Quelques points de vigilance: 
 
 * Si le nombre de requêtes est à zéro, c'est probablement parce que vous n'avez pas charger la page avec les outils de developpement démarrés. Il faut donc penser à faire un rechargement de la page.
-* Pour avoir des mesures correctes, il faut préalablement vider le cache du navigateur (Dans le cas contraire, le volume transféré va être réduit si vous avez déjà consulté le site mesuré).
+* Pour avoir des mesures correctes, il faut préalablement vider le cache du navigateur (Dans le cas contraire, le volume transféré va être réduit si vous avez déjà consulté le site mesuré). Pour vous eviter d'aller dans les menus du navigateur, un bouton est prévu à cet effet dans l'extension. 
 * L'utilisation d'un bloqueur de publicité ou autre filtre a une influence sur le résultat.
 
 ### Enregistrement du parcours utilisateur
@@ -51,6 +51,7 @@ Pour fonctionner, l'extension utilise les permissions suivantes :
 * storage : utilisée pour stocker le résultat des analyses 
 * activeTab, tabs : utilisée pour afficher la page des analyses sauvegardées et pour accéder aux contenus des pages pour l'analyse 
 * <all_urls> : utilisée pour accéder aux Urls pour l'analyse
+* browsingData : utilisée pour vider le cache du navigateur
 
 ### Confidentialité 
 
@@ -83,7 +84,7 @@ Pour toutes anomalies ou questions, vous pouvez poster une issue ou contacter di
 GreenIT-Analysis est sous license AGPLv3.
 
     Copyright (C) 2016  The EcoMeter authors (https://gitlab.com/ecoconceptionweb/ecometer)
-    Copyright (C) 2019  didierfred@gmail.com 
+    Copyright (C) 2019-2021  didierfred@gmail.com 
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published

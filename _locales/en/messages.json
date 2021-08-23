@@ -7,6 +7,10 @@
     "message": "Best practices",
     "description": "Title for best practice"
   },
+  "clearBrowserCacheButton": {
+    "message": "Clear browser cache",
+    "description": "Clear Browser Cache Button"
+  },
   "csvColumnsLabel": {
     "message": "Date;Url;Request number;Size(kb);Dom size;Greenhouse Gases Emission (gCO2e);Water consumption;ecoIndex;Grade",
     "description": "csvColumnsLabel"
@@ -64,11 +68,11 @@
     "description": "History page title"
   },
   "launchAnalyseButton": {
-    "message": "Launch Analysis",
+    "message": "Launch analysis",
     "description": "Launch Analysis"
   },
   "menuText": {
-    "message": "GreenIT Analysis is install in your browser and accessible via the devtool panel (F12) ",
+    "message": "GreenIT Analysis V2.2.0 is install in your browser and accessible via the devtool panel (F12) ",
     "description": "Text when you click on the plugin's icone"
   },
   "menuMoreInformation": {

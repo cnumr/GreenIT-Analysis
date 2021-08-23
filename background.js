@@ -1,6 +1,6 @@
 
 /*
- *  Copyright (C) 2019  didierfred@gmail.com 
+ *  Copyright (C) 2019-2021  didierfred@gmail.com 
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -45,13 +45,22 @@ chrome.runtime.onConnect.addListener((devToolsConnection) => {
   console.log("received onConnect");
   // assign the listener function to a variable so we can remove it later
   let devToolsListener = (message, sender, sendResponse) => {
-    // Inject a content script into the identified tab
-    console.log("received script to execute form tabId " + message.tabId);
-    if (!connections[message.tabId]) connections[message.tabId] = devToolsConnection;
-    chrome.tabs.executeScript(message.tabId,
-      { code: "var analyseBestPractices=" + message.analyseBestPractices + ";", allFrames: true });
-    chrome.tabs.executeScript(message.tabId,
-      { file: message.scriptToInject, allFrames: true });
+
+    // in case message form devtools is to clean cache 
+    if (message.clearBrowserCache) {
+      clearBrowserCache();
+      return;
+    }
+    // Otherwise message is to inject script 
+    else {
+      // Inject a content script into the identified tab
+      console.log("received script to execute form tabId " + message.tabId);
+      if (!connections[message.tabId]) connections[message.tabId] = devToolsConnection;
+      chrome.tabs.executeScript(message.tabId,
+        {code: "var analyseBestPractices=" + message.analyseBestPractices + ";", allFrames: true});
+      chrome.tabs.executeScript(message.tabId,
+        {file: message.scriptToInject, allFrames: true});
+    }
   }
   // add the listener
   devToolsConnection.onMessage.addListener(devToolsListener);
@@ -68,3 +77,19 @@ chrome.runtime.onConnect.addListener((devToolsConnection) => {
   });
 
 });
+
+function clearBrowserCache()
+{ 
+  chrome.browsingData.remove({
+  }, {
+    "cache": true,
+    "cookies": false,
+    "downloads": true,
+    "formData": false,
+    "history": false,
+    "indexedDB": false,
+    "localStorage": false,
+    "passwords": false,
+    "serviceWorkers": true,
+  }, console.log("Cache cleaning done"));
+}
