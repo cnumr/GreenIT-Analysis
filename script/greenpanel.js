@@ -1,6 +1,6 @@
 
 /*
- *  Copyright (C) 2019  didierfred@gmail.com 
+ *  Copyright (C) 2019-2021  didierfred@gmail.com 
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -50,6 +50,16 @@ function handleResponseFromBackground(frameMeasures) {
 }
 
 
+function clearBrowserCache()
+{
+  // calling the method chrome.browsingData.remove() from the devtool is not working for firefox 
+  // we need to do it form the background script , so we send a message to the background script to do it   
+  backgroundPageConnection.postMessage({
+    clearBrowserCache: true
+  });
+
+}
+
 function isOldAnalyse(startingTime) { return (startingTime < lastAnalyseStartingTime) }
 
 function computeEcoIndexMeasures(measures) {
@@ -77,6 +87,7 @@ function launchAnalyse() {
 
   // Launch analyse via injection of a script in each frame of the current tab
   backgroundPageConnection.postMessage({
+    clearBrowserCache: false,
     tabId: chrome.devtools.inspectedWindow.tabId,
     scriptToInject: "script/analyseFrame.js",
     analyseBestPractices: analyseBestPractices

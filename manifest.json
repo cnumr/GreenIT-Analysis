@@ -2,13 +2,13 @@
   "description": "GreenIT-Analysis",
   "manifest_version": 2,
   "name": "GreenIT-Analysis",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "homepage_url": "https://github.com/didierfred/GreenIT-Analysis",
   "icons" : {
     "48": "icons/logo-48.png"
   },
   "permissions": [
-    "activeTab","tabs","storage","<all_urls>"
+    "activeTab","tabs","storage","<all_urls>","browsingData"
   ],
   "background": {
     "scripts": ["background.js"]
