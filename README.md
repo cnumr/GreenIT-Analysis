@@ -1,4 +1,4 @@
-# GreenIT-Analysis (V2.2.0)
+# GreenIT-Analysis (V2.2.1)
 
 
 GreenIT-Analysis est une extension pour navigateur qui vous permet de quantifier les impacts environnementaux d'un parcours utilisateur complet, même derrière un firewall et / ou une authentification applicative. L'outil vérifie également l'utilisation de bonnes pratiques visant à diminuer ces impacts.
@@ -48,7 +48,6 @@ Si vous utilisez l'extension avec chrome et que vous avez coché l'option "bloqu
 ### Permissions de l'extension 
 
 Pour fonctionner, l'extension utilise les permissions suivantes : 
-* storage : utilisée pour stocker le résultat des analyses 
 * activeTab, tabs : utilisée pour afficher la page des analyses sauvegardées et pour accéder aux contenus des pages pour l'analyse 
 * <all_urls> : utilisée pour accéder aux Urls pour l'analyse
 * browsingData : utilisée pour vider le cache du navigateur

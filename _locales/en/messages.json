@@ -72,7 +72,7 @@
     "description": "Launch Analysis"
   },
   "menuText": {
-    "message": "GreenIT Analysis V2.2.0 is install in your browser and accessible via the devtool panel (F12) ",
+    "message": "GreenIT Analysis V2.2.1 is install in your browser and accessible via the devtool panel (F12 or CMD + ALT + i sur Mac",
     "description": "Text when you click on the plugin's icone"
   },
   "menuMoreInformation": {
