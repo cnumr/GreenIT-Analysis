@@ -102,7 +102,9 @@ function getInlineStyleSheetsNumber() {
   let inlineStyleSheetsNumber = 0;
   styleSheetsArray.forEach(styleSheet => {
     try {
-      if (!styleSheet.href) inlineStyleSheetsNumber++;
+      // Ignore SVG styles in count 
+      const isSvgStyleSheet = (styleSheet.ownerNode instanceof SVGStyleElement);
+      if (!styleSheet.href && !isSvgStyleSheet) inlineStyleSheetsNumber++;
     }
     catch (err) {
       console.log("GREENIT-ANALYSIS ERROR ," + err.name + " = " + err.message);
