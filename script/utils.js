@@ -26,8 +26,7 @@ requirejs.config({
 
 // Load module require.js
 requirejs(['esprima'],
-  (esprima) => console.log("Load esprima module"));
-
+    (esprima) => console.log("Load esprima module"));
 
 const compressibleImage = [
   /^image\/bmp(;|$)/i,
@@ -145,8 +144,8 @@ function isStaticRessource(resource) {
 function isFontResource(resource) {
   const contentType = getResponseHeaderFromResource(resource, "content-type");
   if (font.some(value => value.test(contentType))) return true;
-  // if not check url , because sometimes content-type is set to text/plain 
-  if (contentType === "text/plain" || contentType==="" || contentType =="application/octet-stream") {
+  // if not check url , because sometimes content-type is set to text/plain
+  if (contentType === "text/plain" || contentType === "" || contentType == "application/octet-stream") {
     const url = resource.request.url;
     if (url.endsWith(".woff")) return true;
     if (url.endsWith(".woff2")) return true;
@@ -232,14 +231,14 @@ function getDomainFromUrl(url) {
   if (elements[1] === undefined) return "";
   else {
     elements = elements[1].split('/'); // get domain with port
-    elements = elements[0].split(':'); // get domain without port 
+    elements = elements[0].split(':'); // get domain without port
   }
   return elements[0];
 }
 
 /**
-* Count character occurences in the given string
-*/
+ * Count character occurences in the given string
+ */
 function countChar(char, str) {
   let total = 0;
   str.split("").forEach(curr => {
@@ -287,7 +286,7 @@ function isDataResource(harEntry) {
 function computeNumberOfErrorsInJSCode(code, url) {
   let errorNumber = 0;
   try {
-    const syntax = require("esprima").parse(code, { tolerant: true, sourceType: 'script', loc: true });
+    const syntax = require("esprima").parse(code, {tolerant: true, sourceType: 'script', loc: true});
     if (syntax.errors) {
       if (syntax.errors.length > 0) {
         errorNumber += syntax.errors.length;
@@ -325,9 +324,9 @@ function getMinOptimisationGainsForImage(pixelsNumber, imageSize, imageType) {
   // image png or gif < 50Kb  are considered optimized (used for transparency not supported in jpeg format)
   if ((imageSize < 50000) && ((imageType === 'png') || (imageType === 'gif'))) return 0;
 
-  let imgMaxSize = Math.max(pixelsNumber / 5, 10000); //  difficult to get under 10Kb 
+  let imgMaxSize = Math.max(pixelsNumber / 5, 10000); //  difficult to get under 10Kb
 
-  // image > 500Kb are too big for web site , there are considered never optimized 
+  // image > 500Kb are too big for web site , there are considered never optimized
   if (imageSize > 500000) return Math.max(imageSize - 500000, imageSize - imgMaxSize);
 
   return Math.max(0, imageSize - imgMaxSize);
@@ -340,19 +339,17 @@ function isSvgUrl(url) {
 }
 
 function isSvgOptimized(svgImage) {
-  if (svgImage.length < 1000) return true; // do not consider image < 1KB 
+  if (svgImage.length < 1000) return true; // do not consider image < 1KB
   if (svgImage.search(" <") === -1) return true;
   return false;
 }
 
 
-
-function getOfficialSocialButtonFormUrl(url)
-{
+function getOfficialSocialButtonFormUrl(url) {
   if (url.includes("platform.twitter.com/widgets.js")) return "tweeter";
-  if (url.includes("platform.linkedin.com/in.js")) return "linkedin"; 
+  if (url.includes("platform.linkedin.com/in.js")) return "linkedin";
   if (url.includes("assets.pinterest.com/js/pinit.js")) return "pinterest";
-  if (url.includes("connect.facebook.net") && url.includes("sdk.js")) return "facebook"; 
+  if (url.includes("connect.facebook.net") && url.includes("sdk.js")) return "facebook";
   if (url.includes("platform-api.sharethis.com/js/sharethis.js")) return "sharethis.com (mutliple social network) ";
   if (url.includes("s7.addthis.com/js/300/addthis_widget.js")) return "addthis.com (mutliple social network) ";
   if (url.includes("static.addtoany.com/menu/page.js")) return "addtoany.com (mutliple social network) ";

@@ -63,10 +63,10 @@ function loadHTMLBestPractice(ruleId) {
   newTR.innerHTML = html;
   document.getElementById("bestPracticesTable").appendChild(newTR);
 
-
   html = "";
   html += "<td colspan=\"3\">";
-  html += "<p class=\"bestPracticeDetail\">" + chrome.i18n.getMessage("rule_" + ruleId + "_DetailDescription"); "</p>";
+  html += "<p class=\"bestPracticeDetail\">" + chrome.i18n.getMessage("rule_" + ruleId + "_DetailDescription");
+  "</p>";
   html += "</td>";
 
   newTR = document.createElement("tr");
@@ -136,11 +136,10 @@ function showEcoRuleOnUI(rule) {
 }
 
 function viewHistory() {
-  if (chrome.tabs) chrome.tabs.query({ currentWindow: true }, loadHistoryTab);
-  // chrome.tabs is not accessible in old chromium version 
+  if (chrome.tabs) chrome.tabs.query({currentWindow: true}, loadHistoryTab);
+  // chrome.tabs is not accessible in old chromium version
   else window.open("history.html");
 }
-
 
 function loadHistoryTab(tabs) {
   var history_tab;
@@ -151,17 +150,15 @@ function loadHistoryTab(tabs) {
   // config tab exits , put the focus on it
   if (history_tab) {
     chrome.tabs.reload(history_tab.id);
-    chrome.tabs.update(history_tab.id, { active: true });
+    chrome.tabs.update(history_tab.id, {active: true});
   }
   // else create a new tab
-  else chrome.tabs.create({ url: "history.html" });
+  else chrome.tabs.create({url: "history.html"});
 }
-
 
 function viewHelp() {
   window.open("https://github.com/cnumr/GreenIT-Analysis/blob/V2.1.1/README.md");
 }
-
 
 function setAnalyseBestPractices() {
   analyseBestPractices = document.getElementById('analyseBestPracticesCheckBox').checked;

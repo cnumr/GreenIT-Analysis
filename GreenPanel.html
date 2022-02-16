@@ -1,213 +1,210 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-  <title> GreenIT Analysis Panel</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/bootstrap.min.css">
+    <title> GreenIT Analysis Panel</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
 
-  <style type="text/css">
-    .grade {
-      display: inline-block;
-      width: 24px;
-      height: 24px;
-      text-align: center;
-      border-radius: 50%;
-      background-color: #f00;
-      font-size: 18px;
-      line-height: 22px;
-    }
+    <style type="text/css">
+        .grade {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            border-radius: 50%;
+            background-color: #f00;
+            font-size: 18px;
+            line-height: 22px;
+        }
 
 
-    .grade.A {
-      background-color: #349A47;
-      color: #fff;
-    }
+        .grade.A {
+            background-color: #349A47;
+            color: #fff;
+        }
 
-    .grade.B {
-      background-color: #51B84B;
-      color: #fff;
-    }
+        .grade.B {
+            background-color: #51B84B;
+            color: #fff;
+        }
 
-    .grade.C {
-      background-color: #CADB2A
-    }
+        .grade.C {
+            background-color: #CADB2A
+        }
 
-    .grade.D {
-      background-color: #F6EB15
-    }
+        .grade.D {
+            background-color: #F6EB15
+        }
 
-    .grade.E {
-      background-color: #FECD06
-    }
+        .grade.E {
+            background-color: #FECD06
+        }
 
-    .grade.F {
-      background-color: #F99839;
-      color: #fff;
-    }
+        .grade.F {
+            background-color: #F99839;
+            color: #fff;
+        }
 
-    .grade.G {
-      background-color: #ED2124;
-      color: #fff;
-    }
+        .grade.G {
+            background-color: #ED2124;
+            color: #fff;
+        }
 
-    .bestPracticeDetail {
-      border: 1px solid rgb(8, 226, 73);
-    }
+        .bestPracticeDetail {
+            border: 1px solid rgb(8, 226, 73);
+        }
 
-    .bestPracticeDetailComment {
-      border: 1px solid rgb(226, 8, 8);
-    }
+        .bestPracticeDetailComment {
+            border: 1px solid rgb(226, 8, 8);
+        }
 
-    th,
-    td {
-      border: 1px solid white;
-      overflow: hidden;
-      padding : 2.2pt;
-      text-overflow: ellipsis;
-      font-size: 10px;
-      text-align: left;
-    }
+        th,
+        td {
+            border: 1px solid white;
+            overflow: hidden;
+            padding: 2.2pt;
+            text-overflow: ellipsis;
+            font-size: 10px;
+            text-align: left;
+        }
 
-    .center-td {
-      text-align: center;
-    }
+        .center-td {
+            text-align: center;
+        }
 
-    table {
-      border-collapse: collapse;
-      table-layout: fixed;
-      width: 95%;
-      margin: auto;
-    }
+        table {
+            border-collapse: collapse;
+            table-layout: fixed;
+            width: 95%;
+            margin: auto;
+        }
 
-    .bestPracticeLink {
-      color: black;
-    }
+        .bestPracticeLink {
+            color: black;
+        }
 
-    .detailCommentLink {
-      color: rgb(3, 3, 3);
-      background-color: #F6EB15;
+        .detailCommentLink {
+            color: rgb(3, 3, 3);
+            background-color: #F6EB15;
 
-      background-color: rgb(219, 221, 223);
-      font-size: 10px;
-      line-height: 5px;
-    }
+            background-color: rgb(219, 221, 223);
+            font-size: 10px;
+            line-height: 5px;
+        }
 
-    .line {
-    width: 90%;
-    margin: auto;
-    color: rgba(0, 0, 0, 0);
-    line-height: 1px;
-    background-color: rgb(216, 221, 215);
-    margin-top: 1px;
-    margin-bottom: 10px;
-  }
+        .line {
+            width: 90%;
+            margin: auto;
+            color: rgba(0, 0, 0, 0);
+            line-height: 1px;
+            background-color: rgb(216, 221, 215);
+            margin-top: 1px;
+            margin-bottom: 10px;
+        }
 
-  </style>
+    </style>
 
 </head>
 
 <body>
-  <div style="text-align:center">
-    <div class="container-fluid">
+    <div style="text-align:center">
+        <div class="container-fluid">
 
 
-      <a href="#" id="launchAnalyse" class="btn btn-primary btn-sm" data-i18n="launchAnalyseButton"></a>
-      <a href="#" id="clearBrowserCache" class="btn btn-primary btn-sm" data-i18n="clearBrowserCacheButton"></a>
-      <a href="#" id="saveAnalyse" class="btn btn-primary btn-sm" data-i18n="saveAnalyseButton"></a>
-      <a href="#" id="viewHistory" class="btn btn-primary btn-sm" data-i18n="historyButton"></a>
-      <a href="#" id="helpButton" class="btn btn-primary btn-sm" data-i18n="helpButton"></a>
+            <a href="#" id="launchAnalyse" class="btn btn-primary btn-sm" data-i18n="launchAnalyseButton"></a>
+            <a href="#" id="clearBrowserCache" class="btn btn-primary btn-sm" data-i18n="clearBrowserCacheButton"></a>
+            <a href="#" id="saveAnalyse" class="btn btn-primary btn-sm" data-i18n="saveAnalyseButton"></a>
+            <a href="#" id="viewHistory" class="btn btn-primary btn-sm" data-i18n="historyButton"></a>
+            <a href="#" id="helpButton" class="btn btn-primary btn-sm" data-i18n="helpButton"></a>
 
-      <br />
+            <br/>
 
-      <div data-i18n="activateBestPracticeAnalysisCheckbox" style="font-size:10pt;">
-        <input type="checkbox"  id="analyseBestPracticesCheckBox"></input>
-      </div>
+            <div data-i18n="activateBestPracticeAnalysisCheckbox" style="font-size:10pt;">
+                <input type="checkbox" id="analyseBestPracticesCheckBox"></input>
+            </div>
 
 
+        </div>
+
+
+        <div id="ecoIndexView" hidden>
+
+            <H4> EcoIndex <span id="grade"></span>
+            </H4>
+
+            <table class="mytable">
+                <tbody>
+                    <tr>
+                        <th data-i18n="ecoIndex" class="center-td"></th>
+                        <th data-i18n="waterConsumption" class="center-td"></th>
+                        <th data-i18n="greenhouseGasesEmission" class="center-td"></th>
+                    </tr>
+                    <tr>
+                        <td id="ecoIndex" class="center-td"></td>
+                        <td id="waterConsumption" class="center-td"></td>
+                        <td id="greenhouseGasesEmission" class="center-td"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="line">.</div>
+
+            <table>
+                <tbody>
+                    <tr>
+                        <th data-i18n="requestNumber" class="center-td"></th>
+                        <th data-i18n="pageSize" class="center-td"></th>
+                        <th data-i18n="domSize" class="center-td"></th>
+                    </tr>
+                    <tr>
+                        <td id="requestNumber" class="center-td"></td>
+                        <td id="responsesSize" class="center-td"></td>
+                        <td id="domSize" class="center-td"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="line"></div>
+        </div>
+
+        <div id="bestPracticesView" hidden>
+            <H4 data-i18n="bestPractices"></H4>
+
+            <table>
+                <tbody id="bestPracticesTable">
+                </tbody>
+            </table>
+        </div>
     </div>
- 
-
-    <div id="ecoIndexView" hidden>
-
-      <H4> EcoIndex <span id="grade"></span>
-      </H4>
-
-      <table class="mytable">
-        <tbody>
-          <tr>
-            <th data-i18n="ecoIndex" class="center-td"></th>
-            <th data-i18n="waterConsumption" class="center-td"></th>
-            <th data-i18n="greenhouseGasesEmission" class="center-td"> </th>
-          </tr>
-          <tr>
-            <td id="ecoIndex" class="center-td"></td>
-            <td id="waterConsumption" class="center-td"></td>
-            <td id="greenhouseGasesEmission" class="center-td" ></td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="line">.</div>
-
-      <table>
-        <tbody>
-          <tr>
-            <th data-i18n="requestNumber" class="center-td"> </th>
-            <th data-i18n="pageSize" class="center-td"> </th>
-            <th data-i18n="domSize" class="center-td"> </th>
-          </tr>
-          <tr>
-            <td id="requestNumber" class="center-td"></td>
-            <td id="responsesSize" class="center-td"></td>
-            <td id="domSize" class="center-td"></td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="line"> </div>
-    </div>
-
-    <div id="bestPracticesView" hidden>
-      <H4 data-i18n="bestPractices"></H4>
-
-      <table>
-        <tbody id="bestPracticesTable">
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <script src="script/externalLibs/require.2.3.6.js"> </script>
-  <script src="script/utils.js"> </script>
-  <script src="script/rulesManager.js"> </script>
-  <script src="script/rules/AddExpiresOrCacheControlHeaders.js"></script>
-  <script src="script/rules/CompressHttp.js"></script>
-  <script src="script/rules/DomainsNumber.js"></script>
-  <script src="script/rules/DontResizeImageInBrowser.js"></script>
-  <script src="script/rules/EmptySrcTag.js"></script>
-  <script src="script/rules/ExternalizeCss.js"></script>
-  <script src="script/rules/ExternalizeJs.js"></script>
-  <script src="script/rules/HttpError.js"></script>
-  <script src="script/rules/HttpRequests.js"></script>
-  <script src="script/rules/ImageDownloadedNotDisplayed.js"></script>
-  <script src="script/rules/JsValidate.js"></script>
-  <script src="script/rules/MaxCookiesLength.js"></script>
-  <script src="script/rules/MinifiedCss.js"></script>
-  <script src="script/rules/MinifiedJs.js"></script>
-  <script src="script/rules/NoCookieForStaticRessources.js"></script>
-  <script src="script/rules/NoRedirect.js"> </script>
-  <script src="script/rules/OptimizeBitmapImages.js"> </script>
-  <script src="script/rules/OptimizeSvg.js"> </script>
-  <script src="script/rules/Plugins.js"> </script>
-  <script src="script/rules/PrintStyleSheet.js"> </script>
-  <script src="script/rules/SocialNetworkButton.js"></script>
-  <script src="script/rules/StyleSheets.js"> </script>
-  <script src="script/rules/UseETags.js"> </script>
-  <script src="script/rules/UseStandardTypefaces.js"> </script>
-  <script src="script/ui.js"> </script>
-  <script src="script/greenpanel.js"> </script>
-  <script src="script/ecoIndex.js"> </script>
-  <script src="script/i18n.js"> </script>
+    <script src="script/externalLibs/require.2.3.6.js"></script>
+    <script src="script/utils.js"></script>
+    <script src="script/rulesManager.js"></script>
+    <script src="script/rules/AddExpiresOrCacheControlHeaders.js"></script>
+    <script src="script/rules/CompressHttp.js"></script>
+    <script src="script/rules/DomainsNumber.js"></script>
+    <script src="script/rules/DontResizeImageInBrowser.js"></script>
+    <script src="script/rules/EmptySrcTag.js"></script>
+    <script src="script/rules/ExternalizeCss.js"></script>
+    <script src="script/rules/ExternalizeJs.js"></script>
+    <script src="script/rules/HttpError.js"></script>
+    <script src="script/rules/HttpRequests.js"></script>
+    <script src="script/rules/ImageDownloadedNotDisplayed.js"></script>
+    <script src="script/rules/JsValidate.js"></script>
+    <script src="script/rules/MaxCookiesLength.js"></script>
+    <script src="script/rules/MinifiedCss.js"></script>
+    <script src="script/rules/MinifiedJs.js"></script>
+    <script src="script/rules/NoCookieForStaticRessources.js"></script>
+    <script src="script/rules/NoRedirect.js"></script>
+    <script src="script/rules/OptimizeBitmapImages.js"></script>
+    <script src="script/rules/OptimizeSvg.js"></script>
+    <script src="script/rules/Plugins.js"></script>
+    <script src="script/rules/PrintStyleSheet.js"></script>
+    <script src="script/rules/SocialNetworkButton.js"></script>
+    <script src="script/rules/StyleSheets.js"></script>
+    <script src="script/rules/UseETags.js"></script>
+    <script src="script/rules/UseStandardTypefaces.js"></script>
+    <script src="script/ui.js"></script>
+    <script src="script/greenpanel.js"></script>
+    <script src="script/ecoIndex.js"></script>
+    <script src="script/i18n.js"></script>
 </body>
-
 </html>

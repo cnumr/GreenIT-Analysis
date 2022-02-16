@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (C) 2019-2021  didierfred@gmail.com 
  *
@@ -19,8 +18,6 @@
 "use strict";
 
 let connections = {};
-
-
 
 /*
 * Listen for message form tab and send it to devtools 
@@ -46,20 +43,20 @@ chrome.runtime.onConnect.addListener((devToolsConnection) => {
   // assign the listener function to a variable so we can remove it later
   let devToolsListener = (message, sender, sendResponse) => {
 
-    // in case message form devtools is to clean cache 
+    // in case message form devtools is to clean cache
     if (message.clearBrowserCache) {
       clearBrowserCache();
       return;
     }
-    // Otherwise message is to inject script 
+    // Otherwise message is to inject script
     else {
       // Inject a content script into the identified tab
       console.log("received script to execute form tabId " + message.tabId);
       if (!connections[message.tabId]) connections[message.tabId] = devToolsConnection;
       chrome.tabs.executeScript(message.tabId,
-        {code: "var analyseBestPractices=" + message.analyseBestPractices + ";", allFrames: true});
+          {code: "var analyseBestPractices=" + message.analyseBestPractices + ";", allFrames: true});
       chrome.tabs.executeScript(message.tabId,
-        {file: message.scriptToInject, allFrames: true});
+          {file: message.scriptToInject, allFrames: true});
     }
   }
   // add the listener
@@ -78,10 +75,8 @@ chrome.runtime.onConnect.addListener((devToolsConnection) => {
 
 });
 
-function clearBrowserCache()
-{ 
-  chrome.browsingData.remove({
-  }, {
+function clearBrowserCache() {
+  chrome.browsingData.remove({}, {
     "cache": true,
     "cookies": false,
     "downloads": true,

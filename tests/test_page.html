@@ -1,76 +1,71 @@
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="lib/jasmine-3.3.0/jasmine.css"></link>
+    <link rel="stylesheet" type="text/css" href="lib/jasmine-3.3.0/jasmine.css"></link>
+    <link rel="stylesheet" type="text/css" media="print" href="lib/jasmine-3.3.0/jasmine.css"></link>
+    <link rel="stylesheet" type="text/css" href=""></link>
+    <style media="print"></style>
+    <style type="text/css">
+        .button {
+            background-color: #008CBA; /* Blue */
+            border: none;
+            color: white;
+            padding: 1px 5px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            border-radius: 4px;
+            transition-duration: 0.4s;
+            width = "100px";
+        }
 
- <link rel="stylesheet" type="text/css"  href="lib/jasmine-3.3.0/jasmine.css"> </link>
- <link rel="stylesheet" type="text/css"  href="lib/jasmine-3.3.0/jasmine.css"> </link>
- <link rel="stylesheet" type="text/css" media="print" href="lib/jasmine-3.3.0/jasmine.css"> </link>
- <link rel="stylesheet" type="text/css"  href=""> </link>
- <style media="print"></style>
- <style type="text/css"> 
-.button {
-    background-color: #008CBA; /* Blue */
-    border: none;
-    color: white;
-    padding: 1px 5px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-	border-radius: 4px;
-	transition-duration: 0.4s;
-	width="100px";
-}
-
-.button:hover {
-    background-color: #0070A0; 
-}
-
-
-</style>
-<!-- JS scripts are only for test , content is not used, could have been other js scripts -->
- <script type="text/javascript" src="../script/externalLibs/require.2.3.6.js"> </script> 
- <script type="text/javascript" src="../script/analyseFrame.js"></script>
-<script type="text/javascript" src="../script/ecoIndex.js"> </script> 
-<script type="text/javascript" src="../script/rulesManager.js"> </script> 
-
- <script src=""> </script>
+        .button:hover {
+            background-color: #0070A0;
+        }
+    </style>
+    <!-- JS scripts are only for test , content is not used, could have been other js scripts -->
+    <script type="text/javascript" src="../script/externalLibs/require.2.3.6.js"> </script>
+    <script type="text/javascript" src="../script/analyseFrame.js"></script>
+    <script type="text/javascript" src="../script/ecoIndex.js"> </script>
+    <script type="text/javascript" src="../script/rulesManager.js"> </script>
+    <script src=""> </script>
 </head>
 
 <body>
-<img src=""> </img>
-<img src="test.png" height="10" width="10" ></img>
-<div id="node"> </div>
-<!-- svg  be take for one element in dom  -->
-<svg height="100" width="100">
-    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
-    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
-    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
-    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
-    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
-    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
-    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
-</svg> 
-   
-<!-- svg  be take for one element in dom , test nested svg tag  -->
-<svg height="100" width="100">
-    <svg x="10">
-    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
-    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
-    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
+    <img src=""> </img>
+    <img src="test.png" height="10" width="10"></img>
+    <div id="node"></div>
+    <!-- svg  be take for one element in dom  -->
+    <svg height="100" width="100">
+        <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red"/>
+        <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red"/>
+        <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red"/>
+        <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red"/>
+        <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red"/>
+        <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red"/>
+        <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red"/>
     </svg>
-    <SVG>
-        <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
+
+    <!-- svg  be take for one element in dom , test nested svg tag  -->
+    <svg height="100" width="100">
+        <svg x="10">
+            <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red"/>
+            <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red"/>
+            <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red"/>
+        </svg>
         <SVG>
-            <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
+            <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red"/>
+            <SVG>
+                <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red"/>
+            </SVG>
+            <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red"/>
+            <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red"/>
         </SVG>
-        <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
-        <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /> 
-    </SVG>
-</svg> 
+    </svg>
 
-
-<img src=""> </img>
-<script> let a = 2;</script>
-<style> </style>
+    <img src=""> </img>
+    <script> let a = 2;</script>
+    <style></style>
 </body>
 </html>

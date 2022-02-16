@@ -1,4 +1,3 @@
- 
 /*
  *  Copyright (C) 2019  didierfred@gmail.com 
  *
@@ -16,10 +15,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
-for ( const elem of document.querySelectorAll('[data-i18n]') ) {
-    let text = chrome.i18n.getMessage(elem.getAttribute('data-i18n'));
-    if ( !text ) { continue; }
-    elem.appendChild( document.createTextNode(text));
+for (const elem of document.querySelectorAll('[data-i18n]')) {
+  let text = chrome.i18n.getMessage(elem.getAttribute('data-i18n'));
+  if (!text) {
+    continue;
+  }
+  elem.appendChild(document.createTextNode(text));
 }

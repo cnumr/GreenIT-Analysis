@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (C) 2019-2021  didierfred@gmail.com 
  *
@@ -24,7 +23,7 @@ let analyseBestPractices = false;
 
 initPanel();
 
-function initPanel() {  
+function initPanel() {
   openBackgroundPageConnection();
   initUI();
   let notCompatibleRules = rulesManager.getRulesNotCompatibleWithCurrentBrowser();
@@ -50,17 +49,18 @@ function handleResponseFromBackground(frameMeasures) {
 }
 
 
-function clearBrowserCache()
-{
-  // calling the method chrome.browsingData.remove() from the devtool is not working for firefox 
-  // we need to do it form the background script , so we send a message to the background script to do it   
+function clearBrowserCache() {
+  // calling the method chrome.browsingData.remove() from the devtool is not working for firefox
+  // we need to do it form the background script , so we send a message to the background script to do it
   backgroundPageConnection.postMessage({
     clearBrowserCache: true
   });
 
 }
 
-function isOldAnalyse(startingTime) { return (startingTime < lastAnalyseStartingTime) }
+function isOldAnalyse(startingTime) {
+  return (startingTime < lastAnalyseStartingTime)
+}
 
 function computeEcoIndexMeasures(measures) {
   const rawEcoIndex = computeEcoIndex(measures.domSize, measures.nbRequest, Math.round(measures.responsesSize / 1000));
@@ -74,7 +74,7 @@ function computeEcoIndexMeasures(measures) {
 function launchAnalyse() {
   let now = Date.now();
 
-  // To avoid parallel analyse , force 1 secondes between analysis 
+  // To avoid parallel analyse , force 1 secondes between analysis
   if (now - lastAnalyseStartingTime < 1000) {
     debug(() => "Ignore click");
     return;
@@ -141,35 +141,31 @@ function MeasuresAcquisition(rules) {
       if (measures.inlineStyleSheetsNumber < frameMeasures.inlineStyleSheetsNumber) measures.inlineStyleSheetsNumber = frameMeasures.inlineStyleSheetsNumber;
       measures.emptySrcTagNumber += frameMeasures.emptySrcTagNumber;
       if ((frameMeasures.inlineJsScript.length > 0) && (chrome.devtools.inspectedWindow.getResources)) {
-        const resourceContent = { 
-          url:"inline js",
-          type:"script",
-          content:frameMeasures.inlineJsScript
+        const resourceContent = {
+          url: "inline js",
+          type: "script",
+          content: frameMeasures.inlineJsScript
         }
-        localRulesChecker.sendEvent('resourceContentReceived',measures,resourceContent);
+        localRulesChecker.sendEvent('resourceContentReceived', measures, resourceContent);
       }
       if (measures.inlineJsScriptsNumber < frameMeasures.inlineJsScriptsNumber) measures.inlineJsScriptsNumber = frameMeasures.inlineJsScriptsNumber;
 
       measures.imagesResizedInBrowser = frameMeasures.imagesResizedInBrowser;
 
-      localRulesChecker.sendEvent('frameMeasuresReceived',measures);
-
+      localRulesChecker.sendEvent('frameMeasuresReceived', measures);
     }
   }
 
-
-
   const getNetworkMeasure = () => {
     chrome.devtools.network.getHAR((har) => {
-
       console.log("Start network measure...");
       // only account for network traffic, filtering resources embedded through data urls
       let entries = har.entries.filter(entry => isNetworkResource(entry));
 
-      // Get the "mother" url 
+      // Get the "mother" url
       if (entries.length > 0) measures.url = entries[0].request.url;
       else {
-        // Bug with firefox  when we first get har.entries when starting the plugin , we need to ask again to have it 
+        // Bug with firefox  when we first get har.entries when starting the plugin , we need to ask again to have it
         if (nbGetHarTry < 1) {
           debug(() => 'No entries, try again to get HAR in 1s');
           nbGetHarTry++;
@@ -183,22 +179,20 @@ function MeasuresAcquisition(rules) {
       if (entries.length) {
         measures.nbRequest = entries.length;
         entries.forEach(entry => {
-
-         
-          // If chromium : 
-          // _transferSize represent the real data volume transfert 
+          // If chromium :
+          // _transferSize represent the real data volume transfert
           // while content.size represent the size of the page which is uncompress
           if (entry.response._transferSize) {
             measures.responsesSize += entry.response._transferSize;
             measures.responsesSizeUncompress += entry.response.content.size;
           }
           else {
-            // In firefox , entry.response.content.size can sometimes be undefined 
+            // In firefox , entry.response.content.size can sometimes be undefined
             if (entry.response.content.size) measures.responsesSize += entry.response.content.size;
             //debug(() => `entry size = ${entry.response.content.size} , responseSize = ${measures.responsesSize}`);
           }
         });
-        if (analyseBestPractices) localRulesChecker.sendEvent('harReceived',measures);
+        if (analyseBestPractices) localRulesChecker.sendEvent('harReceived', measures);
 
         computeEcoIndexMeasures(measures);
         refreshUI();
@@ -225,25 +219,23 @@ function MeasuresAcquisition(rules) {
     this.analyse = () => resourceToAnalyse.getContent(this.analyseContent);
 
     this.analyseContent = (code) => {
-      // exclude from analyse the injected script 
+      // exclude from analyse the injected script
       if ((resourceToAnalyse.type === 'script') && (resourceToAnalyse.url.includes("script/analyseFrame.js"))) return;
 
       let resourceContent = {
         url: resourceToAnalyse.url,
-        type : resourceToAnalyse.type,
+        type: resourceToAnalyse.type,
         content: code
       };
-      localRulesChecker.sendEvent('resourceContentReceived',measures,resourceContent);
-      
+      localRulesChecker.sendEvent('resourceContentReceived', measures, resourceContent);
       refreshUI();
     }
   }
-
 }
 
 /**
-Add to the history the result of an analyse
-**/
+ * Add to the history the result of an analyse
+ **/
 function storeAnalysisInHistory() {
   let measures = measuresAcquisition.getMeasures();
   if (!measures) return;

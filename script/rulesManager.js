@@ -29,7 +29,7 @@ function RulesManager() {
 
   this.registerRule = function (ruleChecker, eventListener) {
     rulesId.push(ruleChecker.id);
-    if ((eventListener==="resourceContentReceived") && ((!chrome.devtools) || (!chrome.devtools.inspectedWindow.getResources))) notCompatibleRules.push(ruleChecker.id);
+    if ((eventListener === "resourceContentReceived") && ((!chrome.devtools) || (!chrome.devtools.inspectedWindow.getResources))) notCompatibleRules.push(ruleChecker.id);
     else {
       rulesChecker.set(ruleChecker.id, ruleChecker);
       let event = eventListeners.get(eventListener);
@@ -66,8 +66,8 @@ function RulesManager() {
         eventListener.forEach(ruleID => {
           this.checkRule(ruleID, measures, resource);
 
-        // not used yet , see https://github.com/cnumr/GreenIT-Analysis/pull/22
-        //  this.manageExport(ruleID, measures); 
+          // not used yet , see https://github.com/cnumr/GreenIT-Analysis/pull/22
+          //  this.manageExport(ruleID, measures);
         });
       }
     }
@@ -77,7 +77,7 @@ function RulesManager() {
     }
 
     this.manageExport = function (rule, measures) {
-      let myRule = rules.get(rule); 
+      let myRule = rules.get(rule);
       measures.bestPracticeDetails[rule] = {};
       measures.bestPracticeDetails[rule].comment = myRule.comment;
       measures.bestPracticeDetails[rule].detailComment = myRule.detailComment;

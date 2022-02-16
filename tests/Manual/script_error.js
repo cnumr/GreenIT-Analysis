@@ -1,10 +1,6 @@
-
-
-
-
 function start_analyse() {
-
-  console.log( document.URL);
-}}
+  console.log(document.URL);
+}
+}
 
 

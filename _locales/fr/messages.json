@@ -558,12 +558,10 @@
     "message": "Ne pas utiliser de plugins",
     "description": "Do not use plugins"
   },
-
   "rule_Plugins_DetailDescription": {
     "message": "Évitez d’utiliser des plug-ins (machines virtuelles Flash Player, Java et Silverlight, etc.), car ils peuvent entraîner une lourde charge de ressources (processeur et RAM). C’est particulièrement vrai avec le lecteur Adobe, à tel point qu’Apple a décidé de ne pas installer la technologie sur ses appareils mobiles afin de maximiser la durée de vie de la batterie. Privilégiez les technologies standard telles que HTML5 et ECMAScript",
     "description": "Do not use plugins"
   },
-
   "rule_Plugins_DefaultComment": {
     "message": "Aucun plugin",
     "description": "No plugin found"
@@ -618,7 +616,7 @@
         "content": "$1"
       }
     }
-  }, 
+  },
   "rule_SocialNetworkButton_detailComment": {
     "message": "Un script $SOCIAL_NETWORK$ a été trouvé",
     "description": "Import of social network script",
@@ -628,7 +626,6 @@
       }
     }
   },
-
   "rule_StyleSheets": {
     "message": "Limiter le nombre de fichiers css (<3) ",
     "description": "Limit Stylesheet files"
