@@ -21,5 +21,5 @@ function createExternalizeCssRule() {
     getSpecificMeasures: function () {
       return this.specificMeasures;
     }
-  }
+  };
 }

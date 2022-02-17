@@ -21,5 +21,5 @@ function createPrintStyleSheetRule() {
     getSpecificMeasures: function () {
       return this.specificMeasures;
     }
-  }
+  };
 }

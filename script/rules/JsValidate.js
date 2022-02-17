@@ -31,5 +31,5 @@ function createJsValidateRule() {
     getSpecificMeasures: function () {
       return this.specificMeasures;
     }
-  }
+  };
 }

@@ -19,14 +19,22 @@ function createDontResizeImageInBrowserRule() {
 
     isRevelant: function (entry) {
       // exclude svg
-      if (isSvgUrl(entry.src)) return false;
+      if (isSvgUrl(entry.src)) {
+        return false;
+      }
 
       // difference of 1 pixel is not relevant
-      if (entry.naturalWidth - entry.clientWidth < 2) return false;
-      if (entry.naturalHeight - entry.clientHeight < 2) return false;
+      if (entry.naturalWidth - entry.clientWidth < 2) {
+        return false;
+      }
+      if (entry.naturalHeight - entry.clientHeight < 2) {
+        return false;
+      }
 
       // If picture is 0x0 it meens it's not visible on the ui , see imageDownloadedNotDisplayed
-      if (entry.clientWidth === 0) return false;
+      if (entry.clientWidth === 0) {
+        return false;
+      }
 
       return true;
     },
@@ -39,7 +47,9 @@ function createDontResizeImageInBrowserRule() {
           this.specificMeasures.imagesResizedInBrowserNumber += 1;
         }
       });
-      if (this.specificMeasures.imagesResizedInBrowserNumber > 0) this.complianceLevel = 'C';
+      if (this.specificMeasures.imagesResizedInBrowserNumber > 0) {
+        this.complianceLevel = 'C';
+      }
       this.comment = chrome.i18n.getMessage("rule_DontResizeImageInBrowser_Comment", String(this.specificMeasures.imagesResizedInBrowserNumber));
     },
 

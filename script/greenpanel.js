@@ -59,7 +59,7 @@ function clearBrowserCache() {
 }
 
 function isOldAnalyse(startingTime) {
-  return (startingTime < lastAnalyseStartingTime)
+  return (startingTime < lastAnalyseStartingTime);
 }
 
 function computeEcoIndexMeasures(measures) {
@@ -121,12 +121,14 @@ function MeasuresAcquisition(rules) {
       "imagesResizedInBrowser": [],
       "bestPracticeDetails": {}
     };
-  }
+  };
 
   this.startMeasuring = function () {
     getNetworkMeasure();
-    if (analyseBestPractices) getResourcesMeasure();
-  }
+    if (analyseBestPractices) {
+      getResourcesMeasure();
+    }
+  };
 
   this.getMeasures = () => measures;
 
@@ -138,23 +140,27 @@ function MeasuresAcquisition(rules) {
       measures.pluginsNumber += frameMeasures.pluginsNumber;
 
       measures.printStyleSheetsNumber += frameMeasures.printStyleSheetsNumber;
-      if (measures.inlineStyleSheetsNumber < frameMeasures.inlineStyleSheetsNumber) measures.inlineStyleSheetsNumber = frameMeasures.inlineStyleSheetsNumber;
+      if (measures.inlineStyleSheetsNumber < frameMeasures.inlineStyleSheetsNumber) {
+        measures.inlineStyleSheetsNumber = frameMeasures.inlineStyleSheetsNumber;
+      }
       measures.emptySrcTagNumber += frameMeasures.emptySrcTagNumber;
       if ((frameMeasures.inlineJsScript.length > 0) && (chrome.devtools.inspectedWindow.getResources)) {
         const resourceContent = {
           url: "inline js",
           type: "script",
           content: frameMeasures.inlineJsScript
-        }
+        };
         localRulesChecker.sendEvent('resourceContentReceived', measures, resourceContent);
       }
-      if (measures.inlineJsScriptsNumber < frameMeasures.inlineJsScriptsNumber) measures.inlineJsScriptsNumber = frameMeasures.inlineJsScriptsNumber;
+      if (measures.inlineJsScriptsNumber < frameMeasures.inlineJsScriptsNumber) {
+        measures.inlineJsScriptsNumber = frameMeasures.inlineJsScriptsNumber;
+      }
 
       measures.imagesResizedInBrowser = frameMeasures.imagesResizedInBrowser;
 
       localRulesChecker.sendEvent('frameMeasuresReceived', measures);
     }
-  }
+  };
 
   const getNetworkMeasure = () => {
     chrome.devtools.network.getHAR((har) => {
@@ -163,7 +169,9 @@ function MeasuresAcquisition(rules) {
       let entries = har.entries.filter(entry => isNetworkResource(entry));
 
       // Get the "mother" url
-      if (entries.length > 0) measures.url = entries[0].request.url;
+      if (entries.length > 0) {
+        measures.url = entries[0].request.url;
+      }
       else {
         // Bug with firefox  when we first get har.entries when starting the plugin , we need to ask again to have it
         if (nbGetHarTry < 1) {
@@ -188,29 +196,35 @@ function MeasuresAcquisition(rules) {
           }
           else {
             // In firefox , entry.response.content.size can sometimes be undefined
-            if (entry.response.content.size) measures.responsesSize += entry.response.content.size;
+            if (entry.response.content.size) {
+              measures.responsesSize += entry.response.content.size;
+            }
             //debug(() => `entry size = ${entry.response.content.size} , responseSize = ${measures.responsesSize}`);
           }
         });
-        if (analyseBestPractices) localRulesChecker.sendEvent('harReceived', measures);
+        if (analyseBestPractices) {
+          localRulesChecker.sendEvent('harReceived', measures);
+        }
 
         computeEcoIndexMeasures(measures);
         refreshUI();
       }
     });
-  }
+  };
 
   function getResourcesMeasure() {
-    if (chrome.devtools.inspectedWindow.getResources) chrome.devtools.inspectedWindow.getResources((resources) => {
-      resources.forEach(resource => {
-        if (resource.url.startsWith("file") || resource.url.startsWith("http")) {
-          if ((resource.type === 'script') || (resource.type === 'stylesheet') || (resource.type === 'image')) {
-            let resourceAnalyser = new ResourceAnalyser(resource);
-            resourceAnalyser.analyse();
+    if (chrome.devtools.inspectedWindow.getResources) {
+      chrome.devtools.inspectedWindow.getResources((resources) => {
+        resources.forEach(resource => {
+          if (resource.url.startsWith("file") || resource.url.startsWith("http")) {
+            if ((resource.type === 'script') || (resource.type === 'stylesheet') || (resource.type === 'image')) {
+              let resourceAnalyser = new ResourceAnalyser(resource);
+              resourceAnalyser.analyse();
+            }
           }
-        }
+        });
       });
-    });
+    }
   }
 
   function ResourceAnalyser(resource) {
@@ -220,7 +234,9 @@ function MeasuresAcquisition(rules) {
 
     this.analyseContent = (code) => {
       // exclude from analyse the injected script
-      if ((resourceToAnalyse.type === 'script') && (resourceToAnalyse.url.includes("script/analyseFrame.js"))) return;
+      if ((resourceToAnalyse.type === 'script') && (resourceToAnalyse.url.includes("script/analyseFrame.js"))) {
+        return;
+      }
 
       let resourceContent = {
         url: resourceToAnalyse.url,
@@ -229,7 +245,7 @@ function MeasuresAcquisition(rules) {
       };
       localRulesChecker.sendEvent('resourceContentReceived', measures, resourceContent);
       refreshUI();
-    }
+    };
   }
 }
 
@@ -238,7 +254,9 @@ function MeasuresAcquisition(rules) {
  **/
 function storeAnalysisInHistory() {
   let measures = measuresAcquisition.getMeasures();
-  if (!measures) return;
+  if (!measures) {
+    return;
+  }
 
   var analyse_history = [];
   var string_analyse_history = localStorage.getItem("analyse_history");
@@ -260,7 +278,9 @@ function storeAnalysisInHistory() {
     analyse_history.push(analyse_to_store);
     analyse_history.reverse();
   }
-  else analyse_history.push(analyse_to_store);
+  else {
+    analyse_history.push(analyse_to_store);
+  }
 
 
   localStorage.setItem("analyse_history", JSON.stringify(analyse_history));

@@ -14,12 +14,20 @@ function createMinifiedCssRule() {
     check: function (measures, resourceContent) {
       if (resourceContent.type === "stylesheet") {
         this.specificMeasures.totalCssSize += resourceContent.content.length;
-        if (!isMinified(resourceContent.content)) this.detailComment += chrome.i18n.getMessage("rule_MinifiedCss_DetailComment", resourceContent.url) + '<br>';
-        else this.specificMeasures.minifiedCssSize += resourceContent.content.length;
+        if (!isMinified(resourceContent.content)) {
+          this.detailComment += chrome.i18n.getMessage("rule_MinifiedCss_DetailComment", resourceContent.url) + '<br>';
+        }
+        else {
+          this.specificMeasures.minifiedCssSize += resourceContent.content.length;
+        }
         const percentMinifiedCss = this.specificMeasures.minifiedCssSize / this.specificMeasures.totalCssSize * 100;
         this.complianceLevel = 'A';
-        if (percentMinifiedCss < 90) this.complianceLevel = 'C';
-        else if (percentMinifiedCss < 95) this.complianceLevel = 'B';
+        if (percentMinifiedCss < 90) {
+          this.complianceLevel = 'C';
+        }
+        else if (percentMinifiedCss < 95) {
+          this.complianceLevel = 'B';
+        }
         this.comment = chrome.i18n.getMessage("rule_MinifiedCss_Comment", String(Math.round(percentMinifiedCss * 10) / 10));
       }
     },

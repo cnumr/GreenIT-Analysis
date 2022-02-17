@@ -20,8 +20,12 @@ function createOptimizeSvgRule() {
           this.specificMeasures.totalResourcesToOptimize++;
         }
         if (this.specificMeasures.totalSizeToOptimize > 0) {
-          if (this.specificMeasures.totalSizeToOptimize < 20000) this.complianceLevel = 'B';
-          else this.complianceLevel = 'C';
+          if (this.specificMeasures.totalSizeToOptimize < 20000) {
+            this.complianceLevel = 'B';
+          }
+          else {
+            this.complianceLevel = 'C';
+          }
           this.comment = chrome.i18n.getMessage("rule_OptimizeSvg_Comment", String(this.specificMeasures.totalResourcesToOptimize));
         }
       }

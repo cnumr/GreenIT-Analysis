@@ -43,12 +43,14 @@ function start_analyse() {
       "inlineJsScript": inlineJsScript,
       "inlineJsScriptsNumber": inlineJsScriptsNumber,
       "imagesResizedInBrowser": imagesResizedInBrowser,
-    }
+    };
   }
-  else pageAnalysis = {
-    "analyseStartingTime": analyseStartingTime,
-    "url": document.URL,
-    "domSize": dom_size
+  else {
+    pageAnalysis = {
+      "analyseStartingTime": analyseStartingTime,
+      "url": document.URL,
+      "domSize": dom_size
+    };
   }
 
   chrome.runtime.sendMessage(pageAnalysis);
@@ -65,12 +67,18 @@ function getDomSizeWithoutSvg() {
 }
 
 function getNbChildsExcludingNestedSvg(element) {
-  if (element.nodeType === Node.TEXT_NODE) return 0;
+  if (element.nodeType === Node.TEXT_NODE) {
+    return 0;
+  }
   let nb_elements = 1;
   for (let i = 0; i < element.childNodes.length; i++) {
     // deal with svg nested case
-    if (element.childNodes[i].tagName !== 'svg') nb_elements += getNbChildsExcludingNestedSvg(element.childNodes[i]);
-    else nb_elements += 1;
+    if (element.childNodes[i].tagName !== 'svg') {
+      nb_elements += getNbChildsExcludingNestedSvg(element.childNodes[i]);
+    }
+    else {
+      nb_elements += 1;
+    }
   }
   return nb_elements;
 }
@@ -98,8 +106,11 @@ function getInlineStyleSheetsNumber() {
     try {
       // Ignore SVG styles in count
       const isSvgStyleSheet = (styleSheet.ownerNode instanceof SVGStyleElement);
-      if (!styleSheet.href && !isSvgStyleSheet) inlineStyleSheetsNumber++;
-    } catch (err) {
+      if (!styleSheet.href && !isSvgStyleSheet) {
+        inlineStyleSheetsNumber++;
+      }
+    }
+    catch (err) {
       console.log("GREENIT-ANALYSIS ERROR ," + err.name + " = " + err.message);
       console.log("GREENIT-ANALYSIS ERROR " + err.stack);
     }
@@ -112,7 +123,9 @@ function getInlineJsScript() {
   let scriptText = "";
   scriptArray.forEach(script => {
     let isJSON = (String(script.type) === "application/ld+json"); // Exclude type="application/ld+json" from parsing js analyse
-    if ((script.text.length > 0) && (!isJSON)) scriptText += "\n" + script.text;
+    if ((script.text.length > 0) && (!isJSON)) {
+      scriptText += "\n" + script.text;
+    }
   });
   return scriptText;
 }
@@ -122,7 +135,9 @@ function getInlineJsScriptsNumber() {
   let inlineScriptNumber = 0;
   scriptArray.forEach(script => {
     let isJSON = (String(script.type) === "application/ld+json"); // Exclude type="application/ld+json" from count
-    if ((script.text.length > 0) && (!isJSON)) inlineScriptNumber++;
+    if ((script.text.length > 0) && (!isJSON)) {
+      inlineScriptNumber++;
+    }
   });
   return inlineScriptNumber;
 }
@@ -141,7 +156,7 @@ function getImagesResizedInBrowser() {
           "clientHeight": img.clientHeight,
           "naturalWidth": img.naturalWidth,
           "naturalHeight": img.naturalHeight
-        }
+        };
         imagesResized.push(imageMeasures);
       }
     }

@@ -21,5 +21,5 @@ function createPluginsRule() {
     getSpecificMeasures: function () {
       return this.specificMeasures;
     }
-  }
+  };
 }

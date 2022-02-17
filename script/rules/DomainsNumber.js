@@ -12,15 +12,21 @@ function createDomainsNumberRule() {
 
     check: function (measures) {
       this.specificMeasures.domains = [];
-      if (measures.entries.length) measures.entries.forEach(entry => {
-        let domain = getDomainFromUrl(entry.request.url);
-        if (this.specificMeasures.domains.indexOf(domain) === -1) {
-          this.specificMeasures.domains.push(domain);
-        }
-      });
+      if (measures.entries.length) {
+        measures.entries.forEach(entry => {
+          let domain = getDomainFromUrl(entry.request.url);
+          if (this.specificMeasures.domains.indexOf(domain) === -1) {
+            this.specificMeasures.domains.push(domain);
+          }
+        });
+      }
       if (this.specificMeasures.domains.length > 2) {
-        if (this.specificMeasures.domains.length === 3) this.complianceLevel = 'B';
-        else this.complianceLevel = 'C';
+        if (this.specificMeasures.domains.length === 3) {
+          this.complianceLevel = 'B';
+        }
+        else {
+          this.complianceLevel = 'C';
+        }
       }
       this.specificMeasures.domains.forEach(domain => {
         this.detailComment += domain + "<br>";

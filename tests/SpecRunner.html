@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <title>Jasmine Spec Runner v3.3.0</title>
@@ -25,16 +25,16 @@
       chrome.i18n = new function () {
         this.getMessage = function () {
           return "test";
-        }
+        };
       };
 
       chrome.devtools = new function () {
         this.inspectedWindow = new function () {
           this.getResources = function () {
             return true;
-          }
-        }
-      }
+          };
+        };
+      };
       // END MOCKING
 
     </script>

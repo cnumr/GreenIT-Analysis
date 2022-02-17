@@ -19,8 +19,12 @@ function createImageDownloadedNotDisplayedRule() {
 
     isRevelant: function (entry) {
       // Very small images could be download even if not display  as it may be icons
-      if (entry.naturalWidth * entry.naturalHeight < 10000) return false;
-      if (entry.clientWidth === 0 && entry.clientHeight === 0) return true;
+      if (entry.naturalWidth * entry.naturalHeight < 10000) {
+        return false;
+      }
+      if (entry.clientWidth === 0 && entry.clientHeight === 0) {
+        return true;
+      }
       return false;
     },
 
@@ -32,7 +36,9 @@ function createImageDownloadedNotDisplayedRule() {
           this.specificMeasures.imageDownloadedNotDisplayedNumber += 1;
         }
       });
-      if (this.specificMeasures.imageDownloadedNotDisplayedNumber > 0) this.complianceLevel = 'C';
+      if (this.specificMeasures.imageDownloadedNotDisplayedNumber > 0) {
+        this.complianceLevel = 'C';
+      }
       this.comment = chrome.i18n.getMessage("rule_ImageDownloadedNotDisplayed_Comment", String(this.specificMeasures.imageDownloadedNotDisplayedNumber));
     },
 

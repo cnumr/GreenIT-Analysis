@@ -57,7 +57,7 @@ describe("Rules => NoCookieForStaticRessources.js", function () {
 
   it(" 4 static ressources ,  2 cookie with total size > 2000 , it should return C", function () {
     let bigCookie = "";
-    for (let i = 0; i < 100; i++) bigCookie += "0123456789"
+    for (let i = 0; i < 100; i++) bigCookie += "0123456789";
     const measures = {
       entries:
           [
@@ -85,7 +85,7 @@ describe("Rules => NoCookieForStaticRessources.js", function () {
 
   it(" 2 non static ressources with cookie it should return A", function () {
     let bigCookie = "";
-    for (let i = 0; i < 100; i++) bigCookie += "0123456789"
+    for (let i = 0; i < 100; i++) bigCookie += "0123456789";
     const measures = {
       entries:
           [

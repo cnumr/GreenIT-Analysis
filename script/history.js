@@ -59,7 +59,9 @@ function view_history() {
 function appendLine(result_date, url, nbRequest, responsesSize, domSize, greenhouseGasesEmission, waterConsumption, ecoIndex, grade) {
   const date = new Date(result_date);
   let url_toshow = url;
-  if (url_toshow.length > 100) url_toshow = url_toshow.substring(0, 100) + "...";
+  if (url_toshow.length > 100) {
+    url_toshow = url_toshow.substring(0, 100) + "...";
+  }
   let html = "<td>" + date.toLocaleDateString() + " " + date.toLocaleTimeString() + "</td>";
   html = html + "<td>" + url_toshow + "</td>";
   html = html + "<td>" + nbRequest + "</td>";
@@ -81,7 +83,7 @@ function appendLine(result_date, url, nbRequest, responsesSize, domSize, greenho
 
   var line_number_to_delete = line_number;
   document.getElementById('delete_button' + line_number).addEventListener('click', function to_delete(e) {
-    delete_line(line_number_to_delete)
+    delete_line(line_number_to_delete);
   });
   corresponding_index_for_line.push(line_number);
   line_number++;
@@ -118,7 +120,7 @@ function create_csv() {
         ";" + analyse.waterConsumption +
         ";" + analyse.ecoIndex +
         ";" + analyse.grade + "\n";
-  })
+  });
   return csv;
 }
 

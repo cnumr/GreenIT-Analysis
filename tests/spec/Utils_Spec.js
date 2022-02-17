@@ -897,7 +897,7 @@ describe("utils.js", function () {
     });
 
     it(" if file < 1KB   should return true", function () {
-      const svg = "  <svg>  </svg>"
+      const svg = "  <svg>  </svg>";
       expect(isSvgOptimized(svg)).toEqual(true);
     });
     it(" if file > 1KB and no spaces inside before xml tags, should return true ", function () {

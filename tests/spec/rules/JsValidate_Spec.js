@@ -10,7 +10,7 @@ describe("Rules => JsValidate.js", function () {
       url: "test",
       type: "script",
       content: "const test=2;"
-    }
+    };
     rule.check("", resourceContent);
     expect(rule.complianceLevel).toEqual('A');
   });
@@ -20,7 +20,7 @@ describe("Rules => JsValidate.js", function () {
       url: "test",
       type: "script",
       content: "const test=2);"
-    }
+    };
     rule.check("", resourceContent);
     expect(rule.complianceLevel).toEqual('C');
   });
@@ -30,11 +30,11 @@ describe("Rules => JsValidate.js", function () {
       url: "test",
       type: "script",
       content: "const test=2);"
-    }
+    };
     rule.check("", resourceContent);
-    resourceContent.content = "ty ret);"
+    resourceContent.content = "ty ret);";
     rule.check("", resourceContent);
-    resourceContent.content = "ty retmdfjqsksd);"
+    resourceContent.content = "ty retmdfjqsksd);";
     rule.check("", resourceContent);
     expect(rule.complianceLevel).toEqual('C');
   });

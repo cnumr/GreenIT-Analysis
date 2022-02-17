@@ -82,7 +82,7 @@ describe("Rules => UseStandardTypefaces.js", function () {
                 }
           }],
       dataEntries: []
-    }
+    };
     rule.check(measures);
     expect(rule.complianceLevel).toEqual('C');
   });

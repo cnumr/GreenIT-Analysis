@@ -21,5 +21,5 @@ function createEmptySrcTagRule() {
     getSpecificMeasures: function () {
       return this.specificMeasures;
     }
-  }
+  };
 }

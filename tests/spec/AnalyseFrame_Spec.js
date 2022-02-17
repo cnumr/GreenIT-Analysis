@@ -111,8 +111,8 @@ describe("analyseFrame.js", function () {
   });
 
   describe("#function getDomSizeWithoutSvg()", function () {
-    it(" should return 22 = 20 element + 2 svg images ", function () {
-      expect(testFrame.getDomSizeWithoutSvg()).toEqual(22);
+    it(" should return 23 = 21 element + 2 svg images ", function () {
+      expect(testFrame.getDomSizeWithoutSvg()).toEqual(23);
     });
 
   });

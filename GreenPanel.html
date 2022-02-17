@@ -134,12 +134,14 @@
             </H4>
 
             <table class="mytable">
-                <tbody>
+                <thead>
                     <tr>
-                        <th data-i18n="ecoIndex" class="center-td"></th>
-                        <th data-i18n="waterConsumption" class="center-td"></th>
-                        <th data-i18n="greenhouseGasesEmission" class="center-td"></th>
+                        <th scope="col" data-i18n="ecoIndex" class="center-td"></th>
+                        <th scope="col" data-i18n="waterConsumption" class="center-td"></th>
+                        <th scope="col" data-i18n="greenhouseGasesEmission" class="center-td"></th>
                     </tr>
+                </thead>
+                <tbody>
                     <tr>
                         <td id="ecoIndex" class="center-td"></td>
                         <td id="waterConsumption" class="center-td"></td>
@@ -150,12 +152,14 @@
             <div class="line">.</div>
 
             <table>
-                <tbody>
+                <thead>
                     <tr>
-                        <th data-i18n="requestNumber" class="center-td"></th>
-                        <th data-i18n="pageSize" class="center-td"></th>
-                        <th data-i18n="domSize" class="center-td"></th>
+                        <th scope="col" data-i18n="requestNumber" class="center-td"></th>
+                        <th scope="col" data-i18n="pageSize" class="center-td"></th>
+                        <th scope="col" data-i18n="domSize" class="center-td"></th>
                     </tr>
+                </thead>
+                <tbody>
                     <tr>
                         <td id="requestNumber" class="center-td"></td>
                         <td id="responsesSize" class="center-td"></td>
@@ -167,7 +171,7 @@
         </div>
 
         <div id="bestPracticesView" hidden>
-            <H4 data-i18n="bestPractices"></H4>
+            <h4 data-i18n="bestPractices"></h4>
 
             <table>
                 <tbody id="bestPracticesTable">

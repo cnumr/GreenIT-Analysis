@@ -28,7 +28,7 @@ function initUI() {
 
   // Set a listener for each plus button (detail best practice )
   let links = document.getElementsByClassName("bestPracticeLink");
-  for (var i = 0; i < links.length; i++) {
+  for (let i = 0; i < links.length; i++) {
     const id = links.item(i).id;
     document.getElementById(id).addEventListener('click', (e) => {
       //On désactive le comportement du lien
@@ -39,8 +39,8 @@ function initUI() {
 
   // Set a listener for each plus link ( detail comment )
   links = document.getElementsByClassName("detailCommentLink");
-  for (var i = 0; i < links.length; i++) {
-    const id = links.item(i).id;
+  for (let j = 0; j < links.length; j++) {
+    const id = links.item(j).id;
     document.getElementById(id).addEventListener('click', (e) => {
       //On désactive le comportement du lien
       e.preventDefault();
@@ -59,14 +59,13 @@ function loadHTMLBestPractice(ruleId) {
   html += "<td style=\"width:30px\"> <img id=\"" + ruleId + "_status\" src=\"icons/A.png\"></td>";
   html += "<td> <span id=\"" + ruleId + "_comment\"> </span> <a href=\"#\" id=\"" + ruleId + "_DetailComment\" class=\"detailCommentLink\" hidden>.....</a> </td>";
 
-  var newTR = document.createElement("tr");
+  let newTR = document.createElement("tr");
   newTR.innerHTML = html;
   document.getElementById("bestPracticesTable").appendChild(newTR);
 
   html = "";
   html += "<td colspan=\"3\">";
-  html += "<p class=\"bestPracticeDetail\">" + chrome.i18n.getMessage("rule_" + ruleId + "_DetailDescription");
-  "</p>";
+  html += "<p class=\"bestPracticeDetail\">" + chrome.i18n.getMessage("rule_" + ruleId + "_DetailDescription") + "</p>";
   html += "</td>";
 
   newTR = document.createElement("tr");
@@ -100,8 +99,12 @@ function refreshUI() {
   document.getElementById("ecoIndexView").hidden = false;
   document.getElementById("requestNumber").innerHTML = measures.nbRequest;
 
-  if (measures.responsesSizeUncompress != 0) document.getElementById("responsesSize").innerHTML = Math.round(measures.responsesSize / 1000) + " (" + Math.round(measures.responsesSizeUncompress / 1000) + ")";
-  else document.getElementById("responsesSize").innerHTML = Math.round(measures.responsesSize / 1000);
+  if (measures.responsesSizeUncompress != 0) {
+    document.getElementById("responsesSize").innerHTML = Math.round(measures.responsesSize / 1000) + " (" + Math.round(measures.responsesSizeUncompress / 1000) + ")";
+  }
+  else {
+    document.getElementById("responsesSize").innerHTML = Math.round(measures.responsesSize / 1000);
+  }
 
   document.getElementById("domSize").innerHTML = measures.domSize;
   document.getElementById("ecoIndex").innerHTML = measures.ecoIndex;
@@ -112,7 +115,9 @@ function refreshUI() {
     document.getElementById("bestPracticesView").hidden = false;
     currentRulesChecker.getAllRules().forEach(showEcoRuleOnUI);
   }
-  else document.getElementById("bestPracticesView").hidden = true;
+  else {
+    document.getElementById("bestPracticesView").hidden = true;
+  }
 }
 
 function showEcoRuleOnUI(rule) {
@@ -136,16 +141,21 @@ function showEcoRuleOnUI(rule) {
 }
 
 function viewHistory() {
-  if (chrome.tabs) chrome.tabs.query({currentWindow: true}, loadHistoryTab);
-  // chrome.tabs is not accessible in old chromium version
-  else window.open("history.html");
+  if (chrome.tabs) {
+    chrome.tabs.query({currentWindow: true}, loadHistoryTab);
+  }// chrome.tabs is not accessible in old chromium version
+  else {
+    window.open("history.html");
+  }
 }
 
 function loadHistoryTab(tabs) {
-  var history_tab;
+  let history_tab;
   // search for config tab
   for (let tab of tabs) {
-    if (tab.url.startsWith(chrome.extension.getURL(""))) history_tab = tab;
+    if (tab.url.startsWith(chrome.extension.getURL(""))) {
+      history_tab = tab;
+    }
   }
   // config tab exits , put the focus on it
   if (history_tab) {
@@ -153,7 +163,9 @@ function loadHistoryTab(tabs) {
     chrome.tabs.update(history_tab.id, {active: true});
   }
   // else create a new tab
-  else chrome.tabs.create({url: "history.html"});
+  else {
+    chrome.tabs.create({url: "history.html"});
+  }
 }
 
 function viewHelp() {
@@ -161,12 +173,18 @@ function viewHelp() {
 }
 
 function setAnalyseBestPractices() {
-  analyseBestPractices = document.getElementById('analyseBestPracticesCheckBox').checked;
-  if (!analyseBestPractices) document.getElementById("bestPracticesView").hidden = true;
+  let analyseBestPractices = document.getElementById('analyseBestPracticesCheckBox').checked;
+  if (!analyseBestPractices) {
+    document.getElementById("bestPracticesView").hidden = true;
+  }
 }
 
 function switchElementVisibiliy(id) {
-  if (document.getElementById(id).hidden) document.getElementById(id).hidden = false;
-  else document.getElementById(id).hidden = true;
+  if (document.getElementById(id).hidden) {
+    document.getElementById(id).hidden = false;
+  }
+  else {
+    document.getElementById(id).hidden = true;
+  }
 
 }

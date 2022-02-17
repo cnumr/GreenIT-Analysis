@@ -41,7 +41,7 @@ describe("Rules => MaxCookiesLength.js", function () {
 
   it(" 4 ressources ,  3 small cookie and one medium cookie, it should return B", function () {
     let bigCookie = "";
-    for (let i = 0; i < 100; i++) bigCookie += "0123456789"
+    for (let i = 0; i < 100; i++) bigCookie += "0123456789";
     const measures = {
       entries:
           [
@@ -57,7 +57,7 @@ describe("Rules => MaxCookiesLength.js", function () {
 
   it(" 4 ressources ,  3 small cookie and one big cookie, it should return C  ", function () {
     let bigCookie = "";
-    for (let i = 0; i < 200; i++) bigCookie += "01234556789"
+    for (let i = 0; i < 200; i++) bigCookie += "01234556789";
     const measures = {
       entries:
           [

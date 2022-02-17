@@ -143,15 +143,27 @@ function isStaticRessource(resource) {
 
 function isFontResource(resource) {
   const contentType = getResponseHeaderFromResource(resource, "content-type");
-  if (font.some(value => value.test(contentType))) return true;
+  if (font.some(value => value.test(contentType))) {
+    return true;
+  }
   // if not check url , because sometimes content-type is set to text/plain
   if (contentType === "text/plain" || contentType === "" || contentType == "application/octet-stream") {
     const url = resource.request.url;
-    if (url.endsWith(".woff")) return true;
-    if (url.endsWith(".woff2")) return true;
-    if (url.includes(".woff?")) return true;
-    if (url.includes(".woff2?")) return true;
-    if (url.includes(".woff2.json")) return true;
+    if (url.endsWith(".woff")) {
+      return true;
+    }
+    if (url.endsWith(".woff2")) {
+      return true;
+    }
+    if (url.includes(".woff?")) {
+      return true;
+    }
+    if (url.includes(".woff2?")) {
+      return true;
+    }
+    if (url.includes(".woff2.json")) {
+      return true;
+    }
   }
   return false;
 }
@@ -159,7 +171,9 @@ function isFontResource(resource) {
 function getHeaderWithName(headers, headerName) {
   let headerValue = "";
   headers.forEach(header => {
-    if (header.name.toLowerCase() === headerName.toLowerCase()) headerValue = header.value;
+    if (header.name.toLowerCase() === headerName.toLowerCase()) {
+      headerValue = header.value;
+    }
   });
   return headerValue;
 }
@@ -170,8 +184,12 @@ function getResponseHeaderFromResource(resource, headerName) {
 
 function getCookiesLength(resource) {
   let cookies = getHeaderWithName(resource.request.headers, "cookie");
-  if (cookies) return cookies.length;
-  else return 0;
+  if (cookies) {
+    return cookies.length;
+  }
+  else {
+    return 0;
+  }
 }
 
 
@@ -182,15 +200,23 @@ function hasValidCacheHeaders(resource) {
   let isValid = false;
 
   headers.forEach(header => {
-    if (header.name.toLowerCase() === 'cache-control') cache.CacheControl = header.value;
-    if (header.name.toLowerCase() === 'expires') cache.Expires = header.value;
-    if (header.name.toLowerCase() === 'date') cache.Date = header.value;
+    if (header.name.toLowerCase() === 'cache-control') {
+      cache.CacheControl = header.value;
+    }
+    if (header.name.toLowerCase() === 'expires') {
+      cache.Expires = header.value;
+    }
+    if (header.name.toLowerCase() === 'date') {
+      cache.Date = header.value;
+    }
   });
 
   // debug(() => `Cache headers gathered: ${JSON.stringify(cache)}`);
 
   if (cache.CacheControl) {
-    if (!(/(no-cache)|(no-store)|(max-age\s*=\s*0)/i).test(cache.CacheControl)) isValid = true;
+    if (!(/(no-cache)|(no-store)|(max-age\s*=\s*0)/i).test(cache.CacheControl)) {
+      isValid = true;
+    }
   }
 
   if (cache.Expires) {
@@ -202,14 +228,15 @@ function hasValidCacheHeaders(resource) {
       isValid = false;
     }
   }
-
   return isValid;
 }
 
 
 // utils for compress rule 
 function isCompressibleResource(resource) {
-  if (resource.response.content.size <= 150) return false;
+  if (resource.response.content.size <= 150) {
+    return false;
+  }
   const contentType = getResponseHeaderFromResource(resource, "content-type");
   return compressible.some(value => value.test(contentType));
 }
@@ -222,13 +249,17 @@ function isResourceCompressed(resource) {
 // utils for ETags rule 
 function isRessourceUsingETag(resource) {
   const eTag = getResponseHeaderFromResource(resource, "ETag");
-  if (eTag === "") return false;
+  if (eTag === "") {
+    return false;
+  }
   return true;
 }
 
 function getDomainFromUrl(url) {
   var elements = url.split("//");
-  if (elements[1] === undefined) return "";
+  if (elements[1] === undefined) {
+    return "";
+  }
   else {
     elements = elements[1].split('/'); // get domain with port
     elements = elements[0].split(':'); // get domain without port
@@ -242,7 +273,9 @@ function getDomainFromUrl(url) {
 function countChar(char, str) {
   let total = 0;
   str.split("").forEach(curr => {
-    if (curr === char) total++;
+    if (curr === char) {
+      total++;
+    }
   });
   return total;
 }
@@ -252,12 +285,18 @@ function countChar(char, str) {
  */
 function isMinified(scriptContent) {
 
-  if (!scriptContent) return true;
-  if (scriptContent.length === 0) return true;
+  if (!scriptContent) {
+    return true;
+  }
+  if (scriptContent.length === 0) {
+    return true;
+  }
   const total = scriptContent.length - 1;
   const semicolons = countChar(';', scriptContent);
   const linebreaks = countChar('\n', scriptContent);
-  if (linebreaks < 2) return true;
+  if (linebreaks < 2) {
+    return true;
+  }
   // Empiric method to detect minified files
   //
   // javascript code is minified if, on average:
@@ -293,7 +332,8 @@ function computeNumberOfErrorsInJSCode(code, url) {
         debug(() => `url ${url} : ${Syntax.errors.length} errors`);
       }
     }
-  } catch (err) {
+  }
+  catch (err) {
     errorNumber++;
     debug(() => `url ${url} : ${err} `);
   }
@@ -307,11 +347,21 @@ function isHttpRedirectCode(code) {
 
 function getImageTypeFromResource(resource) {
   const contentType = getResponseHeaderFromResource(resource, "content-type");
-  if (contentType === "image/png") return "png";
-  if (contentType === "image/jpeg") return "jpeg";
-  if (contentType === "image/gif") return "gif";
-  if (contentType === "image/bmp") return "bmp";
-  if (contentType === "image/tiff") return "tiff";
+  if (contentType === "image/png") {
+    return "png";
+  }
+  if (contentType === "image/jpeg") {
+    return "jpeg";
+  }
+  if (contentType === "image/gif") {
+    return "gif";
+  }
+  if (contentType === "image/bmp") {
+    return "bmp";
+  }
+  if (contentType === "image/tiff") {
+    return "tiff";
+  }
   return "";
 }
 
@@ -319,45 +369,75 @@ function getImageTypeFromResource(resource) {
 function getMinOptimisationGainsForImage(pixelsNumber, imageSize, imageType) {
 
   // difficult to get good compression when image is small , images less than 10Kb are considered optimized
-  if (imageSize < 10000) return 0;
+  if (imageSize < 10000) {
+    return 0;
+  }
 
   // image png or gif < 50Kb  are considered optimized (used for transparency not supported in jpeg format)
-  if ((imageSize < 50000) && ((imageType === 'png') || (imageType === 'gif'))) return 0;
+  if ((imageSize < 50000) && ((imageType === 'png') || (imageType === 'gif'))) {
+    return 0;
+  }
 
   let imgMaxSize = Math.max(pixelsNumber / 5, 10000); //  difficult to get under 10Kb
 
   // image > 500Kb are too big for web site , there are considered never optimized
-  if (imageSize > 500000) return Math.max(imageSize - 500000, imageSize - imgMaxSize);
+  if (imageSize > 500000) {
+    return Math.max(imageSize - 500000, imageSize - imgMaxSize);
+  }
 
   return Math.max(0, imageSize - imgMaxSize);
 }
 
 function isSvgUrl(url) {
-  if (url.endsWith(".svg")) return true;
-  if (url.includes(".svg?")) return true;
+  if (url.endsWith(".svg")) {
+    return true;
+  }
+  if (url.includes(".svg?")) {
+    return true;
+  }
   return false;
 }
 
 function isSvgOptimized(svgImage) {
-  if (svgImage.length < 1000) return true; // do not consider image < 1KB
-  if (svgImage.search(" <") === -1) return true;
+  if (svgImage.length < 1000) {
+    return true;
+  } // do not consider image < 1KB
+  if (svgImage.search(" <") === -1) {
+    return true;
+  }
   return false;
 }
 
 
 function getOfficialSocialButtonFormUrl(url) {
-  if (url.includes("platform.twitter.com/widgets.js")) return "tweeter";
-  if (url.includes("platform.linkedin.com/in.js")) return "linkedin";
-  if (url.includes("assets.pinterest.com/js/pinit.js")) return "pinterest";
-  if (url.includes("connect.facebook.net") && url.includes("sdk.js")) return "facebook";
-  if (url.includes("platform-api.sharethis.com/js/sharethis.js")) return "sharethis.com (mutliple social network) ";
-  if (url.includes("s7.addthis.com/js/300/addthis_widget.js")) return "addthis.com (mutliple social network) ";
-  if (url.includes("static.addtoany.com/menu/page.js")) return "addtoany.com (mutliple social network) ";
+  if (url.includes("platform.twitter.com/widgets.js")) {
+    return "tweeter";
+  }
+  if (url.includes("platform.linkedin.com/in.js")) {
+    return "linkedin";
+  }
+  if (url.includes("assets.pinterest.com/js/pinit.js")) {
+    return "pinterest";
+  }
+  if (url.includes("connect.facebook.net") && url.includes("sdk.js")) {
+    return "facebook";
+  }
+  if (url.includes("platform-api.sharethis.com/js/sharethis.js")) {
+    return "sharethis.com (mutliple social network) ";
+  }
+  if (url.includes("s7.addthis.com/js/300/addthis_widget.js")) {
+    return "addthis.com (mutliple social network) ";
+  }
+  if (url.includes("static.addtoany.com/menu/page.js")) {
+    return "addtoany.com (mutliple social network) ";
+  }
   return "";
 }
 
 function debug(lazyString) {
-  if (!DEBUG) return;
+  if (!DEBUG) {
+    return;
+  }
   const message = typeof lazyString === 'function' ? lazyString() : lazyString;
   console.log(`GreenIT-Analysis [DEBUG] ${message}\n`);
 }

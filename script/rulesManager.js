@@ -29,33 +29,39 @@ function RulesManager() {
 
   this.registerRule = function (ruleChecker, eventListener) {
     rulesId.push(ruleChecker.id);
-    if ((eventListener === "resourceContentReceived") && ((!chrome.devtools) || (!chrome.devtools.inspectedWindow.getResources))) notCompatibleRules.push(ruleChecker.id);
+    if ((eventListener === "resourceContentReceived") && ((!chrome.devtools) || (!chrome.devtools.inspectedWindow.getResources))) {
+      notCompatibleRules.push(ruleChecker.id);
+    }
     else {
       rulesChecker.set(ruleChecker.id, ruleChecker);
       let event = eventListeners.get(eventListener);
-      if (event) event.push(ruleChecker.id);
+      if (event) {
+        event.push(ruleChecker.id);
+      }
     }
-  }
+  };
 
   this.getRulesId = function () {
     return rulesId;
-  }
+  };
 
   this.getRulesNotCompatibleWithCurrentBrowser = function () {
     return notCompatibleRules;
 
-  }
+  };
 
   this.getNewRulesChecker = function () {
     return new RulesChecker();
-  }
+  };
 
   function RulesChecker() {
     let rules = new Map();
     rulesChecker.forEach((ruleChecker, ruleId) => {
-      let ruleCheckerInstance = Object.create(ruleChecker)
+      let ruleCheckerInstance = Object.create(ruleChecker);
       // for certain rules need an initialization , method not implemented in all rules
-      if (ruleCheckerInstance.initialize) ruleCheckerInstance.initialize();
+      if (ruleCheckerInstance.initialize) {
+        ruleCheckerInstance.initialize();
+      }
       rules.set(ruleId, ruleCheckerInstance);
     });
 
@@ -70,11 +76,11 @@ function RulesManager() {
           //  this.manageExport(ruleID, measures);
         });
       }
-    }
+    };
 
     this.checkRule = function (rule, measures, resource) {
       rules.get(rule).check(measures, resource);
-    }
+    };
 
     this.manageExport = function (rule, measures) {
       let myRule = rules.get(rule);
@@ -83,11 +89,11 @@ function RulesManager() {
       measures.bestPracticeDetails[rule].detailComment = myRule.detailComment;
       measures.bestPracticeDetails[rule].complianceLevel = myRule.complianceLevel;
       measures.bestPracticeDetails[rule].specificMeasures = myRule.getSpecificMeasures();
-    }
+    };
 
     this.getRule = function (rule) {
       return rules.get(rule);
-    }
+    };
 
     this.getAllRules = function () {
       return rules;
