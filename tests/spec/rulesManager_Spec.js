@@ -1,9 +1,8 @@
-
 describe("rulesManager.js", function () {
 
   let rulesChecker;
   beforeEach(function () {
-     rulesChecker = rulesManager.getNewRulesChecker();
+    rulesChecker = rulesManager.getNewRulesChecker();
   });
 
   it(" instanciate rule checker", function () {
@@ -17,5 +16,4 @@ describe("rulesManager.js", function () {
 
   afterEach(function () {
   });
-
 });

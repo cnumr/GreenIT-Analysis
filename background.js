@@ -1,4 +1,3 @@
-
 /*
  *  Copyright (C) 2019-2021  didierfred@gmail.com 
  *
@@ -20,8 +19,6 @@
 
 let connections = {};
 
-
-
 /*
 * Listen for message form tab and send it to devtools 
 **/
@@ -29,11 +26,17 @@ const notify = (message, sender, sendResponse) => {
 
   if (sender.tab) {
     let tabId = sender.tab.id;
-    if (tabId in connections) connections[tabId].postMessage(message);
-    else console.warn("Tab not found in connection list.");
+    if (tabId in connections) {
+      connections[tabId].postMessage(message);
+    }
+    else {
+      console.warn("Tab not found in connection list.");
+    }
   }
-  else console.warn("sender.tab not defined.");
-}
+  else {
+    console.warn("sender.tab not defined.");
+  }
+};
 
 
 chrome.runtime.onMessage.addListener(notify);
@@ -45,23 +48,23 @@ chrome.runtime.onConnect.addListener((devToolsConnection) => {
   console.log("received onConnect");
   // assign the listener function to a variable so we can remove it later
   let devToolsListener = (message, sender, sendResponse) => {
-
-    // in case message form devtools is to clean cache 
+    // in case message form devtools is to clean cache
     if (message.clearBrowserCache) {
       clearBrowserCache();
-      return;
     }
-    // Otherwise message is to inject script 
+    // Otherwise message is to inject script
     else {
       // Inject a content script into the identified tab
       console.log("received script to execute form tabId " + message.tabId);
-      if (!connections[message.tabId]) connections[message.tabId] = devToolsConnection;
+      if (!connections[message.tabId]) {
+        connections[message.tabId] = devToolsConnection;
+      }
       chrome.tabs.executeScript(message.tabId,
-        {code: "var analyseBestPractices=" + message.analyseBestPractices + ";", allFrames: true});
+          {code: "var analyseBestPractices=" + message.analyseBestPractices + ";", allFrames: true});
       chrome.tabs.executeScript(message.tabId,
-        {file: message.scriptToInject, allFrames: true});
+          {file: message.scriptToInject, allFrames: true});
     }
-  }
+  };
   // add the listener
   devToolsConnection.onMessage.addListener(devToolsListener);
 
@@ -69,7 +72,7 @@ chrome.runtime.onConnect.addListener((devToolsConnection) => {
     devToolsConnection.onMessage.removeListener(devToolsListener);
 
     Object.keys(connections).map(tab => {
-      if (connections[tab] == port) {
+      if (connections[tab] === port) {
         delete connections[tab];
         return false;
       }
@@ -78,10 +81,8 @@ chrome.runtime.onConnect.addListener((devToolsConnection) => {
 
 });
 
-function clearBrowserCache()
-{ 
-  chrome.browsingData.remove({
-  }, {
+function clearBrowserCache() {
+  chrome.browsingData.remove({}, {
     "cache": true,
     "cookies": false,
     "downloads": true,

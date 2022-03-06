@@ -43,58 +43,60 @@ function start_analyse() {
       "inlineJsScript": inlineJsScript,
       "inlineJsScriptsNumber": inlineJsScriptsNumber,
       "imagesResizedInBrowser": imagesResizedInBrowser,
-    }
+    };
   }
-  else pageAnalysis = {
-    "analyseStartingTime": analyseStartingTime,
-    "url": document.URL,
-    "domSize": dom_size
+  else {
+    pageAnalysis = {
+      "analyseStartingTime": analyseStartingTime,
+      "url": document.URL,
+      "domSize": dom_size
+    };
   }
 
   chrome.runtime.sendMessage(pageAnalysis);
 
 }
 
-
-function getDomSizeWithoutSvg(){
+function getDomSizeWithoutSvg() {
   let dom_size = document.getElementsByTagName("*").length;
   const svgElements = document.getElementsByTagName("svg");
-  for (let i = 0 ; i< svgElements.length ; i++) {
-    dom_size -= getNbChildsExcludingNestedSvg(svgElements[i])-1;
+  for (let i = 0; i < svgElements.length; i++) {
+    dom_size -= getNbChildsExcludingNestedSvg(svgElements[i]) - 1;
   }
   return dom_size;
 }
 
 function getNbChildsExcludingNestedSvg(element) {
-  if (element.nodeType === Node.TEXT_NODE) return 0;
-  let nb_elements =1;
-  for (let i = 0 ; i< element.childNodes.length ; i++) {
-    // deal with svg nested case 
-    if (element.childNodes[i].tagName !== 'svg')  nb_elements+= getNbChildsExcludingNestedSvg(element.childNodes[i]);
-    else nb_elements+=1;
+  if (element.nodeType === Node.TEXT_NODE) {
+    return 0;
+  }
+  let nb_elements = 1;
+  for (let i = 0; i < element.childNodes.length; i++) {
+    // deal with svg nested case
+    if (element.childNodes[i].tagName !== 'svg') {
+      nb_elements += getNbChildsExcludingNestedSvg(element.childNodes[i]);
+    }
+    else {
+      nb_elements += 1;
+    }
   }
   return nb_elements;
 }
-
-
 
 function getPluginsNumber() {
   const plugins = document.querySelectorAll('object,embed');
   return (plugins === undefined) ? 0 : plugins.length;
 }
 
-
-
 function getEmptySrcTagNumber() {
   return document.querySelectorAll('img[src=""]').length
-    + document.querySelectorAll('script[src=""]').length
-    + document.querySelectorAll('link[rel=stylesheet][href=""]').length;
+      + document.querySelectorAll('script[src=""]').length
+      + document.querySelectorAll('link[rel=stylesheet][href=""]').length;
 }
-
 
 function getPrintStyleSheetsNumber() {
   return document.querySelectorAll('link[rel=stylesheet][media~=print]').length
-    + document.querySelectorAll('style[media~=print]').length;
+      + document.querySelectorAll('style[media~=print]').length;
 }
 
 function getInlineStyleSheetsNumber() {
@@ -102,25 +104,28 @@ function getInlineStyleSheetsNumber() {
   let inlineStyleSheetsNumber = 0;
   styleSheetsArray.forEach(styleSheet => {
     try {
-      // Ignore SVG styles in count 
+      // Ignore SVG styles in count
       const isSvgStyleSheet = (styleSheet.ownerNode instanceof SVGStyleElement);
-      if (!styleSheet.href && !isSvgStyleSheet) inlineStyleSheetsNumber++;
+      if (!styleSheet.href && !isSvgStyleSheet) {
+        inlineStyleSheetsNumber++;
+      }
     }
     catch (err) {
       console.log("GREENIT-ANALYSIS ERROR ," + err.name + " = " + err.message);
       console.log("GREENIT-ANALYSIS ERROR " + err.stack);
-    }  
+    }
   });
-return inlineStyleSheetsNumber;
+  return inlineStyleSheetsNumber;
 }
-
 
 function getInlineJsScript() {
   let scriptArray = Array.from(document.scripts);
   let scriptText = "";
   scriptArray.forEach(script => {
     let isJSON = (String(script.type) === "application/ld+json"); // Exclude type="application/ld+json" from parsing js analyse
-    if ((script.text.length > 0) && (!isJSON)) scriptText += "\n" + script.text;
+    if ((script.text.length > 0) && (!isJSON)) {
+      scriptText += "\n" + script.text;
+    }
   });
   return scriptText;
 }
@@ -130,7 +135,9 @@ function getInlineJsScriptsNumber() {
   let inlineScriptNumber = 0;
   scriptArray.forEach(script => {
     let isJSON = (String(script.type) === "application/ld+json"); // Exclude type="application/ld+json" from count
-    if ((script.text.length > 0) && (!isJSON)) inlineScriptNumber++;
+    if ((script.text.length > 0) && (!isJSON)) {
+      inlineScriptNumber++;
+    }
   });
   return inlineScriptNumber;
 }
@@ -142,15 +149,14 @@ function getImagesResizedInBrowser() {
   imgArray.forEach(img => {
     if (img.clientWidth < img.naturalWidth || img.clientHeight < img.naturalHeight) {
       // Images of one pixel are some times used ... , we exclude them
-      if (img.naturalWidth > 1) 
-      {
+      if (img.naturalWidth > 1) {
         const imageMeasures = {
-          "src":img.src,
-          "clientWidth":img.clientWidth,
-          "clientHeight":img.clientHeight,
-          "naturalWidth":img.naturalWidth,
-          "naturalHeight":img.naturalHeight
-        }
+          "src": img.src,
+          "clientWidth": img.clientWidth,
+          "clientHeight": img.clientHeight,
+          "naturalWidth": img.naturalWidth,
+          "naturalHeight": img.naturalHeight
+        };
         imagesResized.push(imageMeasures);
       }
     }
