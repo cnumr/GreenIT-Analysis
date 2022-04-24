@@ -20,7 +20,7 @@ function createNoRedirectRule() {
                     }
                 }
             });
-            if (this.specificMeasures.redirectNumber > 0) this.complianceLevel = 'C';
+            if (this.specificMeasures.redirectNumber > 1) this.complianceLevel = 'C';
             this.comment = chrome.i18n.getMessage("rule_NoRedirect_Comment", String(this.specificMeasures.redirectNumber));
         },
 

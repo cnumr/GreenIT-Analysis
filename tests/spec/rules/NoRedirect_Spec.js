@@ -21,7 +21,7 @@ describe("Rules => NoRedirect.js", function () {
         expect(rule.complianceLevel).toEqual('A');
     });
 
-    it(" 1 redirect, it should return C", function () {
+    it(" 1 redirect, it should return A", function () {
         const measures = {
             entries:
                 [{
@@ -34,7 +34,7 @@ describe("Rules => NoRedirect.js", function () {
                 }]
         };
         rule.check(measures);
-        expect(rule.complianceLevel).toEqual('C');
+        expect(rule.complianceLevel).toEqual('A');
     });
 
 
