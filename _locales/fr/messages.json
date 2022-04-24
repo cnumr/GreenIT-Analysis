@@ -650,32 +650,6 @@
       }
     }
   },
-  "rule_UseETags": {
-    "message": "Utiliser des ETags (>= 95%)",
-    "description": "Use ETags (>= 95%)"
-  },
-  "rule_UseETags_DetailDescription": {
-    "message": "Un ETag est une signature associée à une réponse du serveur. Si le client demande une URL (page HTML, image, feuille de style, etc.) dont l'ETag est identique à celle qu'il a déjà, le serveur Web répondra qu'il n'a pas besoin de télécharger la ressource et qu'il doit utiliser celle-ci. il possède déjà. L'utilisation d'ETags permet d'économiser d'énormes quantités de bande passante.",
-    "description": "Use ETags"
-  },
-  "rule_UseETags_Comment": {
-    "message": "$PERCENT$ ressources utilisant des ETags",
-    "description": "Percentage of resources with ETags",
-    "placeholders": {
-      "PERCENT": {
-        "content": "$1"
-      }
-    }
-  },
-  "rule_UseETags_DetailComment": {
-    "message": "$RESOURCE$Ko n'utilise pas d'ETags",
-    "description": "Resource is not using ETags",
-    "placeholders": {
-      "RESOURCE": {
-        "content": "$1"
-      }
-    }
-  },
   "rule_UseStandardTypefaces": {
     "message": "Utiliser des polices de caractères standards",
     "description": "Use Standard Typefaces"
