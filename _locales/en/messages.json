@@ -92,7 +92,7 @@
     "description": "Number of request"
   },
   "rule_AddExpiresOrCacheControlHeaders": {
-    "message": "Add expires or cache-control headers (>= 95%)",
+    "message": "Add expires or cache-control headers",
     "description": "Add expires or cache-Control headers"
   },
   "rule_AddExpiresOrCacheControlHeaders_DetailDescription": {
@@ -100,10 +100,10 @@
     "description": "Add expires or cache-Control headers"
   },
   "rule_AddExpiresOrCacheControlHeaders_Comment": {
-    "message": "$PERCENT$ resources cached",
-    "description": "Percentage of resources cached ",
+    "message": "$NB$ resources cached",
+    "description": "Number of resources cached ",
     "placeholders": {
-      "PERCENT": {
+      "NB": {
         "content": "$1"
       }
     }
