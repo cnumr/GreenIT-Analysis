@@ -26,7 +26,6 @@ function start_analyse() {
     const pluginsNumber = getPluginsNumber();
     const printStyleSheetsNumber = getPrintStyleSheetsNumber();
     const inlineStyleSheetsNumber = getInlineStyleSheetsNumber();
-    const emptySrcTagNumber = getEmptySrcTagNumber();
     const inlineJsScript = getInlineJsScript();
     const inlineJsScriptsNumber = getInlineJsScriptsNumber();
     const imagesResizedInBrowser = getImagesResizedInBrowser();
@@ -77,19 +76,11 @@ function getNbChildsExcludingNestedSvg(element) {
 }
 
 
-
 function getPluginsNumber() {
   const plugins = document.querySelectorAll('object,embed');
   return (plugins === undefined) ? 0 : plugins.length;
 }
 
-
-
-function getEmptySrcTagNumber() {
-  return document.querySelectorAll('img[src=""]').length
-    + document.querySelectorAll('script[src=""]').length
-    + document.querySelectorAll('link[rel=stylesheet][href=""]').length;
-}
 
 
 function getPrintStyleSheetsNumber() {

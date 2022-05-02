@@ -116,7 +116,6 @@ function MeasuresAcquisition(rules) {
       "pluginsNumber": 0,
       "printStyleSheetsNumber": 0,
       "inlineStyleSheetsNumber": 0,
-      "emptySrcTagNumber": 0,
       "inlineJsScriptsNumber": 0,
       "imagesResizedInBrowser": [],
       "bestPracticeDetails": {}
@@ -139,7 +138,6 @@ function MeasuresAcquisition(rules) {
 
       measures.printStyleSheetsNumber += frameMeasures.printStyleSheetsNumber;
       if (measures.inlineStyleSheetsNumber < frameMeasures.inlineStyleSheetsNumber) measures.inlineStyleSheetsNumber = frameMeasures.inlineStyleSheetsNumber;
-      measures.emptySrcTagNumber += frameMeasures.emptySrcTagNumber;
       if ((frameMeasures.inlineJsScript.length > 0) && (chrome.devtools.inspectedWindow.getResources)) {
         const resourceContent = { 
           url:"inline js",
