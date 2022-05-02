@@ -606,7 +606,7 @@
     }
   },
   "rule_StyleSheets": {
-    "message": "Limit Stylesheet files (<3)",
+    "message": "Limit Stylesheet files (<=10)",
     "description": "Limit Stylesheet files"
   },
   "rule_StyleSheets_DetailDescription": {
@@ -614,8 +614,8 @@
     "description": "Limit Stylesheet files"
   },
   "rule_StyleSheets_DefaultComment": {
-    "message": "Not more that 2 stylesheets found",
-    "description": "Not more that 2 stylesheets found"
+    "message": "Not more that 7 stylesheets found",
+    "description": "Not more that 7 stylesheets found"
   },
   "rule_StyleSheets_Comment": {
     "message": "$NB_STYLESHEETS$ stylesheets found",
