@@ -43,7 +43,7 @@ describe("Rules => DomainsNumber.js", function () {
         rule.check(measures);
         expect(rule.complianceLevel).toEqual('A');
     });
-    it(" 5 urls, 3 domains, it should return B", function () {
+    it(" 6 urls, 4 domains, it should return B", function () {
         const measures = {
             entries:
                 [
@@ -51,28 +51,27 @@ describe("Rules => DomainsNumber.js", function () {
                     { request: { url: "http://test/test" } },
                     { request: { url: "http://test/aaa" } },
                     { request: { url: "http://testb/bbbb" } },
-                    { request: { url: "http://testc/toto" } }
+                    { request: { url: "http://testc/" } },
+                    { request: { url: "http://testd/toto" } }
                 ]
         };
         rule.check(measures);
         expect(rule.complianceLevel).toEqual('B');
     });
-    it(" 5 urls, 4 domains, it should return C", function () {
+    it(" 6 urls, 6 domains, it should return C", function () {
         const measures = {
             entries:
                 [
                     { request: { url: "http://test" } },
-                    { request: { url: "http://test/test" } },
-                    { request: { url: "http://testb/aaa" } },
-                    { request: { url: "http://testc/bbbb" } },
-                    { request: { url: "http://testd/toto" } }
+                    { request: { url: "http://testb/test" } },
+                    { request: { url: "http://testc/aaa" } },
+                    { request: { url: "http://testd/bbbb" } },
+                    { request: { url: "http://teste/" } },
+                    { request: { url: "http://testf/toto" } }
                 ]
         };
         rule.check(measures);
         expect(rule.complianceLevel).toEqual('C');
-    });
-
-    afterEach(function () {
     });
 });
 

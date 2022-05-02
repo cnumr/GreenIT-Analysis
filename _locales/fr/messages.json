@@ -144,7 +144,7 @@
     }
   },
   "rule_DomainsNumber": {
-    "message": "Limiter le nombre de domaines (<3)",
+    "message": "Limiter le nombre de domaines (<6)",
     "description": "Limit the number of domains"
   },
   "rule_DomainsNumber_DetailDescription": {

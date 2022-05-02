@@ -18,8 +18,8 @@ function createDomainsNumberRule() {
                     this.specificMeasures.domains.push(domain);
                 }
             });
-            if (this.specificMeasures.domains.length > 2) {
-                if (this.specificMeasures.domains.length === 3) this.complianceLevel = 'B';
+            if (this.specificMeasures.domains.length > 3) {
+                if (this.specificMeasures.domains.length < 6) this.complianceLevel = 'B';
                 else this.complianceLevel = 'C';
             }
             this.specificMeasures.domains.forEach(domain => {
