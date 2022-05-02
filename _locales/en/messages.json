@@ -192,27 +192,6 @@
       }
     }
   },
-  "rule_EmptySrcTag": {
-    "message": "Avoid empty src tag",
-    "description": "Avoid empty src tag"
-  },
-  "rule_EmptySrcTag_DetailDescription": {
-    "message": "If there is an image tag with an empty src attribute, the browser will call the directory in which the page is located, generating unnecessary, additional HTTP requests.",
-    "description": "Minified css"
-  },
-  "rule_EmptySrcTag_DefaultComment": {
-    "message": "No empty src tags found",
-    "description": "No empty src tags found"
-  },
-  "rule_EmptySrcTag_Comment": {
-    "message": "$NB$ empty src tag(s) found",
-    "description": "Number of  empty src tag(s) found ",
-    "placeholders": {
-      "NB": {
-        "content": "$1"
-      }
-    }
-  },
   "rule_ExternalizeCss": {
     "message": "Externalize css",
     "description": "Externalize css"

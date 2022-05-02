@@ -192,27 +192,6 @@
       }
     }
   },
-  "rule_EmptySrcTag": {
-    "message": "Eviter les tags SRC vides",
-    "description": "Avoid empty src tag"
-  },
-  "rule_EmptySrcTag_DetailDescription": {
-    "message": "S'il existe une balise d'image avec un attribut src vide, le navigateur appelle le répertoire dans lequel se trouve la page, générant des requêtes HTTP inutiles et supplémentaires.",
-    "description": "Minified css"
-  },
-  "rule_EmptySrcTag_DefaultComment": {
-    "message": "Pas de tag SRC vide",
-    "description": "No empty src tags found"
-  },
-  "rule_EmptySrcTag_Comment": {
-    "message": "$NB$ tag(s) SRC vide(s)",
-    "description": "Number of  empty src tag(s) found ",
-    "placeholders": {
-      "NB": {
-        "content": "$1"
-      }
-    }
-  },
   "rule_ExternalizeCss": {
     "message": "Externaliser les css",
     "description": "Externalize css"
