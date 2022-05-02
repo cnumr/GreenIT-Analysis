@@ -642,10 +642,10 @@
     "description": "No custom fonts found"
   },
   "rule_UseStandardTypefaces_Comment": {
-    "message": "$SIZE$  Ko de police(s) de caractères spécifique(s)",
-    "description": "Size of custom fonts found",
+    "message": "$NB$ police(s) de caractères spécifique(s)",
+    "description": "Number of custom fonts found",
     "placeholders": {
-      "SIZE": {
+      "NB": {
         "content": "$1"
       }
     }
