@@ -618,10 +618,10 @@
     "description": "No custom fonts found"
   },
   "rule_UseStandardTypefaces_Comment": {
-    "message": "$SIZE$KB of custom fonts found",
-    "description": "Size of custom fonts found",
+    "message": "$NB$ custom fonts found",
+    "description": "Number of custom fonts found",
     "placeholders": {
-      "SIZE": {
+      "NB": {
         "content": "$1"
       }
     }
