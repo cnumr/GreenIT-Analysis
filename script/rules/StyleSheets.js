@@ -20,8 +20,8 @@ function createStyleSheetsRule() {
                     }
                 }
             });
-            if (this.specificMeasures.styleSheets.length > 2) {
-                if (this.specificMeasures.styleSheets.length === 3) this.complianceLevel = 'B';
+            if (this.specificMeasures.styleSheets.length > 7) {
+                if (this.specificMeasures.styleSheets.length < 11) this.complianceLevel = 'B';
                 else this.complianceLevel = 'C';
                 this.comment = chrome.i18n.getMessage("rule_StyleSheets_Comment", String(this.specificMeasures.styleSheets.length));
             }

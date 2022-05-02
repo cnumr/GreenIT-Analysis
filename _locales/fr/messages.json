@@ -609,7 +609,7 @@
   },
 
   "rule_StyleSheets": {
-    "message": "Limiter le nombre de fichiers css (<3) ",
+    "message": "Limiter le nombre de fichiers css (<=10) ",
     "description": "Limit Stylesheet files"
   },
   "rule_StyleSheets_DetailDescription": {
@@ -617,8 +617,8 @@
     "description": "Limit Stylesheet files"
   },
   "rule_StyleSheets_DefaultComment": {
-    "message": "Pas plus de 2 fichiers css",
-    "description": "Not more that 2 stylesheets found"
+    "message": "Pas plus de 7 fichiers css",
+    "description": "Not more that 7 stylesheets found"
   },
   "rule_StyleSheets_Comment": {
     "message": "$NB_STYLESHEETS$ fichiers css",
