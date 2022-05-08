@@ -351,62 +351,32 @@
       }
     }
   },
-  "rule_MinifiedCss": {
-    "message": "Minified css (>= 95%)",
-    "description": "Minified css (>= 95%)"
+  "rule_MinifiedCssJs": {
+    "message": "Minified cs and js ",
+    "description": "Minified css and js"
   },
-  "rule_MinifiedCss_DetailDescription": {
+  "rule_MinifiedCssJs_DetailDescription": {
     "message": "Use a tool like YUI Compressor to remove unnecessary spaces and line breaks. Google’s Apache mod_pagespeed can also automate this operation.",
-    "description": "Minified css"
+    "description": "Minified css and js"
   },
-  "rule_MinifiedCss_DefaultComment": {
-    "message": "No css found",
+  "rule_MinifiedCssJs_DefaultComment": {
+    "message": "No css or js found",
     "description": "No css found"
   },
-  "rule_MinifiedCss_Comment": {
-    "message": "$NB$% minified stylesheet",
-    "description": "Percentage of minified stylesheet ",
+  "rule_MinifiedCssJs_Comment": {
+    "message": "$NB$ not minified css or js ",
+    "description": "Number of none minified css or js  ",
     "placeholders": {
       "NB": {
         "content": "$1"
       }
     }
   },
-  "rule_MinifiedCss_DetailComment": {
-    "message": "$CSS$ should be minified",
-    "description": "Css x should be minified",
+  "rule_MinifiedCssJs_DetailComment": {
+    "message": "$FILE$ should be minified",
+    "description": "Css or js file should be minified",
     "placeholders": {
-      "CSS": {
-        "content": "$1"
-      }
-    }
-  },
-  "rule_MinifiedJs": {
-    "message": "Minified js (>= 95%)",
-    "description": "Minified js (>= 95%)"
-  },
-  "rule_MinifiedJs_DetailDescription": {
-    "message": "Use a tool such as YUI Compressor to remove unnecessary white spaces, line breaks, semi-colons and shorten local variable names. This operation can be automated using Google’s Apache mod_pagespeed module.",
-    "description": "Minified js"
-  },
-  "rule_MinifiedJs_DefaultComment": {
-    "message": "No js found",
-    "description": "No js found"
-  },
-  "rule_MinifiedJs_Comment": {
-    "message": "$NB$% minified javascript",
-    "description": "Percentage of minified javascript ",
-    "placeholders": {
-      "NB": {
-        "content": "$1"
-      }
-    }
-  },
-  "rule_MinifiedJs_DetailComment": {
-    "message": "$JS$ should be minified",
-    "description": "Js x should be minified",
-    "placeholders": {
-      "JS": {
+      "FILE": {
         "content": "$1"
       }
     }
