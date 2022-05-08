@@ -629,6 +629,35 @@
       }
     }
   },
+  "rule_UseHttp2": {
+    "message": "Privilégier HTTP/2 à HTTP/1",
+    "description": "Use HTTP/2 instead of HTTP/1"
+  },
+  "rule_UseHttp2_DetailDescription": {
+    "message": "HTTP/2 est plus efficace que HTTP/1 via en particulier l'utilisation du multiplexage (utilisation d'une seule connexion TCP pour plusieurs requêtes HTTP)",
+    "description": "Use HTTP/2 instead of HTTP/1"
+  },
+  "rule_UseHttp2_Comment": {
+    "message": "$NB$ resources utilisant HTTP/1 ",
+    "description": "Number of resources using HTTP/1",
+    "placeholders": {
+      "NB": {
+        "content": "$1"
+      }
+    }
+  },
+  "rule_UseHttp2_DetailComment": {
+    "message": "$RESOURCE$ utilise $HTTP_VERSION$",
+    "description": "Resource is not using HTTP/2",
+    "placeholders": {
+      "RESOURCE": {
+        "content": "$1"
+      },
+      "HTTP_VERSION": {
+        "content": "$2"
+      }
+    }
+  },
   "rule_UseStandardTypefaces": {
     "message": "Utiliser des polices de caractères standards",
     "description": "Use Standard Typefaces"
