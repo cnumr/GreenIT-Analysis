@@ -330,62 +330,32 @@
       }
     }
   },
-  "rule_MinifiedCss": {
-    "message": "Minifier les css (>= 95%)",
-    "description": "Minified css (>= 95%)"
+  "rule_MinifiedCssJs": {
+    "message": "Minifier les css et js",
+    "description": "Minified css and js"
   },
-  "rule_MinifiedCss_DetailDescription": {
+  "rule_MinifiedCssJs_DetailDescription": {
     "message": "Utilisez un outil tel que YUI Compressor pour supprimer les espaces et les sauts de ligne inutiles. Apache mod_pagespeed de Google peut également automatiser cette opération.",
-    "description": "Minified css"
+    "description": "Minified css and js"
   },
-  "rule_MinifiedCss_DefaultComment": {
-    "message": "Aucun css",
-    "description": "No css found"
+  "rule_MinifiedCssJs_DefaultComment": {
+    "message": "Aucun css ou js",
+    "description": "No css or js found"
   },
-  "rule_MinifiedCss_Comment": {
-    "message": "$NB$% css minifiées",
-    "description": "Percentage of minified stylesheet ",
+  "rule_MinifiedCssJs_Comment": {
+    "message": "$NB$ css or js  non minifiées",
+    "description": "Number of none  minified css or js",
     "placeholders": {
       "NB": {
         "content": "$1"
       }
     }
   },
-  "rule_MinifiedCss_DetailComment": {
-    "message": "$CSS$ devrait être minifié",
-    "description": "Css x should be minified",
+  "rule_MinifiedCssJs_DetailComment": {
+    "message": "$FILE$ devrait être minifié",
+    "description": "File x should be minified",
     "placeholders": {
-      "CSS": {
-        "content": "$1"
-      }
-    }
-  },
-  "rule_MinifiedJs": {
-    "message": "Minifier les js (>= 95%)",
-    "description": "Minified js (>= 95%)"
-  },
-  "rule_MinifiedJs_DetailDescription": {
-    "message": "Utilisez un outil tel que YUI Compressor pour supprimer les espaces inutiles, les sauts de ligne, les points-virgules et raccourcir les noms de variables locales. Cette opération peut être automatisée à l’aide du module Apache mod_pagespeed de Google.",
-    "description": "Minified js"
-  },
-  "rule_MinifiedJs_DefaultComment": {
-    "message": "Aucun js",
-    "description": "No js found"
-  },
-  "rule_MinifiedJs_Comment": {
-    "message": "$NB$% js minifié",
-    "description": "Percentage of minified javascript ",
-    "placeholders": {
-      "NB": {
-        "content": "$1"
-      }
-    }
-  },
-  "rule_MinifiedJs_DetailComment": {
-    "message": "$JS$ devrait être minifié",
-    "description": "Js x should be minified",
-    "placeholders": {
-      "JS": {
+      "FILE": {
         "content": "$1"
       }
     }
