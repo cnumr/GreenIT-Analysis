@@ -192,42 +192,21 @@
       }
     }
   },
-  "rule_ExternalizeCss": {
-    "message": "Externalize css",
-    "description": "Externalize css"
+  "rule_ExternalizeCssJs": {
+    "message": "Externalize css and js ",
+    "description": "Externalize css and js "
   },
-  "rule_ExternalizeCss_DetailDescription": {
-    "message": "Ensure that CSS files are separate from the page’s HTML code. If you include CSS in the body of the HTML file, and it is used for several pages (or even the whole website), then the code must be sent for each page requested by the user, therefore increasing the volume of data sent. However, if the CSS are in their own separate files, the browser can avoid requesting them again by storing them in its local cache.",
-    "description": "Externalize css"
+  "rule_ExternalizeCssJs_DetailDescription": {
+    "message": "Ensure that CSS and JS files are separate from the page’s HTML code. If you include CSS and JS in the body of the HTML file, and it is used for several pages (or even the whole website), then the code must be sent for each page requested by the user, therefore increasing the volume of data sent. However, if the CSS and JS are in their own separate files, the browser can avoid requesting them again by storing them in its local cache.",
+    "description": "Externalize css and js"
   },
-  "rule_ExternalizeCss_DefaultComment": {
-    "message": "No inline stylesheet found",
-    "description": "No inline stylesheet found"
+  "rule_ExternalizeCssJs_DefaultComment": {
+    "message": "No inline stylesheet or inline javascript found",
+    "description": "No inline stylesheet or inline javascript found"
   },
-  "rule_ExternalizeCss_Comment": {
-    "message": "$NB$ inline stylesheet(s) found ",
-    "description": "Number of inline stylesheets found ",
-    "placeholders": {
-      "NB": {
-        "content": "$1"
-      }
-    }
-  },
-  "rule_ExternalizeJs": {
-    "message": "Externalize js",
-    "description": "Externalize js"
-  },
-  "rule_ExternalizeJs_DetailDescription": {
-    "message": "Ensure that JavaScript code is separate from the page’s HTML code, with the exception of any configuration variables for JavaScript objects. If you include JavaScript code in the body of the HTML file, and it is used for several pages (or even the whole website), then the code must be sent for each page requested by the user, therefore increasing the volume of data sent. However, if the JavaScript code is in his own separate file, the browser can avoid requesting them again by storing them in its local cache.",
-    "description": "Externalize js"
-  },
-  "rule_ExternalizeJs_DefaultComment": {
-    "message": "No inline JavaScript",
-    "description": "No inline JavaScript"
-  },
-  "rule_ExternalizeJs_Comment": {
-    "message": "$NB$ inline  javascripts found",
-    "description": "Number of inline  javascripts found ",
+  "rule_ExternalizeCssJs_Comment": {
+    "message": "$NB$ inline stylesheet(s) and inline javascript(s) found ",
+    "description": "Number of inline stylesheets and inline javascripts found ",
     "placeholders": {
       "NB": {
         "content": "$1"
