@@ -192,42 +192,21 @@
       }
     }
   },
-  "rule_ExternalizeCss": {
-    "message": "Externaliser les css",
-    "description": "Externalize css"
+  "rule_ExternalizeCssJs": {
+    "message": "Externaliser les css et les js",
+    "description": "Externalize css and js"
   },
-  "rule_ExternalizeCss_DetailDescription": {
-    "message": "Assurez-vous que les fichiers CSS sont séparés du code HTML de la page. Si vous incluez du CSS dans le corps du fichier HTML et qu'il est utilisé pour plusieurs pages (ou même pour l'ensemble du site Web), le code doit être envoyé pour chaque page demandée par l'utilisateur, augmentant ainsi le volume de données envoyées. Toutefois, si les CSS se trouvent dans leurs propres fichiers distincts, le navigateur peut éviter de les redemander en les stockant dans son cache local.",
-    "description": "Externalize css"
+  "rule_ExternalizeCssJs_DetailDescription": {
+    "message": "Assurez-vous que les fichiers CSS et JS sont séparés du code HTML de la page. Si vous incluez du CSS ou du JS dans le corps du fichier HTML et qu'il est utilisé pour plusieurs pages (ou même pour l'ensemble du site Web), le code doit être envoyé pour chaque page demandée par l'utilisateur, augmentant ainsi le volume de données envoyées. Toutefois, si les CSS et JS se trouvent dans leurs propres fichiers distincts, le navigateur peut éviter de les redemander en les stockant dans son cache local.",
+    "description": "Externalize css and js"
   },
-  "rule_ExternalizeCss_DefaultComment": {
-    "message": "Pas de inline stylesheet",
-    "description": "No inline stylesheet found"
+  "rule_ExternalizeCssJs_DefaultComment": {
+    "message": "Pas de inline stylesheet ou inline javascript",
+    "description": "No inline stylesheet or inline javascript found"
   },
-  "rule_ExternalizeCss_Comment": {
-    "message": "$NB$ inline stylesheet(s)",
-    "description": "Number of inline stylesheets found ",
-    "placeholders": {
-      "NB": {
-        "content": "$1"
-      }
-    }
-  },
-  "rule_ExternalizeJs": {
-    "message": "Externaliser les js",
-    "description": "Externalize js"
-  },
-  "rule_ExternalizeJs_DetailDescription": {
-    "message": "Assurez-vous que le code JavaScript est distinct du code HTML de la page, à l’exception de toute variable de configuration pour les objets JavaScript. Si vous incluez du code JavaScript dans le corps du fichier HTML et qu'il est utilisé pour plusieurs pages (ou même pour l'ensemble du site Web), le code doit être envoyé pour chaque page demandée par l'utilisateur, augmentant ainsi le volume de données envoyées. Toutefois, si le code JavaScript se trouve dans son propre fichier séparé, le navigateur peut éviter de les redemander en les stockant dans son cache local.",
-    "description": "Externalize js"
-  },
-  "rule_ExternalizeJs_DefaultComment": {
-    "message": "Pas d'inline JavaScript",
-    "description": "No inline JavaScript"
-  },
-  "rule_ExternalizeJs_Comment": {
-    "message": "$NB$ inline  javascript(s)",
-    "description": "Number of inline  javascripts found ",
+  "rule_ExternalizeCssJs_Comment": {
+    "message": "$NB$ inline stylesheet(s) et inline javascript(s)",
+    "description": "Number of inline stylesheets or inline javascript found ",
     "placeholders": {
       "NB": {
         "content": "$1"
