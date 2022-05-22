@@ -38,7 +38,6 @@ function start_analyse() {
       "pluginsNumber": pluginsNumber,
       "printStyleSheetsNumber": printStyleSheetsNumber,
       "inlineStyleSheetsNumber": inlineStyleSheetsNumber,
-      "emptySrcTagNumber": emptySrcTagNumber,
       "inlineJsScript": inlineJsScript,
       "inlineJsScriptsNumber": inlineJsScriptsNumber,
       "imagesResizedInBrowser": imagesResizedInBrowser,

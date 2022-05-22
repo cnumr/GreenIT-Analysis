@@ -74,18 +74,6 @@ describe("analyseFrame.js", function() {
     });
   });
 
-  describe('#getEmptySrcTagNumber', function() {
-
-    beforeEach(function() {	
-    });
-	
-    it(" should return 4", function() {
-      expect(testFrame.getEmptySrcTagNumber()).toEqual(4);
-    });
-
-    afterEach(function() {
-    });
-  });
 
   describe("#function getInlineJsScriptsNumber()", function() {
  

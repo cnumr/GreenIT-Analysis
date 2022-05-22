@@ -318,8 +318,8 @@
     "description": "Minified css and js"
   },
   "rule_MinifiedCssJs_DefaultComment": {
-    "message": "No css or js found",
-    "description": "No css found"
+    "message": "No css or js not minified found",
+    "description": "No css or js found"
   },
   "rule_MinifiedCssJs_Comment": {
     "message": "$NB$ not minified css or js ",

@@ -339,11 +339,11 @@
     "description": "Minified css and js"
   },
   "rule_MinifiedCssJs_DefaultComment": {
-    "message": "Aucun css ou js",
+    "message": "Aucun css ou js non minifiés",
     "description": "No css or js found"
   },
   "rule_MinifiedCssJs_Comment": {
-    "message": "$NB$ css or js  non minifiées",
+    "message": "$NB$ css or js  non minifiés",
     "description": "Number of none  minified css or js",
     "placeholders": {
       "NB": {
