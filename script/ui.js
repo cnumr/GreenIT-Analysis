@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2019-2021  didierfred@gmail.com 
+ *  Copyright (C) 2019-2022  didierfred@gmail.com 
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -146,7 +146,7 @@ function loadHistoryTab(tabs) {
   var history_tab;
   // search for config tab
   for (let tab of tabs) {
-    if (tab.url.startsWith(chrome.extension.getURL(""))) history_tab = tab;
+    if (tab.url.startsWith(chrome.runtime.getURL(""))) history_tab = tab;
   }
   // config tab exits , put the focus on it
   if (history_tab) {

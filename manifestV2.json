@@ -1,0 +1,26 @@
+{
+  "description": "GreenIT-Analysis",
+  "manifest_version": 2,
+  "name": "GreenIT-Analysis",
+  "version": "3.1.0",
+  "homepage_url": "https://github.com/didierfred/GreenIT-Analysis",
+  "icons" : {
+    "48": "icons/logo-48.png"
+  },
+  "permissions": [
+    "activeTab","tabs","<all_urls>","browsingData"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+   "devtools_page": "GreenIT-Analysis.html",
+   "browser_action": {
+    "default_icon": "icons/logo-48.png",
+    "default_title": "GreenIT-Analysis",
+    "default_popup": "menu.html"
+  },
+  "default_locale": "en"
+}
+
+
+

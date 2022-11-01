@@ -1,6 +1,6 @@
 
 /*
- *  Copyright (C) 2019-2021  didierfred@gmail.com 
+ *  Copyright (C) 2019-2022  didierfred@gmail.com 
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -54,12 +54,9 @@ chrome.runtime.onConnect.addListener((devToolsConnection) => {
     // Otherwise message is to inject script 
     else {
       // Inject a content script into the identified tab
-      console.log("received script to execute form tabId " + message.tabId);
+      console.log(`received script ${message.scriptToInject} to execute form tabId ${message.tabId}`);
       if (!connections[message.tabId]) connections[message.tabId] = devToolsConnection;
-      chrome.tabs.executeScript(message.tabId,
-        {code: "var analyseBestPractices=" + message.analyseBestPractices + ";", allFrames: true});
-      chrome.tabs.executeScript(message.tabId,
-        {file: message.scriptToInject, allFrames: true});
+      injectAnalyseScript(message.tabId,message.scriptToInject);
     }
   }
   // add the listener
@@ -77,6 +74,24 @@ chrome.runtime.onConnect.addListener((devToolsConnection) => {
   });
 
 });
+
+function injectAnalyseScript(tabId,script) {
+  if (chrome.tabs.executeScript)  injectAnalyseScriptWithManifestV2(tabId,script);
+  else injectAnalyseScriptWithManifestV3(tabId,script);
+}
+
+function injectAnalyseScriptWithManifestV2(tabId,script) {
+  chrome.tabs.executeScript(tabId,
+    {file: script, allFrames: true});
+}
+
+function injectAnalyseScriptWithManifestV3(tabId,script) {
+  chrome.scripting.executeScript({
+    target: {tabId},
+    files: [script]
+  });
+}
+
 
 function clearBrowserCache()
 { 

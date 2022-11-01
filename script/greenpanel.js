@@ -1,6 +1,6 @@
 
 /*
- *  Copyright (C) 2019-2021  didierfred@gmail.com 
+ *  Copyright (C) 2019-2022  didierfred@gmail.com 
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -85,12 +85,13 @@ function launchAnalyse() {
   measuresAcquisition = new MeasuresAcquisition(currentRulesChecker);
   measuresAcquisition.initializeMeasures();
 
+  let scriptToInject = "script/analyseFrame.js";
+  if (analyseBestPractices) scriptToInject ="script/analyseFrameWithBestPractices.js"
   // Launch analyse via injection of a script in each frame of the current tab
   backgroundPageConnection.postMessage({
     clearBrowserCache: false,
     tabId: chrome.devtools.inspectedWindow.tabId,
-    scriptToInject: "script/analyseFrame.js",
-    analyseBestPractices: analyseBestPractices
+    scriptToInject: scriptToInject
   });
   measuresAcquisition.startMeasuring();
 }
