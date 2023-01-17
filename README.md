@@ -3,9 +3,9 @@
 
 GreenIT-Analysis est une extension pour navigateur qui vous permet de quantifier les impacts environnementaux d'un parcours utilisateur complet, même derrière un firewall et / ou une authentification applicative. L'outil vérifie également l'utilisation de bonnes pratiques visant à diminuer ces impacts.
 
-Cette extension s'inspire fortement des fonctionnalités de [EcoIndex](http://www.ecoindex.fr/) et [EcoMeter](http://www.ecometer.org/).
+Cette extension s'inspire fortement des fonctionnalités de [EcoIndex](https://www.ecoindex.fr/) et [EcoMeter](http://www.ecometer.org/).
 
-Pour les informations concernant le calcul de l'ecoindex, se référer à  http://ecoindex.fr/quest-ce-que-ecoindex/.
+Pour les informations concernant le calcul de l'ecoindex, se référer à https://ecoindex.fr/quest-ce-que-ecoindex/.
 
 L'extension est supportée sur toutes les versions de navigateurs basés sur chromium (à partir de la version 55 ). Elle est aussi supportée sur firefox avec quelques bonnes pratiques non supportées (du fait de limitations des API Firefox). 
 A noter que bien que fonctionnant sur la version ESR de firefox, le plugin a des comportements particuliers, voir point FireFox ESR ci-après.
