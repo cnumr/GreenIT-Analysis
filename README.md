@@ -39,6 +39,14 @@ Le plugin effectue son analyse sur la base des données fournies par l'API du na
 - Le niveau de "privacy" qui, selon le niveau paramétré et selon le navigateur, induira lui aussi des effets de bord
 - Les effets de cache (cf. point de vigilance du chapitre précédent)
 
+### Résultats différents avec le site ecoIndex.fr 
+
+Le site ecoIndex.fr peut donner des résultats différents. En plus des raisons citées plus haut, on ajoutera que : 
+
+- Le site ecoIndex utilise un navigateur pour faire l'analyse, le navigateur et son paramètrage est différent du navigateur que vous utilisez pour l'analyse
+- Le ecoIndex utilise un scénario pré-définit qui est différent du scénario que vous exécutez manuellement. Vous pouvez trouver [ici](https://www.ecoindex.fr/comment-ca-marche/#m%C3%A9thodologie-danalyse) le détail du scénario ecoIndex.  
+
+
 ### Enregistrement du parcours utilisateur
 
 Vous pouvez quantifier les impacts environnementaux d'un parcours utilisateur en lançant et en enregistrant des analyses sucessives après chaque page visitée. On pourra calculer une ecoIndex global sur la base d'une moyenne :  ( score url1 + score url2 + score url3 + ... score urln ) / n
