@@ -12,7 +12,7 @@ function createJsValidateRule() {
         },
 
         check: function (measures, resourceContent) {
-            if (resourceContent.type === "script") {
+            if (resourceContent.type === "script" && resourceContent.content) {
                 this.specificMeasures.totalJsSize += resourceContent.content.length;
                 let errorNumber = computeNumberOfErrorsInJSCode(resourceContent.content, resourceContent.url);
                 if (errorNumber > 0) {
