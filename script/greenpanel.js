@@ -39,6 +39,11 @@ function openBackgroundPageConnection() {
     handleResponseFromBackground(frameMeasures);
     refreshUI();
   });
+
+  backgroundPageConnection.onDisconnect.addListener( () => {
+    console.warn("Background connection is closed , try to open it again ");
+    openBackgroundPageConnection();
+  })
 }
 
 function handleResponseFromBackground(frameMeasures) {

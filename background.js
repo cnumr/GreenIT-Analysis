@@ -1,6 +1,6 @@
 
 /*
- *  Copyright (C) 2019-2022  didierfred@gmail.com 
+ *  Copyright (C) 2019-2023  didierfred@gmail.com 
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -33,6 +33,9 @@ const notify = (message, sender, sendResponse) => {
     else console.warn("Tab not found in connection list.");
   }
   else console.warn("sender.tab not defined.");
+  // Send response to solve even if not needed to solve issue 
+  // https://bugs.chromium.org/p/chromium/issues/detail?id=1304272
+  if (sendResponse) sendResponse();
 }
 
 
@@ -49,7 +52,6 @@ chrome.runtime.onConnect.addListener((devToolsConnection) => {
     // in case message form devtools is to clean cache 
     if (message.clearBrowserCache) {
       clearBrowserCache();
-      return;
     }
     // Otherwise message is to inject script 
     else {
@@ -58,6 +60,9 @@ chrome.runtime.onConnect.addListener((devToolsConnection) => {
       if (!connections[message.tabId]) connections[message.tabId] = devToolsConnection;
       injectAnalyseScript(message.tabId,message.scriptToInject);
     }
+      // Send response to solve even if not needed to solve issue 
+    // https://bugs.chromium.org/p/chromium/issues/detail?id=1304272
+    if (sendResponse) sendResponse();
   }
   // add the listener
   devToolsConnection.onMessage.addListener(devToolsListener);

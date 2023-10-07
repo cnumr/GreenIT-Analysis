@@ -72,7 +72,7 @@
     "description": "Launch Analysis"
   },
   "menuText": {
-    "message": "GreenIT Analysis V3.1.2 est installé et accessible via le panneau développeur (F12 ou CMD + ALT + i sur Mac) ",
+    "message": "GreenIT Analysis V3.1.3 est installé et accessible via le panneau développeur (F12 ou CMD + ALT + i sur Mac) ",
     "description": "Text when you click on the plugin's icone"
   },
   "menuMoreInformation": {
