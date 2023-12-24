@@ -197,10 +197,10 @@ function MeasuresAcquisition(rules) {
             measures.responsesSizeUncompress += entry.response.content.size;
           }
           else {
-            // In firefox , entry.response.content.size can sometimes be undefined 
-            if (entry.response.content.size) measures.responsesSize += entry.response.content.size;
-            //debug(() => `entry size = ${entry.response.content.size} , responseSize = ${measures.responsesSize}`);
-          }
+              measures.responsesSize += entry.response.bodySize?entry.response.bodySize:0;
+              measures.responsesSizeUncompress += entry.response.content.size?entry.response.content.size:0;
+            }
+
         });
         if (analyseBestPractices) localRulesChecker.sendEvent('harReceived',measures);
 
@@ -209,6 +209,7 @@ function MeasuresAcquisition(rules) {
       }
     });
   }
+
 
   function getResourcesMeasure() {
     if (chrome.devtools.inspectedWindow.getResources) chrome.devtools.inspectedWindow.getResources((resources) => {
