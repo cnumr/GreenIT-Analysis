@@ -16,6 +16,24 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+function countShadom() {
+  const countElements = (element) => {
+    let count = 1;
+    Array.from(element.children).forEach(child => {
+      count += countElements(child);
+    });
+
+    if (element.shadowRoot) {
+        Array.from(element.shadowRoot.children).forEach(sChild => {
+            count += countElements(sChild);
+        });
+    }
+      return count;
+  };
+
+  return countElements(document.body)
+}
+
 function start_analyse() {
   const analyseStartingTime = Date.now();
   const dom_size = getDomSizeWithoutSvg();
@@ -42,7 +60,7 @@ function start_analyse() {
 }
 
 function getDomSizeWithoutSvg() {
-  let dom_size = document.getElementsByTagName("*").length;
+  let dom_size = countShadom();
   const svgElements = document.getElementsByTagName("svg");
   for (let i = 0; i < svgElements.length; i++) {
     dom_size -= getNbChildsExcludingNestedSvg(svgElements[i]) - 1;
