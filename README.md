@@ -10,6 +10,8 @@ Pour les informations concernant le calcul de l'ecoindex, se référer à https:
 L'extension est supportée sur toutes les versions de navigateurs basés sur chromium (à partir de la version 55 ). Elle est aussi supportée sur firefox avec quelques bonnes pratiques non supportées (du fait de limitations des API Firefox). 
 A noter que bien que fonctionnant sur la version ESR de firefox, le plugin a des comportements particuliers, voir point FireFox ESR ci-après.
 
+### Installer l'extension
+Pour plus de simplicité, vous pouvez installer l'extension à partir du [Chrome webstore](https://chromewebstore.google.com/detail/greenit-analysis/mofbfhffeklkbebfclfaiifefjflcpad) ou [Firefox add-ons](https://addons.mozilla.org/fr/firefox/addon/greenit-analysis/).
 
 ### Utiliser l'extension
 * Ouvrir les outils de développement du navigateur (F12).   
