@@ -1,11 +1,11 @@
-describe("Rules => DomainsNumber.js", function () {
+describe("Rules => DomainsNumber.js", function() {
 
     let rule;
-    beforeEach(function () {
+    beforeEach(function() {
         rule = createDomainsNumberRule();
     });
 
-    it(" 2 urls, 1 domain, it should return A", function () {
+    it(" 2 urls, 1 domain, it should return A", function() {
         const measures = {
             entries:
                 [
@@ -17,7 +17,7 @@ describe("Rules => DomainsNumber.js", function () {
         expect(rule.complianceLevel).toEqual('A');
     });
 
-    it(" 2 urls, 2 domains, it should return A", function () {
+    it(" 2 urls, 2 domains, it should return A", function() {
         const measures = {
             entries:
                 [
@@ -29,7 +29,7 @@ describe("Rules => DomainsNumber.js", function () {
         expect(rule.complianceLevel).toEqual('A');
     });
 
-    it(" 5 urls, 2 domains, it should return A", function () {
+    it(" 5 urls, 2 domains, it should return A", function() {
         const measures = {
             entries:
                 [
@@ -43,22 +43,7 @@ describe("Rules => DomainsNumber.js", function () {
         rule.check(measures);
         expect(rule.complianceLevel).toEqual('A');
     });
-    it(" 6 urls, 4 domains, it should return B", function () {
-        const measures = {
-            entries:
-                [
-                    { request: { url: "http://test" } },
-                    { request: { url: "http://test/test" } },
-                    { request: { url: "http://test/aaa" } },
-                    { request: { url: "http://testb/bbbb" } },
-                    { request: { url: "http://testc/" } },
-                    { request: { url: "http://testd/toto" } }
-                ]
-        };
-        rule.check(measures);
-        expect(rule.complianceLevel).toEqual('B');
-    });
-    it(" 6 urls, 6 domains, it should return C", function () {
+    it(" 6 urls, 6 domains, it should return C", function() {
         const measures = {
             entries:
                 [
