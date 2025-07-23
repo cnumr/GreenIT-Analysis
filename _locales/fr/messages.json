@@ -96,7 +96,7 @@
     "description": "Add expires or cache-Control headers"
   },
   "rule_AddExpiresOrCacheControlHeaders_DetailDescription": {
-    "message": "Les en-têtes Expires et Cache-Control déterminent la durée pendant laquelle un navigateur doit conserver une ressource dans son cache. Vous devez donc les utiliser et les configurer correctement pour les feuilles de style CSS, les scripts JavaScript et les images. Idéalement, ces éléments doivent être conservés le plus longtemps possible pour que le navigateur ne les demande plus au serveur. Cela permet d'économiser les requêtes HTTP, la bande passante et l'alimentation du serveur.",
+    "message": "Les en-têtes Expires et Cache-Control définissent la durée pendant laquelle un navigateur doit conserver une ressource dans son cache. Il faut donc en prévoir et les configurer correctement pour les feuilles de styles CSS, les scripts JavaScript et les images. Idéalement, la durée de vie de ces éléments doit être la plus longue possible, afin que le navigateur ne les redemande pas au serveur. On économise ainsi des requêtes HTTP, de la bande passante et des cycles CPU côté serveur",
     "description": "Add expires or cache-Control headers"
   },
   "rule_AddExpiresOrCacheControlHeaders_Comment": {
@@ -148,7 +148,7 @@
     "description": "Limit the number of domains"
   },
   "rule_DomainsNumber_DetailDescription": {
-    "message": "Lorsqu'un site Web ou un service en ligne héberge les composants d'une page Web dans plusieurs domaines, le navigateur doit établir une connexion HTTP avec chacun d'entre eux. Une fois la page HTML récupérée, le navigateur appelle les sources lorsqu'il traverse le DOM (Document Object Model). Certaines ressources sont essentielles au bon fonctionnement de la page. S'ils sont hébergés sur un autre domaine qui est lent, cela peut augmenter le temps de rendu de la page. Vous devez donc, lorsque cela est possible, regrouper toutes les ressources sur un seul domaine. La seule exception à cette règle concerne les ressources statiques (feuilles de style, images, etc.), qui doivent être hébergées sur un domaine distinct afin d'éviter l'envoi d'un ou plusieurs cookies pour chaque requête HTTP du navigateur GET. Cela réduit le temps de réponse et la consommation inutile de bande passante.",
+    "message": "Lorsqu’un site web ou un service en ligne héberge les composants d’une page web sur plusieurs domaines, le navigateur doit établir une connexion HTTP avec chacun de ces domaines. Une fois la page HTML récupérée, le navigateur appelle les ressources au fur et à mesure qu’il parcourt le DOM. Cela peut rallonger le délai d’attente avant que la page soit opérationnelle. Dans la mesure du possible, il faut donc regrouper toutes les ressources sur un seul domaine.Seule exception ià cette règle, le fait d’héberger les ressources statiques (feuilles de styles, images, etc.) sur un domaine séparé (voir la bonne pratique n° 81), pour éviter d’avoir à transporter des cookies inutiles. On réduit le temps de réponse ainsi que la bande passante consommée inutilement.",
     "description": "Limit Stylesheet files"
   },
   "rule_DomainsNumber_Comment": {
@@ -165,7 +165,7 @@
     "description": "Do not resize image in browser"
   },
   "rule_DontResizeImageInBrowser_DetailDescription": {
-    "message": "Ne redimensionnez pas les images avec les attributs HTML height et width. Cela envoie des images dans leur taille originale, gaspillant de la bande passante et de la puissance du processeur. Une image PNG-24 de 350 x 300 px est de 41 KB. Si vous redimensionniez le même fichier image en HTML et que vous l’affichez sous forme de vignette de 70 x 60 px, il s’agirait toujours de 41 Ko, alors qu’il devrait en réalité ne pas dépasser 3 Ko! Signification 38 KB téléchargés pour rien. La meilleure solution consiste à redimensionner les images à l'aide d'un logiciel tel que Photoshop, sans utiliser HTML. Lorsque le contenu ajouté par les utilisateurs du site Web n’a pas de valeur ajoutée spécifique, il est préférable de les empêcher d’insérer des images à l’aide d’un éditeur WYSIWYG, par exemple CKEditor.",
+    "message": "Idéalement, la taille d’affichage d’une image dans le navigateur doit être la plus proche possible de celle du fichier image téléchargée. Dans le cadre des intégrations modernes, avec les images responsives il faut bien définir les attributs srcset ou sources pour que chaque type d’appareil utilise une version d’image adaptée à la taille et à la résolution de son écran. Les attributs height et width permettent généralement  de définir le plus petit ratio d’affichage mais ce sont surtout les css qui aujourd’hui déterminent les tailles d’affichage selon les tailles des écrans.Comparez le nombre de pixels de l’image chargée au nombre de pixels réellement affichés. L’outil yellowlab.tools peut vous y aider.",
     "description": "Do not resize image in browser "
   },
   "rule_DontResizeImageInBrowser_Comment": {
@@ -197,7 +197,7 @@
     "description": "Externalize css and js"
   },
   "rule_ExternalizeCssJs_DetailDescription": {
-    "message": "Assurez-vous que les fichiers CSS et JS sont séparés du code HTML de la page. Si vous incluez du CSS ou du JS dans le corps du fichier HTML et qu'il est utilisé pour plusieurs pages (ou même pour l'ensemble du site Web), le code doit être envoyé pour chaque page demandée par l'utilisateur, augmentant ainsi le volume de données envoyées. Toutefois, si les CSS et JS se trouvent dans leurs propres fichiers distincts, le navigateur peut éviter de les redemander en les stockant dans son cache local.",
+    "message": "Veiller à ce que les codes CSS et JavaScript ne soient pas embarqués dans le code HTML de la page, à l’exception d’éventuelles variables de configuration pour les objets JavaScript.En effet, si vous incluez du code CSS ou JavaScript dans le corps du fichier HTML, alors que ce dernier est utilisé par plusieurs pages (voire tout le site), ce code doit être transféré pour chaque page demandée par l’internaute, ce qui augmente le volume de données transmises.En revanche, si les codes CSS et JavaScript sont inclus dans leurs propres fichiers,le navigateur peut les stocker dans son cache local afin de ne pas les redemander.",
     "description": "Externalize css and js"
   },
   "rule_ExternalizeCssJs_DefaultComment": {
@@ -231,11 +231,11 @@
     }
   },
   "rule_HttpRequests": {
-    "message": "Limiter le nombre de requêtes HTTP (<27)",
+    "message": "Limiter le nombre de requêtes HTTP (<=40)",
     "description": "Limit the number of HTTP requests"
   },
   "rule_HttpRequests_DetailDescription": {
-    "message": "Le temps de téléchargement d’une page côté client est directement corrélé au nombre et à la taille des fichiers que le navigateur doit télécharger. Pour chaque fichier, le navigateur envoie un HTTP GET au serveur. Il attend la réponse, puis télécharge la ressource dès qu'elle est disponible. Selon le type de serveur Web que vous utilisez, plus le nombre de demandes par page est élevé, moins le serveur peut gérer de pages. La réduction du nombre de requêtes par page est essentielle pour réduire le nombre de serveurs HTTP nécessaires à l'exécution du site Web et, partant, son impact sur l'environnement.",
+    "message": "Le temps de chargement d’une page côté navigateur est directement corrélé au nombre de fichiers que le navigateur doit télécharger, et au poids unitaire de chaque fichier.Pour chaque fichier, le navigateur émet un GET HTTP vers le serveur. Il attend sa réponse, puis télécharge la ressource dès qu’elle est disponible. Selon le type de serveur web que vous utilisez, plus le nombre de requêtes par page est important, moins vous pourrez servir de pages par serveur.Diminuer le nombre de requêtes par page est crucial pour réduire le nombre de serveurs HTTP (voire des serveurs d'application et de base de données) nécessaires au fonctionnement du site,et donc les impacts environnementaux associés.",
     "description": "Limit the number of HTTP requests"
   },
   "rule_HttpRequests_Comment": {
@@ -273,27 +273,6 @@
       },
       "SIZE": {
         "content": "$2"
-      }
-    }
-  },
-  "rule_JsValidate": {
-    "message": "Valider le javascript",
-    "description": "Validate js"
-  },
-  "rule_JsValidate_DetailDescription": {
-    "message": "JSLint est un outil de contrôle de qualité du code qui vérifie que la syntaxe JavaScript utilisée sera comprise par tous les navigateurs. Le code produit est donc conforme aux règles de codage qui permettent aux interpréteurs d’exécuter le code rapidement et facilement. Le processeur est donc utilisé pour un temps plus court.",
-    "description": "Validate Js"
-  },
-  "rule_JsValidate_DefaultComment": {
-    "message": "Javascript validé",
-    "description": "Javascript validate"
-  },
-  "rule_JsValidate_Comment": {
-    "message": "$NB$ erreur(s) javascript",
-    "description": "Number of  javascript error(s) found ",
-    "placeholders": {
-      "NB": {
-        "content": "$1"
       }
     }
   },
@@ -398,7 +377,7 @@
     "description": "Avoid redirect"
   },
   "rule_NoRedirect_DetailDescription": {
-    "message": "Les redirections doivent être évitées autant que possible car elles ralentissent la réponse et consomment inutilement des ressources.",
+    "message": "Les redirections dégradent le temps de réponse, tout en consommant des ressources inutilement. Il faut donc les éviter autant que possible. Ces redirections peuvent avoir lieu à différents niveaux : code HTML, code JavaScript, serveur HTTP et serveur d’applications (PHP, etc.).",
     "description": "Avoid redirect"
   },
   "rule_NoRedirect_Comment": {
@@ -458,7 +437,7 @@
     "description": "No svg to optimized"
   },
   "rule_OptimizeSvg_DetailDescription": {
-    "message": "Les images svg sont moins lourdes que les images bitmap, elles peuvent cependant être optimisées et minifiées via des outils (par exemple svgo)",
+    "message": "Les navigateurs modernes sont tous compatibles avec le format d’image vectorielle SVG (Scalable Vector Graphics),basé sur un ensemble de vecteurs décrits en XML. Les images SVG ont deux avantages indéniables : d’une part, elles peuvent être réduites et agrandies à l’infini sans dégradation de qualité ; d’autre part, elles sont,la plupart du temps, moins lourdes que des images bitmap.Cependant, la plupart des images SVG contiennent de nombreuses métadonnées qui ont été nécessaires à leur création.C’est par exemple le cas des informations de couche (layer), des commentaires, etc., qui sont indispensables pour éditer l’image,mais inutiles pour l’afficher. D’où l’idée de les supprimer pour réduire le poids des fichiers.De nombreux outils de minification et d’optimisation, tels que Compressor.io, SVG Cleaner, ou SVGO sont disponibles.Le taux de compression via gzip varie selon la complexité de l’image. Mais il est toujours élevé, car il s’agit de compresser du texte :en général, on atteint des ratios de l’ordre de 75 % à 80 %.",
     "description": "Optimize svg images"
   },
   "rule_OptimizeSvg_Comment": {
@@ -510,7 +489,7 @@
     "description": "Provide print stylesheet"
   },
   "rule_PrintStyleSheet_DetailDescription": {
-    "message": "Outre les avantages pour l’utilisateur, cette feuille de style réduit le nombre de pages imprimées et donc réduit indirectement l’empreinte écologique du site Web. Elle doit être aussi simple que possible et utiliser une police de caractères à l'encre claire, par exemple Siècle gothique. Envisagez également de masquer l'en-tête, le pied de page, le menu et la barre latérale, ainsi que de supprimer toutes les images, à l'exception de celles nécessaires au contenu. Cette feuille de style d'impression permet d'obtenir une impression plus nette en réduisant ce qui est affiché à l'écran.",
+    "message": "Outre le service apporté à l’internaute, cette feuille de styles réduit le nombre de pages imprimées, et donc indirectement l’empreinte écologique du site web. La plus dépouillée possible, cette feuille de styles masque l’entête (header), le pied de page (footer), le menu, les éléments connexes (sidebar) et supprime toutes les images sauf celles du contenu, etc.",
     "description": "Provide print stylesheet"
   },
   "rule_PrintStyleSheet_DefaultComment": {
@@ -531,7 +510,7 @@
     "description": "Do not use standarts social buttons"
   },
   "rule_SocialNetworkButton_DetailDescription": {
-    "message": "Les réseaux sociaux tels que  Facebook, Twiter, Pinterest, etc. fournissent des plugins à installer sur une page WEB pour y afficher un bouton partager et un compteur de j'aime. Ces plugins consomme des ressources inutilement, il est mieux de mettre des liens directs",
+    "message": "Les principaux réseaux sociaux tels que Facebook, X (anciennement Twitter), Pinterest, etc., fournissent des plug-ins à installer sur une page web pour y affi cher un bouton « Partager » ou un compteur de « J’aime ». Ces bibliothèques JavaScript sont souvent lourdes à télécharger et génèrent beaucoup de requêtes. Préférez des liens directs, en HTML, vers les pages de partage. On peut générer ces liens à la main (voir ci-dessous) ou via un outil tel que Share Link Generator ([https://www.sharelinkgenerator.com](https://www.sharelinkgenerator.com)). Cette bonne pratique ne se limite pas aux réseaux sociaux !",
     "description": "Do not use standarts social buttons"
   },
   "rule_SocialNetworkButton_DefaultComment": {
@@ -546,7 +525,7 @@
         "content": "$1"
       }
     }
-  }, 
+  },
   "rule_SocialNetworkButton_detailComment": {
     "message": "Un script $SOCIAL_NETWORK$ a été trouvé",
     "description": "Import of social network script",
@@ -562,7 +541,7 @@
     "description": "Limit Stylesheet files"
   },
   "rule_StyleSheets_DetailDescription": {
-    "message": "Réduisez le nombre de fichiers CSS pour réduire le nombre de requêtes HTTP. Si plusieurs feuilles de style sont utilisées sur toutes les pages du site Web, concaténez-les dans un seul fichier. Certains CMS et frameworks offrent des moyens d'effectuer cette optimisation automatiquement.",
+    "message": "Nous préconisons de limiter le nombre de CSS pour ne pas multiplier les requêtes HTTP et pour simplifier le rendu côté navigateur. Utilisez une feuille de styles commune pour tous les éléments communs, quel que soit l’affichage, et un fichier par résolution cible ou media query. Attention, il faut intégrer ces fichiers directement dans le code HTML et non avec des directives @import dans les fichiers CSS eux-mêmes. En découpant de la sorte, le terminal de l’utilisateur choisira ce qui lui correspond et dépriorisera le chargement des fichiers dont il a n’a pas besoin. Le cas échéant, des fichiers CSS pour certains composants peuvent être chargés en fonction du contexte.Veillez cependant à ne pas pousser cette logique à l’extrême en n’ayant qu’un seul fichier CSS : cela rendrait le cache navigateur moins efficace, et ferait exécuter au navigateur du code CSS non nécessaire au chargement d’une page.",
     "description": "Limit Stylesheet files"
   },
   "rule_StyleSheets_DefaultComment": {
@@ -583,7 +562,7 @@
     "description": "Use HTTP/2 instead of HTTP/1"
   },
   "rule_UseHttp2_DetailDescription": {
-    "message": "HTTP/2 est plus efficace que HTTP/1 via en particulier l'utilisation du multiplexage (utilisation d'une seule connexion TCP pour plusieurs requêtes HTTP)",
+    "message": "Le protocole HTTP/1 charge les ressources de manière séquentielle. Si une ressource est volumineuse ou ne peut pas être chargée, elle bloque le chargement des ressources suivantes, ce qui donne une impression de lenteur à l’utilisateur. HTTP/2 est plus performant que HTTP/1, c’est un protocole binaire (il fait transiter moins d’octets) de plus il permet le multiplexage (envoyer toutes les ressources en une fois tout en utilisant qu’une connexion TCP), la priorisation (le développeur peut indiquer l’ordre de chargement des ressources (ce qui permet d’afficher en priorité les ressources indispensables à l’affichage de la page), la compression HPACK (une méthode de compression avancée qui élimine les informations redondantes dans les paquets d’en-tête HTTP), le push serveur (autorisant un serveur à « pousser » le contenu vers un client avant que le client ne le demande, attention à ne pas abuser de cette fonctionnalité).",
     "description": "Use HTTP/2 instead of HTTP/1"
   },
   "rule_UseHttp2_Comment": {
@@ -609,11 +588,11 @@
   },
   "rule_UseStandardTypefaces": {
     "message": "Utiliser des polices de caractères standards",
-    "description": "Use Standard Typefaces"
+    "description": "Use Standard Fonts"
   },
   "rule_UseStandardTypefaces_DetailDescription": {
-    "message": "Utilisez des polices standards telles qu’elles existent déjà sur l’ordinateur de l’utilisateur et n’ont donc pas besoin d’être téléchargées. Cela économise de la bande passante et améliore le temps de rendu du site Web.",
-    "description": "Use Standard Typefaces"
+    "message": "Préférer les polices standards, car elles sont déjà présentes sur l’ordinateur de l’utilisateur, qui n’a donc pas besoin de les télécharger.On économise ainsi de la bande passante, tout en accélérant l’affichage du site. Ces polices standards sont listées sur https://systemfontstack.com/",
+    "description": "Use Standard Fonts"
   },
   "rule_UseStandardTypefaces_DefaultComment": {
     "message": "Pas de polices de caractères spécifiques",
