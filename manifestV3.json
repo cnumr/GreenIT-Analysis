@@ -3,7 +3,7 @@
   "manifest_version": 3,
   "name": "GreenIT-Analysis",
   "version": "3.1.4",
-  "homepage_url": "https://github.com/didierfred/GreenIT-Analysis",
+  "homepage_url": "https://github.com/cnumr/GreenIT-Analysis",
   "icons" : {
     "48": "icons/logo-48.png"
   },
