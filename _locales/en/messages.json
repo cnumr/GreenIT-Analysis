@@ -96,7 +96,7 @@
     "description": "Add expires or cache-Control headers"
   },
   "rule_AddExpiresOrCacheControlHeaders_DetailDescription": {
-    "message": "The Expires and Cache-Control headers determine how long a browser should keep a resource in its cache. You should therefore use them, and configure them correctly for CSS style sheets, JavaScript scripts and images. Ideally, these elements should be kept as long as possible so that the browser does not request them again from the server. This saves HTTP requests, bandwidth and CPU power server-side.",
+    "message": "The Expires and Cache-Control headers define how long a browser should keep a resource in its cache. CSS stylesheets, JavaScript scripts and images must therefore be cached and properly configured. Ideally, the lifetime of these elements should be as long as possible, so that the browser doesn't request them from the server again.This saves HTTP requests, bandwidth and CPU cycles on the server side.",
     "description": "Add expires or cache-Control headers"
   },
   "rule_AddExpiresOrCacheControlHeaders_Comment": {
@@ -148,7 +148,8 @@
     "description": "Limit the number of domains"
   },
   "rule_DomainsNumber_DetailDescription": {
-    "message": "When a website or online service hosts a web page’s components across several domains, the browser has to establish an HTTP connection with every single one. Once the HTML page has been retrieved, the browser calls the sources as it traverses the DOM (Document Object Model). Some resources are essential for the page to work. If they are hosted on another domain which is slow, it may increase the page’s render time. You should therefore, when possible, group all resources on a single domain. The only exception to this is for static resources (style sheets, images, etc.), which should be hosted on a separate domain to avoid sending one or multiple cookies for each browser GET HTTP request. This reduces response time and unnecessary bandwidth consumption.",
+    "message": "When a website or online service hosts the components of a web page on several domains, the browser must establish an HTTP connection with each of these domains. Once the HTML page has been retrieved, the browser calls the resources as it traverses the DOM. This can lengthen the waiting time before the page is operational. Wherever possible, therefore, all resources should be grouped together in a single domain.The only exception to this rule is to host static resources (style sheets, images, etc.) on a separate domain (see best practice no. 81), to avoid having to transport unnecessary cookies. This reduces response times and bandwidth consumption.",
+
     "description": "Limit Stylesheet files"
   },
   "rule_DomainsNumber_Comment": {
@@ -165,7 +166,7 @@
     "description": "Do not resize image in browser"
   },
   "rule_DontResizeImageInBrowser_DetailDescription": {
-    "message": "Do not resize images using HTML height and width attributes. Doing so sends images in their original size, wasting bandwidth and CPU power. A PNG-24 350 x 300 px image is 41 KB. If you resized the same image file using HTML, and displayed it as a 70 x 60 px thumbnail, it would still be 41 KB, when in reality it should be no more than 3 KB! Meaning 38 KB downloaded for nothing. The best solution is to resize images using software such as Photoshop, without using HTML. When content added by the website’s users has no specific added value, it is best to prevent them from being able to insert images using a WYSIWYG editor e.g. CKEditor.",
+    "message": "The size of the image sent to the browser should be as close as possible to that of the display size.In modern integrations, with responsive images, it's important to define the `srcset` or `source` attributes so that each device type uses a version of the image adapted to its screen size and resolution. The `height` and `width` attributes generally allow you to define the smallest display ratio, but CSS is currently the main driver for determining display sizes based on screen sizes.Compare the number of pixels in the uploaded image to the number of pixels actually displayed.The yellowlab.tools tool can help you with this.",
     "description": "Do not resize image in browser "
   },
   "rule_DontResizeImageInBrowser_Comment": {
@@ -197,7 +198,7 @@
     "description": "Externalize css and js "
   },
   "rule_ExternalizeCssJs_DetailDescription": {
-    "message": "Ensure that CSS and JS files are separate from the page’s HTML code. If you include CSS and JS in the body of the HTML file, and it is used for several pages (or even the whole website), then the code must be sent for each page requested by the user, therefore increasing the volume of data sent. However, if the CSS and JS are in their own separate files, the browser can avoid requesting them again by storing them in its local cache.",
+    "message": " Ensure that CSS and JavaScript code is not inlined in the HTML code of the page, with the possible exception of configuration variables for JavaScript objects.If CSS or JavaScript code is included in HTML file's body in several pages (or even in the entire site), then this code must be downloaded for each page requested by the users, increasing downloaded data volume. However, if CSS and JavaScript codes is written in external files, browsers can store them in their local cache and not download them again.",
     "description": "Externalize css and js"
   },
   "rule_ExternalizeCssJs_DefaultComment": {
@@ -231,11 +232,11 @@
     }
   },
   "rule_HttpRequests": {
-    "message": "Limit the number of HTTP requests (<27)",
+    "message": "Limit the number of HTTP requests (<=40)",
     "description": "Limit the number of HTTP requests"
   },
   "rule_HttpRequests_DetailDescription": {
-    "message": "A page’s download time client-side directly correlates to the number and size of files the browser has to download. For each file, the browser sends a GET HTTP to the server. It waits for the response, and then downloads the resource as soon as it is available. Depending on the type of web server you use, the more requests per page there are, the fewer pages the server can handle. Reducing the number of requests per page is key to reducing the number of HTTP severs needed to run the website, and consequently its environmental impact",
+    "message": "The loading time of a page in the browser is correlated to the number of files that must be downloaded and to the size of these files.For each file, the browser issues an HTTP GET to the server. It waits for a response, then downloads the resource. Reducing the number of requests per page is crucial for reducing the number of HTTP servers (and even application and database servers) required to run your site, and therefore the associated environmental impacts.",
     "description": "Limit the number of HTTP requests"
   },
   "rule_HttpRequests_Comment": {
@@ -377,7 +378,7 @@
     "description": "Avoid redirect"
   },
   "rule_NoRedirect_DetailDescription": {
-    "message": "Redirections should be avoided as much as possible as they slow down response and drain resources unnecessarily.",
+    "message": "Redirects slow response time while using unnecessary resources. Therefore, they should be avoided as much as possible. Redirects can occur at different places: HTML code, JavaScript code, HTTP server, and application server (PHP, etc.).",
     "description": "Avoir redirect"
   },
   "rule_NoRedirect_Comment": {
@@ -437,7 +438,7 @@
     "description": "No svg to optimized"
   },
   "rule_OptimizeSvg_DetailDescription": {
-    "message": "Svg images are less heavy than bitmap images, nevertheless they can be optimized and minified via tools (for example, svgo)",
+    "message": "Modern browsers are all compatible with the SVG (Scalable Vector Graphics) image format, which is based on a set of vectors described in XML. SVG images have two undeniable advantages: on the one hand, they can be reduced and enlarged infinitely without quality loss; on the other hand, they are usually lighter than bitmap images.However, most SVG images contain a lot of metadata that was needed to create them such as layer information, comments, etc., which are essential in the image editing process, but useless for displaying it. Deleting them will result in reducing the total size of your files. There are many minification and optimization tools available, such as Compressor.io, SVG Cleaner, or SVG.Gzip compression rate depends on image complexity, but remains important as it is about compressing text: in general, 75% to 80% ratios can be reached.",
     "description": "Optimize svg images"
   },
   "rule_OptimizeSvg_Comment": {
@@ -487,7 +488,7 @@
     "description": "Provide print stylesheet"
   },
   "rule_PrintStyleSheet_DetailDescription": {
-    "message": "In addition to the benefits for the user, this style sheet reduces the number of pages printed, and therefore indirectly minimizes the website’s ecological footprint. It should be as streamlined as possible and employ an ink-light typeface e.g. Century Gothic. Also consider hiding the header, footer, menu and sidebar, as well as deleting all images except those needed for content.This print style sheet makes for a cleaner print by trimming down what is displayed on the screen.",
+    "message": "In addition to the service provided to the Internet user, print CSS stylesheets reduce the number of printed pages, indirectly reducing the website's ecological footprint. The design should be as lean as possible, with ink-saving font typefaces (Century Gothic, for example). Also remember to hide headers, footers, menus, sidebars, images that are not actual content. Etc.",
     "description": "Provide print stylesheet"
   },
   "rule_PrintStyleSheet_DefaultComment": {
@@ -508,7 +509,7 @@
     "description": "Do not use standarts social button"
   },
   "rule_SocialNetworkButton_DetailDescription": {
-    "message": "Social Network like Facebook , Twiter,Pinterest gives plugins to install on web page to get a share button and a like counter. These plugins consume unnecessary resources , it's better to put direct links",
+    "message": "The main social networks such as Facebook, X (formerly Twitter), Pinterest, etc. provide plug-ins that can be installed on a web page to display a ‘Share’ button or a ‘Like’ counter. These JavaScript libraries are often heavy to download and generate a lot of requests. Direct HTML links to sharing pages are preferable. These links can be generated by hand (see below) or using a tool such as Share Link Generator ([https://www.sharelinkgenerator.com](https://www.sharelinkgenerator.com)). This good practice is not limited to social networks!",
     "description": "Do not use standarts social button"
   },
   "rule_SocialNetworkButton_DefaultComment": {
@@ -538,7 +539,7 @@
     "description": "Limit Stylesheet files"
   },
   "rule_StyleSheets_DetailDescription": {
-    "message": "Minimize the number of CSS files to reduce the number of HTTP requests. If several style sheets are used on all of the website’s pages, concatenate them into one single file. Some CMS and frameworks offer ways to do such optimization automatically",
+    "message": "Limit the number of CSS in order to avoid HTTP requests and simplify the rendering in the browser. Use a common stylesheet for all common elements, regardless of display, and one file for each target screen size or media query.Be cautious: import these files into the HTML code and NOT with @import directives in the CSS files themselves. By splitting this way, users devices will choose what is most appropriate and will defer the loading of the files that they do not need. CSS files required for some components can be loaded depending on the context if necessary.However, do not have just one CSS file in your application. It would make browser cache less effective, and make the browser execute unnessesary CSS.",
     "description": "Limit Stylesheet files"
   },
   "rule_StyleSheets_DefaultComment": {
@@ -559,7 +560,7 @@
     "description": "Use HTTP/2 instead of HTTP/1"
   },
   "rule_UseHttp2_DetailDescription": {
-    "message": "HTTP/2 is more efficient than HTTP/1 ",
+    "message": "The HTTP/1 protocol loads resources sequentially. If a resource is large or cannot be loaded, it blocks the loading of subsequent resources, giving the user the impression of slowness.HTTP/2 is more efficient than HTTP/1, as it is a binary protocol (fewer bytes are transmitted), and also allows multiplexing (send all resources at once using a single TCP connection) , prioritization (the developer can specify the order in which resources are to be loaded (thus prioritizing the display of resources that are essential to the page), HPACK compression (an advanced compression method that eliminates redundant information in HTTP header packets), server push (allowing a server to “push” content to a client before the client requests it , be careful not to abuse this feature).",
     "description": "Use HTTP/2 instead of HTTP/1"
   },
   "rule_UseHttp2_Comment": {
@@ -584,12 +585,12 @@
     }
   },
   "rule_UseStandardTypefaces": {
-    "message": "Use Standard Typefaces",
-    "description": "Use Standard Typefaces"
+    "message": "Use Standard Fonts",
+    "description": "Use Standard Fonts"
   },
   "rule_UseStandardTypefaces_DetailDescription": {
-    "message": "Use standard typefaces as they already exist on the user’s computer, and therefore do not need to be downloaded. This saves bandwidth and improves the website’s render time.",
-    "description": "Use Standard Typefaces"
+    "message": "Use standard fonts that are already installed on the user's computer and do not need any additional downloads to save bandwidth and accelerate web pages loading. You can find a list of standard fonts at https://systemfontstack.com/",
+    "description": "Use Standard Fonts"
   },
   "rule_UseStandardTypefaces_DefaultComment": {
     "message": "No custom fonts found",
@@ -598,27 +599,6 @@
   "rule_UseStandardTypefaces_Comment": {
     "message": "$NB$ custom fonts found",
     "description": "Number of custom fonts found",
-    "placeholders": {
-      "NB": {
-        "content": "$1"
-      }
-    }
-  },
-  "rule_JsValidate": {
-    "message": "Validate js",
-    "description": "Validate js"
-  },
-  "rule_JsValidate_DetailDescription": {
-    "message": "JSLint is a JavaScript code quality tool that checks that the JavaScript syntax used will be understood by all browsers. The code produced thus complies with coding rules which enables interpreters to quickly and easily run the code. The CPU is therefore utilized for a shorter time.",
-    "description": "Validate Js"
-  },
-  "rule_JsValidate_DefaultComment": {
-    "message": "Javascript validate",
-    "description": "Javascript validate"
-  },
-  "rule_JsValidate_Comment": {
-    "message": "$NB$ javascript error(s) found",
-    "description": "Number of  javascript error(s) found ",
     "placeholders": {
       "NB": {
         "content": "$1"
@@ -642,3 +622,4 @@
     "description": "Water Consumption (cl)"
   }
 }
+
