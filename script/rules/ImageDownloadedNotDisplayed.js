@@ -27,7 +27,7 @@ function createImageDownloadedNotDisplayedRule() {
         check: function (measures) {
             measures.imagesResizedInBrowser.forEach(entry => {
                 if (!this.specificMeasures.imgAnalysed.has(entry.src) && this.isRevelant(entry)) { // Do not count two times the same picture
-                    this.detailComment += chrome.i18n.getMessage("rule_ImageDownloadedNotDisplayed_DetailComment", [entry.src, `${entry.naturalWidth}x${entry.naturalHeight}`]) + '<br>';
+                    this.detailComment += chrome.i18n.getMessage("rule_ImageDownloadedNotDisplayed_DetailComment", ['<a href="'+entry.src + '">'+entry.src+'</a>', `${entry.naturalWidth}x${entry.naturalHeight}`]) + '<br>';
                     this.specificMeasures.imgAnalysed.set(entry.src);
                     this.specificMeasures.imageDownloadedNotDisplayedNumber += 1;
                 }
