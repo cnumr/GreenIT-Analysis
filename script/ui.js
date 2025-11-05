@@ -20,7 +20,6 @@ function initUI() {
   document.getElementById('clearBrowserCache').addEventListener('click', (e) => clearBrowserCache());
   document.getElementById('saveAnalyse').addEventListener('click', (e) => storeAnalysisInHistory());
   document.getElementById('viewHistory').addEventListener('click', (e) => viewHistory());
-  document.getElementById('helpButton').addEventListener('click', (e) => viewHelp());
   document.getElementById('analyseBestPracticesCheckBox').addEventListener('click', (e) => setAnalyseBestPractices());
 
   // Set best practices
@@ -57,7 +56,7 @@ function loadHTMLBestPractice(ruleId) {
   html += "</a>";
   html += "</td>";
   html += "<td style=\"width:30px\"> <img id=\"" + ruleId + "_status\" src=\"icons/A.png\"></td>";
-  html += "<td> <span id=\"" + ruleId + "_comment\"> </span> <a href=\"#\" id=\"" + ruleId + "_DetailComment\" class=\"detailCommentLink\" hidden>.....</a> </td>";
+  html += "<td> <span id=\"" + ruleId + "_comment\"> </span> <a href=\"#\" id=\"" + ruleId + "_DetailComment\" class=\"detailCommentLink\" hidden><span class=\"caret\"></span></a></td>";
 
   var newTR = document.createElement("tr");
   newTR.innerHTML = html;
@@ -157,10 +156,6 @@ function loadHistoryTab(tabs) {
   else chrome.tabs.create({ url: "history.html" });
 }
 
-
-function viewHelp() {
-  window.open("https://github.com/cnumr/GreenIT-Analysis");
-}
 
 
 function setAnalyseBestPractices() {
