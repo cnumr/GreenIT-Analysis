@@ -20,7 +20,6 @@ function start_analyse() {
   const analyseStartingTime = Date.now();
   const dom_size = getDomSizeWithoutSvg();
   // test with http://www.wickham43.net/flashvideo.php
-  const pluginsNumber = getPluginsNumber();
   const printStyleSheetsNumber = getPrintStyleSheetsNumber();
   const inlineStyleSheetsNumber = getInlineStyleSheetsNumber();
   const inlineJsScript = getInlineJsScript();
@@ -30,7 +29,6 @@ function start_analyse() {
     analyseStartingTime: analyseStartingTime,
     url: document.URL,
     domSize: dom_size,
-    pluginsNumber: pluginsNumber,
     printStyleSheetsNumber: printStyleSheetsNumber,
     inlineStyleSheetsNumber: inlineStyleSheetsNumber,
     inlineJsScript: inlineJsScript,
@@ -60,11 +58,6 @@ function getNbChildsExcludingNestedSvg(element) {
     else nb_elements += 1;
   }
   return nb_elements;
-}
-
-function getPluginsNumber() {
-  const plugins = document.querySelectorAll("object,embed");
-  return plugins === undefined ? 0 : plugins.length;
 }
 
 function getPrintStyleSheetsNumber() {

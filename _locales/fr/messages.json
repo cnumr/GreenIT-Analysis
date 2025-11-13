@@ -482,29 +482,6 @@
       }
     }
   },
-  "rule_Plugins": {
-    "message": "Ne pas utiliser de plugins",
-    "description": "Do not use plugins"
-  },
-
-  "rule_Plugins_DetailDescription": {
-    "message": "Évitez d’utiliser des plug-ins (machines virtuelles Flash Player, Java et Silverlight, etc.), car ils peuvent entraîner une lourde charge de ressources (processeur et RAM). C’est particulièrement vrai avec le lecteur Adobe, à tel point qu’Apple a décidé de ne pas installer la technologie sur ses appareils mobiles afin de maximiser la durée de vie de la batterie. Privilégiez les technologies standard telles que HTML5 et ECMAScript",
-    "description": "Do not use plugins"
-  },
-
-  "rule_Plugins_DefaultComment": {
-    "message": "Aucun plugin",
-    "description": "No plugin found"
-  },
-  "rule_Plugins_Comment": {
-    "message": "$NB_PLUGINS$ plugin(s)",
-    "description": "Number of plugin found",
-    "placeholders": {
-      "NB_PLUGINS": {
-        "content": "$1"
-      }
-    }
-  },
   "rule_PrintStyleSheet": {
     "message": "Fournir une print css",
     "description": "Provide print stylesheet"
