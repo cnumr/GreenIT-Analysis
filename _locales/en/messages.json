@@ -462,27 +462,6 @@
       }
     }
   },
-  "rule_Plugins": {
-    "message": "Do not use plugins",
-    "description": "Do not use plugins"
-  },
-  "rule_Plugins_DetailDescription": {
-    "message": "Avoid using plugins (Flash Player, Java and Silverlight virtual machines, etc.) because they can be a heavy drain on resources (CPU and RAM). This is especially true with Adobe’s Flash Player, to such an extent that Apple decided to not install the technology on its mobile devices to maximize battery life. Favor standard technology such as HTML5 and ECMAScript",
-    "description": "Do not use plugins"
-  },
-  "rule_Plugins_DefaultComment": {
-    "message": "No plugin found",
-    "description": "No plugin found"
-  },
-  "rule_Plugins_Comment": {
-    "message": "$NB_PLUGINS$ plugin(s) found",
-    "description": "Number of plugin found",
-    "placeholders": {
-      "NB_PLUGINS": {
-        "content": "$1"
-      }
-    }
-  },
   "rule_PrintStyleSheet": {
     "message": "Provide print stylesheet",
     "description": "Provide print stylesheet"

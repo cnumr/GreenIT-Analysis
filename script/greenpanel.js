@@ -119,7 +119,6 @@ function MeasuresAcquisition(rules) {
       "grade": 'A',
       "waterConsumption": 0,
       "greenhouseGasesEmission": 0,
-      "pluginsNumber": 0,
       "printStyleSheetsNumber": 0,
       "inlineStyleSheetsNumber": 0,
       "inlineJsScriptsNumber": 0,
@@ -140,7 +139,6 @@ function MeasuresAcquisition(rules) {
     computeEcoIndexMeasures(measures);
 
     if (analyseBestPractices) {
-      measures.pluginsNumber += frameMeasures.pluginsNumber;
 
       measures.printStyleSheetsNumber += frameMeasures.printStyleSheetsNumber;
       if (measures.inlineStyleSheetsNumber < frameMeasures.inlineStyleSheetsNumber) measures.inlineStyleSheetsNumber = frameMeasures.inlineStyleSheetsNumber;
