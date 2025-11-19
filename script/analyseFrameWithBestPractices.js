@@ -19,7 +19,6 @@
 function start_analyse() {
   const analyseStartingTime = Date.now();
   const dom_size = getDomSizeWithoutSvg();
-  // test with http://www.wickham43.net/flashvideo.php
   const printStyleSheetsNumber = getPrintStyleSheetsNumber();
   const inlineStyleSheetsNumber = getInlineStyleSheetsNumber();
   const inlineJsScript = getInlineJsScript();
