@@ -277,39 +277,6 @@
       }
     }
   },
-  "rule_MaxCookiesLength": {
-    "message": "Max cookies length(<512 Bytes )",
-    "description": "Max cookies length(<512B)"
-  },
-  "rule_MaxCookiesLength_DetailDescription": {
-    "message": "Cookie length should be small as it is send with each request",
-    "description": "Max cookies length"
-  },
-  "rule_MaxCookiesLength_DefaultComment": {
-    "message": "No cookies",
-    "description": "No cookies"
-  },
-  "rule_MaxCookiesLength_Comment": {
-    "message": "Max cookies length = $Length$ Bytes ",
-    "description": "Max cookie length value",
-    "placeholders": {
-      "Length": {
-        "content": "$1"
-      }
-    }
-  },
-  "rule_MaxCookiesLength_DetailComment": {
-    "message": "Cookie length of $COOKIE_LENGTH$ for domain $DOMAIN$",
-    "description": "Cookie length x for domain y ",
-    "placeholders": {
-      "COOKIE_LENGTH": {
-        "content": "$1"
-      },
-      "DOMAIN": {
-        "content": "$2"
-      }
-    }
-  },
   "rule_MinifiedCssJs": {
     "message": "Minified cs and js ",
     "description": "Minified css and js"
