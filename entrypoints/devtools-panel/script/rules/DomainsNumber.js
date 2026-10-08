@@ -1,0 +1,37 @@
+import { getDomainFromUrl } from "../utils";
+
+export function createDomainsNumberRule() {
+  return {
+    complianceLevel: "A",
+    id: "DomainsNumber",
+    comment: "",
+    detailComment: "",
+    specificMeasures: {
+      domains: [],
+    },
+
+    check: function (measures) {
+      this.specificMeasures.domains = [];
+      if (measures.entries.length)
+        measures.entries.forEach((entry) => {
+          const domain = getDomainFromUrl(entry.request.url);
+          if (this.specificMeasures.domains.indexOf(domain) === -1) {
+            this.specificMeasures.domains.push(domain);
+          }
+        });
+      if (this.specificMeasures.domains.length > 5) this.complianceLevel = "C";
+      this.specificMeasures.domains.forEach((domain) => {
+        this.detailComment += `${domain}<br>`;
+      });
+
+      this.comment = browser.i18n.getMessage(
+        "rule_DomainsNumber_Comment",
+        String(this.specificMeasures.domains.length),
+      );
+    },
+
+    getSpecificMeasures: function () {
+      return this.specificMeasures;
+    },
+  };
+}

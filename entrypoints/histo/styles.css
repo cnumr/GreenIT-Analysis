@@ -1,0 +1,42 @@
+.note {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  text-align: center;
+  border-radius: 50%;
+  background-color: #f00;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.note.A {
+  background-color: #349a47;
+  color: #fff;
+}
+
+.note.B {
+  background-color: #51b84b;
+  color: #fff;
+}
+
+.note.C {
+  background-color: #cadb2a;
+}
+
+.note.D {
+  background-color: #f6eb15;
+}
+
+.note.E {
+  background-color: #fecd06;
+}
+
+.note.F {
+  background-color: #f99839;
+  color: #fff;
+}
+
+.note.G {
+  background-color: #ed2124;
+  color: #fff;
+}

@@ -1,4 +1,4 @@
-# GreenIT-Analysis (V3.2.0)
+# GreenIT-Analysis
 
 GreenIT-Analysis est une extension pour navigateur qui vous permet de quantifier les impacts environnementaux d'un parcours utilisateur complet, même derrière un firewall et / ou une authentification applicative. L'outil vérifie également l'utilisation de bonnes pratiques visant à diminuer ces impacts.
 
@@ -82,33 +82,14 @@ L'analyse est effectuée en local et le résulat est stocké dans l'espace de st
 
 ## Contribuer
 
-### Débugguer localement
+Pour contribuer à GreenIT-Analysis, veuillez consulter notre [guide de contribution](CONTRIBUTING.md) qui contient toutes les informations nécessaires pour :
 
-Il est possible de tester localement tout ajout de code.
-
-Sur Chrome :
-
-- Aller dans les paramètres de Chrome > Plus d'outils > Extensions. Activer le Mode Développeur.
-- Cliquer sur "Chargez l'extension non empaquetée" et sélectionner le dossier où se trouve le code source.
-
-Sur Firefox :
-
-- Aller dans Extensions et thèmes > Déboguer des modules > Charger un module complémentaire temporaire
-- Sélectionner le manifestV2
-
-### Tests unitaires
-
-Pour lancer les tests, il suffit d'ouvrir le fichier SpecRunner.html avec Chrome.  
-Pour éviter un problème de CORS, lancer Chrome en désactivant la sécurité :
-
-```
-google-chrome --disable-web-security --user-data-dir
-```
-
-### Tests manuels
-
-Ouvrir dans Google Chrome les pages test1.html, test2.html et test3.html situées dans le répertoire tests/Manual/.
-Lancer l'outil d'analyse pour chaque page et vérifier que les résultats correspondent à ce qui est indiqué sur la page.
+- Soumettre des corrections de bugs et des nouvelles fonctionnalités
+- Proposer de nouvelles fonctionnalités
+- Signaler des problèmes
+- Comprendre la structure du projet
+- Configurer votre environnement de développement
+- Exécuter et écrire des tests
 
 ## Questions & anomalies
 
@@ -136,7 +117,7 @@ GreenIT-Analysis est sous license AGPLv3.
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-Le texte complet de la license se trouve dans le fichier `LICENSE`.
+Le texte complet de la license se trouve dans le fichier [`LICENSE`](./LICENSE).
 
 Les facteurs d'impacts environnementaux (quantités de gaz à effet de serre et d'eau) ne sont pas sous licence libre. Tous droits réservés. © Frédéric Bordage. Merci de demander l'autorisation à son auteur pour les utiliser : fbordage@greenit.fr .
 

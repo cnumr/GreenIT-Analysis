@@ -1,0 +1,61 @@
+[settings]
+experimental = true
+lockfile = true
+
+[task_config]
+global_inputs = ["@group:node-dependencies"]
+
+[task_config.input_groups]
+node-dependencies = ["package.json", "pnpm-lock.yaml"]
+
+[tools]
+node = "24"
+pnpm = "12"
+
+[deps.npm]
+auto = true
+
+[tasks.build]
+description = "Build the extension for Chromium-based browsers"
+run = "pnpm wxt build"
+sources = ["assets/**, entrypoints/**, public/**"]
+outputs = [".output"]
+cache = { enabled = true }
+
+[tasks."build:firefox"]
+description = "Build the extension for Firefox"
+run = { task = "build", args = ["-b", "firefox"] }
+
+[tasks.compile]
+description = "Run TypeScript type checking without emitting files"
+run = "pnpm tsc --noEmit"
+
+[tasks.dev]
+description = "Start the development server with hot reloading"
+run = "pnpm wxt"
+
+[tasks."dev:firefox"]
+description = "Start the development server for Firefox"
+run = { task = "dev", args = ["-b", "firefox"] }
+
+[tasks."test:install-browsers"]
+description = "Install browsers required for Playwright testing"
+run = "pnpm playwright install"
+hide = true
+
+[tasks."test:unit"]
+description = "Run unit tests (watch)"
+run = "pnpm vitest"
+
+[tasks."test:e2e"]
+description = "Run end-to-end tests"
+run = "pnpm playwright test"
+depends = ["test:install-browsers", "build"]
+
+[tasks.zip]
+description = "Create a zip package of the Chromium extension"
+run = "pnpm wxt zip"
+
+[tasks."zip:firefox"]
+description = "Create a zip package of the Firefox extension"
+run = { task = "zip", args = ["-b", "firefox"] }

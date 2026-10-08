@@ -1,0 +1,29 @@
+{
+  "name": "greenit-analysis",
+  "description": "Quantify the environmental impacts of a complete user journey, even behind a firewall and/or application authentication.",
+  "private": true,
+  "version": "3.2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "dev:firefox": "wxt -b firefox",
+    "build": "wxt build",
+    "build:firefox": "wxt build -b firefox",
+    "zip": "wxt zip",
+    "zip:firefox": "wxt zip -b firefox",
+    "compile": "tsc --noEmit",
+    "test:unit": "vitest",
+    "test:e2e": "playwright install && playwright test",
+    "postinstall": "wxt prepare"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.15",
+    "@playwright/test": "^1.63.0",
+    "playwright": "^1.63.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.1.5",
+    "vitest": "^5.0.3",
+    "web-ext": "^10.5.0",
+    "wxt": "^0.21.3"
+  }
+}
