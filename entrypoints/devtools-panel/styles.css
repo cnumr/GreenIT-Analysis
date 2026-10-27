@@ -1,0 +1,98 @@
+.buttonList > .btn {
+    margin-top: .75rem;
+}
+
+.grade {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: #f00;
+    font-size: 1.25rem;
+    line-height: 22px;
+}
+
+.grade.A {
+    background-color: #349A47;
+    color: #fff;
+}
+
+.grade.B {
+    background-color: #51B84B;
+    color: #fff;
+}
+
+.grade.C {
+    background-color: #CADB2A
+}
+
+.grade.D {
+    background-color: #F6EB15
+}
+
+.grade.E {
+    background-color: #FECD06
+}
+
+.grade.F {
+    background-color: #F99839;
+    color: #fff;
+}
+
+.grade.G {
+    background-color: #ED2124;
+    color: #fff;
+}
+
+.bestPracticeDetail {
+    border: 1px solid rgb(8, 226, 73);
+}
+
+.bestPracticeDetailComment {
+    border: 1px solid rgb(226, 8, 8);
+}
+
+th,
+td {
+    border: 1px solid white;
+    overflow: hidden;
+    padding : 2.2pt;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+.center-td {
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin: auto;
+}
+
+.bestPraticesTable {
+    width: 100%;
+}
+
+.bestPracticeLink {
+    color: black;
+}
+
+.detailCommentLink {
+    color: rgb(3, 3, 3);
+    background-color: #F6EB15;
+    background-color: rgb(219, 221, 223);
+    font-size: 0.875rem;
+    line-height: 5px;
+}
+
+.line {
+    margin: auto;
+    color: rgba(0, 0, 0, 0);
+    line-height: 1px;
+    background-color: rgb(216, 221, 215);
+    margin-top: 1px;
+    margin-bottom: 10px;
+}

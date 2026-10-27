@@ -1,0 +1,51 @@
+[settings]
+experimental = true
+lockfile = true
+
+[tools]
+bun = "1.4.4"
+
+[deps.bun]
+auto = true
+
+[tasks.build]
+description = "Build the extension for Chromium-based browsers"
+run = "bun wxt build"
+
+[tasks."build:firefox"]
+description = "Build the extension for Firefox"
+run = { task = "build", args = ["-b", "firefox"] }
+
+[tasks.compile]
+description = "Run TypeScript type checking without emitting files"
+run = "bun tsc --noEmit"
+
+[tasks.dev]
+description = "Start the development server with hot reloading"
+run = "bun wxt"
+
+[tasks."dev:firefox"]
+description = "Start the development server for Firefox"
+run = { task = "dev", args = ["-b", "firefox"] }
+
+[tasks."test:install-browsers"]
+description = "Install browsers required for Playwright testing"
+run = "bun playwright install"
+hide = true
+
+[tasks."test:unit"]
+description = "Run unit tests (watch)"
+run = "bun vitest"
+
+[tasks."test:e2e"]
+description = "Run end-to-end tests"
+run = "bun playwright test"
+depends = ["test:install-browsers", "build"]
+
+[tasks.zip]
+description = "Create a zip package of the Chromium extension"
+run = "bun wxt zip"
+
+[tasks."zip:firefox"]
+description = "Create a zip package of the Firefox extension"
+run = { task = "zip", args = ["-b", "firefox"] }

@@ -1,4 +1,24 @@
-.scannerwork
-.vscode
+# Logs
+logs
+*.log
+
+node_modules
+.output
+stats.html
+stats-*.json
+test-results/
+playwright-report/
+.wxt
+web-ext.config.ts
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
 *.iml
-.idea/
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "hverlin.mise-vscode",
+    "vitest.explorer",
+    "ms-playwright.playwright"
+  ]
+}
